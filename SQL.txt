@@ -1,0 +1,102 @@
+//Ngày 15/5/2024. Base code đầu tiên nên các bangr vẫn còn thiếu 1 vài thứ
+
+//========================================================================
+//Tạo bảng---------------------------
+
+CREATE TABLE Category (
+  category_id      int IDENTITY NOT NULL, 
+  category_name    varchar(50) NOT NULL UNIQUE, 
+  date_created     date NOT NULL, 
+  date_last_edited date NOT NULL, 
+  active           bit NOT NULL, 
+  PRIMARY KEY (category_id));
+CREATE TABLE Course (
+  course_id        int IDENTITY NOT NULL, 
+  course_name      varchar(50) NOT NULL UNIQUE, 
+  description      varchar(50) NOT NULL, 
+  date_created     date NOT NULL, 
+  date_last_edited date NOT NULL, 
+  active           bit NOT NULL, 
+  PRIMARY KEY (course_id));
+CREATE TABLE Course_Has_Category (
+  course_id   int NOT NULL, 
+  category_id int NOT NULL, 
+  PRIMARY KEY (course_id, 
+  category_id));
+CREATE TABLE Course_Has_TOP (
+  course_id int NOT NULL, 
+  TOP_id    int NOT NULL, 
+  PRIMARY KEY (course_id, 
+  TOP_id));
+CREATE TABLE Quiz (
+  quiz_id          int IDENTITY NOT NULL, 
+  question         varchar(50) NOT NULL UNIQUE, 
+  answer           varchar(50) NOT NULL, 
+  date_created     date NOT NULL, 
+  date_last_edited date NOT NULL, 
+  active           bit NOT NULL, 
+  Category_id      int NOT NULL, 
+  PRIMARY KEY (quiz_id));
+CREATE TABLE Type_Of_Practice (
+  TOP_id   int IDENTITY NOT NULL, 
+  TOP_name varchar(50) NOT NULL, 
+  active   bit NOT NULL, 
+  PRIMARY KEY (TOP_id));
+CREATE TABLE [User] (
+  user_id  int IDENTITY NOT NULL, 
+  name     varchar(50) NOT NULL, 
+  email    varchar(50) NOT NULL UNIQUE, 
+  password varchar(50) NOT NULL, 
+  role     int NOT NULL, 
+  active   bit NOT NULL, 
+  PRIMARY KEY (user_id));
+CREATE TABLE User_Enroll_Course (
+  user_id       int NOT NULL, 
+  course_id     int NOT NULL, 
+  result_course float(10) NOT NULL, 
+  status        bit NOT NULL, 
+  PRIMARY KEY (user_id, 
+  course_id));
+ALTER TABLE User_Enroll_Course ADD CONSTRAINT FKUser_Enrol952811 FOREIGN KEY (user_id) REFERENCES [User] (user_id);
+ALTER TABLE User_Enroll_Course ADD CONSTRAINT FKUser_Enrol369795 FOREIGN KEY (course_id) REFERENCES Course (course_id);
+ALTER TABLE Course_Has_Category ADD CONSTRAINT FKCourse_Has511297 FOREIGN KEY (course_id) REFERENCES Course (course_id);
+ALTER TABLE Course_Has_Category ADD CONSTRAINT FKCourse_Has245693 FOREIGN KEY (category_id) REFERENCES Category (category_id);
+ALTER TABLE Quiz ADD CONSTRAINT FKQuiz147489 FOREIGN KEY (Category_id) REFERENCES Category (category_id);
+ALTER TABLE Course_Has_TOP ADD CONSTRAINT FKCourse_Has271249 FOREIGN KEY (course_id) REFERENCES Course (course_id);
+ALTER TABLE Course_Has_TOP ADD CONSTRAINT FKCourse_Has213868 FOREIGN KEY (TOP_id) REFERENCES Type_Of_Practice (TOP_id);
+
+//===============================================
+//Thêm một số tên mẫu vào bảng user------------
+//---role student---
+DECLARE @counter INT = 1;
+
+WHILE @counter <= 20
+BEGIN
+    INSERT INTO [User]([name],email,[password],active,[role])
+    VALUES (CONCAT('user ', @counter),CONCAT('user',@counter,'@gmail.com'),'123456',1,1);
+    
+    SET @counter = @counter + 1;
+END;
+//---role mentor---
+DECLARE @counter INT = 21;
+
+WHILE @counter <= 30
+BEGIN
+    INSERT INTO [User]([name],email,[password],active,[role])
+    VALUES (CONCAT('user ', @counter),CONCAT('user',@counter,'@gmail.com'),'123456',1,2);
+    
+    SET @counter = @counter + 1;
+END;
+//---role admin---
+DECLARE @counter INT = 31;
+
+WHILE @counter <= 31
+BEGIN
+    INSERT INTO [User]([name],email,[password],active,[role])
+    VALUES (CONCAT('user ', @counter),CONCAT('user',@counter,'@gmail.com'),'123456',1,3);
+    
+    SET @counter = @counter + 1;
+END;
+
+
+
