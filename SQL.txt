@@ -15,6 +15,7 @@ CREATE TABLE Comment (
   course_id  int NOT NULL, 
   user_id    int NOT NULL, 
   Comment_id int IDENTITY NOT NULL, 
+  create_at  int NULL, 
   PRIMARY KEY (Comment_id));
 CREATE TABLE Course (
   course_id   int IDENTITY NOT NULL, 
@@ -26,20 +27,21 @@ CREATE TABLE Course (
   created_by  int NOT NULL, 
   category_id int NOT NULL, 
   PRIMARY KEY (course_id));
-CREATE TABLE flashcard (
-  flashcard_id     int IDENTITY NOT NULL, 
-  question         varchar(50) NOT NULL UNIQUE, 
-  answer           varchar(50) NOT NULL, 
-  date_created     date NOT NULL, 
-  date_last_edited date NOT NULL, 
-  active           bit NOT NULL, 
-  Category_id      int NOT NULL, 
+CREATE TABLE FlashCard (
+  flashcard_id int IDENTITY NOT NULL, 
+  question     varchar(50) NOT NULL UNIQUE, 
+  answer       varchar(50) NOT NULL, 
+  create_at    date NOT NULL, 
+  update_at    date NOT NULL, 
+  active       bit NOT NULL, 
+  Category_id  int NOT NULL, 
   PRIMARY KEY (flashcard_id));
 CREATE TABLE Message (
   messager   int NOT NULL, 
   content    varchar(50) NOT NULL, 
   receiver   int NOT NULL, 
   message_id int IDENTITY NOT NULL, 
+  create_at  int NULL, 
   PRIMARY KEY (message_id));
 CREATE TABLE Quiz (
   course_id    int NOT NULL, 
@@ -57,12 +59,13 @@ CREATE TABLE Type_Of_Practice (
   active   bit NOT NULL, 
   PRIMARY KEY (TOP_id));
 CREATE TABLE [User] (
-  user_id  int IDENTITY NOT NULL, 
-  name     varchar(50) NOT NULL, 
-  email    varchar(50) NOT NULL UNIQUE, 
-  password varchar(50) NOT NULL, 
-  role     int NOT NULL, 
-  active   bit NOT NULL, 
+  user_id   int IDENTITY NOT NULL, 
+  name      varchar(50) NOT NULL, 
+  email     varchar(50) NOT NULL UNIQUE, 
+  password  varchar(50) NOT NULL, 
+  role      int NOT NULL, 
+  active    bit NOT NULL, 
+  create_at date NOT NULL, 
   PRIMARY KEY (user_id));
 CREATE TABLE User_Enroll_Course (
   user_id       int NOT NULL, 
@@ -79,7 +82,7 @@ CREATE TABLE User_Practice (
   PRIMARY KEY (user_practice_id));
 ALTER TABLE User_Enroll_Course ADD CONSTRAINT FKUser_Enrol952811 FOREIGN KEY (user_id) REFERENCES [User] (user_id);
 ALTER TABLE User_Enroll_Course ADD CONSTRAINT FKUser_Enrol369795 FOREIGN KEY (course_id) REFERENCES Course (course_id);
-ALTER TABLE flashcard ADD CONSTRAINT FKflashcard200337 FOREIGN KEY (Category_id) REFERENCES Category (category_id);
+ALTER TABLE FlashCard ADD CONSTRAINT FKflashcard200337 FOREIGN KEY (Category_id) REFERENCES Category (category_id);
 ALTER TABLE Message ADD CONSTRAINT FKMessage999432 FOREIGN KEY (messager) REFERENCES [User] (user_id);
 ALTER TABLE Message ADD CONSTRAINT FKMessage373202 FOREIGN KEY (receiver) REFERENCES [User] (user_id);
 ALTER TABLE Comment ADD CONSTRAINT FKComment537259 FOREIGN KEY (user_id) REFERENCES [User] (user_id);
@@ -90,7 +93,7 @@ ALTER TABLE User_Practice ADD CONSTRAINT FKUser_Pract981078 FOREIGN KEY (user_id
 ALTER TABLE User_Practice ADD CONSTRAINT FKUser_Pract601937 FOREIGN KEY (course_id) REFERENCES Course (course_id);
 ALTER TABLE Course ADD CONSTRAINT FKCourse13033 FOREIGN KEY (category_id) REFERENCES Category (category_id);
 ALTER TABLE Quiz ADD CONSTRAINT FKQuiz491781 FOREIGN KEY (course_id) REFERENCES Course (course_id);
-ALTER TABLE Quiz ADD CONSTRAINT FKQuiz898896 FOREIGN KEY (flashcard_id) REFERENCES flashcard (flashcard_id);
+ALTER TABLE Quiz ADD CONSTRAINT FKQuiz898896 FOREIGN KEY (flashcard_id) REFERENCES FlashCard (flashcard_id);
 
 //===============================================
 //Thêm một số tên mẫu vào bảng user------------
