@@ -1,77 +1,88 @@
-//Ngày 15/5/2024. Base code đầu tiên nên các bangr vẫn còn thiếu 1 vài thứ
+--Ngày 15/5/2024. Base code đầu tiên nên các bangr vẫn còn thiếu 1 vài thứ
 
-//========================================================================
-//Tạo bảng---------------------------
+--========================================================================
+--Tạo bảng---------------------------
 
 CREATE TABLE Category (
   category_id      int IDENTITY NOT NULL, 
-  category_name    varchar(50) NOT NULL UNIQUE, 
+  category_name    nvarchar(50) NOT NULL UNIQUE, 
   date_created     date NOT NULL, 
   date_last_edited date NOT NULL, 
   active           bit NOT NULL, 
   PRIMARY KEY (category_id));
 CREATE TABLE Comment (
-  content    varchar(500) NOT NULL, 
+  content    nvarchar(500) NOT NULL, 
   course_id  int NOT NULL, 
   user_id    int NOT NULL, 
   Comment_id int IDENTITY NOT NULL, 
-  create_at  int NULL, 
+  create_at  int NOT NULL, 
   PRIMARY KEY (Comment_id));
 CREATE TABLE Course (
   course_id   int IDENTITY NOT NULL, 
-  course_name varchar(50) NOT NULL UNIQUE, 
-  description varchar(50) NOT NULL, 
+  course_name nvarchar(50) NOT NULL UNIQUE, 
+  description nvarchar(50) NOT NULL, 
   created_at  date NOT NULL, 
   update_at   date NOT NULL, 
   active      bit NOT NULL, 
   created_by  int NOT NULL, 
   category_id int NOT NULL, 
   PRIMARY KEY (course_id));
-CREATE TABLE FlashCard (
+CREATE TABLE flashcard (
   flashcard_id int IDENTITY NOT NULL, 
-  question     varchar(50) NOT NULL UNIQUE, 
-  answer       varchar(50) NOT NULL, 
+  question     nvarchar(50) NOT NULL UNIQUE, 
+  answer       nvarchar(50) NOT NULL, 
   create_at    date NOT NULL, 
   update_at    date NOT NULL, 
   active       bit NOT NULL, 
   Category_id  int NOT NULL, 
+  [image]        nvarchar(500) NULL, 
   PRIMARY KEY (flashcard_id));
 CREATE TABLE Message (
   messager   int NOT NULL, 
-  content    varchar(50) NOT NULL, 
+  content    nvarchar(500) NOT NULL, 
   receiver   int NOT NULL, 
   message_id int IDENTITY NOT NULL, 
-  create_at  int NULL, 
+  create_at  int NOT NULL, 
   PRIMARY KEY (message_id));
 CREATE TABLE Quiz (
   course_id    int NOT NULL, 
   flashcard_id int NOT NULL, 
   quiz_id      int IDENTITY NOT NULL, 
   PRIMARY KEY (quiz_id));
+CREATE TABLE reply (
+  reply_id  int IDENTITY NOT NULL, 
+  user_id   int NOT NULL, 
+  reply_for int NOT NULL, 
+  content   nvarchar(500) NOT NULL, 
+  PRIMARY KEY (reply_id));
 CREATE TABLE Result_Detail (
   result           float(10) NOT NULL, 
   user_practice_id int NOT NULL, 
+  time             int NOT NULL, 
   RD_id            int IDENTITY NOT NULL, 
   PRIMARY KEY (RD_id));
 CREATE TABLE Type_Of_Practice (
   TOP_id   int IDENTITY NOT NULL, 
-  TOP_name varchar(500) NOT NULL, 
+  TOP_name nvarchar(500) NOT NULL, 
   active   bit NOT NULL, 
   PRIMARY KEY (TOP_id));
 CREATE TABLE [User] (
   user_id   int IDENTITY NOT NULL, 
-  name      varchar(50) NOT NULL, 
-  email     varchar(50) NOT NULL UNIQUE, 
-  password  varchar(50) NOT NULL, 
+  [name]      nvarchar(50) NOT NULL, 
+  email     nvarchar(50) NOT NULL UNIQUE, 
+  [password]  nvarchar(50) NOT NULL, 
   role      int NOT NULL, 
   active    bit NOT NULL, 
   create_at date NOT NULL, 
+  gender    bit NULL, 
+  dob       date NULL, 
+  phone     int NULL, 
+  [image]     nvarchar(500) NULL, 
   PRIMARY KEY (user_id));
 CREATE TABLE User_Enroll_Course (
-  user_id       int NOT NULL, 
-  course_id     int NOT NULL, 
-  result_course float(10) NOT NULL, 
-  status        bit NOT NULL, 
+  user_id   int NOT NULL, 
+  course_id int NOT NULL, 
+  status    bit NOT NULL, 
   PRIMARY KEY (user_id, 
   course_id));
 CREATE TABLE User_Practice (
@@ -82,50 +93,71 @@ CREATE TABLE User_Practice (
   PRIMARY KEY (user_practice_id));
 ALTER TABLE User_Enroll_Course ADD CONSTRAINT FKUser_Enrol952811 FOREIGN KEY (user_id) REFERENCES [User] (user_id);
 ALTER TABLE User_Enroll_Course ADD CONSTRAINT FKUser_Enrol369795 FOREIGN KEY (course_id) REFERENCES Course (course_id);
-ALTER TABLE FlashCard ADD CONSTRAINT FKflashcard200337 FOREIGN KEY (Category_id) REFERENCES Category (category_id);
+ALTER TABLE flashcard ADD CONSTRAINT FKflashcard200337 FOREIGN KEY (Category_id) REFERENCES Category (category_id);
 ALTER TABLE Message ADD CONSTRAINT FKMessage999432 FOREIGN KEY (messager) REFERENCES [User] (user_id);
 ALTER TABLE Message ADD CONSTRAINT FKMessage373202 FOREIGN KEY (receiver) REFERENCES [User] (user_id);
 ALTER TABLE Comment ADD CONSTRAINT FKComment537259 FOREIGN KEY (user_id) REFERENCES [User] (user_id);
-ALTER TABLE Comment ADD CONSTRAINT FKComment954242 FOREIGN KEY (course_id) REFERENCES Course (course_id);
 ALTER TABLE Result_Detail ADD CONSTRAINT FKResult_Det440593 FOREIGN KEY (user_practice_id) REFERENCES User_Practice (user_practice_id);
 ALTER TABLE User_Practice ADD CONSTRAINT FKUser_Pract87055 FOREIGN KEY (TOP_id) REFERENCES Type_Of_Practice (TOP_id);
 ALTER TABLE User_Practice ADD CONSTRAINT FKUser_Pract981078 FOREIGN KEY (user_id) REFERENCES [User] (user_id);
 ALTER TABLE User_Practice ADD CONSTRAINT FKUser_Pract601937 FOREIGN KEY (course_id) REFERENCES Course (course_id);
 ALTER TABLE Course ADD CONSTRAINT FKCourse13033 FOREIGN KEY (category_id) REFERENCES Category (category_id);
 ALTER TABLE Quiz ADD CONSTRAINT FKQuiz491781 FOREIGN KEY (course_id) REFERENCES Course (course_id);
-ALTER TABLE Quiz ADD CONSTRAINT FKQuiz898896 FOREIGN KEY (flashcard_id) REFERENCES FlashCard (flashcard_id);
+ALTER TABLE Quiz ADD CONSTRAINT FKQuiz898896 FOREIGN KEY (flashcard_id) REFERENCES flashcard (flashcard_id);
+ALTER TABLE reply ADD CONSTRAINT FKreply731631 FOREIGN KEY (reply_for) REFERENCES Comment (Comment_id);
 
-//===============================================
-//Thêm một số tên mẫu vào bảng user------------
-//---role student---
-DECLARE @counter INT = 1;
+-- Tạo user mentor admin =================
+-- Tạo user
+DECLARE @counter1 INT = 1;
 
-WHILE @counter <= 20
+WHILE @counter1 <= 20
 BEGIN
-    INSERT INTO [User]([name],email,[password],active,[role])
-    VALUES (CONCAT('user ', @counter),CONCAT('user',@counter,'@gmail.com'),'123456',1,1);
+    INSERT INTO [User]([name],email,[password],active,[role],create_at)
+    VALUES (CONCAT('user ', @counter1),CONCAT('user',@counter1,'@gmail.com'),'123456',1,1,CAST(GETDATE() AS DATE));
     
-    SET @counter = @counter + 1;
-END;
-//---role mentor---
-DECLARE @counter INT = 21;
-
-WHILE @counter <= 30
-BEGIN
-    INSERT INTO [User]([name],email,[password],active,[role])
-    VALUES (CONCAT('user ', @counter),CONCAT('user',@counter,'@gmail.com'),'123456',1,2);
-    
-    SET @counter = @counter + 1;
-END;
-//---role admin---
-DECLARE @counter INT = 31;
-
-WHILE @counter <= 31
-BEGIN
-    INSERT INTO [User]([name],email,[password],active,[role])
-    VALUES (CONCAT('user ', @counter),CONCAT('user',@counter,'@gmail.com'),'123456',1,3);
-    
-    SET @counter = @counter + 1;
+    SET @counter1 = @counter1 + 1;
 END;
 
-//
+-- Tạo mentor
+DECLARE @counter2 INT = 21;
+
+WHILE @counter2 <= 25
+BEGIN
+    INSERT INTO [User]([name],email,[password],active,[role],create_at)
+    VALUES (CONCAT('mentor ', @counter2),CONCAT('mentor',@counter2,'@gmail.com'),'123456',1,2,CAST(GETDATE() AS DATE));
+    
+    SET @counter2 = @counter2 + 1;
+END;
+
+-- Tạo admin
+INSERT INTO [User]([name],email,[password],active,[role],create_at)
+    VALUES ('admin',CONCAT('admin','@gmail.com'),'123456',1,3,CAST(GETDATE() AS DATE));
+
+-- Tạo category==========================
+insert into category(category_name,date_created,date_last_edited,active)
+values(N'Màu sắc',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1),
+	(N'Số đếm',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1),
+	(N'Trái cây',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1),
+	(N'Rau củ',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1)
+
+--Tạo flashcard cho Màu Sắc -----------
+insert into flashcard(question,answer,create_at,update_at,active,Category_id)
+values('Red',N'Màu đỏ',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,4),
+	('Green',N'Màu xanh lá',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,4),
+	('Blue',N'Màu xanh dương',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,4),
+	('Pink',N'Màu hồng',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,4),
+	('Brown',N'Màu nâu',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,4),
+	('Yellow',N'Màu vàng',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,4),
+	('Orange',N'Màu cam',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,4),
+	('White',N'Màu trắng',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,4),
+	('Black',N'Màu đen',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,4),
+	('Gray',N'Màu xám',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,4),
+	('Purple',N'Màu tím',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,4)
+
+--Tạo course ===========
+insert into Course(course_name,[description],created_at,update_at,active,created_by, category_id)
+values (N'Màu sắc cơ bản', N'Các loại màu sắc đơn giản',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,21,4)
+-- Tạo quiz =============
+insert into Quiz(course_id, flashcard_id)
+values (1, 1),(1,2),(1,3),(1, 4),(1, 5),(1, 6)
+
