@@ -18,7 +18,7 @@ public class DBConnect{
     }
     
     public DBConnect(){
-        this("jdbc:sqlserver://localhost:1433;databaseName= SWP_G1_V1", "sa", "123");
+        this("jdbc:sqlserver://localhost:1433;databaseName= SWP_G1_V2", "sa", "123");
     }
 
     

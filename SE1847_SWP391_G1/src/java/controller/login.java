@@ -34,9 +34,9 @@ public class login extends HttpServlet {
         //Get user
         try {
             DAOUser daoUser = new DAOUser();
-            User user = daoUser.getUser(email, password);
-            if(user == null)
-                throw new Exception("Tài khoản không tồn tại");
+//            User user = daoUser.getUser(email, password);
+//            if(user == null)
+//                throw new Exception("Tài khoản không tồn tại");
             
         } catch (Exception e) {
             request.setAttribute("err", e.getMessage());

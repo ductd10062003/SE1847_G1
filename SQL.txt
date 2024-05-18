@@ -6,13 +6,12 @@
 CREATE TABLE Category (
   category_id      int IDENTITY NOT NULL, 
   category_name    nvarchar(50) NOT NULL UNIQUE, 
-  date_created     date NOT NULL, 
-  date_last_edited date NOT NULL, 
+  create_at     date NOT NULL, 
+  update_at date NOT NULL, 
   active           bit NOT NULL, 
   PRIMARY KEY (category_id));
 CREATE TABLE Comment (
-  content    nvarchar(500) NOT NULL, 
-  course_id  int NOT NULL, 
+  content    nvarchar(500) NOT NULL,  
   user_id    int NOT NULL, 
   Comment_id int IDENTITY NOT NULL, 
   create_at  int NOT NULL, 
@@ -21,7 +20,7 @@ CREATE TABLE Course (
   course_id   int IDENTITY NOT NULL, 
   course_name nvarchar(50) NOT NULL UNIQUE, 
   description nvarchar(500) NOT NULL, 
-  created_at  date NOT NULL, 
+  create_at  date NOT NULL, 
   update_at   date NOT NULL, 
   active      bit NOT NULL, 
   created_by  int NOT NULL, 
@@ -42,7 +41,7 @@ CREATE TABLE Message (
   content    nvarchar(500) NOT NULL, 
   receiver   int NOT NULL, 
   message_id int IDENTITY NOT NULL, 
-  create_at  int NOT NULL, 
+  create_at  date NOT NULL, 
   PRIMARY KEY (message_id));
 CREATE TABLE Quiz (
   course_id    int NOT NULL, 
@@ -76,7 +75,7 @@ CREATE TABLE [User] (
   create_at date NOT NULL, 
   gender    bit NULL, 
   dob       date NULL, 
-  phone     int NULL, 
+  phone     nvarchar(20) NULL, 
   [image]     nvarchar(500) NULL, 
   PRIMARY KEY (user_id));
 CREATE TABLE User_Enroll_Course (
