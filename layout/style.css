@@ -1,0 +1,6 @@
+@import url('https://fonts.cdnfonts.com/css/the-hand-2');
+.logo{
+    font-family: 'The Hand', sans-serif;
+    user-select: none;
+    cursor: pointer;                                     
+}
