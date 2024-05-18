@@ -20,7 +20,7 @@ CREATE TABLE Comment (
 CREATE TABLE Course (
   course_id   int IDENTITY NOT NULL, 
   course_name nvarchar(50) NOT NULL UNIQUE, 
-  description nvarchar(50) NOT NULL, 
+  description nvarchar(500) NOT NULL, 
   created_at  date NOT NULL, 
   update_at   date NOT NULL, 
   active      bit NOT NULL, 
