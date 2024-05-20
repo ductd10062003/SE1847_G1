@@ -164,6 +164,7 @@
                                     }
                                 }
 
+                                //Vì object gửi về là 1 string nên phải làm hàm convert
                                 function stringToObject(string) {
                                     // Remove the "FlashCard{" and "}" from the string
                                     string = string.substring(10, string.length - 1);
@@ -199,20 +200,20 @@
                                     let obj = stringToObject(obj_raw);
                                     let id = id_raw.querySelector('p');
                                     if (click_flip === false) {
-                                        id.innerHTML = obj.answer;
                                         click_flip = true;
+                                        id.innerHTML = obj.answer;
                                     } else {
-                                        id.innerText = obj.question;
                                         click_flip = false;
+                                        id.innerText = obj.question;
                                     }
                                 }
 
                                 let index_FL = 0;
                                 function nextFL(status, length) {
                                     if (index_FL < length && index_FL >= 0) {
-                                        if ( index_FL > 0 && status === 1)
+                                        if (index_FL > 0 && status === 1)
                                             index_FL -= 1;
-                                        else if(index_FL < length-1 && status ===2)
+                                        else if (index_FL < length - 1 && status === 2)
                                             index_FL += 1;
                                         $.ajax({
                                             url: "/swp_project/course_detail?service=nextFL&id=" + index_FL,
@@ -225,8 +226,11 @@
 
                                             }
                                         });
-                                        let indexFL = index_FL +1;
-                                        document.getElementById('indexFL').innerHTML=indexFL;
+                                        let indexFL = index_FL + 1;
+                                        document.getElementById('indexFL').innerHTML = indexFL;
+                                        //sau khi next thì click_flip sửa về false vì có trường hợp
+                                        //thẻ đổi qua answer sẽ là true và next nó vẫn là true -> next phải nhấn chuột 2 lần
+                                        click_flip = false;
                                     }
                                 }
         </script>
