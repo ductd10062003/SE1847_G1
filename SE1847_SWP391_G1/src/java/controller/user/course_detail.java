@@ -23,7 +23,7 @@ import model.DAOUser;
 
 @WebServlet(name = "course_detail", urlPatterns = {"/course_detail"})
 public class course_detail extends HttpServlet {
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -36,9 +36,9 @@ public class course_detail extends HttpServlet {
         DAOCategory daoCategory = new DAOCategory();
         DAOQuiz daoQuiz = new DAOQuiz();
         DAOFlashCard daoFlashCard = new DAOFlashCard();
-        
+
         Course course = daoCourse.getCourseByID(course_id);
-        
+
         request.setAttribute("course", course);
         request.setAttribute("mentor", daoUser.getUserByID(course.getCreated_by()));
         request.setAttribute("typeOfPractices", daoTypeOfPractices.getAllTypeOfPractices());
@@ -46,17 +46,17 @@ public class course_detail extends HttpServlet {
         request.setAttribute("category", daoCategory.getCategoryByID(course.getCategory_id()));
         request.getRequestDispatcher("user/course_detail.jsp").forward(request, response);
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int course_id = 1;
         DAOTypeOfPractice daoTypeOfPractices = new DAOTypeOfPractice();
         DAOCourse daoCourse = new DAOCourse();
-        
+
         DAOQuiz daoQuiz = new DAOQuiz();
         DAOFlashCard daoFlashCard = new DAOFlashCard();
-        
+
         String service = request.getParameter("service").trim();
         if (service != null && service.length() != 0) {
             if (service.equals("show")) {
@@ -72,22 +72,28 @@ public class course_detail extends HttpServlet {
                 }
             } else if (service.equals("nextFL")) {
                 int id = Integer.parseInt(request.getParameter("id"));
-                
+
                 Vector<FlashCard> flashcards = daoFlashCard.getFlashCardByCourse(daoQuiz.getQuizsByCourseID(course_id));
                 response.getWriter().print("<div\n"
                         + "                                    class=\"card-body d-flex justify-content-center align-items-center w-75 h-100\"\n"
-                        + "                                    onclick=\"flip(this, `"+flashcards.get(id)+"`)\";\n"
+                        + "                                    onclick=\"flip(this, `" + flashcards.get(id) + "`)\";\n"
                         + "                                    >\n"
                         + "                                    <p\n"
                         + "                                        class=\"text-center fs-4\"\n"
                         + "                                        style=\"overflow-y: auto; max-height: 100%\"\n"
                         + "                                        >\n"
-                        + "                                        "+flashcards.get(id).getQuestion()+"\n"
+                        + "                                        " + flashcards.get(id).getQuestion() + "\n"
                         + "                                    </p>\n"
                         + "                                </div>");
             }
         }
-        
+
     }
-    
+
+    private void showFlashCard(HttpServletResponse response, Vector<FlashCard> flashcards) throws ServletException, IOException {
+        for(FlashCard flashcard : flashcards){
+            
+        }
+    }
+
 }

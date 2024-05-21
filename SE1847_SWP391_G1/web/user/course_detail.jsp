@@ -114,7 +114,7 @@
                                 <c:set var="quiz" value="${requestScope.quizs[0]}" />
                                 <div
                                     class="card-body d-flex justify-content-center align-items-center w-75 h-100"
-                                    onclick="flip(this, `${quiz}`)";
+                                    onclick="flip(this, `${quiz}`)"
                                     >
                                     <p
                                         class="text-center fs-4"
