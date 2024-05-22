@@ -139,7 +139,7 @@ values	(N'Cơ thể',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1),
 	(N'Quần áo',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1),
 	(N'Ẩm thực',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1),
 	(N'Động vật',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1),
-	(N'Thiên nhiên',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1),
+	(N'Thiên nhiên',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1)
 
 
 --Tạo flashcard cho Màu Sắc -----------
