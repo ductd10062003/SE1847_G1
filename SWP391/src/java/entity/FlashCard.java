@@ -86,9 +86,7 @@ public class FlashCard {
 
     @Override
     public String toString() {
-        return "FlashCard{" + "flashcard_id=" + flashcard_id + ", question=" + question + ", answer=" + answer + ", create_at=" + create_at + ", update_at=" + update_at + ", active=" + active + ", category_id=" + category_id + ", image=" + image + '}';
+        return "flashcard_id=" + flashcard_id + "@#split#@question=" + question + "@#split#@answer=" + answer + "@#split#@create_at=" + create_at + "@#split#@update_at=" + update_at + "@#split#@active=" + active + "@#split#@category_id=" + category_id + "@#split#@image=" + image;
     }
-    
-    
     
 }
