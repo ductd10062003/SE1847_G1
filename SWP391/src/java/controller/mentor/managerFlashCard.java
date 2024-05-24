@@ -5,6 +5,7 @@
 package controller.mentor;
 
 import entity.Category;
+import entity.FlashCard;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,8 +13,22 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 import model.DAOCategory;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 @WebServlet(name = "managerFlashCard", urlPatterns = {"/mentor/add-flashcard"})
 public class managerFlashCard extends HttpServlet {
@@ -32,7 +47,26 @@ public class managerFlashCard extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        
+        String service = request.getParameter("service");
+        if (service != null && service.trim().length() > 0) {
+            switch (service) {
+                case "searchCategory":
+                    searchCategory(request, response);
+                    break;
+                case "btn":
+                    
+                    break;
+                case "createFlashCard":
+                    String data = request.getParameter("data");
+                    response.getWriter().print(data);
+                    break;
+            }
+        }
+
+    }
+
+    private void searchCategory(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String searchValue = request.getParameter("category_name").trim();
         Vector<Category> vetor = daoCategory.getCategoriesByName(searchValue);
         if (vetor != null) {
@@ -54,7 +88,19 @@ public class managerFlashCard extends HttpServlet {
                         + "                                                    </div>");
             }
         }
-
     }
+    
+    private void createFlashCard(){
+        Vector<FlashCard> v = new Vector<>();
+        
+        
+    }
+    
+//    public Map<String, String> convertData(String data){
+//        Map<String, String> map = new HashMap<>();
+//        String[] pair_raw = data.split("##notpair##");
+//         
+//    }
+    
 
 }

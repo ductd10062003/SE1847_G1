@@ -20,6 +20,7 @@
 
     </head>
     <body class="sb-nav-fixed">
+
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="index.html">MEMORYCALL</a>
@@ -106,8 +107,19 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Thêm câu hỏi</h1>
-                        <form action="">
+                        <div class="row">
+                            <div class="col-3">
+                                <h1 class="mt-4">Thêm câu hỏi</h1>
+                            </div>
+                            <div class="col-9 d-flex align-items-end pb-3">
+                                <form  enctype="multipart/form-data"  id="uploadForm" action="add-flashcard" method="post">
+                                    <input type="file" name="file" accept=".xlsx" required />
+                                    <button type="submit" name="service" value="btn">Upload and Load Data</button>         
+                                </form>
+                            </div>
+                        </div>
+
+                        <div>
                             <div class="row">
                                 <div class="col-3 overflow-x">
                                     <div class="card">
@@ -140,6 +152,7 @@
                                                             name="category"
                                                             id="flexRadioDefault1"
                                                             value="${category.category_id}"
+                                                            required
                                                             />
                                                         <label
                                                             class="form-check-label"
@@ -150,41 +163,48 @@
                                                     </div>
                                                 </c:forEach>
                                             </div>
+                                            <form action="add-flashcard" method="POST" id="formSubmit">
+                                                <input type="hidden" name="data" id="data"/>
+                                                <input type="hidden" name="service" value="createFlashCard" />
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-9">
-                                    <div>Thêm bằng excel</div>
-                                    <div class="card mb-4">
+                                    <div class="card mb-4" id="list_flashcards">
                                         <div class="card-body row">
                                             <div class="col">
                                                 <input
                                                     type="text"
                                                     placeholder="Thuật ngữ"
-                                                    class="w-100 fs-5"
+                                                    class="w-100 fs-5 question"
+                                                    required
                                                     />
                                             </div>
                                             <div class="col">
                                                 <input
                                                     type="text"
                                                     placeholder="Định nghĩa"
-                                                    class="w-100 fs-5"
+                                                    class="w-100 fs-5 answer"
+                                                    required                                                  
                                                     />
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="err" style="color: red; font-style: italic; font-size: 18px"></div>
                                     <div class="d-grid gap-2 mb-3">
-                                        <button class="btn btn-success" type="button">Thêm thẻ</button>
+                                        <button class="btn btn-success" type="button" onclick="addRowFlashCard()">Thêm thẻ</button>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="text-end mt-3">
-                                <button class="btn btn-primary" type="submit" name="s" value="">
+                                <button class="btn btn-primary" type="button" name="s" value="s" onclick="sendResquest()">
                                     Tạo câu hỏi
                                 </button>
                             </div>
-                        </form>
+                        </div>
 
                         <div style="height: 100vh"></div>
                     </div>
@@ -229,7 +249,7 @@
                 let value = position.value;
                 console.log(value);
                 $.ajax({
-                    url: "/project_swp391/mentor/add-flashcard?service=searchCategory&category_name=" + value,
+                    url: "/SWP391/mentor/add-flashcard?service=searchCategory&category_name=" + value,
                     type: "POST",
                     success: function (data) {
                         document.getElementById('list_categories').innerHTML = data;
@@ -238,6 +258,74 @@
 
                     }
                 });
+            }
+
+            function addRowFlashCard() {
+                // Create a new div element
+                let newRow = document.createElement('div');
+                newRow.classList.add('card-body', 'row');
+
+                // Create the first column with input
+                let col1 = document.createElement('div');
+                col1.classList.add('col');
+                let input1 = document.createElement('input');
+                input1.type = 'text';
+                input1.placeholder = 'Thuật ngữ';
+                input1.classList.add('w-100', 'fs-5', 'question');
+                input1.required = true;
+                col1.appendChild(input1);
+
+                // Create the second column with input
+                let col2 = document.createElement('div');
+                col2.classList.add('col');
+                let input2 = document.createElement('input');
+                input2.type = 'text';
+                input2.placeholder = 'Định nghĩa';
+                input2.classList.add('w-100', 'fs-5', 'answer');
+                input2.required = true;
+                col2.appendChild(input2);
+
+                // Append columns to the new row
+                newRow.appendChild(col1);
+                newRow.appendChild(col2);
+
+                // Append the new row to the container
+                document.getElementById('list_flashcards').appendChild(newRow);
+
+            }
+
+            //lấy từng giá trị từng thẻ trong flashcard để chuyển thành string và gửi đi
+            function sendResquest() {
+                let arr = document.querySelectorAll('#list_flashcards .card-body');
+                let content = '';
+                // lấy từng thẻ trong list, và trong list sẽ lấy giá trị 2 thẻ question và
+                //answer để bắt đầu cộng chuỗi
+                for (let i = 0; i < arr.length; i++) {
+                    let quesion_raw = arr[i].querySelector('.question');
+                    let answer_raw = arr[i].querySelector('.answer');
+
+                    let quesion = quesion_raw.value.trim();
+                    let answer = answer_raw.value.trim();
+
+                    if (quesion.length === 0 || answer.length === 0) {
+                        document.getElementById('err').innerHTML = 'Bạn chưa điền đủ thông tin';
+                        return;
+                    }
+
+                    let pair = quesion + '@@pair@@' + answer;
+                    content = content + pair + '##notpair##';
+
+                }
+                
+                let inputElement = document.getElementById('data');
+                inputElement.value = content;
+                
+                console.log(inputElement);
+                
+                let form = document.getElementById('formSubmit');
+                form.submit();
+                
+                
             }
         </script>
 
