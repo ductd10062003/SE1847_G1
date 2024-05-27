@@ -19,6 +19,16 @@ public class Course {
         this.category_id = category_id;
     }
 
+    public Course(String course_name, String description, String created_at, String update_at, int active, int created_by, int category_id) {
+        this.course_name = course_name;
+        this.description = description;
+        this.created_at = created_at;
+        this.update_at = update_at;
+        this.active = active;
+        this.created_by = created_by;
+        this.category_id = category_id;
+    }
+
     public int getCourse_id() {
         return course_id;
     }

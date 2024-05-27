@@ -17,6 +17,27 @@ public class FlashCard {
         this.image = image;
     }
 
+    public FlashCard(String question, String answer, String create_at, String update_at, int active, int category_id, String image) {
+        this.question = question;
+        this.answer = answer;
+        this.create_at = create_at;
+        this.update_at = update_at;
+        this.active = active;
+        this.category_id = category_id;
+        this.image = image;
+    }
+
+    public FlashCard(String question, String answer, String create_at, String update_at, int active, int category_id) {
+        this.question = question;
+        this.answer = answer;
+        this.create_at = create_at;
+        this.update_at = update_at;
+        this.active = active;
+        this.category_id = category_id;
+    }
+    
+    
+    
     public FlashCard() {
     }
 

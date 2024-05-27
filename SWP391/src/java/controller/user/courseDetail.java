@@ -66,7 +66,7 @@ public class courseDetail extends HttpServlet {
         request.setAttribute("course", course);
         request.setAttribute("mentor", daoUser.getUserByID(course.getCreated_by()));
         request.setAttribute("typeOfPractices", daoTypeOfPractices.getAllTypeOfPractices());
-        request.setAttribute("quizs", daoFlashCard.getFlashCardByCourse(daoQuiz.getQuizsByCourseID(course_id)));
+        request.setAttribute("quizs", daoFlashCard.getFlashCardInCourse(daoQuiz.getQuizsByCourseID(course_id)));
         request.setAttribute("category", daoCategory.getCategoryByID(course.getCategory_id()));
         request.getRequestDispatcher("course-detail.jsp").forward(request, response);
     }
@@ -87,7 +87,7 @@ public class courseDetail extends HttpServlet {
                     DAOQuiz daoQuiz = new DAOQuiz();
                     DAOFlashCard daoFlashCard = new DAOFlashCard();
 
-                    Vector<FlashCard> flashcards = daoFlashCard.getFlashCardByCourse(daoQuiz.getQuizsByCourseID(course_id));
+                    Vector<FlashCard> flashcards = daoFlashCard.getFlashCardInCourse(daoQuiz.getQuizsByCourseID(course_id));
                     nextFL(response, request, flashcards);
                     return;
                 case "joinClass":
