@@ -5,42 +5,23 @@
 
 package controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import entity.User;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.DAOUser;
+
+import java.io.IOException;
 
 /**
  *
  * @author ductd
  */
+@WebServlet(name = "login", urlPatterns = {"/login"})
 public class login extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet login</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet login at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    } 
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
@@ -53,7 +34,12 @@ public class login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        //check if the user logged on already
+        if(request.getSession().getAttribute("user") != null){
+            response.sendRedirect("home");
+        }else{
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        }
     } 
 
     /** 
@@ -66,7 +52,37 @@ public class login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        // If there is username, password in the request, get the user by username. If the password is correct then set the user to the session and redirect to home page
+        // If the password is incorrect, set the error message and forward to login page
+        // If there is no username, password in the request, forward to login page
+        // If the user is already logged in, redirect to home page
+        // If the user is not found, set the error message and forward to login page
+        // If there is any exception, set the error message and forward to login page
+
+        if(request.getSession().getAttribute("user") != null){
+            response.sendRedirect("home");
+        }else{
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            if(username != null && password != null){
+                User user = new DAOUser().getUserByUsername(username);
+                if(user != null){
+                    if(user.getPassword().equals(password)){
+                        request.getSession().setAttribute("user", user);
+                        response.sendRedirect("course-detail");
+                    }else{
+                        request.getSession().setAttribute("error", "Username or password is incorrect");
+                        request.getRequestDispatcher("login.jsp").forward(request, response);
+                    }
+                }else{
+                    request.getSession().setAttribute("error", "Username or password is incorrect");
+                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                }
+            }else{
+                request.getSession().setAttribute("error", "Username and password are required");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }
+        }
     }
 
     /** 

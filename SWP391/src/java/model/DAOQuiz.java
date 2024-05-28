@@ -38,4 +38,20 @@ public class DAOQuiz extends DBConnect{
         return vector;
     }
     
+    public int createQuiz(int course_id, Vector<Integer> flashcard_ids){
+        String sql = "insert into Quiz(course_id,flashcard_id)"
+                + "values (?,?)";
+        int n = 0;
+        for(int i = 1; i < flashcard_ids.size(); i++){
+            try {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setInt(1, course_id);
+                ps.setInt(2, flashcard_ids.get(i));
+                n = ps.executeUpdate();
+            } catch (Exception e) {
+            }
+        }
+        return n;
+    }
+    
 }

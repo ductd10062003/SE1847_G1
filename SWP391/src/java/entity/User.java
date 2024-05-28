@@ -1,17 +1,20 @@
 package entity;
 
+import java.sql.Date;
+
 public class User {
     private int user_id;
     private String name, email, password;
     private int role, active;    
-    private String create_at;
     private int gender;
-    public String dob, phone, image;
+    public String phone, image;
+    public Date dob, create_at;  
     
     public User() {
     }
 
-    public User(int user_id, String name, String email, String password, int role, int active, String create_at, int gender, String dob, String phone, String image) {
+    public User(int user_id, String name, String email, String password, int role,
+            int active, Date create_at, int gender, Date dob, String phone, String image) {
         this.user_id = user_id;
         this.name = name;
         this.email = email;
@@ -23,6 +26,15 @@ public class User {
         this.dob = dob;
         this.phone = phone;
         this.image = image;
+    }
+
+    public User(int user_id, String name, int gender, String phone, String image, Date dob) {
+        this.user_id = user_id;
+        this.name = name;
+        this.gender = gender;
+        this.phone = phone;
+        this.image = image;
+        this.dob = dob;
     }
 
     public int getUser_id() {
@@ -73,11 +85,11 @@ public class User {
         this.active = active;
     }
 
-    public String getCreate_at() {
+    public Date getCreate_at() {
         return create_at;
     }
 
-    public void setCreate_at(String create_at) {
+    public void setCreate_at(Date create_at) {
         this.create_at = create_at;
     }
 
@@ -89,11 +101,11 @@ public class User {
         this.gender = gender;
     }
 
-    public String getDob() {
+    public Date getDob() {
         return dob;
     }
 
-    public void setDob(String dob) {
+    public void setDob(Date dob) {
         this.dob = dob;
     }
 
