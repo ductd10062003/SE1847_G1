@@ -6,13 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class DAOCourse extends DBConnect {
-    public Vector<Course> getAllCourses(){
+
+    public Vector<Course> getAllCourses() {
         Vector<Course> vector = new Vector<>();
         String sql = "select * from [course]";
         try {
-            PreparedStatement ps = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 vector.add(new Course(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
             }
         } catch (Exception e) {
@@ -20,15 +21,15 @@ public class DAOCourse extends DBConnect {
         }
         return vector;
     }
-    
-    public Course getCourseByID(int course_id){
+
+    public Course getCourseByID(int course_id) {
         Course course = new Course();
         String sql = "select * from [course] where course_id = ?";
         try {
-            PreparedStatement ps = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ps.setInt(1, course_id);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 course = new Course(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
             }
         } catch (Exception e) {
@@ -36,7 +37,7 @@ public class DAOCourse extends DBConnect {
         }
         return course;
     }
-    
+
     public Vector<Course> getCoursesOutstanding() {
         Vector<Course> vector = new Vector<>();
         String sql = "SELECT TOP 5 \n"
@@ -61,9 +62,9 @@ public class DAOCourse extends DBConnect {
                 + "ORDER BY \n"
                 + "    enrollment_count DESC;";
         try {
-            PreparedStatement ps = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 vector.add(new Course(
                         rs.getInt(1), rs.getString(2),
                         rs.getString(3), rs.getString(4),
@@ -75,7 +76,21 @@ public class DAOCourse extends DBConnect {
         }
         return vector;
     }
-<<<<<<< HEAD
+    public int lastedCourseCreatedBy(int mentor_id){
+        int id = 0;
+        String sql = "SELECT Max(course_id) FROM [Course] where created_by = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setInt(1, mentor_id);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                id = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            
+        }
+        return id;
+    }
     
     public int createCourse(Course course){
         String sql = "insert into Course(course_name,[description],create_at,update_at,active,created_by, category_id)"
@@ -96,22 +111,6 @@ public class DAOCourse extends DBConnect {
         return n;
     }
     
-    public int lastedCourseCreatedBy(int mentor_id){
-        int id = 0;
-        String sql = "SELECT Max(course_id) FROM [Course] where created_by = ?";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ps.setInt(1, mentor_id);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                id = rs.getInt(1);
-            }
-        } catch (Exception e) {
-            
-        }
-        return id;
-    }
-    
     public Course getCourseByName(String course_name){
         String sql = "select * from course where course_name = ?";
         Course course = null;
@@ -128,6 +127,4 @@ public class DAOCourse extends DBConnect {
         
         return course;
     }
-=======
->>>>>>> 22527053b26e99559338236e935049b3815b7dbc
 }

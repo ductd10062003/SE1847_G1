@@ -37,13 +37,6 @@ public class Course {
         this.image = image;
     }
 
-    public Course(int course_id, String course_name, String description, String category_name, String image) {
-        this.course_id = course_id;
-        this.course_name = course_name;
-        this.description = description;
-        this.category_name = category_name;
-        this.image = image;
-    }
 
     public int getCourse_id() {
         return course_id;
