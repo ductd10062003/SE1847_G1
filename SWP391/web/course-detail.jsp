@@ -151,9 +151,9 @@
                                         </div>
                                     </div>
                                     <div class="container-fluid d-flex justify-content-center">
-                                        <i class="fa-solid fa-circle-chevron-left" style="font-size: 32px; cursor: pointer; user-select: none" onclick="nextFL(1, ${fn:length(quizs)})"></i>
+                                        <i class="fa-solid fa-circle-chevron-left" style="font-size: 32px; cursor: pointer; user-select: none" onclick="nextFL(1, ${fn:length(quizs)},${requestScope.course.course_id})"></i>
                                         <div class="mx-3"><span id="indexFL">1</span>/${fn:length(quizs)}</div>
-                                        <i class="fa-solid fa-circle-chevron-right" style="font-size: 32px; cursor: pointer; user-select: none" onclick="nextFL(2, ${fn:length(quizs)})"></i>
+                                        <i class="fa-solid fa-circle-chevron-right" style="font-size: 32px; cursor: pointer; user-select: none" onclick="nextFL(2, ${fn:length(quizs)},${requestScope.course.course_id})"></i>
                                     </div>
                                 </div>
 
@@ -398,14 +398,14 @@
 
 
                                             let index_FL = 0;
-                                            function nextFL(status, length) {
+                                            function nextFL(status, length, courseId) {
                                                 if (index_FL < length && index_FL >= 0) {
                                                     if (index_FL > 0 && status === 1)
                                                         index_FL -= 1;
                                                     else if (index_FL < length - 1 && status === 2)
                                                         index_FL += 1;
                                                     $.ajax({
-                                                        url: "/SWP391/course-detail?service=nextFL&id=" + index_FL,
+                                                        url: "/SWP391/course-detail?service=nextFL&id=" + index_FL+"&course_id="+courseId,
                                                         type: "POST",
                                                         success: function (data) {
                                                             let getAllFC = document.getElementById('flashcard');
@@ -422,7 +422,8 @@
                                                     click_flip = false;
                                                 }
                                             }
-
+                                           
+                                           //check login to join or remove class
                                             function checkLogin(member, position, course_id) {
                                                 if (member === null || member.trim().length === 0) {
                                                     let err = document.getElementById('err');

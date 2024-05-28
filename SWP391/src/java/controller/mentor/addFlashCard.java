@@ -113,12 +113,14 @@ public class addFlashCard extends HttpServlet {
                     fl.setQuestion(fl.getQuestion() + "@@err@@");
                     checkDuplicate = true;
                 }
+                
                 if (checkDuplicateInVector.isEmpty()) {
                     checkDuplicateInVector.add(fl.getQuestion());
                 } else if (checkDuplicateInVector.contains(fl.getQuestion())) {
-                    checkDuplicateInVector.add(fl.getQuestion());
                     fl.setQuestion(fl.getQuestion() + "@@err@@");
                     checkDuplicate = true;
+                } else{
+                    checkDuplicateInVector.add(fl.getQuestion());
                 }
                 vector.add(fl);
             }

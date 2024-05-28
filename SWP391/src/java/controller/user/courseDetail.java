@@ -28,17 +28,20 @@ import model.DAOUser;
 import model.DAOUserEnrollCourse;
 import model.DAOUserPractice;
 
+// DucTD-HE176150
 @WebServlet(name = "course-detail", urlPatterns = {"/course-detail"})
 public class courseDetail extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // user account
         HttpSession session = request.getSession(true);
+        
 
 //        int course_id = Integer.parseInt(request.getParameter("course_id"));
         // thử course 
-        int course_id = 2;
+        int course_id = 3;
         //Thành phần DAO
         DAOTypeOfPractice daoTypeOfPractices = new DAOTypeOfPractice();
         DAOCourse daoCourse = new DAOCourse();
@@ -49,20 +52,23 @@ public class courseDetail extends HttpServlet {
         DAOUserPractice daoUserPractice = new DAOUserPractice();
         DAOUserEnrollCourse daoUserEnrollCourse = new DAOUserEnrollCourse();
 
-//        session.setAttribute("member", daoUser.getUserByID(1));
         //Object
         Course course = daoCourse.getCourseByID(course_id);
+        //check user login
+//        session.setAttribute("member", daoUser.getUserByID(1));
+        //
         User user = null;
         UserEnrollCourse userEnrollCourse = null;
         if ((User) session.getAttribute("member") != null) {
             user = (User) session.getAttribute("member");
             userEnrollCourse = daoUserEnrollCourse.getUserEnrollCourse(user.getUser_id(), course_id);
         }
-     
-        //
+
+        // check user enroll course.
         if (userEnrollCourse == null || userEnrollCourse.getStatus() == 0) {
             request.setAttribute("enrolled", 0);
         }
+
         request.setAttribute("course", course);
         request.setAttribute("mentor", daoUser.getUserByID(course.getCreated_by()));
         request.setAttribute("typeOfPractices", daoTypeOfPractices.getAllTypeOfPractices());
@@ -74,80 +80,32 @@ public class courseDetail extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-//        int course_id = Integer.parseInt(request.getParameter("course_id"));
         String service = request.getParameter("service");
-        int course_id = 5;
-
-        User user = (User) request.getSession(true).getAttribute("member");
-
         if (service != null && service.trim().length() != 0) {
             switch (service) {
                 case "nextFL":
-                    DAOQuiz daoQuiz = new DAOQuiz();
-                    DAOFlashCard daoFlashCard = new DAOFlashCard();
-
-                    Vector<FlashCard> flashcards = daoFlashCard.getFlashCardInCourse(daoQuiz.getQuizsByCourseID(course_id));
-                    nextFL(response, request, flashcards);
+                    nextFL(response, request);
                     return;
                 case "joinClass":
-                    DAOUserEnrollCourse daoUERC = new DAOUserEnrollCourse();
-                    DAOUserPractice daoUP = new DAOUserPractice();
-                    DAOResultDetail daoRD = new DAOResultDetail();
-
-                    if (daoUERC.getUserEnrollCourse(user.getUser_id(), course_id) != null) {
-                        try {
-                            int updateUserEnrollCourse = daoUERC.updateUserEnrollCourse(user.getUser_id(), course_id, 1);
-                            if (updateUserEnrollCourse == 0) {
-                                throw new Exception();
-                            }
-                        } catch (Exception e) {
-                            response.getWriter().print("error");
-                        }
-                    } else {
-                        try {
-
-                            int createUserEnrollCourse = daoUERC.createUserEnrollCourse(user.getUser_id(), course_id);
-                            if (createUserEnrollCourse == 0) {
-                                throw new Exception();
-                            }
-
-                            int createUserPractice = daoUP.createUserPractice(user.getUser_id(), course_id);
-                            if (createUserPractice == 0) {
-                                throw new Exception();
-                            }
-                            for (UserPractice i : daoUP.getUserPracticeByUserIdAndCourseId(user.getUser_id(), course_id)) {
-                                int createResultDetail = daoRD.createResultDetail(i.getUserPractice_id());
-                                if (createResultDetail == 0) {
-                                    throw new Exception();
-                                }
-                            }
-
-                        } catch (Exception e) {
-                            response.getWriter().print("error");
-                        }
-                    }
-
-                    response.sendRedirect("course-detail");
+                    joinClass(response, request);
                     return;
                 case "removeClass":
-                    DAOUserEnrollCourse daoUERCRemove = new DAOUserEnrollCourse();
-                    try {
-                        int updateUserEnrollCourse = daoUERCRemove.updateUserEnrollCourse(user.getUser_id(), course_id, 0);
-                        if (updateUserEnrollCourse == 0) {
-                            throw new Exception();
-                        }
-                    } catch (Exception e) {
-                        response.getWriter().print("error");
-                    }
-                    response.sendRedirect("course-detail");
+                    removeClass(response, request);
                     return;
             }
         }
     }
 
-    private void nextFL(HttpServletResponse response, HttpServletRequest request, Vector<FlashCard> flashcards) throws ServletException, IOException {
+    private void nextFL(HttpServletResponse response, HttpServletRequest request)
+            throws ServletException, IOException {
+        int courseId = Integer.parseInt(request.getParameter("course_id"));
+
+        DAOQuiz daoQuiz = new DAOQuiz();
+        DAOFlashCard daoFlashCard = new DAOFlashCard();
+
+        Vector<FlashCard> flashcards = daoFlashCard.getFlashCardInCourse(daoQuiz.getQuizsByCourseID(courseId));
         int id = Integer.parseInt(request.getParameter("id"));
+
         response.getWriter().print("<div\n"
                 + "                                    class=\"card-body d-flex justify-content-center align-items-center w-75 h-100\"\n"
                 + "                                    onclick=\"flip(this, `" + flashcards.get(id) + "`)\";\n"
@@ -159,6 +117,71 @@ public class courseDetail extends HttpServlet {
                 + "                                        " + flashcards.get(id).getQuestion() + "\n"
                 + "                                    </p>\n"
                 + "                                </div>");
+    }
+
+    private void joinClass(HttpServletResponse response, HttpServletRequest request)
+            throws ServletException, IOException {
+        int courseId = Integer.parseInt(request.getParameter("course_id"));
+
+        DAOUserEnrollCourse daoUERC = new DAOUserEnrollCourse();
+        DAOUserPractice daoUP = new DAOUserPractice();
+        DAOResultDetail daoRD = new DAOResultDetail();
+
+        User user = (User) request.getSession(true).getAttribute("member");
+
+        if (daoUERC.getUserEnrollCourse(user.getUser_id(), courseId) != null) {
+            try {
+                int updateUserEnrollCourse = daoUERC.updateUserEnrollCourse(user.getUser_id(), courseId, 1);
+                if (updateUserEnrollCourse == 0) {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                response.getWriter().print("error");
+            }
+        } else {
+            try {
+
+                int createUserEnrollCourse = daoUERC.createUserEnrollCourse(user.getUser_id(), courseId);
+                if (createUserEnrollCourse == 0) {
+                    throw new Exception();
+                }
+
+                int createUserPractice = daoUP.createUserPractice(user.getUser_id(), courseId);
+                if (createUserPractice == 0) {
+                    throw new Exception();
+                }
+                for (UserPractice i : daoUP.getUserPracticeByUserIdAndCourseId(user.getUser_id(), courseId)) {
+                    int createResultDetail = daoRD.createResultDetail(i.getUserPractice_id());
+                    if (createResultDetail == 0) {
+                        throw new Exception();
+                    }
+                }
+
+            } catch (Exception e) {
+                response.getWriter().print("error");
+            }
+        }
+
+        response.sendRedirect("course-detail");
+    }
+
+    private void removeClass(HttpServletResponse response, HttpServletRequest request)
+            throws ServletException, IOException {
+        int courseId = Integer.parseInt(request.getParameter("course_id"));
+        
+        DAOUserEnrollCourse daoUERCRemove = new DAOUserEnrollCourse();
+        
+        User user = (User) request.getSession(true).getAttribute("member");
+        
+        try {
+            int updateUserEnrollCourse = daoUERCRemove.updateUserEnrollCourse(user.getUser_id(), courseId, 0);
+            if (updateUserEnrollCourse == 0) {
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            response.getWriter().print("error");
+        }
+        response.sendRedirect("course-detail");
     }
 
 }

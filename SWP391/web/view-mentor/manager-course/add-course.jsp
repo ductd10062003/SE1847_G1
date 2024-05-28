@@ -189,8 +189,8 @@
                                                                 class="form-check-input"
                                                                 type="radio"
                                                                 name="category"                                            
-                                                                value="${category.category_id}" 
-                                                                onclick="categoryChecked(this)"
+                                                                value="${category.category_id}"
+                                                                onclick="changeCategory()"
                                                                 />
                                                             <label
                                                                 class="form-check-label"
@@ -250,7 +250,7 @@
                                                             />
                                                     </div>
                                                     <div class="col-2 text-end">
-                                                        <button type="button" class="btn btn-outline-secondary" onclick="deleteFL(this)">Xóa</button>
+                                                        <button type="button" class="btn btn-outline-secondary" onclick="deleteFlashCard(this)">Xóa</button>
                                                     </div>
                                                     <div style="color: red; font-style: italic; font-size: 18px">${fn:contains(flashcard.question, "@@err@@") == true ? "Trùng câu hỏi" : ""}</div>
                                                 </div>
@@ -293,10 +293,11 @@
 
             });
         </script>
-        <!--====================================================-->
+        <!--======================  ductdHE176150  ==============================-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
         <script>
+
             function searchCategory(position) {
                 let value = position.value.toLocaleLowerCase().trim();
                 let categories = document.querySelectorAll('#list_categories div label');
@@ -354,7 +355,7 @@
                 button.className = 'btn btn-outline-secondary';
                 button.textContent = 'Xóa';
                 button.onclick = function () {
-                    deleteFL(this, id);
+                    deleteFlashCard(this, id);
                 };
                 col3.appendChild(button);
 
@@ -376,7 +377,7 @@
                     document.getElementById('err').innerText = 'Bạn chưa nhập tên khóa học';
                     return;
                 }
-                let category_id = checkedRadio();
+                let category_id = categoryChecked();
                 if (category_id === 'nochoose') {
                     document.getElementById('err').innerText = 'Bạn chưa chọn thể loại';
                     return;
@@ -386,13 +387,13 @@
                     return;
                 }
                 document.getElementById('category_id').value = category_id;
-                if(document.getElementById('err').innerText.length > 0){
+                if (document.getElementById('err').innerText.length > 0) {
                     return;
                 }
                 form.submit();
             }
 
-            function checkedRadio() {
+            function categoryChecked() {
                 let input = document.querySelectorAll('#list_categories input');
                 for (let i = 0; i < input.length; i++) {
                     if (input[i].checked) {
@@ -401,25 +402,20 @@
                 }
                 return 'nochoose';
             }
+            
+            function changeCategory(){
+                document.getElementById('list_flashcards').innerText='';
+            }
 
-            function deleteFL(position, id) {
+            function deleteFlashCard(position, id) {
                 position.parentNode.parentNode.remove();
                 let arr = flashCardChoose.filter((item) => item !== id);
                 flashCardChoose = arr;
                 sendFlashCardId();
             }
 
-            let choose_category_id = 0;
-            function categoryChecked(position) {
-                choose_category_id = +position.value;
-                let choose_name = position.parentNode.querySelector('label').innerText;
-                document.getElementById('search_flashcard').placeholder = 'câu hỏi ' + choose_name;
-                document.getElementById('list_flashcards').innerText = '';
-                flashCardChoose = [0];
-
-            }
-
             function searchFlashCard(position) {
+                let choose_category_id = categoryChecked();
                 let value = position.value;
                 if (value.trim().length === 0) {
                     document.getElementById('itemList').style.display = 'none';
@@ -461,7 +457,6 @@
 
             document.addEventListener('click', function (event) {
                 const myDiv = document.getElementById('formSearchFlashCard');
-
                 // Check if the click was outside the 'myDiv' element
                 if (!myDiv.contains(event.target)) {
                     document.getElementById('itemList').style.display = 'none';
@@ -469,6 +464,7 @@
             });
 
             function addRandom() {
+                let choose_category_id = categoryChecked();
                 let random = document.getElementById('random_number').value;
                 if (random.length > 0) {
                     $.ajax({
@@ -526,7 +522,7 @@
                         url: "/SWP391/mentor/add-course?service=checkNameCourse&name=" + name,
                         type: "POST",
                         success: async function (data) {
-                            if (data.length > 0){
+                            if (data.length > 0) {
                                 document.getElementById('err').innerText = data;
                             }
                         },
@@ -534,11 +530,10 @@
 
                         }
                     });
-                }
-                else{
+                } else {
                     document.getElementById('err').innerText = '';
                 }
-                
+
             }
         </script>
 
