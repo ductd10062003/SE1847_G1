@@ -186,9 +186,10 @@ insert into Course(course_name,[description],create_at,update_at,active,created_
 values (N'Cơ thể con người bài 1', N'Các bộ phận cơ bản trên cơ thể con người phần 1',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,21,1),
 	(N'Cơ thể con người bài 2', N'Các bộ phận cơ bản trên cơ thể con người phần 2',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,22,1),
 	(N'Cơ thể con người bài 3', N'Tổng hợp các bài cơ thể con người',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,22,1),
-	(N'Quần áo bài 1', N'Quần áo cho nam bài 1',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,21,1),
-	(N'Quần áo bài 2', N'Quần áo cho nam bài 2',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,22,1),
-	(N'Quần áo bài 3', N'Tổng hợp các bài quần áo',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,22,1)
+	(N'Quần áo bài 1', N'Quần áo cho nam bài 1',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,21,2),
+	(N'Quần áo bài 2', N'Quần áo cho nam bài 2',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,22,2),
+	(N'Quần áo bài 3', N'Tổng hợp các bài quần áo',CAST(GETDATE() AS DATE),CAST(GETDATE() AS DATE),1,22,2)
+
 
 -- Tạo quiz =============
 insert into Quiz(course_id, flashcard_id)
@@ -200,7 +201,11 @@ values (1, 1),(1,2),(1,3),(1, 4),(1, 5),(1, 6),(1, 7),(1,8),(1,9),(1, 10),(1, 11
 	(5,26),(5,27),(5,28),(5,29),(5,30),(5,31),(5,32),(5,33)
 
 
-//them anh và db cho errorl_course
+insert into Type_Of_Practice(TOP_name,active)
+values (N'Trắc nghiệm',1),
+	(N'Điền chữ',1),
+	(N'Nối thẻ',1)
+
 
 INSERT INTO [dbo].[User_Enroll_Course]
            ([user_id]
@@ -228,5 +233,4 @@ INSERT INTO [dbo].[User_Enroll_Course]
 	 --(3 cai 2, 3 cai 3, 4 cai 4, 4 cai 1, 1 cai 5, 2 cai 6)
 	 ALTER TABLE Course
      ADD image nvarchar(500) NULL;
-
 	
