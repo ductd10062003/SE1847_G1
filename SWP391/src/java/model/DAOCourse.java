@@ -75,6 +75,7 @@ public class DAOCourse extends DBConnect {
         }
         return vector;
     }
+<<<<<<< HEAD
     
     public int createCourse(Course course){
         String sql = "insert into Course(course_name,[description],create_at,update_at,active,created_by, category_id)"
@@ -127,4 +128,6 @@ public class DAOCourse extends DBConnect {
         
         return course;
     }
+=======
+>>>>>>> 22527053b26e99559338236e935049b3815b7dbc
 }
