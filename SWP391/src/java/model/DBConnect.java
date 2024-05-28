@@ -2,6 +2,7 @@ package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 
 public class DBConnect{
@@ -12,8 +13,7 @@ public class DBConnect{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             //connection
             conn = DriverManager.getConnection(url, username, password);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException | SQLException e) {
         }
     }
     

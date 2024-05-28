@@ -114,6 +114,10 @@ public class Course {
     public String toString() {
         return "Course{" + "course_id=" + course_id + ", course_name=" + course_name + ", description=" + description + ", created_at=" + created_at + ", update_at=" + update_at + ", active=" + active + ", created_by=" + created_by + ", category_id=" + category_id + '}';
     }
+
+    public boolean isEmpty() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     
     

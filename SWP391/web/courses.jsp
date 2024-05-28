@@ -3,13 +3,16 @@
     Created on : 28 May 2024, 19:23:07
     Author     : DAT
 --%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
         <title>Academics &mdash; Website by Colorlib</title>
-        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
@@ -123,7 +126,7 @@
                     <div class="row align-items-end">
                         <div class="col-lg-7">
                             <h class="mb-0">Courses</h1>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
                         </div>
                     </div>
                 </div>
@@ -137,81 +140,76 @@
                     <span class="current">Courses</span>
                 </div>
             </div>
+            <div>
+                <div class="row">
+                    <div class="col-3 overflow-x">
+                        <div class="card">
+                            <div class="card-header">Course name</div>
+                            <div class="card-body">
+                                <div class="input-group mb-3">
+                                    <button
+                                        class="btn btn-outline-secondary"
+                                        type="button"
+                                        id="button-addon1"
+                                        >
+                                        TÃ¬m kiáº¿m
+                                    </button>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder=""
+                                        aria-label="Example text with button addon"
+                                        aria-describedby="button-addon1"
+                                        oninput="serchCourse(this)"
+                                        />
+                                </div>
+                                <!-- form check radio -->
+
+                                <form action="search-course" method="POST" id="formSubmit">
+                                    <div id="list_courses">
+                                        <c:forEach items="${requestScope.course}" var="course">
+                                            <div class="form-check">
+                                                <input
+                                                    required
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    name="course"
+                                                    id="course"
+                                                    value="${course.course_id}"                                                               
+                                                    />
+                                                <label
+                                                    class="form-check-label"
+                                                    for="course"
+                                                    >
+                                                    ${course.course_name}
+                                                </label>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>     
 
             <div class="site-section">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="course-1-item">
-                                <figure class="thumnail">
-                                    <div class="course"><h3>${requestScope.course.course_name}</h3></div>  
-                                </figure>
-                                <div class="course-1-content pb-4">
-                                    <h2>Các b? ph?n c? b?n trên c? th? con ng??i ph?n 1</h2>
-                                    <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">Enroll In This Course</a></p>                               
+                        
+                            <c:forEach items="${requestScope.course}" var="course">
+                                <div class="col-lg-4 col-md-6 mb-4">
+                                    <div class="course-1-item">
+                                        <figure class="thumnail">
+                                            <div class="category"><h3>${course.course_name}</h3></div>  
+                                        </figure>
+                                        <div class="course-1-content pb-4">
+                                            <h2>${course.description}</h2>
+                                            <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">Enroll In This Course</a></p>                               
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="course-1-item">
-                                <figure class="thumnail">
-                                    <div class="category"><h3>C? th? con ng??i bài 2</h3></div>  
-                                </figure>
-                                <div class="course-1-content pb-4">
-                                    <h2>Các b? ph?n c? b?n trên c? th? con ng??i ph?n 2</h2>
-                                    <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">Enroll In This Course</a></p>                               
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="course-1-item">
-                                <figure class="thumnail">
-                                    <div class="category"><h3>C? th? con ng??i bài 3</h3></div>  
-                                </figure>
-                                <div class="course-1-content pb-4">
-                                    <h2>Các b? ph?n c? b?n trên c? th? con ng??i ph?n 3</h2>
-                                    <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">Enroll In This Course</a></p>                               
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="course-1-item">
-                                <figure class="thumnail">
-                                    <div class="category"><h3>Qu?n áo bài 1</h3></div>  
-                                </figure>
-                                <div class="course-1-content pb-4">
-                                    <h2>Qu?n áo cho nam bài 1</h2>
-                                    <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">Enroll In This Course</a></p>                               
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="course-1-item">
-                                <figure class="thumnail">
-                                    <div class="category"><h3>Qu?n áo bài 2</h3></div>  
-                                </figure>
-                                <div class="course-1-content pb-4">
-                                    <h2>Qu?n áo cho nam bài 2</h2>
-                                    <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">Enroll In This Course</a></p>                               
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="course-1-item">
-                                <figure class="thumnail">
-                                    <div class="category"><h3>Qu?n áo bài 3</h3></div>  
-                                </figure>
-                                <div class="course-1-content pb-4">
-                                    <h2>T?ng h?p các bài qu?n áo</h2>
-                                    <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">Enroll In This Course</a></p>                               
-                                </div>
-                            </div>
-                        </div>
+                            </c:forEach>                  
                     </div>
                 </div>
             </div>
