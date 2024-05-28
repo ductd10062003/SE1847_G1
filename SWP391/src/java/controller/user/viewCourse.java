@@ -57,33 +57,33 @@ public class viewCourse extends HttpServlet {
         if (service != null && service.trim().length() > 0) {
             switch (service) {
                 case "searchCourse":
-                    searchCourse(request, response);
+                    //searchCourse(request, response);
                     return;            
             }
         }
     }
-    private void searchCourse(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String searchValue = request.getParameter("category_name").trim();
-        Course course = daoCourse.getCourseByName(searchValue);
-        if (course != null) {
-            for (Course c : course) {
-                response.getWriter().print("<div class=\"form-check\">\n"
-                        + "                                                        <input\n"
-                        + "                                                            class=\"form-check-input\"\n"
-                        + "                                                            type=\"radio\"\n"
-                        + "                                                            name=\"category\"\n"
-                        + "                                                            id=\"flexRadioDefault1\"\n"
-                        + "                                                            value=\"" + c.getCourse_id() + "\"\n"
-                        + "                                                            />\n"
-                        + "                                                        <label\n"
-                        + "                                                            class=\"form-check-label\"\n"
-                        + "                                                            for=\"category\"\n"
-                        + "                                                            >\n"
-                        + "                                                            " + c.getCourse_name() + "\n"
-                        + "                                                        </label>\n"
-                        + "                                                    </div>");
-            }
-        }
-    }
+//    private void searchCourse(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//        String searchValue = request.getParameter("category_name").trim();
+//        Course course = daoCourse.getCourseByName(searchValue);
+//        if (course != null) {
+//            for (Course c : course) {
+//                response.getWriter().print("<div class=\"form-check\">\n"
+//                        + "                                                        <input\n"
+//                        + "                                                            class=\"form-check-input\"\n"
+//                        + "                                                            type=\"radio\"\n"
+//                        + "                                                            name=\"category\"\n"
+//                        + "                                                            id=\"flexRadioDefault1\"\n"
+//                        + "                                                            value=\"" + c.getCourse_id() + "\"\n"
+//                        + "                                                            />\n"
+//                        + "                                                        <label\n"
+//                        + "                                                            class=\"form-check-label\"\n"
+//                        + "                                                            for=\"category\"\n"
+//                        + "                                                            >\n"
+//                        + "                                                            " + c.getCourse_name() + "\n"
+//                        + "                                                        </label>\n"
+//                        + "                                                    </div>");
+//            }
+//        }
+//    }
 }
