@@ -43,31 +43,35 @@ public class viewCourse extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        ArrayList<Course> list = daoCourse.getAllCourses();       
-        request.setAttribute("course", list);
-        ArrayList<Category> category = daoCategory.getAllCategories();
-        request.setAttribute("category", category);
-        
-        int page,numberpage=3;
-        int size=list.size();
-        int num=(size%3==0?(size/3):((size/3)+1));
-        String xpage=request.getParameter("page");
-        if(xpage==null){
-            page=1;
-        }else{
-            page=Integer.parseInt(xpage);
+    private void paging(HttpServletRequest request, ArrayList<Course> list) {
+
+        int page, numberpage = 3;
+        int size = list.size();
+        int num = (size % 3 == 0 ? (size / 3) : ((size / 3) + 1));
+        String xpage = request.getParameter("page");
+        if (xpage == null) {
+            page = 1;
+        } else {
+            page = Integer.parseInt(xpage);
         }
-        int start,end;
-        start=(page-1)*numberpage;
-        end=Math.min(page*numberpage,size);
-        ArrayList<Course> course=daoCourse.getListByCourse(list,start,end);      
+        int start, end;
+        start = (page - 1) * numberpage;
+        end = Math.min(page * numberpage, size);
+        ArrayList<Course> course = daoCourse.getListByCourse(list, start, end);
         request.setAttribute("course", course);
         request.setAttribute("page", page);
         request.setAttribute("num", num);
+    }
 
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ArrayList<Course> list = daoCourse.getAllCourses();
+        request.setAttribute("course", list);
+        ArrayList<Category> category = daoCategory.getAllCategories();
+        request.setAttribute("category", category);
+
+        paging(request, list);
         request.getRequestDispatcher("/courses.jsp").forward(request, response);
     }
 
@@ -75,13 +79,30 @@ public class viewCourse extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        String search = request.getParameter("course_name").trim();
+        String search = request.getParameter("course_name");
         System.out.println(search);
-        
+
         if (search != null) {
+            search = search.trim();
             ArrayList<Course> course = daoCourse.getCourseByName(search);
             request.setAttribute("course", course);
-        }   
+        }
+        String searchById = request.getParameter("category");
+        System.out.println(searchById);
+        if (searchById != null) {
+            searchById = searchById.trim();
+            ArrayList<Course> listcourse = new ArrayList<>();
+            try {
+                listcourse = daoCourse.getCouseByCategoryID(searchById);
+                paging(request, listcourse);
+            } catch (Exception e) {
+                System.err.println("Y");
+            }
+            request.setAttribute("course", listcourse);
+        }
+        ArrayList<Category> category = daoCategory.getAllCategories();
+        request.setAttribute("category", category);
+        request.setAttribute("category_id", searchById);
         request.setAttribute("course_name", search);
         request.getRequestDispatcher("/courses.jsp").forward(request, response);
     }

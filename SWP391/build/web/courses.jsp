@@ -147,13 +147,15 @@
                         <div class="card-header">Category</div>
                         <div class="card-body">
                             <div>
-                                <form action="filterCategory" method="POST">
-                                    <input class = "searchBox" type="text" name ="course_name" size="15">
-                                    <input class = "searchButton" type="submit" name ="category" value="Search">
+                                <form action="viewcourse" method="POST">
+                                    <input class = "searchButton" type="submit" name ="filter">
                                     <div id="list_categories">
                                         <c:forEach items="${requestScope.category}" var="category">
                                             <div class="form-check">
                                                 <input
+                                                    <c:if test="${category.category_id == requestScope.category_id}">
+                                                        checked
+                                                    </c:if>
                                                     class="form-check-input"
                                                     type="radio"
                                                     name="category"                                            

@@ -58,7 +58,7 @@ public class DAOCourse extends DBConnect {
       
     public ArrayList<Course> getCouseByCategoryID(String category_id) {
         ArrayList<Course> course = new ArrayList<>();
-        String sql = "  select category_name,description from Category ca INNER Join Course c on ca.category_id = c.category_id\n"
+        String sql = "  select course_name,description from Category ca INNER Join Course c on ca.category_id = c.category_id\n"
                 + "  where c.category_id = ?";   
         try {
             PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
