@@ -7,32 +7,6 @@
 -- use SWP_G1_V2select * from [User]
 use SWP_G1_V2
 
--- Drop Foreign Key Constraints
-IF OBJECT_ID('FK_User_Practice_User', 'F') IS NOT NULL ALTER TABLE User_Practice DROP CONSTRAINT FK_User_Practice_User;
-IF OBJECT_ID('FK_User_Practice_Course', 'F') IS NOT NULL ALTER TABLE User_Practice DROP CONSTRAINT FK_User_Practice_Course;
-IF OBJECT_ID('FK_User_Practice_Type_Of_Practice', 'F') IS NOT NULL ALTER TABLE User_Practice DROP CONSTRAINT FK_User_Practice_Type_Of_Practice;
-IF OBJECT_ID('FK_User_Enroll_Course_User', 'F') IS NOT NULL ALTER TABLE User_Enroll_Course DROP CONSTRAINT FK_User_Enroll_Course_User;
-IF OBJECT_ID('FK_User_Enroll_Course_Course', 'F') IS NOT NULL ALTER TABLE User_Enroll_Course DROP CONSTRAINT FK_User_Enroll_Course_Course;
-IF OBJECT_ID('FK_Course_Category', 'F') IS NOT NULL ALTER TABLE Course DROP CONSTRAINT FK_Course_Category;
-IF OBJECT_ID('FK_Flashcard_Category', 'F') IS NOT NULL ALTER TABLE Flashcard DROP CONSTRAINT FK_Flashcard_Category;
-IF OBJECT_ID('FK_Quiz_Course', 'F') IS NOT NULL ALTER TABLE Quiz DROP CONSTRAINT FK_Quiz_Course;
-IF OBJECT_ID('FK_Quiz_Flashcard', 'F') IS NOT NULL ALTER TABLE Quiz DROP CONSTRAINT FK_Quiz_Flashcard;
-IF OBJECT_ID('FK_Comment_User', 'F') IS NOT NULL ALTER TABLE Comment DROP CONSTRAINT FK_Comment_User;
-IF OBJECT_ID  ('FK_Reply_Comment', 'F') IS NOT NULL ALTER TABLE Reply DROP CONSTRAINT FK_Reply_Comment;
-
--- Drop tables if they exist
-IF OBJECT_ID('User_Enroll_Course', 'U') IS NOT NULL DROP TABLE User_Enroll_Course;
-IF OBJECT_ID('User_Practice', 'U') IS NOT NULL DROP TABLE User_Practice;
-IF OBJECT_ID('Quiz', 'U') IS NOT NULL DROP TABLE Quiz;
-IF OBJECT_ID('Comment', 'U') IS NOT NULL DROP TABLE Comment;
-IF OBJECT_ID('Reply', 'U') IS NOT NULL DROP TABLE Reply;
-IF OBJECT_ID('Result_Detail', 'U') IS NOT NULL DROP TABLE Result_Detail;
-IF OBJECT_ID('Message', 'U') IS NOT NULL DROP TABLE Message;
-IF OBJECT_ID('Flashcard', 'U') IS NOT NULL DROP TABLE Flashcard;
-IF OBJECT_ID('Course', 'U') IS NOT NULL DROP TABLE Course;
-IF OBJECT_ID('Category', 'U') IS NOT NULL DROP TABLE Category;
-IF OBJECT_ID('Type_Of_Practice', 'U') IS NOT NULL DROP TABLE Type_Of_Practice;
-IF OBJECT_ID('[User]', 'U') IS NOT NULL DROP TABLE [User];
 CREATE TABLE Category (
   category_id      int IDENTITY NOT NULL, 
   category_name    nvarchar(500) NOT NULL UNIQUE, 
