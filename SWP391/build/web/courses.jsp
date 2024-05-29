@@ -142,11 +142,11 @@
             </div>
             <div>
                 <div class="row">
-                    <div class="col-3 overflow-x">
+                    <div>
                         <div class="card">
                             <div class="card-header">Course name</div>
                             <div class="card-body">
-                                <div class="input-group mb-3">
+                                <div>
                                     <form action="viewcourse" method="POST">
                                         <input class = "searchBox" type="text" name ="course_name" size="15" required>
                                         <input class = "searchButton" type="submit" name ="btnGo" value="Tìm Kiếm">
