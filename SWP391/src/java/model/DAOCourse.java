@@ -56,13 +56,13 @@ public class DAOCourse extends DBConnect {
         return course;
     }
       
-    public ArrayList<Course> getCouseByCategoryID(int category_id) {
+    public ArrayList<Course> getCouseByCategoryID(String category_id) {
         ArrayList<Course> course = new ArrayList<>();
         String sql = "  select category_name,description from Category ca INNER Join Course c on ca.category_id = c.category_id\n"
                 + "  where c.category_id = ?";   
         try {
             PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ps.setInt(1, category_id);
+            ps.setString(1, category_id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 course.add(new Course(rs.getString(1), rs.getString(2)));

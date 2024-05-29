@@ -148,7 +148,7 @@
                         <div class="card-body">
                             <div>
                                 <form action="filterCategory" method="POST">
-                                    <!--<input class = "searchBox" type="text" name ="course_name" size="15">-->
+                                    <input class = "searchBox" type="text" name ="course_name" size="15">
                                     <input class = "searchButton" type="submit" name ="category" value="Search">
                                     <div id="list_categories">
                                         <c:forEach items="${requestScope.category}" var="category">
@@ -178,7 +178,6 @@
                     </div>
                 </div>
             </div>
-
 
             <div class="pagination justify-content-center">
                 <div class="row">
@@ -213,7 +212,16 @@
                                     </div>
                                 </div>
                             </div>
-                        </c:forEach>                  
+                        </c:forEach>    
+                        <div class="text-center" style="display: inline-block; margin-right:auto; width: 100%">
+                            <c:forEach begin="${1}" end="${requestScope.num}" var="i">
+                                <a style='text-decoration: none; color: white;' href="viewcourse?page=${i}">
+                                    <button style='margin-right: 1px;' class="btn btn-outline-dark ${i == page ? "active" : ""}">
+                                        ${i}
+                                    </button>
+                                </a>
+                            </c:forEach>
+                        </div>
                     </div>
                 </div>
             </div>
