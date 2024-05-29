@@ -5,15 +5,19 @@
 
 package controller;
 
-import entity.User;
+import controller.encrypt.Password;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.DAOUser;
+import entity.User;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 /**
  *
@@ -36,7 +40,8 @@ public class login extends HttpServlet {
     throws ServletException, IOException {
         //check if the user logged on already
         if(request.getSession().getAttribute("user") != null){
-            response.sendRedirect("home");
+            //logout
+            request.getSession().removeAttribute("user");
         }else{
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
@@ -67,12 +72,16 @@ public class login extends HttpServlet {
             if(username != null && password != null){
                 User user = new DAOUser().getUserByUsername(username);
                 if(user != null){
-                    if(user.getPassword().equals(password)){
-                        request.getSession().setAttribute("user", user);
-                        response.sendRedirect("course-detail");
-                    }else{
-                        request.getSession().setAttribute("error", "Username or password is incorrect");
-                        request.getRequestDispatcher("login.jsp").forward(request, response);
+                    try {
+                        if(Password.validatePassword(password, user.getPassword())){
+                            request.getSession().setAttribute("user", user);
+                            response.sendRedirect("course-detail");
+                        }else{
+                            request.getSession().setAttribute("error", "Username or password is incorrect");
+                            request.getRequestDispatcher("login.jsp").forward(request, response);
+                        }
+                    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                        throw new RuntimeException(e);
                     }
                 }else{
                     request.getSession().setAttribute("error", "Username or password is incorrect");
