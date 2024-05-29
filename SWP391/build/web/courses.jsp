@@ -147,69 +147,55 @@
                             <div class="card-header">Course name</div>
                             <div class="card-body">
                                 <div class="input-group mb-3">
-                                    <button
-                                        class="btn btn-outline-secondary"
-                                        type="button"
-                                        id="button-addon1"
-                                        >
-                                        Tìm kiếm
-                                    </button>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        placeholder=""
-                                        aria-label="Example text with button addon"
-                                        aria-describedby="button-addon1"
-                                        oninput="serchCourse(this)"
-                                        />
+                                    <form action="viewcourse" method="POST">
+                                        <input class = "searchBox" type="text" name ="course_name" size="15" required>
+                                        <input class = "searchButton" type="submit" name ="btnGo" value="Tìm Kiếm">
+                                    </form>
                                 </div>
-                                <!-- form check radio -->
-
-                                <form action="search-course" method="POST" id="formSubmit">
-                                    <div id="list_courses">
-                                        <c:forEach items="${requestScope.course}" var="course">
-                                            <div class="form-check">
-                                                <input
-                                                    required
-                                                    class="form-check-input"
-                                                    type="radio"
-                                                    name="course"
-                                                    id="course"
-                                                    value="${course.course_id}"                                                               
-                                                    />
-                                                <label
-                                                    class="form-check-label"
-                                                    for="course"
-                                                    >
-                                                    ${course.course_name}
-                                                </label>
-                                            </div>
-                                        </c:forEach>
-                                    </div>
-                                </form>
+                                <!-- form check radio -->      
+                                <div>
+                                    <c:forEach items="${requestScope.course}" var="course">
+                                        <div class="form-check">
+                                            <input
+                                                required
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="course"
+                                                id="course"
+                                                value="${course.course_id}"                                                               
+                                                />
+                                            <label
+                                                class="form-check-label"
+                                                for="course"
+                                                >
+                                                ${course.course_name}
+                                            </label>
+                                        </div>
+                                    </c:forEach>
+                                </div>     
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>     
+            </div>    
 
             <div class="site-section">
                 <div class="container">
                     <div class="row">
-                        
-                            <c:forEach items="${requestScope.course}" var="course">
-                                <div class="col-lg-4 col-md-6 mb-4">
-                                    <div class="course-1-item">
-                                        <figure class="thumnail">
-                                            <div class="category"><h3>${course.course_name}</h3></div>  
-                                        </figure>
-                                        <div class="course-1-content pb-4">
-                                            <h2>${course.description}</h2>
-                                            <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">Enroll In This Course</a></p>                               
-                                        </div>
+
+                        <c:forEach items="${requestScope.course}" var="course">
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="course-1-item">
+                                    <figure class="thumnail">
+                                        <div class="category"><h3>${course.course_name}</h3></div>  
+                                    </figure>
+                                    <div class="course-1-content pb-4">
+                                        <h2>${course.description}</h2>
+                                        <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">Enroll In This Course</a></p>                               
                                     </div>
                                 </div>
-                            </c:forEach>                  
+                            </div>
+                        </c:forEach>                  
                     </div>
                 </div>
             </div>
@@ -294,8 +280,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
         <!-- .site-wrap -->
 

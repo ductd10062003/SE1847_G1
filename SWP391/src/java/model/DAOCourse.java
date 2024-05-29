@@ -41,10 +41,10 @@ public class DAOCourse extends DBConnect {
     }
     public Course getCourseByName(String course_name){
         Course course = new Course();
-        String sql = "select * from [course] where course_name = ?";
+        String sql = "select * from [course] where course_name like ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ps.setString(1, course_name);
+            ps.setString(1, "%"+course_name+"%");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 course = new Course(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));

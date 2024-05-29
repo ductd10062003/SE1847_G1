@@ -5,17 +5,9 @@
         <servlet-class>controller.login</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>NewServlet</servlet-name>
-        <servlet-class>controller.user.NewServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>viewcourse</servlet-name>
         <servlet-class>controller.user.viewCourse</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>NewServlet</servlet-name>
-        <url-pattern>/NewServlet</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>viewcourse</servlet-name>
         <url-pattern>/viewcourse</url-pattern>
