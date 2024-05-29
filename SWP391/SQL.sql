@@ -6,6 +6,7 @@
 --create database SWP_G1_V2
 -- use SWP_G1_V2select * from [User]
 use SWP_G1_V2
+
 -- Drop Foreign Key Constraints
 IF OBJECT_ID('FK_User_Practice_User', 'F') IS NOT NULL ALTER TABLE User_Practice DROP CONSTRAINT FK_User_Practice_User;
 IF OBJECT_ID('FK_User_Practice_Course', 'F') IS NOT NULL ALTER TABLE User_Practice DROP CONSTRAINT FK_User_Practice_Course;

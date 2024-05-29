@@ -1,7 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8ed6dd03-dd3e-4933-a861-289b734f88ef" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
   <component name="ComposerSettings">
     <execution />
   </component>
-  <component name="PropertiesComponent">{}</component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "last_opened_file_path": "E:/University stuff/Woking stuff/Cuong-SWD-Assignment/SE1847_G1/SWP391"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391" />
+      <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\web" />
+      <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\src\java\model" />
+      <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\src\java\controller" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="SWP391" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="SWP391" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
 </project>
