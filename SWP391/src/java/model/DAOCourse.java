@@ -1,5 +1,6 @@
 package model;
 
+import entity.Category;
 import entity.Course;
 import java.util.Vector;
 import java.sql.PreparedStatement;
@@ -39,21 +40,39 @@ public class DAOCourse extends DBConnect {
         }
         return course;
     }
-    public Course getCourseByName(String course_name){
-        Course course = new Course();
-        String sql = "select * from [course] where course_name like ?";
+    public ArrayList<Course> getCourseByName(String course_name){
+        ArrayList<Course> course = new  ArrayList<>();
+        String sql = "select course_name,description from [course] where course_name like ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ps.setString(1, "%"+course_name+"%");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                course = new Course(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
+                course.add(new Course(rs.getString(1), rs.getString(2)));
             }
         } catch (Exception e) {
-            return null;
+            System.out.println(e);
         }
         return course;
     }
+      
+    public ArrayList<Course> getCouseByCategoryID(int category_id) {
+        ArrayList<Course> course = new ArrayList<>();
+        String sql = "  select category_name,description from Category ca INNER Join Course c on ca.category_id = c.category_id\n"
+                + "  where c.category_id = ?";   
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setInt(1, category_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                course.add(new Course(rs.getString(1), rs.getString(2)));
+            }
+        } catch (Exception e) {
+          System.out.println(e);
+        }
+        return course;
+    }
+    
     public Vector<Course> getCoursesOutstanding() {
         Vector<Course> vector = new Vector<>();
         String sql = "SELECT TOP 5 \n"
@@ -91,5 +110,12 @@ public class DAOCourse extends DBConnect {
             return null;
         }
         return vector;
+    }
+    public ArrayList<Course> getListByCourse(ArrayList<Course> list,int start,int end){
+        ArrayList<Course> arr = new ArrayList<>();
+        for(int i = start;i<end;i++){
+            arr.add(list.get(i));
+        }
+        return arr;
     }
 }

@@ -8,8 +8,24 @@
         <servlet-name>viewcourse</servlet-name>
         <servlet-class>controller.user.viewCourse</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>testCategory</servlet-name>
+        <servlet-class>controller.user.testCategory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>filterCategory</servlet-name>
+        <servlet-class>controller.user.filterCategory</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>viewcourse</servlet-name>
         <url-pattern>/viewcourse</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>testCategory</servlet-name>
+        <url-pattern>/testCategory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>filterCategory</servlet-name>
+        <url-pattern>/filterCategory</url-pattern>
     </servlet-mapping>
 </web-app>

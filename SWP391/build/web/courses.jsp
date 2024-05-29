@@ -139,40 +139,59 @@
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
                     <span class="current">Courses</span>
                 </div>
+            </div>         
+
+            <div class="row">
+                <div>
+                    <div class="card">
+                        <div class="card-header">Category</div>
+                        <div class="card-body">
+                            <div>
+                                <form action="filterCategory" method="POST">
+                                    <!--<input class = "searchBox" type="text" name ="course_name" size="15">-->
+                                    <input class = "searchButton" type="submit" name ="category" value="Search">
+                                    <div id="list_categories">
+                                        <c:forEach items="${requestScope.category}" var="category">
+                                            <div class="form-check">
+                                                <input
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    name="category"                                            
+                                                    value="${category.category_id}"
+                                                    onclick="changeCategory()"
+                                                    />
+                                                <label
+                                                    class="form-check-label"
+                                                    for="category"
+                                                    >
+                                                    ${category.category_name}
+                                                </label>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                    <input type="hidden" name="data_flashcards" id="data_flashcards"/>
+                                    <input type="hidden" name="category_id" id="data_category_id"/>
+                                    <input type="hidden" name="service" value="createFlashCard" />
+                                </form>
+                            </div>                             
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
+
+
+            <div class="pagination justify-content-center">
                 <div class="row">
                     <div>
                         <div class="card">
                             <div class="card-header">Course name</div>
                             <div class="card-body">
                                 <div>
-                                    <form action="viewcourse" method="POST">
+                                    <form action="viewcourse" method="post">
                                         <input class = "searchBox" type="text" name ="course_name" size="15" required>
-                                        <input class = "searchButton" type="submit" name ="btnGo" value="Tìm Kiếm">
+                                        <input class = "searchButton" type="submit" name ="btnGo" value="Search">
                                     </form>
-                                </div>
-                                <!-- form check radio -->      
-                                <div>
-                                    <c:forEach items="${requestScope.course}" var="course">
-                                        <div class="form-check">
-                                            <input
-                                                required
-                                                class="form-check-input"
-                                                type="radio"
-                                                name="course"
-                                                id="course"
-                                                value="${course.course_id}"                                                               
-                                                />
-                                            <label
-                                                class="form-check-label"
-                                                for="course"
-                                                >
-                                                ${course.course_name}
-                                            </label>
-                                        </div>
-                                    </c:forEach>
-                                </div>     
+                                </div>                             
                             </div>
                         </div>
                     </div>
@@ -182,7 +201,6 @@
             <div class="site-section">
                 <div class="container">
                     <div class="row">
-
                         <c:forEach items="${requestScope.course}" var="course">
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="course-1-item">
@@ -199,6 +217,8 @@
                     </div>
                 </div>
             </div>
+
+
 
             <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
                 <div class="container">

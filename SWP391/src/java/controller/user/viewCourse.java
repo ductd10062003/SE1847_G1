@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import model.DAOCategory;
 import model.DAOCourse;
@@ -30,7 +31,7 @@ import model.DAOUser;
 public class viewCourse extends HttpServlet {
 
     private DAOCourse daoCourse = new DAOCourse();
-    private boolean checkDuplicate = false;
+    public boolean checkDuplicate = false;
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -44,19 +45,40 @@ public class viewCourse extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Course> course = daoCourse.getAllCourses();
-        System.out.println(course);
-        request.setAttribute("course", course);
+        ArrayList<Course> list = daoCourse.getAllCourses();       
+        request.setAttribute("course", list);
         request.getRequestDispatcher("/courses.jsp").forward(request, response);
+//        int page,numberpage=4;
+//        int size=list.size();
+//        int num=(size%4==0?(size/4):((size/4)+1));
+//        String xpage=request.getParameter("page");
+//        if(xpage==null){
+//            page=1;
+//        }else{
+//            page=Integer.parseInt(xpage);
+//        }
+//        int start,end;
+//        start=(page-1)*numberpage;
+//        end=Math.min(page*numberpage,size);
+//        ArrayList<Course> course=daoCourse.getListByCourse(list,start,end);      
+//        request.setAttribute("date", course);
+//        request.setAttribute("page", page);
+//        request.setAttribute("num", num);
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        String course_name = request.getParameter("course_name");
-        System.out.println(course_name);
-        request.setAttribute("course", daoCourse.getCourseByName(course_name));
+        String search = request.getParameter("course_name").trim();
+        System.out.println(search);
+        
+        if (search != null) {
+            ArrayList<Course> course = daoCourse.getCourseByName(search);
+            request.setAttribute("course", course);
+        }   
+        request.setAttribute("course_name", search);
         request.getRequestDispatcher("/courses.jsp").forward(request, response);
     }
 }
