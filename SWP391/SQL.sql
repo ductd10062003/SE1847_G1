@@ -18,7 +18,7 @@ IF OBJECT_ID('FK_Flashcard_Category', 'F') IS NOT NULL ALTER TABLE Flashcard DRO
 IF OBJECT_ID('FK_Quiz_Course', 'F') IS NOT NULL ALTER TABLE Quiz DROP CONSTRAINT FK_Quiz_Course;
 IF OBJECT_ID('FK_Quiz_Flashcard', 'F') IS NOT NULL ALTER TABLE Quiz DROP CONSTRAINT FK_Quiz_Flashcard;
 IF OBJECT_ID('FK_Comment_User', 'F') IS NOT NULL ALTER TABLE Comment DROP CONSTRAINT FK_Comment_User;
-IF OBJECT_ID('FK_Reply_Comment', 'F') IS NOT NULL ALTER TABLE Reply DROP CONSTRAINT FK_Reply_Comment;
+IF OBJECT_ID  ('FK_Reply_Comment', 'F') IS NOT NULL ALTER TABLE Reply DROP CONSTRAINT FK_Reply_Comment;
 
 -- Drop tables if they exist
 IF OBJECT_ID('User_Enroll_Course', 'U') IS NOT NULL DROP TABLE User_Enroll_Course;
