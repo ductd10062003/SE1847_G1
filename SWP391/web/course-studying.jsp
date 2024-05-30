@@ -191,23 +191,23 @@
                                     </div>
                                 </c:forEach>    
 
-                                <!--                        <div class="text-center" style="display: inline-block; margin-right:auto; width: 100%">
-                                <c:forEach begin="${1}" end="${requestScope.num}" var="i">
-                                    <a style='text-decoration: none; color: white;' href="viewcourse?page=${i}">
-                                        <button style='margin-right: 1px;' class="btn btn-outline-dark ${i == page ? "active" : ""}">
-                                    ${i}
-                                </button>
-                            </a>
-                                </c:forEach>
-                            </div>-->
+                               
 
                             </div>
 
-                            <div class="row">
-                                <div class="col-12 text-center">
-                                    <button class="btn btn-primary load-more">Load More</button>
-                                </div>
+                             <div class="row">
+                            <div class="col-12 text-center">
+                                <nav>
+                                    <ul class="pagination">
+                                        <c:forEach var="i" begin="1" end="${totalPages}">
+                                            <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                                <a class="page-link" href="courseStudying?page=${i}&categoryName=${param.categoryName}&courseName=${param.courseName}">${i}</a>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </nav>
                             </div>
+                        </div>
 
                         </div>
                     </div>

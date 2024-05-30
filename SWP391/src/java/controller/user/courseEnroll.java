@@ -62,7 +62,7 @@ public class courseEnroll extends HttpServlet {
             courses = daoCourse.searchUserEnrollCourse(user_id, offset, ITEMS_PER_PAGE);;
         }
         
-        int totalCourses = daoCourse.getAllCourses().size();
+        int totalCourses = daoCourse.countUserEnrollCourses(user_id);
         int totalPages = (int) Math.ceil((double) totalCourses / ITEMS_PER_PAGE);
          
         request.setAttribute("categories", categories);

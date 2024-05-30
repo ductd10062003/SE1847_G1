@@ -22,7 +22,8 @@ import model.DAOCategory;
 
 @WebServlet(name="courseCompleted", urlPatterns={"/courseCompleted"})
 public class courseCompleted extends HttpServlet {
-   
+    
+    private static final int ITEMS_PER_PAGE = 6;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
@@ -45,20 +46,28 @@ public class courseCompleted extends HttpServlet {
         
         String courseName = request.getParameter("courseName");
         String categoryName = request.getParameter("categoryName");
+        String pageStr = request.getParameter("page");
+        int page = (pageStr == null || pageStr.isEmpty()) ? 1 : Integer.parseInt(pageStr);
+        int offset = (page - 1) * ITEMS_PER_PAGE;
         
          if (courseName != null && !courseName.isEmpty()) {
             // Lọc theo tên khóa học nếu có
-            courses = daoCourse.searchCompletedCoursesByName(user_id, courseName);
+            courses = daoCourse.searchCompletedCoursesByName(user_id, courseName, offset, ITEMS_PER_PAGE);
         } else if (categoryName != null && !categoryName.isEmpty()) {
             // Lọc theo danh mục nếu có
-            courses = daoCourse.getCompletedCoursesByCategory(user_id, categoryName);
+            courses = daoCourse.getCompletedCoursesByCategory(user_id, categoryName, offset, ITEMS_PER_PAGE);
         } else {
             // Lấy tất cả các khóa học đã đăng ký nếu không có lọc
-            courses = daoCourse.getCompletedCourses(user_id);
+            courses = daoCourse.getCompletedCourses(user_id, offset, ITEMS_PER_PAGE);
         }
+         
+        int totalCourses = daoCourse.countUserEnrollCourses(user_id);
+        int totalPages = (int) Math.ceil((double) totalCourses / ITEMS_PER_PAGE); 
          
         request.setAttribute("categories", categories);
         request.setAttribute("courses", courses);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", page);
         request.getRequestDispatcher("course-completed.jsp").forward(request, response);
         
     } 

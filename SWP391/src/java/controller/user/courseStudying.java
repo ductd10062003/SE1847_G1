@@ -22,7 +22,7 @@ import model.DAOCategory;
 @WebServlet(name="courseStudying", urlPatterns={"/courseStudying"})
 public class courseStudying extends HttpServlet {
    
-    
+    private static final int ITEMS_PER_PAGE = 6;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
