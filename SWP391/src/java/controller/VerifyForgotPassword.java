@@ -55,13 +55,14 @@ public class VerifyForgotPassword extends HttpServlet {
 
             String newPassword = request.getParameter("new-password");
             String email = (String) request.getSession().getAttribute("email");
-            request.getSession().removeAttribute("email");
+            
             User user = new DAOUser().getUserByEmail(email);
             if(Password.validatePassword(newPassword, user.getPassword())){
                 request.getSession().setAttribute("error", "New password must be different from the old password");
                 request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
                 return;
             }
+            request.getSession().removeAttribute("email");
             request.getSession().removeAttribute("email");
             user.setPassword(newPassword);
             new DAOUser().updateUser(user);

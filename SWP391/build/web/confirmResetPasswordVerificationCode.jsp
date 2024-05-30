@@ -1,36 +1,23 @@
 <!DOCTYPE html>
-
-
 <html lang="en">
 
 <head>
-    <title>Academics &mdash; Website by Colorlib</title>
+    <title>Confirm Verification Code</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-
     <link href="https://fonts.googleapis.com/css?family=Muli:300,400,700,900" rel="stylesheet">
     <link rel="stylesheet" href="fonts/icomoon/style.css">
-
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/jquery-ui.css">
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-
     <link rel="stylesheet" href="css/jquery.fancybox.min.css">
-
     <link rel="stylesheet" href="css/bootstrap-datepicker.css">
-
     <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
-
     <link rel="stylesheet" href="css/aos.css">
     <link href="css/jquery.mb.YTPlayer.min.css" media="all" rel="stylesheet" type="text/css">
-
     <link rel="stylesheet" href="css/style.css">
-
-
-
 </head>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -46,12 +33,11 @@
         <div class="site-mobile-menu-body"></div>
     </div>
 
-
     <div class="py-2 bg-light">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-9 d-none d-lg-block">
-                    <a href="#" class="small mr-3"><span class="icon-question-circle-o mr-2"></span> Have a questions?</a>
+                    <a href="#" class="small mr-3"><span class="icon-question-circle-o mr-2"></span> Have questions?</a>
                     <a href="#" class="small mr-3"><span class="icon-phone2 mr-2"></span> 10 20 123 456</a>
                     <a href="#" class="small mr-3"><span class="icon-envelope-o mr-2"></span> info@mydomain.com</a>
                 </div>
@@ -63,7 +49,6 @@
         </div>
     </div>
     <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner">
-
         <div class="container">
             <div class="d-flex align-items-center">
                 <div class="site-logo">
@@ -74,9 +59,7 @@
                 <div class="mr-auto">
                     <nav class="site-navigation position-relative text-right" role="navigation">
                         <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                            <li>
-                                <a href="index.html" class="nav-link text-left">Home</a>
-                            </li>
+                            <li><a href="index.html" class="nav-link text-left">Home</a></li>
                             <li class="has-children">
                                 <a href="about.html" class="nav-link text-left">About Us</a>
                                 <ul class="dropdown">
@@ -84,101 +67,76 @@
                                     <li><a href="about.html">Our School</a></li>
                                 </ul>
                             </li>
-                            <li>
-                                <a href="admissions.html" class="nav-link text-left">Admissions</a>
-                            </li>
-                            <li>
-                                <a href="courses.html" class="nav-link text-left">Courses</a>
-                            </li>
-                            <li>
-                                <a href="contact.html" class="nav-link text-left">Contact</a>
-                            </li>
-                        </ul>                                                                                                                                                                                                                                                                                          </ul>
+                            <li><a href="admissions.html" class="nav-link text-left">Admissions</a></li>
+                            <li><a href="courses.html" class="nav-link text-left">Courses</a></li>
+                            <li><a href="contact.html" class="nav-link text-left">Contact</a></li>
+                        </ul>
                     </nav>
-
                 </div>
                 <div class="ml-auto">
                     <div class="social-wrap">
                         <a href="#"><span class="icon-facebook"></span></a>
                         <a href="#"><span class="icon-twitter"></span></a>
                         <a href="#"><span class="icon-linkedin"></span></a>
-
-                        <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span
-                                class="icon-menu h3"></span></a>
+                        <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a>
                     </div>
                 </div>
-
             </div>
         </div>
-
     </header>
-
 
     <div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('images/bg_1.jpg')">
         <div class="container">
             <div class="row align-items-end justify-content-center text-center">
                 <div class="col-lg-7">
-                    <h2 class="mb-0">Login</h2>
+                    <h2 class="mb-0">Confirm Verification Code</h2>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
                 </div>
             </div>
         </div>
     </div>
 
-
     <div class="custom-breadcrumns border-bottom">
         <div class="container">
             <a href="index.html">Home</a>
             <span class="mx-3 icon-keyboard_arrow_right"></span>
-            <span class="current">Login</span>
+            <span class="current">Confirm Verification Code</span>
         </div>
     </div>
 
     <div class="site-section">
         <div class="container">
-<%--            Check if there is error attribute, if yes show the error message in a red warning without using the libtag library--%>
-            <%if(request.getSession().getAttribute("error") != null){
-                // remove error
-
-            %>
-                <div class="alert alert-danger" role="alert">
-                    <strong>Error!</strong> <%=(String)request.getSession().getAttribute("error")%>
-                </div>
-            <%request.getSession().removeAttribute("error");}%>
-<%--            A form--%>
-            <form action="login" method="post">
+            <form action="verify-forgot-password" method="post">
                 <div class="row justify-content-center">
                     <div class="col-md-5">
                         <div class="row">
-                            <div class="col-md-12 form-group">
-                                <label for="username">Username</label>
-                                <input type="text" id="username" name="username" class="form-control form-control-lg" required>
+                            <% if(request.getSession().getAttribute("error") != null) { %>
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" role="alert">
+                                    <strong>Error!</strong> <%= (String) request.getSession().getAttribute("error") %>
+                                </div>
+                            </div>
+                            <% request.getSession().removeAttribute("error"); } %>
+                            <div class="col-md-12">
+                                <div class="alert alert-success" role="alert">
+                                    <strong>Success!</strong> A verification code has been sent to your email.
+                                </div>
                             </div>
                             <div class="col-md-12 form-group">
-                                <label for="password">Password</label>
-                                <input type="password" id="password" name="password" class="form-control form-control-lg" required>
+                                <label for="verification-code">Verification Code</label>
+                                <input type="text" id="verification-code" name="verification-code" class="form-control form-control-lg" required>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-6">
-                                <input type="submit" value="Log In" class="btn btn-primary btn-lg px-5">
-                            </div>
-                            <%--                   An hyperlink which leads to forgot password page--%>
-                            <div class="col-6">
-                                <a href="forgot-password">Forgot Password?</a>
+                            <div class="col-12">
+                                <input type="submit" value="Confirm" class="btn btn-primary btn-lg px-5">
                             </div>
                         </div>
-
                     </div>
                 </div>
             </form>
-
-
-
         </div>
     </div>
-
-
 
     <div class="footer">
         <div class="container">
@@ -203,9 +161,9 @@
                     <h3 class="footer-heading"><span>Our Courses</span></h3>
                     <ul class="list-unstyled">
                         <li><a href="#">Math</a></li>
-                        <li><a href="#">Science &amp; Engineering</a></li>
-                        <li><a href="#">Arts &amp; Humanities</a></li>
-                        <li><a href="#">Economics &amp; Finance</a></li>
+                        <li><a href="#">Science & Engineering</a></li>
+                        <li><a href="#">Arts & Humanities</a></li>
+                        <li><a href="#">Economics & Finance</a></li>
                         <li><a href="#">Business Administration</a></li>
                         <li><a href="#">Computer Science</a></li>
                     </ul>
@@ -227,7 +185,7 @@
                     <div class="copyright">
                         <p>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </p>
                     </div>
@@ -235,8 +193,6 @@
             </div>
         </div>
     </div>
-
-
 </div>
 <!-- .site-wrap -->
 
@@ -257,10 +213,6 @@
 <script src="js/jquery.fancybox.min.js"></script>
 <script src="js/jquery.sticky.js"></script>
 <script src="js/jquery.mb.YTPlayer.min.js"></script>
-
-
-
-
 <script src="js/main.js"></script>
 
 </body>

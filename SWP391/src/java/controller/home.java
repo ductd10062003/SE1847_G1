@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 
 package controller;
 
@@ -59,7 +55,7 @@ public class home extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         DAOCourse daoCourse = new DAOCourse();
-        Vector<Course> courseOustanding = daoCourse.getCoursesOutstanding();
+//        Vector<Course> courseOustanding = daoCourse.getCoursesOutstanding();
         request.setAttribute("courses", courseOustanding);
         request.getRequestDispatcher("home.jsp").forward(request, response);
     } 
