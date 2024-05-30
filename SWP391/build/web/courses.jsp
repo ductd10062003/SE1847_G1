@@ -155,7 +155,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Nhập tên khóa học" name="course_name">
                                         <div class="input-group-append">
-                                            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+                                            <button class="btn btn-primary" type="submit">Search</button>
                                         </div>
                                     </div>
                                 </form>
