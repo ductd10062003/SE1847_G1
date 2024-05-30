@@ -134,7 +134,7 @@
 
             <div class="site-section">
                 <div class="container">
-                    <a href="course-single.html" class="btn btn-primary">Các khóa học đang học</a>
+                    <a href="courseStudying" class="btn btn-primary">Các khóa học đang học</a>
                     <a href="courseCompleted" class="btn btn-primary">Các khóa học đã hoàn thành</a>
 
                     <h2 class="mt-5">Các khóa học đã đăng ký</h2>

@@ -128,23 +128,23 @@
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
                     <a href="courses.html">Courses</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
-                    <span class="current">Các khóa học đã đăng kí</span>
+                    <a href="courseEnroll">Các khóa học đã đăng kí</a>
+                    <span class="mx-3 icon-keyboard_arrow_right"></span>
+                    <span class="current">Các khóa học đang học</span>
                 </div>
             </div>
 
             <div class="site-section">
                 <div class="container">
-                    <a href="courseStudying" class="btn btn-primary">Các khóa học đang học</a>
-                    <a href="courseCompleted" class="btn btn-primary">Các khóa học đã hoàn thành</a>
 
-                    <h2 class="mt-5">Các khóa học đã đăng ký</h2>
+                    <h2 class="mt-5">Các khóa học đang học</h2>
                     <p></p>
                     <p></p>
 
                     <div class="container">
                         <div class="row mb-4">
                             <div class="col-lg-6">
-                                <form action="courseEnroll" method="GET">
+                                <form action="courseStudying" method="GET">
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Nhập tên khóa học" name="courseName">
                                         <div class="input-group-append">
@@ -157,7 +157,7 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <form action="courseEnroll" method="GET">
+                        <form action="courseStudying" method="GET">
                             <div class="input-group">
                                 <select class="form-control" name="categoryName">
                                     <option value="">Chọn danh mục</option> <!-- Tùy chọn mặc định -->

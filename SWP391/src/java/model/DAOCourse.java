@@ -221,6 +221,102 @@ public class DAOCourse extends DBConnect {
         return completedCourses;
     }
     
+    //in ra cac khoa hoc dang hoc(result<3)
+    public Vector<Course> getStudyingCourses(String user_id) {
+        Vector<Course> courses = new Vector<>();
+        String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id "
+                + "FROM Result_Detail rd "
+                + "JOIN User_Practice up ON rd.user_practice_id = up.user_practice_id "
+                + "JOIN Course c ON up.course_id = c.course_id "
+                + "WHERE up.user_id = ? AND rd.result < 3";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, user_id);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Course course = new Course();
+                    course.setCourse_id(rs.getInt("course_id"));
+                    course.setCourse_name(rs.getString("course_name"));
+                    course.setDescription(rs.getString("description"));
+                    course.setCreated_at(rs.getString("create_at"));
+                    course.setUpdate_at(rs.getString("update_at"));
+                    course.setActive(rs.getInt("active"));
+                    course.setCreated_by(rs.getInt("created_by"));
+                    course.setCategory_id(rs.getInt("category_id"));
+                    courses.add(course);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return courses;
+    }
+
+    //search cac khoa hoc dang hoc theo ten
+    public Vector<Course> searchStudyingCoursesByName(String user_id, String courseName) {
+        Vector<Course> courses = new Vector<>();
+        String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id "
+                + "FROM Result_Detail rd "
+                + "JOIN User_Practice up ON rd.user_practice_id = up.user_practice_id "
+                + "JOIN Course c ON up.course_id = c.course_id "
+                + "WHERE up.user_id = ? AND rd.result < 3 AND c.course_name LIKE ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, user_id);
+            ps.setString(2, "%" + courseName + "%");
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int course_id = rs.getInt("course_id");
+                    String name = rs.getString("course_name");
+                    String description = rs.getString("description");
+                    String createdAt = rs.getString("create_at");
+                    String updatedAt = rs.getString("update_at");
+                    int active = rs.getInt("active");
+                    int createdBy = rs.getInt("created_by");
+                    int categoryId = rs.getInt("category_id");
+
+                    Course course = new Course(course_id, name, description, createdAt, updatedAt, active, createdBy, categoryId);
+                    courses.add(course);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return courses;
+    }
+
+    
+    //filter cac khoa hoc dang hoctheo category
+    public Vector<Course> getStudyingCoursesByCategory(String userId, String categoryName) {
+        Vector<Course> courses = new Vector<>();
+        String sql = "SELECT DISTINCT c.* " +
+                     "FROM Result_Detail rd " +
+                     "INNER JOIN User_Practice up ON rd.user_practice_id = up.user_practice_id " +
+                     "INNER JOIN Course c ON up.course_id = c.course_id " +
+                     "INNER JOIN Category cat ON c.category_id = cat.category_id " +
+                     "WHERE up.user_id = ? AND cat.category_name = ? AND rd.result <3";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, userId);
+            ps.setString(2, categoryName);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Course course = new Course(
+                        rs.getInt("course_id"),
+                        rs.getString("course_name"),
+                        rs.getString("description"),
+                        rs.getString("create_at"),
+                        rs.getString("update_at"),
+                        rs.getInt("active"),
+                        rs.getInt("created_by"),
+                        rs.getInt("category_id")
+                    );
+                    courses.add(course);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return courses;
+    }
+    
     
     public static void main(String[] args) {
 
