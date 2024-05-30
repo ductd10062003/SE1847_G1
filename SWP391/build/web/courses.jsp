@@ -141,23 +141,47 @@
                 </div>
             </div>         
 
-            <div class="col-3 align-self-center">
-                <div >
-                    <div>
-                        <div class="card">
-                            <div class="card-header">Course name</div>
-                            <div class="card-body">
-                                <div>
-                                    <form action="viewcourse" method="post">
-                                        <input class = "searchBox" type="text" name ="course_name" size="15" required>
-                                        <input class = "searchButton" type="submit" name ="btnGo" value="Search">
-                                    </form>
-                                </div>                             
+            <div class="site-section">
+                <div class="container">
+
+                    <h2 class="mt-5">Các khóa học</h2>
+                    <p></p>
+                    <p></p>
+
+                    <div class="container">
+                        <div class="row mb-4">
+                            <div class="col-lg-6">
+                                <form action="viewcourse" method="post">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Nhập tên khóa học" name="course_name">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div> 
+
+                    <div class="col-lg-6">
+                        <form action="viewcourse" method="post">
+                            <div class="row">
+                                <c:forEach items="${courses}" var="course">
+                                    <div class="col-lg-4 col-md-6 mb-4">
+                                        <div class="course-1-item">
+                                            <figure class="thumnail">
+                                                <div class="category"><h3>${course.course_name}</h3></div>  
+                                            </figure>
+                                            <div class="course-1-content pb-4">
+                                                <h2>${course.description}</h2>
+                                                <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">View Course</a></p>                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:forEach>    
+                            </div>
+                        </form>
+                    </div>                  
 
             <div class="col-3 align-self-center">
                 <div>
@@ -227,8 +251,6 @@
                     </div>
                 </div>
             </div>
-
-
 
             <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
                 <div class="container">
