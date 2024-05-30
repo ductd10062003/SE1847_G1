@@ -2,12 +2,12 @@ package entity;
 
 public class Course {
     private int course_id;
-    private String course_name, description,created_at,update_at, category_name, image;
+    private String course_name, description,created_at,update_at;
     private int	active, created_by, category_id;
 
     public Course() {
     }
-
+    
     public Course(String course_name, String description) {
         this.course_name = course_name;
         this.description = description;
@@ -24,12 +24,14 @@ public class Course {
         this.category_id = category_id;
     }
 
-    public Course(int course_id, String course_name, String description, String category_name, String image) {
-        this.course_id = course_id;
+    public Course(String course_name, String description, String created_at, String update_at, int active, int created_by, int category_id) {
         this.course_name = course_name;
         this.description = description;
-        this.category_name = category_name;
-        this.image = image;
+        this.created_at = created_at;
+        this.update_at = update_at;
+        this.active = active;
+        this.created_by = created_by;
+        this.category_id = category_id;
     }
 
     public int getCourse_id() {
@@ -96,32 +98,9 @@ public class Course {
         this.category_id = category_id;
     }
 
-    public String getCategory_name() {
-        return category_name;
-    }
-
-    public void setCategory_name(String category_name) {
-        this.category_name = category_name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    
-    
-    
     @Override
     public String toString() {
         return "Course{" + "course_id=" + course_id + ", course_name=" + course_name + ", description=" + description + ", created_at=" + created_at + ", update_at=" + update_at + ", active=" + active + ", created_by=" + created_by + ", category_id=" + category_id + '}';
-    }
-
-    public boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

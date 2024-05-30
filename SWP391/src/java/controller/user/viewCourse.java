@@ -62,9 +62,9 @@ public class viewCourse extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Course> list = daoCourse.getAllCourses();
+        ArrayList<Course> list = daoCourse.getAllCourses2();
         request.setAttribute("course", list);
-        ArrayList<Category> category = daoCategory.getAllCategories();
+        ArrayList<Category> category = daoCategory.getAllCategories2();
         request.setAttribute("category", category);
 
         paging(request, list);
@@ -80,7 +80,7 @@ public class viewCourse extends HttpServlet {
 
         if (search != null) {
             search = search.trim();
-            ArrayList<Course> course = daoCourse.getCourseByName(search);
+            ArrayList<Course> course = daoCourse.getCourseByName2(search);
             request.setAttribute("course", course);
             //paging(request, course);
         }
@@ -100,7 +100,7 @@ public class viewCourse extends HttpServlet {
             //paging(request, listcourse);
         
         }
-        ArrayList<Category> category = daoCategory.getAllCategories();
+        ArrayList<Category> category = daoCategory.getAllCategories2();
         request.setAttribute("category", category);
         request.setAttribute("category_id", searchById);
         request.setAttribute("course_name", search); 
