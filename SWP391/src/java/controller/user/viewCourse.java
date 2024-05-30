@@ -6,7 +6,6 @@ package controller.user;
 
 import entity.Category;
 import entity.Course;
-import entity.FlashCard;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
