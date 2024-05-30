@@ -141,7 +141,25 @@
                 </div>
             </div>         
 
-            <div class="row">
+            <div class="col-3 align-self-center">
+                <div >
+                    <div>
+                        <div class="card">
+                            <div class="card-header">Course name</div>
+                            <div class="card-body">
+                                <div>
+                                    <form action="viewcourse" method="post">
+                                        <input class = "searchBox" type="text" name ="course_name" size="15" required>
+                                        <input class = "searchButton" type="submit" name ="btnGo" value="Search">
+                                    </form>
+                                </div>                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+
+            <div class="col-3 align-self-center">
                 <div>
                     <div class="card">
                         <div class="card-header">Category</div>
@@ -179,25 +197,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="pagination justify-content-center">
-                <div class="row">
-                    <div>
-                        <div class="card">
-                            <div class="card-header">Course name</div>
-                            <div class="card-body">
-                                <div>
-                                    <form action="viewcourse" method="post">
-                                        <input class = "searchBox" type="text" name ="course_name" size="15" required>
-                                        <input class = "searchButton" type="submit" name ="btnGo" value="Search">
-                                    </form>
-                                </div>                             
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>    
+            </div>   
 
             <div class="site-section">
                 <div class="container">
