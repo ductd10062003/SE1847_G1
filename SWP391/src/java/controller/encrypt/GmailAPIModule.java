@@ -81,11 +81,6 @@ public class GmailAPIModule {
      */
     public void sendEmail(String subject, String message, String recipient) throws Exception {
 
-
-        // Create the email content
-        String messageSubject = "Test message";
-        String bodyText = "lorem ipsum.";
-
         // Encode as MIME message
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
@@ -93,8 +88,8 @@ public class GmailAPIModule {
         email.setFrom(new InternetAddress(FROM_EMAIL));
         email.addRecipient(javax.mail.Message.RecipientType.TO,
                 new InternetAddress(recipient));
-        email.setSubject(messageSubject);
-        email.setText(bodyText);
+        email.setSubject(subject);
+        email.setText(message);
 
         // Encode and wrap the MIME message into a gmail message
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
