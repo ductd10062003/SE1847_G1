@@ -6,8 +6,66 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class DAOCourse extends DBConnect {
+    
+    public ArrayList<Course> getListByCourse(ArrayList<Course> list,int start,int end){
+        ArrayList<Course> arr = new ArrayList<>();
+        for(int i = start;i<end;i++){
+            arr.add(list.get(i));
+        }
+        return arr;
+    }
+    
+    public ArrayList<Course> getAllCourses2(){
+        ArrayList<Course> list = new ArrayList<>();
+        String sql = "select * from [course]";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                list.add(new Course(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
+            }
+        } catch (SQLException e) {
+            return null;
+        }
+        return list;
+    }
+    
+    public ArrayList<Course> getCourseByName2(String course_name){
+        ArrayList<Course> course = new  ArrayList<>();
+        String sql = "select course_name,description from [course] where course_name like ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setString(1, "%"+course_name+"%");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                course.add(new Course(rs.getString(1), rs.getString(2)));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return course;
+    }
+    
+    public ArrayList<Course> getCouseByCategoryID(String category_id) {
+        ArrayList<Course> course = new ArrayList<>();
+        String sql = "  select course_name,description from Category ca INNER Join Course c on ca.category_id = c.category_id\n"
+                + "  where c.category_id = ?";   
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setString(1, category_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                course.add(new Course(rs.getString(1), rs.getString(2)));
+            }
+        } catch (Exception e) {
+          System.out.println(e);
+        }
+        return course;
+    }
+    
     public Vector<Course> getAllCourses(){
         Vector<Course> vector = new Vector<>();
         String sql = "select * from [course]";

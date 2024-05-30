@@ -24,7 +24,6 @@ import java.security.spec.InvalidKeySpecException;
  *
  * @author ductd
  */
-@WebServlet(name = "login", urlPatterns = {"/login"})
 public class login extends HttpServlet {
 
 
