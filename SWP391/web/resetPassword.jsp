@@ -107,7 +107,7 @@
     <div class="site-section">
         <div class="container">
             <form action="verify-forgot-password" method="post">
-                <input type="hidden" id="verify" name="verify" content="verify">
+                <input type="hidden" id="pending" name="pending" content="verify">
                 <div class="row justify-content-center">
                     <div class="col-md-5">
                         <div class="row">
@@ -120,8 +120,8 @@
                             <% request.getSession().removeAttribute("error"); } %>
                             <input type="hidden" name="email" value="<%=(String) request.getSession().getAttribute("email")%>">
                             <div class="col-md-12 form-group">
-                                <label for="new-password">New password</label>
-                                <input type="text" id="new-password" name="new-password" class="form-control form-control-lg" required>
+                                <label for="new-password">New password (6-32, at least 1 special character)</label>
+                                <input type="text" id="new-password" name="new-password" class="form-control form-control-lg" pattern="[\S]{6,32}" required>
                             </div>
                             <div class="col-md-12 form-group">
                                 <label for="confirm-password">Confirm new password</label>

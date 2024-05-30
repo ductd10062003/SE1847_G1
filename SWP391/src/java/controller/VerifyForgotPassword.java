@@ -15,9 +15,6 @@ import model.DAOUser;
 import entity.User;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -25,11 +22,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @WebServlet(name = "verify-forgot-password", urlPatterns = {"/verify-forgot-password"})
 public class VerifyForgotPassword extends HttpServlet {
-    private static ConcurrentHashMap<String, String> pendingUsers = new ConcurrentHashMap<>();
-
-    public static void addPendingUser(String email, String code) {
-        pendingUsers.put(code, email);
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
@@ -58,11 +50,13 @@ public class VerifyForgotPassword extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String pendingEmail = request.getParameter("email");
-        if(pendingEmail != null){
+        String pending = request.getParameter("pending");
+        if(pending != null){
 
             String newPassword = request.getParameter("new-password");
-            User user = new DAOUser().getUserByEmail(pendingEmail);
+            String email = (String) request.getSession().getAttribute("email");
+            request.getSession().removeAttribute("email");
+            User user = new DAOUser().getUserByEmail(email);
             if(Password.validatePassword(newPassword, user.getPassword())){
                 request.getSession().setAttribute("error", "New password must be different from the old password");
                 request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
@@ -72,19 +66,12 @@ public class VerifyForgotPassword extends HttpServlet {
             user.setPassword(newPassword);
             new DAOUser().updateUser(user);
             request.getSession().removeAttribute("user");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            response.sendRedirect("login");
+            return;
         }
 
-        String verificationCode = request.getParameter("verification-code");
-        String email = pendingUsers.get(verificationCode);
-        if (email == null) {
-            request.getSession().setAttribute("error", "Invalid verification code");
-            request.getRequestDispatcher("confirmResetPasswordVerificationCode.jsp").forward(request, response);
-        } else {
-            request.getSession().setAttribute("email", email);
-            request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
 
-        }
+        request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
 
     }
 

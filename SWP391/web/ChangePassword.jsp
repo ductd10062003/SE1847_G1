@@ -107,6 +107,7 @@
     <div class="site-section">
         <div class="container">
             <form action="verify-forgot-password" method="post">
+                <input type="hidden" id="code" name="code" value="<%=(String) request.getSession().getAttribute("code")%>">
                 <div class="row justify-content-center">
                     <div class="col-md-5">
                         <div class="row">
@@ -119,7 +120,7 @@
                             <% request.getSession().removeAttribute("error"); } %>
                             <div class="col-md-12">
                                 <div class="alert alert-success" role="alert">
-                                    <strong>Success!</strong> A verification code has been sent to your email.
+                                    <strong>Success!</strong> A verification code: <%=request.getSession().getAttribute("code")%> has been sent to your email.
                                 </div>
                             </div>
                             <div class="col-md-12 form-group">
@@ -195,6 +196,22 @@
     </div>
 </div>
 <!-- .site-wrap -->
+
+<%--Javascrip to ensure verification code must be the same as the input with id of "code" --%>
+<script>
+    let code = document.getElementById("code")
+        , verificationCode = document.getElementById("verification-code");
+
+    function validatePassword(){
+        if(code.value !== verificationCode.value) {
+            verificationCode.setCustomValidity("Passwords Don't Match");
+        } else {
+            verificationCode.setCustomValidity('');
+        }
+    }
+    verificationCode.onkeyup = validatePassword;
+</script>
+
 
 <!-- loader -->
 <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#51be78"/></svg></div>

@@ -107,7 +107,6 @@
     <div class="site-section">
         <div class="container">
             <form action="forgot-password" method="post">
-                <input type="hidden" id="verify" name="verify" content="verify">
                 <div class="row justify-content-center">
                     <div class="col-md-5">
                         <div class="row">

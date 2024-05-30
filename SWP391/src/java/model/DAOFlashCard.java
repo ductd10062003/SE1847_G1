@@ -2,9 +2,10 @@ package model;
 
 import entity.FlashCard;
 import entity.Quiz;
-import java.util.Vector;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Vector;
 
 public class DAOFlashCard extends DBConnect {
 

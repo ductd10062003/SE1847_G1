@@ -44,9 +44,9 @@ public class ForgotPassword extends HttpServlet {
             } catch (NoSuchAlgorithmException e) {
                 throw new RuntimeException(e);
             }
-            controller.VerifyForgotPassword.addPendingUser(email, code);
-            controller.encrypt.GmailAPIModule.sendResetPasswordVerificationCode(email, code);
-            request.getRequestDispatcher("confirmResetPasswordVerificationCode.jsp").forward(request, response);
+            request.getSession().setAttribute("email", email);
+            request.getSession().setAttribute("code", code);
+            request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
         } else {
             request.getSession().setAttribute("error", "Email is not existed");
             request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);

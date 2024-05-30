@@ -67,15 +67,8 @@ public class register extends HttpServlet {
 //                    if the username and email are not existed, create a new user and set the user to the session, then redirect to home page
                     //User(int user_id, String name, String email, String password, int role, int active, String create_at, int gender, String dob, String phone, String image)
                     User user = new User(0, username, email, password, 3, 1, java.time.LocalDate.now().toString(), gender, dob, phone, "");
-                    request.getSession().setAttribute("verifying", "username");
-                    try {
-                        String verificationCode = Base64.getEncoder().encodeToString(Password.generateSalt());
-                        VerifyAccount.addPendingUser(user, verificationCode);
-                        GmailAPIModule.sendCreateAccountVerificationCode(user.getEmail(), verificationCode);
-                        response.sendRedirect("verify-account");
-                    } catch (NoSuchAlgorithmException e) {
-                        throw new RuntimeException(e);
-                    }
+                    new DAOUser().createUser(user);
+                    response.sendRedirect("login");
                 }
             }
         }

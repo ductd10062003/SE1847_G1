@@ -1,8 +1,10 @@
 package model;
+
 import entity.Quiz;
-import java.util.Vector;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Vector;
 
 public class DAOQuiz extends DBConnect{
     public Vector<Quiz> getAllQuizs(){
