@@ -19,9 +19,6 @@ import java.util.List;
 import java.util.Vector;
 import model.DAOCategory;
 import model.DAOCourse;
-import model.DAOFlashCard;
-import model.DAOQuiz;
-import model.DAOTypeOfPractice;
 import model.DAOUser;
 
 /**
