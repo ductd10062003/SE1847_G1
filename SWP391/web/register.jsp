@@ -184,16 +184,16 @@
                         <%--                            An input for date of birth--%>
                             <div class="col-md-12 form-group">
                                 <label for="dob">Date of Birth</label>
-                                <input type="date" id="dob" name="dob" class="form-control form-control-lg">
+                                <input type="date" id="dob" name="dob" class="form-control form-control-lg" required>
                             </div>
 
                             <div class="col-md-12 form-group">
                                 <label for="password">Password</label>
-                                <input type="password" id="password" name="password" class="form-control form-control-lg">
+                                <input type="password" id="password" name="password" class="form-control form-control-lg" required>
                             </div>
                             <div class="col-md-12 form-group">
                                 <label for="confirm-password">Re-type Password</label>
-                                <input type="password" id="confirm-password" name="confirm-password" class="form-control form-control-lg">
+                                <input type="password" id="confirm-password" name="confirm-password" class="form-control form-control-lg" required>
                             </div>
                         </div>
                         <div class="row">

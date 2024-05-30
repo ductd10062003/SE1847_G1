@@ -6,6 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="8ed6dd03-dd3e-4933-a861-289b734f88ef" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/controller/ForgotPassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/controller/ForgotPassword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/controller/VerifyAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/controller/VerifyAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/controller/encrypt/Password.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/controller/encrypt/Password.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/controller/login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/controller/login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/model/DAOUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/model/DAOUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/login.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/register.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/register.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +39,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "cuong__HE130386",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/University stuff/Woking stuff/Cuong-SWD-Assignment/SE1847_G1/SWP391/src/java/model",
+    "last_opened_file_path": "E:/University stuff/Woking stuff/Cuong-SWD-Assignment/SE1847_G1/SWP391/web",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -42,11 +49,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\web" />
       <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\src\java\model" />
       <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\src\java\controller" />
       <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\src\java\controller\encrypt" />
       <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391" />
-      <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\web" />
     </key>
   </component>
   <component name="RunManager">
@@ -80,7 +87,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1717054607461</updated>
-      <workItem from="1717054608531" duration="2029000" />
+      <workItem from="1717054608531" duration="3120000" />
     </task>
     <servers />
   </component>

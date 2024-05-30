@@ -8,18 +8,20 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Base64;
 
 public class Password {
-/*
-ALGORITHM: Specifies the cryptographic algorithm. PBKDF2WithHmacSHA1 is a widely used, secure choice for password hashing.
-ITERATIONS: Number of iterations for the hash function. More iterations mean more security but slower performance.
-KEY_LENGTH: Length of the generated hash. 256 bits is a good standard.
- */
+    /*
+    ALGORITHM: Specifies the cryptographic algorithm. PBKDF2WithHmacSHA1 is a widely used, secure choice for password hashing.
+    ITERATIONS: Number of iterations for the hash function. More iterations mean more security but slower performance.
+    KEY_LENGTH: Length of the generated hash. 256 bits is a good standard.
+     */
     // Define the algorithm and parameters
     private static final String ALGORITHM = "PBKDF2WithHmacSHA1";
     private static final int ITERATIONS = 10000;
     private static final int KEY_LENGTH = 256; // bits
+    private static String hashedPassword;
 
     /**
      * A salt is a random value added to the password before hashing to ensure that the same password results in different hashes.
+     *
      * @return byte[] a salt
      * @throws NoSuchAlgorithmException if the algorithm is not found
      */
@@ -37,11 +39,12 @@ KEY_LENGTH: Length of the generated hash. 256 bits is a good standard.
      * PBEKeySpec: Specifies the password, salt, number of iterations, and key length.
      * SecretKeyFactory: Generates a hash from the key specification.
      * Base64 encoding: Converts the byte array to a string for easy storage.
+     *
      * @param password the password to hash
-     * @param salt the salt to use
+     * @param salt     the salt to use
      * @return String the hashed password
      * @throws NoSuchAlgorithmException if the algorithm is not found
-     * @throws InvalidKeySpecException if the key specification is invalid
+     * @throws InvalidKeySpecException  if the key specification is invalid
      */
     public static String hashPassword(String password, byte[] salt)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -57,14 +60,22 @@ KEY_LENGTH: Length of the generated hash. 256 bits is a good standard.
      * generateSalt(): Generates a new salt.
      * hashPassword(): Hashes the password with the salt.
      * String combination: Concatenates the Base64-encoded salt and hash, separated by a colon.
+     *
      * @param password the password to hash
      * @return String the hashed password
      * @throws NoSuchAlgorithmException if the algorithm is not found
      * @throws InvalidKeySpecException  if the key specification is invalid
      */
-    public static String generateSecurePassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        byte[] salt = generateSalt();
-        String hashedPassword = hashPassword(password, salt);
+    public static String generateSecurePassword(String password){
+        byte[] salt = null;
+        String hashedPassword = null;
+        try {
+            salt = generateSalt();
+            hashedPassword = hashPassword(password, salt);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
+
         return Base64.getEncoder().encodeToString(salt) + ":" + hashedPassword;
     }
 
@@ -75,22 +86,26 @@ KEY_LENGTH: Length of the generated hash. 256 bits is a good standard.
      * Base64 decoding: Converts the string back to a byte array.
      * hashPassword(): Rehashes the input password with the stored salt.
      * compare: Checks if the rehashed password matches the stored hash.
+     *
      * @param originalPassword the password to check
-     * @param storedPassword the stored password
+     * @param storedPassword   the stored password
      * @return
      * @throws NoSuchAlgorithmException if the algorithm is not found
-     * @throws InvalidKeySpecException if the key specification is invalid
+     * @throws InvalidKeySpecException  if the key specification is invalid
      */
-    public static boolean validatePassword(String originalPassword, String storedPassword)
-            throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static boolean validatePassword(String originalPassword, String storedPassword) {
         String[] parts = storedPassword.split(":");
         byte[] salt = Base64.getDecoder().decode(parts[0]);
-        String hashOfInput = hashPassword(originalPassword, salt);
+        String hashOfInput = null;
+        try {
+            hashOfInput = hashPassword(originalPassword, salt);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
         return hashOfInput.equals(parts[1]);
     }
 
     public static void main(String[] args) {
-        try {
             String password = "mySecurePassword";
 //            String securePassword = "r5QC0oMVLLFMD1ifPrcu2w==:84NEcjDp1lxMRsq9bkJ4mPX1TUCUdXIRMpSTI2fIyDY=";
             // Example usage
@@ -101,8 +116,5 @@ KEY_LENGTH: Length of the generated hash. 256 bits is a good standard.
             boolean isValid = validatePassword(password, securePassword);
             System.out.println("Password is valid: " + isValid);
 
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            e.printStackTrace();
-        }
     }
 }

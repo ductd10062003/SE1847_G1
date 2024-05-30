@@ -156,7 +156,7 @@
                             </div>
                             <div class="col-md-12 form-group">
                                 <label for="password">Password</label>
-                                <input type="text" id="password" name="password" class="form-control form-control-lg" required>
+                                <input type="password" id="password" name="password" class="form-control form-control-lg" required>
                             </div>
                         </div>
                         <div class="row">

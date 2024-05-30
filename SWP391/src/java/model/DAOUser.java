@@ -95,4 +95,17 @@ public class DAOUser extends DBConnect {
             e.printStackTrace();
         }
     }
+
+    public void updateUser(User user) {
+        String sql = "update [user] set [password] = ? where user_id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            String securePassword = Password.generateSecurePassword(user.getPassword());
+            ps.setString(1, securePassword);
+            ps.setInt(2, user.getUser_id());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
