@@ -28,8 +28,8 @@ import static com.google.api.services.gmail.GmailScopes.GMAIL_SEND;
 
 public class GmailAPIModule {
 
-    private static final String CREATE_ACCOUNT_VERIFICATION_MESSAGE = "This is the verification code for creating your account. Please do not share with anybody else.\\n\\n\\tYour verification code: ";
-    private static final String RESET_PASSWORD_VERIFICATION_MESSAGE = "This is the verification code for resetting your password. Please do not share with anybody else.\\n\\n\\tYour verification code: ";
+    private static final String CREATE_ACCOUNT_VERIFICATION_MESSAGE = "This is the verification code for creating your account. Please do not share with anybody else.\n\n\tYour verification code: ";
+    private static final String RESET_PASSWORD_VERIFICATION_MESSAGE = "This is the verification code for resetting your password. Please do not share with anybody else.\n\n\tYour verification code: ";
     private static final String CREATE_ACCOUNT_SUBJECT = "Verification code";
     private static final String RESET_PASSWORD_SUBJECT = "Reset password verification code";
     private final Gmail service;
