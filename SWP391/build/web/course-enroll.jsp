@@ -140,7 +140,7 @@
                     <h2 class="mt-5">Các khóa học đã đăng ký</h2>
                     <p></p>
                     <p></p>
-                    
+
                     <div class="container">
                         <div class="row mb-4">
                             <div class="col-lg-6">
@@ -155,6 +155,24 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-lg-6">
+                        <form action="courseEnroll" method="GET">
+                            <div class="input-group">
+                                <select class="form-control" name="categoryName">
+                                    <option value="">Chọn danh mục</option> <!-- Tùy chọn mặc định -->
+                                    <!-- Duyệt và tạo các tùy chọn cho dropdown từ danh sách danh mục -->
+                                    <c:forEach items="${categories}" var="category">
+                                        <option value="${category.category_name}">${category.category_name}</option>
+                                    </c:forEach>
+                                </select>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">Lọc</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
 
                     <div class="site-section">
                         <div class="container">

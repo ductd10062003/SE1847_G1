@@ -93,11 +93,46 @@ public class DAOCourse extends DBConnect {
         return courses;
     }
 
+    //filter theo category
+    public Vector<Course> getEnrolledCoursesByCategory(String userId, String categoryName) {
+    Vector<Course> enrolledCourses = new Vector<>();
+    String sql = "SELECT c.* " +
+                 "FROM Course c " +
+                 "INNER JOIN User_Enroll_Course uec ON c.course_id = uec.course_id " +
+                 "INNER JOIN Category cat ON c.category_id = cat.category_id " +
+                 "WHERE uec.user_id = ? AND cat.category_name = ?";
+    try {
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, userId);
+        ps.setString(2, categoryName);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Course course = new Course(
+                rs.getInt("course_id"),
+                rs.getString("course_name"),
+                rs.getString("description"),
+                rs.getString("create_at"),
+                rs.getString("update_at"),
+                rs.getInt("active"),
+                rs.getInt("created_by"),
+                rs.getInt("category_id")
+            );
+            enrolledCourses.add(course);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return enrolledCourses;
+}
+
+    
+    
+    
     public static void main(String[] args) {
 
         DAOCourse dt = new DAOCourse();
 
-        Vector<Course> vector = dt.searchEnrolledCoursesByName("1", "co");
+        Vector<Course> vector = dt.getEnrolledCoursesByCategory("1", "cơ thể");
         for (Course title : vector) {
             System.out.println(title);
         }//end search

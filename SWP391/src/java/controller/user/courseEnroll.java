@@ -15,7 +15,8 @@ import jakarta.servlet.http.HttpSession;
 import java.util.Vector;
 import entity.Course;
 import model.DAOCourse;
-
+import entity.Category;
+import model.DAOCategory;
 /**
  *
  * @author DANGTRUONG
@@ -38,14 +39,26 @@ public class courseEnroll extends HttpServlet {
         }
 
         DAOCourse daoCourse = new DAOCourse();
+        DAOCategory daoCategory = new DAOCategory();
+        
         Vector<Course> courses;
+         Vector<Category> categories = daoCategory.getAllCategories();
 
         String courseName = request.getParameter("courseName");
-        if (courseName != null && !courseName.isEmpty()) {
+        String categoryName = request.getParameter("categoryName");
+        
+         if (courseName != null && !courseName.isEmpty()) {
+            // Lọc theo tên khóa học nếu có
             courses = daoCourse.searchEnrolledCoursesByName(user_id, courseName);
+        } else if (categoryName != null && !categoryName.isEmpty()) {
+            // Lọc theo danh mục nếu có
+            courses = daoCourse.getEnrolledCoursesByCategory(user_id, categoryName);
         } else {
+            // Lấy tất cả các khóa học đã đăng ký nếu không có lọc
             courses = daoCourse.searchUserEnrollCourse(user_id);
         }
+         
+        request.setAttribute("categories", categories);
         request.setAttribute("courses", courses);
         request.getRequestDispatcher("course-enroll.jsp").forward(request, response);
 
