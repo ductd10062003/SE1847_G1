@@ -1086,3 +1086,18 @@ h1, h2, h3, h4, h5,
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+
+.center_1{
+    height: 100%;
+    margin: 0;
+    position: relative;
+    background-color: gray;
+}
+.center_1_1{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
