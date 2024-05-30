@@ -4,6 +4,9 @@
  */
 package controller;
 
+import controller.encrypt.GmailAPIModule;
+import controller.encrypt.Password;
+import entity.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +15,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.DAOUser;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -19,6 +25,7 @@ import java.io.IOException;
  */
 @WebServlet(name = "register", urlPatterns = {"/register"})
 public class register extends HttpServlet {
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -58,8 +65,17 @@ public class register extends HttpServlet {
                     request.getRequestDispatcher("register.jsp").forward(request, response);
                 } else {
 //                    if the username and email are not existed, create a new user and set the user to the session, then redirect to home page
-                    new DAOUser().createUser(username, email, password, dob, phone, gender);
-                    request.getSession().setAttribute("user", new DAOUser().getUserByUsername(username));
+                    //User(int user_id, String name, String email, String password, int role, int active, String create_at, int gender, String dob, String phone, String image)
+                    User user = new User(0, username, email, password, 3, 1, java.time.LocalDate.now().toString(), gender, dob, phone, "");
+                    request.getSession().setAttribute("verifying", "username");
+                    try {
+                        String verificationCode = Base64.getEncoder().encodeToString(Password.generateSalt());
+                        VerifyAccount.addPendingUser(user, verificationCode);
+                        GmailAPIModule.sendCreateAccountVerificationCode(user.getEmail(), verificationCode);
+                        request.getRequestDispatcher("verify-account").forward(request, response);
+                    } catch (NoSuchAlgorithmException e) {
+                        throw new RuntimeException(e);
+                    }
                     response.sendRedirect("login");
                 }
             }

@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8ed6dd03-dd3e-4933-a861-289b734f88ef" name="Changes" comment="" />
+    <list default="true" id="8ed6dd03-dd3e-4933-a861-289b734f88ef" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,6 +42,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\src\java\controller\encrypt" />
       <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391" />
       <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\web" />
       <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\src\java\model" />
@@ -77,7 +80,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1717054607461</updated>
-      <workItem from="1717054608531" duration="310000" />
+      <workItem from="1717054608531" duration="1072000" />
     </task>
     <servers />
   </component>
