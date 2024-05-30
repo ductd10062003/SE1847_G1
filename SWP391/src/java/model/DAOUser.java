@@ -75,43 +75,24 @@ public class DAOUser extends DBConnect {
     }
 
 
-    public void createUser(String username, String email, String password, String dob, String phone, int gender) {
-/*
-CREATE TABLE [User] (
-  user_id   int IDENTITY NOT NULL,
-  [name]      nvarchar(100) NOT NULL,
-  email     nvarchar(100) NOT NULL UNIQUE,
-  [password]  nvarchar(50) NOT NULL,
-  role      int NOT NULL,
-  active    bit NOT NULL,
-  create_at date NOT NULL,
-  gender    bit NULL,
-  dob       date NULL,
-  phone     nvarchar(20) NULL,
-  [image]     nvarchar(500) NULL,
-  PRIMARY KEY (user_id));
- */
+    public void createUser(User user) {
+
         String sql = "insert into [user]([name], email, [password], role, active, create_at, gender, dob, phone) values(?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, username);
-            ps.setString(2, email);
-            String securePassword = Password.generateSecurePassword(password);
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            String securePassword = Password.generateSecurePassword(user.getPassword());
             ps.setString(3, securePassword);
             ps.setInt(4, 0);
             ps.setInt(5, 1);
             ps.setString(6, java.time.LocalDate.now().toString());
-            ps.setInt(7, gender);
-            ps.setString(8, dob);
-            ps.setString(9, phone);
+            ps.setInt(7, user.getGender());
+            ps.setString(8, user.getDob());
+            ps.setString(9, user.phone);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        //test createUser
-        new DAOUser().createUser("san", "san@gmail.com", "123", "1999-01-01", "123456789", 1);
     }
 }
