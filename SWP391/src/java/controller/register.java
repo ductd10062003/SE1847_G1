@@ -72,11 +72,10 @@ public class register extends HttpServlet {
                         String verificationCode = Base64.getEncoder().encodeToString(Password.generateSalt());
                         VerifyAccount.addPendingUser(user, verificationCode);
                         GmailAPIModule.sendCreateAccountVerificationCode(user.getEmail(), verificationCode);
-                        request.getRequestDispatcher("verify-account").forward(request, response);
+                        response.sendRedirect("verify-account");
                     } catch (NoSuchAlgorithmException e) {
                         throw new RuntimeException(e);
                     }
-                    response.sendRedirect("login");
                 }
             }
         }

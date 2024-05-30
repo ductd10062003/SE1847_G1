@@ -32,7 +32,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "cuong__HE130386",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/University stuff/Woking stuff/Cuong-SWD-Assignment/SE1847_G1/SWP391/src/java/controller/encrypt",
+    "last_opened_file_path": "E:/University stuff/Woking stuff/Cuong-SWD-Assignment/SE1847_G1/SWP391/src/java/model",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -42,11 +42,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\src\java\model" />
+      <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\src\java\controller" />
       <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\src\java\controller\encrypt" />
       <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391" />
       <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\web" />
-      <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\src\java\model" />
-      <recent name="E:\University stuff\Woking stuff\Cuong-SWD-Assignment\SE1847_G1\SWP391\src\java\controller" />
     </key>
   </component>
   <component name="RunManager">
@@ -80,7 +80,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1717054607461</updated>
-      <workItem from="1717054608531" duration="1072000" />
+      <workItem from="1717054608531" duration="2029000" />
     </task>
     <servers />
   </component>

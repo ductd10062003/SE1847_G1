@@ -69,7 +69,10 @@ public class VerifyAccount extends HttpServlet {
             request.getSession().setAttribute("error", "Invalid verification code");
             request.getRequestDispatcher("confirmVerificationCode.jsp").forward(request, response);
         } else {
-
+            new DAOUser().createUser(user);
+            request.getSession().setAttribute("user", user);
+            pendingUsers.remove(verificationCode);
+            response.sendRedirect("course-details");
         }
     }
 
