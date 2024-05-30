@@ -82,11 +82,11 @@
                                 Tables
                             </a>
                             <div class="sb-sidenav-menu-heading">Quản lý câu hỏi</div>
-                            <a class="nav-link" href="charts.html">
+                            <a class="nav-link" href="#">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
                                 Xem tất cả
                             </a>
-                            <a class="nav-link" href="tables.html">
+                            <a class="nav-link" href="add-flashcard">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-plus"></i></div>
                                 Thêm câu hỏi
                             </a>
@@ -99,7 +99,7 @@
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
                                 Xem tất cả
                             </a>
-                            <a class="nav-link" href="tables.html">
+                            <a class="nav-link" href="add-course">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-plus"></i></div>
                                 Thêm khóa học
                             </a>
@@ -120,7 +120,7 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        MEMTOR
                     </div>
                 </nav>
             </div>
@@ -202,8 +202,8 @@
                                                     </c:forEach>
                                                 </div>
                                                 <input type="hidden" name="data_flashcards" id="data_flashcards"/>
-                                                <input type="hidden" name="category_id" id="data_category_id"/>
-                                                <input type="hidden" name="service" value="createFlashCard" />
+                                                <input type="hidden" name="category_id" id="data_category_id"/>                          
+                                                <input type="hidden" name="service" value="createFlashCard" />                       
                                             </form>
                                         </div>
                                     </div>
@@ -217,6 +217,7 @@
                                                     <span class="input-group-text" id="basic-addon1">Tên khóa học</span>
                                                     <input type="text" class="form-control" placeholder="Điền tên khóa học" id="input_course_name" name="course_name" onblur="checkCourseName()" >
                                                     <input type="hidden" name="category_id" id="category_id"/>
+                                                    <input type="hidden" name="data_description" id="data_description"/>
                                                     <input type="hidden" name="service" value="createCourse">
                                                 </div>
                                             </form>
@@ -227,7 +228,12 @@
                                                     type="button" >Tạo ngẫu nhiên</button>
                                             <input type="number" class="form-control"  id="random_number" onblur="addRandom()">
                                         </div>
-
+                                    </div>
+                                    <div class="">
+                                        <p class="mb-1">Mô tả:</p>
+                                        <textarea class="w-100 m-0" style="height: 100px" id="description" oninput="descriptionCourse()">                               
+                                        </textarea>
+                                        <p class="text-end"><span id="count">0</span>/500</p>
                                     </div>
                                     <div class="card mb-4" id="list_flashcards">
                                         <c:if test="${requestScope.listFlashCard != null}">
@@ -377,6 +383,10 @@
                     document.getElementById('err').innerText = 'Bạn chưa nhập tên khóa học';
                     return;
                 }
+                if(course_name.length > 50){
+                    document.getElementById('err').innerText = 'Tên khóa học quá dài (bé hơn 50 ký tự)';
+                    return;
+                }
                 let category_id = categoryChecked();
                 if (category_id === 'nochoose') {
                     document.getElementById('err').innerText = 'Bạn chưa chọn thể loại';
@@ -386,10 +396,23 @@
                     document.getElementById('err').innerText = 'Bạn chưa tạo thẻ';
                     return;
                 }
-                document.getElementById('category_id').value = category_id;
-                if (document.getElementById('err').innerText.length > 0) {
+                if (count > 500) {
+                    document.getElementById('err').innerText = 'Bạn quá số lượng chữ cái ở mô tả';
                     return;
                 }
+                if (count === 0) {
+                    document.getElementById('err').innerText = 'Bạn chưa điền mô tả';
+                    return;
+                }
+                
+                document.getElementById('category_id').value = category_id;
+                let data_description = document.getElementById('description').value.trim();
+                
+                document.getElementById('data_description').value = data_description;
+//                console.log(document.getElementById('data_description'));
+//                if (document.getElementById('err').innerText.length > 0) {
+//                    return;
+//                }
                 form.submit();
             }
 
@@ -402,9 +425,9 @@
                 }
                 return 'nochoose';
             }
-            
-            function changeCategory(){
-                document.getElementById('list_flashcards').innerText='';
+
+            function changeCategory() {
+                document.getElementById('list_flashcards').innerText = '';
             }
 
             function deleteFlashCard(position, id) {
@@ -525,6 +548,9 @@
                             if (data.length > 0) {
                                 document.getElementById('err').innerText = data;
                             }
+                            else{
+                                document.getElementById('err').innerText = '';
+                            }
                         },
                         error: function (xhr, status, error) {
 
@@ -533,7 +559,13 @@
                 } else {
                     document.getElementById('err').innerText = '';
                 }
-
+            }
+            let count = 0;
+            function descriptionCourse() {
+                let description = document.getElementById('description');
+                let value = description.value.trim();
+                count = value.length;
+                document.getElementById('count').innerText = count;
             }
         </script>
 

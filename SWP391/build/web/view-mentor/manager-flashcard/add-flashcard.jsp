@@ -62,11 +62,11 @@
                                 Tables
                             </a>
                             <div class="sb-sidenav-menu-heading">Quản lý câu hỏi</div>
-                            <a class="nav-link" href="charts.html">
+                            <a class="nav-link" href="#">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
                                 Xem tất cả
                             </a>
-                            <a class="nav-link" href="tables.html">
+                            <a class="nav-link" href="add-flashcard">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-plus"></i></div>
                                 Thêm câu hỏi
                             </a>
@@ -76,12 +76,16 @@
                             </a>
                             <div class="sb-sidenav-menu-heading">Quản lý khóa học</div>
                             <a class="nav-link" href="charts.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
+                                Xem tất cả
+                            </a>
+                            <a class="nav-link" href="add-course">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-plus"></i></div>
+                                Thêm khóa học
                             </a>
                             <a class="nav-link" href="tables.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+                                Chỉnh sửa khóa học
                             </a>
                             <div class="sb-sidenav-menu-heading">Quản lý học sinh</div>
                             <a class="nav-link" href="charts.html">
@@ -96,7 +100,7 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        MEMTOR
                     </div>
                 </nav>
             </div>
@@ -270,7 +274,7 @@
                     }
                 }
             }
-            
+
             function addRowFlashCard(quesion, answer) {
                 // Create a new div element
                 let newRow = document.createElement('div');

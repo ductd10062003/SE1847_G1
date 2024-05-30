@@ -168,12 +168,13 @@ public class addCourse extends HttpServlet {
         int mentor_id = 22;
         String category_id = request.getParameter("category_id");
         String course_name = request.getParameter("course_name");
+        String description = request.getParameter("data_description");
 
         DAOQuiz daoQuiz = new DAOQuiz();
         DAOCourse daoCourse = new DAOCourse();
 
         LocalDate today = LocalDate.now();
-        Course course = new Course(course_name, "no information", today.toString(), today.toString(), 1, mentor_id, Integer.parseInt(category_id));
+        Course course = new Course(course_name, description, today.toString(), today.toString(), 1, mentor_id, Integer.parseInt(category_id));
 
         daoCourse.createCourse(course);
 
