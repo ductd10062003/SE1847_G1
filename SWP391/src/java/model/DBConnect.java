@@ -18,11 +18,6 @@ public class DBConnect{
     }
     
     public DBConnect(){
-        this("jdbc:sqlserver://localhost:1433;databaseName= SWP_G1_V2;encrypt=false", "dat", "dat13112002");
-    }
-
-    public static void main(String[] args) {
-        new DBConnect();
-        System.out.println("Connected");
+        this("jdbc:sqlserver://localhost:1433;databaseName= SWP_G1_V2;encrypt=false", "sa", "123");
     }
 }
