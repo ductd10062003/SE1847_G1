@@ -37,13 +37,15 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-9 d-none d-lg-block">
-                    <a href="#" class="small mr-3"><span class="icon-question-circle-o mr-2"></span> Have a questions?</a>
+                    <a href="#" class="small mr-3"><span class="icon-question-circle-o mr-2"></span> Have a
+                        questions?</a>
                     <a href="#" class="small mr-3"><span class="icon-phone2 mr-2"></span> 10 20 123 456</a>
                     <a href="#" class="small mr-3"><span class="icon-envelope-o mr-2"></span> info@mydomain.com</a>
                 </div>
                 <div class="col-lg-3 text-right">
                     <a href="login.html" class="small mr-3"><span class="icon-unlock-alt"></span> Log In</a>
-                    <a href="register.html" class="small btn btn-primary px-4 py-2 rounded-0"><span class="icon-users"></span> Register</a>
+                    <a href="register.html" class="small btn btn-primary px-4 py-2 rounded-0"><span
+                            class="icon-users"></span> Register</a>
                 </div>
             </div>
         </div>
@@ -116,32 +118,39 @@
 
     <div class="site-section">
         <div class="container">
-            <form action="register" method="post" onsubmit="return validatePasswords()">
+            <form action="register" method="post" onsubmit="return validate()">
                 <div class="row justify-content-center">
                     <div class="col-md-5">
                         <div class="row">
                             <div class="col-md-12 form-group">
                                 <label for="username">Username</label>
-                                <input type="text" id="username" name="username" class="form-control form-control-lg" required>
+                                <input type="text" id="username" name="username" class="form-control form-control-lg"
+                                       required>
+                                <span id="username-exist-message" style="color:red;"></span>
                             </div>
                             <div class="col-md-12 form-group">
                                 <label for="email">Email</label>
-                                <input type="email" id="email" name="email" class="form-control form-control-lg" required>
+                                <input type="email" id="email" name="email" class="form-control form-control-lg"
+                                       required>
+                                <span id="email-exist-message" style="color:red;"></span>
                             </div>
                             <div class="col-md-12 form-group">
                                 <label for="phone">Phone</label>
-                                <input type="text" id="phone" name="phone" class="form-control form-control-lg" pattern="[0-9]{10}" required>
+                                <input type="text" id="phone" name="phone" class="form-control form-control-lg"
+                                       pattern="[0-9]{10}" required>
                             </div>
                             <div class="col-md-12 form-group">
                                 <label>Gender</label>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="male" name="gender" value="male" required>
+                                    <input class="form-check-input" type="radio" id="male" name="gender" value="male"
+                                           required>
                                     <label class="form-check-label" for="male">
                                         Male
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="female" name="gender" value="female" required>
+                                    <input class="form-check-input" type="radio" id="female" name="gender"
+                                           value="female" required>
                                     <label class="form-check-label" for="female">
                                         Female
                                     </label>
@@ -153,12 +162,32 @@
                             </div>
                             <div class="col-md-12 form-group">
                                 <label for="password">Password (6-32, at least 1 special character)</label>
-                                <input type="password" id="password" name="password" class="form-control form-control-lg" pattern="[\S]{6,32}" required>
+                                <input type="password" id="password" name="password"
+                                       class="form-control form-control-lg" required>
                             </div>
                             <div class="col-md-12 form-group">
                                 <label for="confirm-password">Re-type Password</label>
-                                <input type="password" id="confirm-password" name="confirm-password" class="form-control form-control-lg" required>
+                                <input type="password" id="confirm-password" name="confirm-password"
+                                       class="form-control form-control-lg" required>
                                 <span id="password-match-message" style="color:red;"></span>
+                            </div>
+                        </div>
+                        <%--                        a radio button for choosing role. Button value 2 for teacher, button value 3 for Student--%>
+                        <div class="col-md-12 form-group">
+                            <label>Role</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="teacher" name="role" value="2"
+                                       required>
+                                <label class="form-check-label" for="teacher">
+                                    Teacher
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="student" name="role" value="3"
+                                       required>
+                                <label class="form-check-label" for="student">
+                                    Student
+                                </label>
                             </div>
                         </div>
                         <div class="row">
@@ -177,7 +206,8 @@
             <div class="row">
                 <div class="col-lg-3">
                     <p class="mb-4"><img src="images/logo.png" alt="Image" class="img-fluid"></p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto iure.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto
+                        iure.</p>
                     <p><a href="#">Learn More</a></p>
                 </div>
                 <div class="col-lg-3">
@@ -219,7 +249,10 @@
                     <div class="copyright">
                         <p>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                            All rights reserved | This template is made with <i class="icon-heart"
+                                                                                aria-hidden="true"></i> by <a
+                                href="https://colorlib.com" target="_blank">Colorlib</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </p>
                     </div>
@@ -232,7 +265,13 @@
 <!-- .site-wrap -->
 
 <!-- loader -->
-<div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#51be78"/></svg></div>
+<div id="loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px">
+        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
+        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+                stroke="#51be78"/>
+    </svg>
+</div>
 
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/jquery-migrate-3.0.1.min.js"></script>
@@ -250,21 +289,98 @@
 <script src="js/jquery.mb.YTPlayer.min.js"></script>
 <script src="js/main.js"></script>
 
+<%--Validate phone number using this regex: /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g--%>
 <script>
-    function validatePasswords() {
-        var password = document.getElementById("password").value;
-        var confirmPassword = document.getElementById("confirm-password").value;
-        var message = document.getElementById("password-match-message");
+    var phone = document.getElementById("phone");
+    phone.addEventListener("input", function () {
+        var phoneRegex = /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g;
+        if (!phoneRegex.test(phone.value)) {
+            phone.setCustomValidity("Invalid phone number!");
+        } else {
+            phone.setCustomValidity("");
+        }
+    });
+</script>
+
+<%--validate email by calline a servlet named email validation--%>
+<script>
+
+</script>
+
+
+
+<%--Validate username by calling a servlet named username validation--%>
+<script>
+
+</script>
+
+
+
+<%--Validate dob so that the registerer is at least 10 years old--%>
+<script>
+    var dob = document.getElementById("dob");
+    var today = new Date();
+    var tenYearsAgo = new Date(today.getFullYear() - 10, today.getMonth(), today.getDate());
+    dob.max = tenYearsAgo.toISOString().split('T')[0];
+
+</script>
+
+<script>
+    function validate() {
+
+        let username_validation = true;
+        let email_validation = true;
+        let password_validation = true;
+        let username = document.getElementById("username").value;
+        let email = document.getElementById("email").value;
+        let password = document.getElementById("password").value;
+        let confirmPassword = document.getElementById("confirm-password").value;
+        let message = document.getElementById("password-match-message");
+        let email_message = document.getElementById("email-exist-message");
+        let username_message = document.getElementById("username-exist-message");
+
+        // Check username validation
+        let xhrUsername = new XMLHttpRequest();
+        xhrUsername.open("GET", "username-validation?username=" + encodeURIComponent(username), true);
+        xhrUsername.onreadystatechange = function () {
+            if (xhrUsername.readyState === 4 && xhrUsername.status === 200) {
+                if (xhrUsername.responseText.trim() === "true") {
+                    username_message.textContent = "Username already exists!";
+                    username_validation = false;
+                } else {
+                    username_message.textContent = "";
+                }
+            }
+        };
+        xhrUsername.send();
+
+        // Check email validation
+        let xhrEmail = new XMLHttpRequest();
+        xhrEmail.open("GET", "email-validation?email=" + encodeURIComponent(email), true);
+        xhrEmail.onreadystatechange = function () {
+            if (xhrEmail.readyState === 4 && xhrEmail.status === 200) {
+                if (xhrEmail.responseText.trim() === "true") {
+                    email_message.textContent = "Email already exists!";
+                    email_validation = false;
+                } else {
+                    email_message.textContent = "";
+                }
+            }
+        };
+        xhrEmail.send();
+
 
         if (password !== confirmPassword) {
             message.textContent = "Passwords do not match!";
-            return false;
+            password_validation = false;
         } else {
             message.textContent = "";
-            return true;
         }
+
+        return username_validation && email_validation && password_validation;
     }
 </script>
+
 
 </body>
 </html>

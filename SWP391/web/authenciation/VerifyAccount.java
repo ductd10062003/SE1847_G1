@@ -1,7 +1,7 @@
 
-package controller;
+package controller.authenciation;
 
-import controller.encrypt.Password;
+import controller.authenciation.encrypt.PasswordEncryptor;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,8 +11,6 @@ import model.DAOUser;
 import entity.User;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -25,7 +23,20 @@ public class VerifyAccount extends HttpServlet {
     private static ConcurrentHashMap<String, User> pendingUsers = new ConcurrentHashMap<>();
 
     public static void addPendingUser(User user, String code) {
+
         pendingUsers.put(code, user);
+        expirePendingUserThread(code);
+    }
+
+    private static void expirePendingUserThread(String code){
+        new Thread(() -> {
+            try {
+                Thread.sleep(30000);
+                pendingUsers.remove(code);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -48,7 +59,7 @@ public class VerifyAccount extends HttpServlet {
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             else{
                 request.getSession().removeAttribute("verifying");
-                request.getRequestDispatcher("confirmVerificationCode.jsp").forward(request, response);
+                request.getRequestDispatcher("ConfirmVerificationCode.jsp").forward(request, response);
             }
         }
     }
@@ -64,14 +75,25 @@ public class VerifyAccount extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String verificationCode = request.getParameter("verification-code");
-        User user = pendingUsers.get(verificationCode);
+        User user = pendingUsers.get(request.getSession().getId());
+        String OTP = (String)request.getSession().getAttribute("OTP");
+
         if(user == null){
-            request.getSession().setAttribute("error", "Invalid verification code");
-            request.getRequestDispatcher("confirmVerificationCode.jsp").forward(request, response);
+            request.getSession().setAttribute("error", "Session expired. Please try again.");
+            request.getRequestDispatcher("ConfirmVerificationCode.jsp").forward(request, response);
         } else {
+            if(!PasswordEncryptor.validatePassword(verificationCode, OTP)){
+                request.getSession().setAttribute("error", "Invalid verification code");
+                request.getRequestDispatcher("ConfirmVerificationCode.jsp").forward(request, response);
+                return;
+            }
+
             new DAOUser().createUser(user);
-            pendingUsers.remove(verificationCode);
-            response.sendRedirect("login");
+            request.getSession().setAttribute("success", "Account created successfully");
+
+            pendingUsers.remove(request.getSession().getId());
+            request.getSession().removeAttribute("OTP");
+            request.getRequestDispatcher("ConfirmVerificationCode.jsp").forward(request, response);
         }
     }
 

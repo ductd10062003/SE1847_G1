@@ -152,7 +152,8 @@
                         <div class="row">
                             <div class="col-md-12 form-group">
                                 <label for="username">Username</label>
-                                <input type="text" id="username" name="username" class="form-control form-control-lg" required>
+                                <input type="text" id="username" name="username" class="form-control form-control-lg" value="<%= request.getSession().getAttribute("username") != null ? (String) request.getSession().getAttribute("username") : "" %>" required>
+
                             </div>
                             <div class="col-md-12 form-group">
                                 <label for="password">Password</label>
@@ -177,7 +178,6 @@
 
         </div>
     </div>
-
 
 
     <div class="footer">

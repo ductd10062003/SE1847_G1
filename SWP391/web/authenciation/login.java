@@ -2,13 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
 
-import controller.encrypt.Password;
-import entity.User;
-import java.io.IOException;
-import java.io.PrintWriter;
+package controller.authenciation;
+
+import controller.authenciation.encrypt.PasswordEncryptor;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,12 +15,8 @@ import model.DAOUser;
 import entity.User;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 /**
- *
  * @author ductd
  */
 @WebServlet(name = "login", urlPatterns = {"/login"})
@@ -76,16 +71,18 @@ public class login extends HttpServlet {
             if (username != null && password != null) {
                 User user = new DAOUser().getUserByUsername(username);
                 if (user != null) {
-                    if (Password.validatePassword(password, user.getPassword())) {
+                    if (PasswordEncryptor.validatePassword(password, user.getPassword())) {
                         request.getSession().setAttribute("user", user);
-                        response.sendRedirect("course-detail");
+                        response.sendRedirect("index.html");
                     } else {
-                        request.getSession().setAttribute("error", "Username or password is incorrect");
+                        request.getSession().setAttribute("error", "Password is incorrect");
+                        request.getSession().setAttribute("username", username);
                         request.getRequestDispatcher("login.jsp").forward(request, response);
                     }
 
                 } else {
-                    request.getSession().setAttribute("error", "Username or password is incorrect");
+                    request.getSession().setAttribute("error", "Username user not exist");
+                    request.getSession().setAttribute("username", username);
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 }
             } else {

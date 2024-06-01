@@ -106,7 +106,7 @@
 
     <div class="site-section">
         <div class="container">
-            <form action="verify-forgot-password" method="post">
+            <form action="reset-password" method="post">
                 <input type="hidden" id="pending" name="pending" content="verify">
                 <div class="row justify-content-center">
                     <div class="col-md-5">
@@ -118,7 +118,18 @@
                                 </div>
                             </div>
                             <% request.getSession().removeAttribute("error"); } %>
-                            <input type="hidden" name="email" value="<%=(String) request.getSession().getAttribute("email")%>">
+<%--                            If attribute "changed exist, show confirmation message and anchor to home--%>
+                            <% if(request.getSession().getAttribute("success") != null) { %>
+                            <div class="col-md-12">
+                                <div class="alert alert-success" role="alert">
+                                    <strong>Success!</strong> <%= (String) request.getSession().getAttribute("success") %>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <a href="index.html" class="btn btn-primary btn-lg px-5">Home</a>
+                            </div>
+                            <% request.getSession().removeAttribute("success"); } %>
+
                             <div class="col-md-12 form-group">
                                 <label for="new-password">New password (6-32, at least 1 special character)</label>
                                 <input type="text" id="new-password" name="new-password" class="form-control form-control-lg" pattern="[\S]{6,32}" required>

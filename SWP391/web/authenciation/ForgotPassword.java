@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.authenciation;
 
-import controller.encrypt.Password;
+import controller.authenciation.encrypt.GmailVerificationHandler;
+import controller.authenciation.encrypt.PasswordEncryptor;
 import entity.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,9 +15,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.DAOUser;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Vector;
 
 /**
  *
@@ -39,14 +37,13 @@ public class ForgotPassword extends HttpServlet {
         User user = new DAOUser().getUserByEmail(email);
         if(user != null){
             String code;
-            try {
-                code = Base64.getEncoder().encodeToString(Password.generateSalt());
-            } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException(e);
-            }
-            request.getSession().setAttribute("email", email);
-            request.getSession().setAttribute("code", code);
-            request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
+            code = PasswordEncryptor.generateSalt();
+            request.getSession().setAttribute("code", PasswordEncryptor.generateSecurePassword(code));
+
+            GmailVerificationHandler.sendResetPasswordVerificationCode(email, code);
+
+            VerifyForgotPassword.addPendingUser(user, request.getSession().getId());
+            request.getRequestDispatcher("confirmResetPasswordVerificationCode.jsp").forward(request, response);
         } else {
             request.getSession().setAttribute("error", "Email is not existed");
             request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);

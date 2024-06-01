@@ -43,7 +43,8 @@
                 </div>
                 <div class="col-lg-3 text-right">
                     <a href="login.html" class="small mr-3"><span class="icon-unlock-alt"></span> Log In</a>
-                    <a href="register.html" class="small btn btn-primary px-4 py-2 rounded-0"><span class="icon-users"></span> Register</a>
+                    <a href="register.html" class="small btn btn-primary px-4 py-2 rounded-0"><span
+                            class="icon-users"></span> Register</a>
                 </div>
             </div>
         </div>
@@ -78,7 +79,8 @@
                         <a href="#"><span class="icon-facebook"></span></a>
                         <a href="#"><span class="icon-twitter"></span></a>
                         <a href="#"><span class="icon-linkedin"></span></a>
-                        <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a>
+                        <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span
+                                class="icon-menu h3"></span></a>
                     </div>
                 </div>
             </div>
@@ -111,30 +113,46 @@
                 <div class="row justify-content-center">
                     <div class="col-md-5">
                         <div class="row">
-                            <% if(request.getSession().getAttribute("error") != null) { %>
+                            <% if (request.getSession().getAttribute("error") != null) { %>
                             <div class="col-md-12">
                                 <div class="alert alert-danger" role="alert">
                                     <strong>Error!</strong> <%= (String) request.getSession().getAttribute("error") %>
                                 </div>
                             </div>
-                            <% request.getSession().removeAttribute("error"); } %>
+                            <% request.getSession().removeAttribute("error");
+                            } %>
+
+                            <%--                            Success report--%>
+                            <% if (request.getSession().getAttribute("success") != null) { %>
                             <div class="col-md-12">
                                 <div class="alert alert-success" role="alert">
-                                    <strong>Success!</strong> A verification code has been sent to your email.
+                                    <strong>Success!</strong> <%= (String) request.getSession().getAttribute("success") %>
                                 </div>
                             </div>
-                            <div class="col-md-12 form-group">
-                                <label for="verification-code">Verification Code</label>
-                                <input type="text" id="verification-code" name="verification-code" class="form-control form-control-lg" required>
+                            <%--                            anchor return to home--%>
+                            <div class="col-md-12">
+                                <a href="index.html" class="btn btn-primary btn-lg px-5">Return to Home</a>
+                                <% request.getSession().removeAttribute("success");
+                                } %>
+
+                                <div class="col-md-12">
+                                    <div class="alert alert-success" role="alert">
+                                        <strong>Success!</strong> A verification code has been sent to your email.
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label for="verification-code">Verification Code</label>
+                                    <input type="text" id="verification-code" name="verification-code"
+                                           class="form-control form-control-lg" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <input type="submit" value="Confirm" class="btn btn-primary btn-lg px-5">
+                            <div class="row">
+                                <div class="col-12">
+                                    <input type="submit" value="Confirm" class="btn btn-primary btn-lg px-5">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </form>
         </div>
     </div>
@@ -144,7 +162,8 @@
             <div class="row">
                 <div class="col-lg-3">
                     <p class="mb-4"><img src="images/logo.png" alt="Image" class="img-fluid"></p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto iure.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto
+                        iure.</p>
                     <p><a href="#">Learn More</a></p>
                 </div>
                 <div class="col-lg-3">
@@ -186,7 +205,10 @@
                     <div class="copyright">
                         <p>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                            All rights reserved | This template is made with <i class="icon-heart"
+                                                                                aria-hidden="true"></i> by <a
+                                href="https://colorlib.com" target="_blank">Colorlib</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </p>
                     </div>
@@ -198,7 +220,13 @@
 <!-- .site-wrap -->
 
 <!-- loader -->
-<div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#51be78"/></svg></div>
+<div id="loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px">
+        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
+        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+                stroke="#51be78"/>
+    </svg>
+</div>
 
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/jquery-migrate-3.0.1.min.js"></script>

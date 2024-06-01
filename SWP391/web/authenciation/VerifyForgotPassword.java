@@ -3,9 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
+package controller.authenciation;
 
-import controller.encrypt.Password;
+import controller.authenciation.encrypt.PasswordEncryptor;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,7 +23,28 @@ import java.util.concurrent.ConcurrentHashMap;
 @WebServlet(name = "verify-forgot-password", urlPatterns = {"/verify-forgot-password"})
 public class VerifyForgotPassword extends HttpServlet {
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    private static ConcurrentHashMap<String, User> pendingUsers = new ConcurrentHashMap<>();
+
+    public static void addPendingUser(User user, String code) {
+
+        pendingUsers.put(code, user);
+        expirePendingUserThread(code);
+    }
+
+    public static User getPendingUser(String code){
+        return pendingUsers.get(code);
+    }
+
+    private static void expirePendingUserThread(String code){
+        new Thread(() -> {
+            try {
+                Thread.sleep(30000);
+                pendingUsers.remove(code);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -50,29 +71,22 @@ public class VerifyForgotPassword extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String pending = request.getParameter("pending");
-        if(pending != null){
-
-            String newPassword = request.getParameter("new-password");
-            String email = (String) request.getSession().getAttribute("email");
-            
-            User user = new DAOUser().getUserByEmail(email);
-            if(Password.validatePassword(newPassword, user.getPassword())){
-                request.getSession().setAttribute("error", "New password must be different from the old password");
-                request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
-                return;
-            }
-            request.getSession().removeAttribute("email");
-            request.getSession().removeAttribute("email");
-            user.setPassword(newPassword);
-            new DAOUser().updateUser(user);
-            request.getSession().removeAttribute("user");
-            response.sendRedirect("login");
+        User user = pendingUsers.get(request.getSession().getId());
+        if(user == null){
+            request.getSession().setAttribute("error", "Session expired. Please try again.");
+            request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);
             return;
         }
 
+        String code = request.getParameter("verification-code");
 
-        request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
+        if(PasswordEncryptor.validatePassword(code, (String) request.getSession().getAttribute("code"))){
+            request.getSession().setAttribute("user-code", code);
+            request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
+        } else {
+            request.getSession().setAttribute("error", "Invalid code");
+            request.getRequestDispatcher("confirmResetPasswordVerificationCode.jsp").forward(request, response);
+        }
 
     }
 
