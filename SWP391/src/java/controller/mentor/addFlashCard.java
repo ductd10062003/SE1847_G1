@@ -27,7 +27,7 @@ public class addFlashCard extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         request.setAttribute("categories", daoCategory.getAllCategories());
         request.getRequestDispatcher("../view-mentor/manager-flashcard/add-flashcard.jsp").forward(request, response);
     }
@@ -113,14 +113,21 @@ public class addFlashCard extends HttpServlet {
                     fl.setQuestion(fl.getQuestion() + "@@err@@");
                     checkDuplicate = true;
                 }
-                
+
                 if (checkDuplicateInVector.isEmpty()) {
                     checkDuplicateInVector.add(fl.getQuestion());
-                } else if (checkDuplicateInVector.contains(fl.getQuestion())) {
-                    fl.setQuestion(fl.getQuestion() + "@@err@@");
-                    checkDuplicate = true;
-                } else{
-                    checkDuplicateInVector.add(fl.getQuestion());
+                } else {
+                    boolean flag = false;
+                    for (String str : checkDuplicateInVector) {
+                        if (str.equalsIgnoreCase(fl.getQuestion())) {
+                            fl.setQuestion(fl.getQuestion() + "@@err@@");
+                            checkDuplicate = true;
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        checkDuplicateInVector.add(fl.getQuestion());
+                    }
                 }
                 vector.add(fl);
             }

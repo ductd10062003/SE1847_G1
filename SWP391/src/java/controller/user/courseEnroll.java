@@ -43,7 +43,7 @@ public class courseEnroll extends HttpServlet {
         DAOCategory daoCategory = new DAOCategory();
         
         Vector<Course> courses;
-         Vector<Category> categories = daoCategory.getAllCategories();
+        Vector<Category> categories = daoCategory.getAllCategories();
 
         String courseName = request.getParameter("courseName");
         String categoryName = request.getParameter("categoryName");

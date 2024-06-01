@@ -7,6 +7,11 @@ public class Course {
 
     public Course() {
     }
+    
+    public Course(String course_name, String description) {
+        this.course_name = course_name;
+        this.description = description;
+    }
 
     public Course(int course_id, String course_name, String description, String created_at, String update_at, int active, int created_by, int category_id) {
         this.course_id = course_id;

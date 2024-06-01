@@ -19,7 +19,6 @@ import java.io.IOException;
 /**
  * @author ductd
  */
-@WebServlet(name = "login", urlPatterns = {"/login"})
 public class login extends HttpServlet {
 
 

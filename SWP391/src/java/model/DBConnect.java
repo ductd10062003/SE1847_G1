@@ -2,6 +2,7 @@ package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 
 public class DBConnect{
@@ -12,17 +13,11 @@ public class DBConnect{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             //connection
             conn = DriverManager.getConnection(url, username, password);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException | SQLException e) {
         }
     }
     
     public DBConnect(){
-        this("jdbc:sqlserver://localhost:1433;databaseName= SWP_G1_V2;encrypt=false", "sa", "12345678");
-    }
-
-    public static void main(String[] args) {
-        new DBConnect();
-        System.out.println("Connected");
+        this("jdbc:sqlserver://localhost:1433;databaseName= SWP_G1_V2;encrypt=false", "sa", "123");
     }
 }

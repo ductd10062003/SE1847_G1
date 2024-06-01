@@ -28,7 +28,7 @@
                             >
                         </li>
                         <li class="has-children">
-                            <a href="courses.html" class="nav-link text-left"
+                            <a href="/viewcourse" class="nav-link text-left"
                                >Khóa học</a
                             >
                             <ul class="dropdown">

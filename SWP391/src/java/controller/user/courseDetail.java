@@ -54,13 +54,10 @@ public class courseDetail extends HttpServlet {
 
         //Object
         Course course = daoCourse.getCourseByID(course_id);
-        //check user login
-//        session.setAttribute("member", daoUser.getUserByID(1));
-        //
-        User user = null;
+        User user = (User) session.getAttribute("user");
         UserEnrollCourse userEnrollCourse = null;
-        if ((User) session.getAttribute("member") != null) {
-            user = (User) session.getAttribute("member");
+        
+        if (user != null) {
             userEnrollCourse = daoUserEnrollCourse.getUserEnrollCourse(user.getUser_id(), course_id);
         }
 
@@ -70,7 +67,6 @@ public class courseDetail extends HttpServlet {
         }
 
         request.setAttribute("course", course);
-        request.setAttribute("mentor", daoUser.getUserByID(course.getCreated_by()));
         request.setAttribute("typeOfPractices", daoTypeOfPractices.getAllTypeOfPractices());
         request.setAttribute("quizs", daoFlashCard.getFlashCardInCourse(daoQuiz.getQuizsByCourseID(course_id)));
         request.setAttribute("category", daoCategory.getCategoryByID(course.getCategory_id()));
@@ -127,7 +123,7 @@ public class courseDetail extends HttpServlet {
         DAOUserPractice daoUP = new DAOUserPractice();
         DAOResultDetail daoRD = new DAOResultDetail();
 
-        User user = (User) request.getSession(true).getAttribute("member");
+        User user = (User) request.getSession(true).getAttribute("user");
 
         if (daoUERC.getUserEnrollCourse(user.getUser_id(), courseId) != null) {
             try {
@@ -171,7 +167,7 @@ public class courseDetail extends HttpServlet {
         
         DAOUserEnrollCourse daoUERCRemove = new DAOUserEnrollCourse();
         
-        User user = (User) request.getSession(true).getAttribute("member");
+        User user = (User) request.getSession(true).getAttribute("user");
         
         try {
             int updateUserEnrollCourse = daoUERCRemove.updateUserEnrollCourse(user.getUser_id(), courseId, 0);
