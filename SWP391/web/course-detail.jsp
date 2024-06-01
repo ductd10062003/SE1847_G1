@@ -71,8 +71,7 @@
                 <div class="container">
                     <div class="row align-items-end">
                         <div class="col-lg-7">
-                            <h2 class="mb-0">How To Create Mobile Apps Using Ionic</h2>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+                            <h2 class="mb-0">Từng bước nhỏ, dẫn đến thành công lớn!</h2>                            
                         </div>
                     </div>
                 </div>
@@ -103,7 +102,7 @@
                                     <span>${requestScope.course.course_name}</span>
                                 </h2>
                                 <button type="button" class="btn btn-success" 
-                                        onclick="checkLogin('${sessionScope.member}', this, ${requestScope.course.course_id})"
+                                        onclick="checkLogin('${sessionScope.user}', this, ${requestScope.course.course_id})"
                                         id="joinClass"
                                         >
                                     ${requestScope.enrolled == 0 ?"Tham gia":"Hủy tham gia"}
@@ -111,17 +110,6 @@
                             </div>
                             <div style="font-style: italic">
                                 Chủ để: ${requestScope.category.category_name}
-                            </div>
-                            <div>
-                                <div>
-                                    <p>
-                                        Mentor: ${requestScope.mentor.name}
-                                        <i
-                                            class="fa-regular fa-message"
-                                            style="cursor: pointer"
-                                            ></i>
-                                    </p>
-                                </div>
                             </div>
                             <div class="mt-3">
                                 <div>
@@ -424,8 +412,8 @@
                                             }
                                            
                                            //check login to join or remove class
-                                            function checkLogin(member, position, course_id) {
-                                                if (member === null || member.trim().length === 0) {
+                                            function checkLogin(user, position, course_id) {
+                                                if (user === null || user.trim().length === 0) {
                                                     let err = document.getElementById('err');
                                                     err.querySelector('span').innerHTML = 'Bạn chưa đăng nhập';
                                                     err.style.display = 'block';

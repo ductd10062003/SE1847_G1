@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author ductd
  */
-@WebServlet(name="mentorDashBoard", urlPatterns={"/mentorDashBoard"})
+@WebServlet(name="mentorDashBoard", urlPatterns={"/mentor/dashboard"})
 public class mentorDashBoard extends HttpServlet {
    
 
@@ -25,7 +25,7 @@ public class mentorDashBoard extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         
-        request.getRequestDispatcher("view-mentor/mentor-dashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("../view-mentor/mentor-dashboard.jsp").forward(request, response);
     } 
 
 

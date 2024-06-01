@@ -39,7 +39,7 @@ public class DAOUser extends DBConnect {
         }
         return vector;
     }
-    
+
     public User getUserByID(int user_id) {
         User user = new User();
         String sql = "select * from [user] where user_id = ?";
@@ -72,7 +72,6 @@ public class DAOUser extends DBConnect {
         }
         return user;
     }
-
 
     public void createUser(User user) {
 
@@ -107,4 +106,24 @@ public class DAOUser extends DBConnect {
             e.printStackTrace();
         }
     }
+
+    public User testLogin(String email, String password) {
+        String sql = "select * from [user] where email = ? and password = ?";
+        User user = null;
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            ps.setString(1, email);
+            ps.setString(2,password);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11));
+            }
+        } catch (Exception e) {
+        }
+        return user;
+    }
+    
+//    public static void main(String[] args) {
+//        System.out.println(new DAOUser().testLogin("user1@gmail.com", "123456"));
+//    }
 }
