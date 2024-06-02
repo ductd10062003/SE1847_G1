@@ -82,11 +82,11 @@ public class viewCourse extends HttpServlet {
             search = search.trim();
             ArrayList<Course> course = daoCourse.getCourseByName2(search);
             request.setAttribute("course", course);
-            //paging(request, course);
+            paging(request, course);
         }
         
         
-        String searchById = request.getParameter("category");
+        String searchById = request.getParameter("category_id");
         System.out.println(searchById);
         if (searchById != null) {
             searchById = searchById.trim();
@@ -97,7 +97,7 @@ public class viewCourse extends HttpServlet {
                 System.err.println("Y");
             }
             request.setAttribute("course", listcourse);
-            //paging(request, listcourse);
+            paging(request, listcourse);
         
         }
         ArrayList<Category> category = daoCategory.getAllCategories2();
