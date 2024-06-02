@@ -190,41 +190,6 @@
                                     <div>
                                         <form action="viewcourse" method="POST">
                                             <button class="btn btn-primary" type="submit">Tìm kiếm</button>
-                                            <div id="list_categories">
-                                                <c:forEach items="${requestScope.category}" var="category">
-                                                    <div class="form-check">
-                                                        <input
-                                                            <c:if test="${category.category_id == requestScope.category_id}">
-                                                                checked
-                                                            </c:if>
-                                                            class="form-check-input"
-                                                            type="radio"
-                                                            name="category"                                            
-                                                            value="${category.category_id}"
-                                                            onclick="changeCategory()"
-                                                            />
-                                                        <label
-                                                            class="form-check-label"
-                                                            for="category"
-                                                            >
-                                                            ${category.category_name}
-                                                        </label>
-                                                    </div>
-                                                </c:forEach>
-                                            </div>
-                                        </form>
-                                    </div>                             
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="card">
-                                <div class="card-header">Thể loại</div>
-                                <div class="card-body">
-                                    <div>
-                                        <form action="viewcourse" method="POST">
-                                            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
                                             <div>
                                                 <c:forEach items="${requestScope.category}" var="category">
                                                     <input 
