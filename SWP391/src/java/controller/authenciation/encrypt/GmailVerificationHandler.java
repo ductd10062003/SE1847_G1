@@ -1,4 +1,4 @@
-package authenciation.encrypt;
+package controller.authenciation.encrypt;
 
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;

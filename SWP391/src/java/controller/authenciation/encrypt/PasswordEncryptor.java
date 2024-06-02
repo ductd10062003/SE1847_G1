@@ -1,4 +1,4 @@
-package authenciation.encrypt;
+package controller.authenciation.encrypt;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

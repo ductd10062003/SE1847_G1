@@ -3,22 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package authenciation;
+package controller.authenciation;
 
 import controller.authenciation.encrypt.PasswordEncryptor;
-import entity.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.DAOUser;
+import entity.User;
 
 import java.io.IOException;
 
 /**
  * @author ductd
  */
+@WebServlet(name = "login", urlPatterns = {"/login"})
 public class login extends HttpServlet {
 
 
