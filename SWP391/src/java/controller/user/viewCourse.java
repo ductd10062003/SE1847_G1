@@ -86,7 +86,7 @@ public class viewCourse extends HttpServlet {
         }
         
         
-        String searchById = request.getParameter("category");
+        String searchById = request.getParameter("category_id");
         System.out.println(searchById);
         if (searchById != null) {
             searchById = searchById.trim();

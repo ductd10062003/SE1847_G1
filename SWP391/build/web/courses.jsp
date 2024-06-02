@@ -233,7 +233,7 @@
                                                         </c:if>
                                                         type="checkbox" 
                                                         id="category_id" 
-                                                        name="category" 
+                                                        name="category_id" 
                                                         value="${category.category_id}">
                                                     <label for="vehicle1">${category.category_name}</label><br>
                                                 </c:forEach>
