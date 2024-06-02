@@ -161,25 +161,6 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-lg-6">
-                        <form action="viewcourse" method="post">
-                            <div class="row">
-                                <c:forEach items="${courses}" var="course">
-                                    <div class="col-lg-4 col-md-6 mb-4">
-                                        <div class="course-1-item">
-                                            <figure class="thumnail">
-                                                <div class="category"><h3>${course.course_name}</h3></div>  
-                                            </figure>
-                                            <div class="course-1-content pb-4">
-                                                <h2>${course.description}</h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </c:forEach>    
-                            </div>
-                        </form>
                     </div>                  
 
                     <div class="col-3 align-self-center">
