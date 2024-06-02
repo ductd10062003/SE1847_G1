@@ -212,9 +212,32 @@
                                                     </div>
                                                 </c:forEach>
                                             </div>
-                                            <input type="hidden" name="data_flashcards" id="data_flashcards"/>
-                                            <input type="hidden" name="category_id" id="data_category_id"/>
-                                            <input type="hidden" name="service" value="createFlashCard" />
+                                        </form>
+                                    </div>                             
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="card">
+                                <div class="card-header">Thể loại</div>
+                                <div class="card-body">
+                                    <div>
+                                        <form action="viewcourse" method="POST">
+                                            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+                                            <div>
+                                                <c:forEach items="${requestScope.category}" var="category">
+                                                    <input 
+                                                        <c:if test="${category.category_id == requestScope.category_id}">
+                                                            checked
+                                                        </c:if>
+                                                        type="checkbox" 
+                                                        id="category_id" 
+                                                        name="category" 
+                                                        value="${category.category_id}">
+                                                    <label for="vehicle1">${category.category_name}</label><br>
+                                                </c:forEach>
+                                            </div>
                                         </form>
                                     </div>                             
                                 </div>
