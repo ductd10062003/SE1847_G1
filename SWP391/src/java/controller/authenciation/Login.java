@@ -20,7 +20,7 @@ import java.io.IOException;
  * @author ductd
  */
 @WebServlet(name = "login", urlPatterns = {"/login"})
-public class login extends HttpServlet {
+public class Login extends HttpServlet {
 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

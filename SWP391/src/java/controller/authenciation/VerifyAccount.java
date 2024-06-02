@@ -31,7 +31,7 @@ public class VerifyAccount extends HttpServlet {
     private static void expirePendingUserThread(String code){
         new Thread(() -> {
             try {
-                Thread.sleep(30000);
+                Thread.sleep(60000);
                 pendingUsers.remove(code);
             } catch (InterruptedException e) {
                 e.printStackTrace();

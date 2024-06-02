@@ -327,10 +327,6 @@
 
 <script>
     function validate() {
-
-        let username_validation = true;
-        let email_validation = true;
-        let password_validation = true;
         let username = document.getElementById("username").value;
         let email = document.getElementById("email").value;
         let password = document.getElementById("password").value;
@@ -339,46 +335,80 @@
         let email_message = document.getElementById("email-exist-message");
         let username_message = document.getElementById("username-exist-message");
 
-        // Check username validation
-        let xhrUsername = new XMLHttpRequest();
-        xhrUsername.open("GET", "username-validation?username=" + encodeURIComponent(username), true);
-        xhrUsername.onreadystatechange = function () {
-            if (xhrUsername.readyState === 4 && xhrUsername.status === 200) {
-                if (xhrUsername.responseText.trim() === "true") {
-                    username_message.textContent = "Username already exists!";
-                    username_validation = false;
-                } else {
-                    username_message.textContent = "";
-                }
-            }
-        };
-        xhrUsername.send();
-
-        // Check email validation
-        let xhrEmail = new XMLHttpRequest();
-        xhrEmail.open("GET", "email-validation?email=" + encodeURIComponent(email), true);
-        xhrEmail.onreadystatechange = function () {
-            if (xhrEmail.readyState === 4 && xhrEmail.status === 200) {
-                if (xhrEmail.responseText.trim() === "true") {
-                    email_message.textContent = "Email already exists!";
-                    email_validation = false;
-                } else {
-                    email_message.textContent = "";
-                }
-            }
-        };
-        xhrEmail.send();
-
-
-        if (password !== confirmPassword) {
-            message.textContent = "Passwords do not match!";
-            password_validation = false;
-        } else {
-            message.textContent = "";
+        function checkUsername() {
+            return new Promise((resolve, reject) => {
+                let xhrUsername = new XMLHttpRequest();
+                xhrUsername.open("GET", "username-validation?username=" + encodeURIComponent(username), true);
+                xhrUsername.onreadystatechange = function () {
+                    if (xhrUsername.readyState === 4) {
+                        if (xhrUsername.status === 200) {
+                            if (xhrUsername.responseText.trim() === "true") {
+                                username_message.textContent = "Username already exists!";
+                                resolve(false);
+                            } else {
+                                username_message.textContent = "";
+                                resolve(true);
+                            }
+                        } else {
+                            reject("Username validation failed");
+                        }
+                    }
+                };
+                xhrUsername.send();
+            });
         }
 
-        return username_validation && email_validation && password_validation;
+        function checkEmail() {
+            return new Promise((resolve, reject) => {
+                let xhrEmail = new XMLHttpRequest();
+                xhrEmail.open("GET", "email-validation?email=" + encodeURIComponent(email), true);
+                xhrEmail.onreadystatechange = function () {
+                    if (xhrEmail.readyState === 4) {
+                        if (xhrEmail.status === 200) {
+                            if (xhrEmail.responseText.trim() === "true") {
+                                email_message.textContent = "Email already exists!";
+                                resolve(false);
+                            } else {
+                                email_message.textContent = "";
+                                resolve(true);
+                            }
+                        } else {
+                            reject("Email validation failed");
+                        }
+                    }
+                };
+                xhrEmail.send();
+            });
+        }
+
+        function checkPassword() {
+            return new Promise((resolve) => {
+                if (password !== confirmPassword) {
+                    message.textContent = "Passwords do not match!";
+                    resolve(false);
+                } else {
+                    message.textContent = "";
+                    resolve(true);
+                }
+            });
+        }
+
+        return Promise.all([checkUsername(), checkEmail(), checkPassword()]).then(results => {
+            return results.every(result => result);
+        }).catch(error => {
+            console.error(error);
+            return false;
+        });
     }
+
+    document.querySelector("form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        validate().then(isValid => {
+            if (isValid) {
+                this.submit();
+            }
+        });
+    });
 </script>
 
 

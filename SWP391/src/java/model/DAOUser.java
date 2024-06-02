@@ -1,10 +1,11 @@
 package model;
 
-import controller.encrypt.Password;
+import controller.authenciation.encrypt.PasswordEncryptor;
 import entity.User;
-import java.util.Vector;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Vector;
 
 public class DAOUser extends DBConnect {
 
@@ -20,6 +21,7 @@ public class DAOUser extends DBConnect {
                 user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
         return user;
@@ -39,7 +41,7 @@ public class DAOUser extends DBConnect {
         }
         return vector;
     }
-
+    
     public User getUserByID(int user_id) {
         User user = new User();
         String sql = "select * from [user] where user_id = ?";
@@ -73,6 +75,7 @@ public class DAOUser extends DBConnect {
         return user;
     }
 
+
     public void createUser(User user) {
 
         String sql = "insert into [user]([name], email, [password], role, active, create_at, gender, dob, phone) values(?,?,?,?,?,?,?,?,?)";
@@ -80,7 +83,7 @@ public class DAOUser extends DBConnect {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
-            String securePassword = Password.generateSecurePassword(user.getPassword());
+            String securePassword = PasswordEncryptor.generateSecurePassword(user.getPassword());
             ps.setString(3, securePassword);
             ps.setInt(4, 0);
             ps.setInt(5, 1);
@@ -98,7 +101,7 @@ public class DAOUser extends DBConnect {
         String sql = "update [user] set [password] = ? where user_id = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            String securePassword = Password.generateSecurePassword(user.getPassword());
+            String securePassword = PasswordEncryptor.generateSecurePassword(user.getPassword());
             ps.setString(1, securePassword);
             ps.setInt(2, user.getUser_id());
             ps.executeUpdate();
@@ -106,24 +109,8 @@ public class DAOUser extends DBConnect {
             e.printStackTrace();
         }
     }
-
-    public User testLogin(String email, String password) {
-        String sql = "select * from [user] where email = ? and password = ?";
-        User user = null;
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
-            ps.setString(1, email);
-            ps.setString(2,password);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11));
-            }
-        } catch (Exception e) {
-        }
-        return user;
-    }
     
-//    public static void main(String[] args) {
-//        System.out.println(new DAOUser().testLogin("user1@gmail.com", "123456"));
-//    }
+    public static void main(String[] args) {
+        System.out.println(new DAOUser().getUserByEmail("otakuaria4710@gmail.com"));
+    }
 }

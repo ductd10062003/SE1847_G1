@@ -2,6 +2,19 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/controller/authenciation/Login.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/model/DAOCategory.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/controller/authenciation/ForgotPassword.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/web/authenciation/encrypt/GmailVerificationHandler.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/model/DAOUser.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/controller/testLogin.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/controller/authenciation/ResetPassword.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/controller/authenciation/VerifyForgotPassword.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/controller/authenciation/encrypt/GmailVerificationHandler.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/controller/authenciation/register.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/controller/authenciation/VerifyAccount.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/controller/authenciation/encrypt/PasswordEncryptor.java</file>
+        </group>
     </open-files>
 </project-private>
