@@ -155,7 +155,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Nhập tên khóa học" name="course_name">
                                         <div class="input-group-append">
-                                            <button class="btn btn-primary" type="submit">Search</button>
+                                            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
                                         </div>
                                     </div>
                                 </form>
@@ -174,7 +174,6 @@
                                             </figure>
                                             <div class="course-1-content pb-4">
                                                 <h2>${course.description}</h2>
-                                                <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">View Course</a></p>                               
                                             </div>
                                         </div>
                                     </div>
@@ -186,11 +185,11 @@
                     <div class="col-3 align-self-center">
                         <div>
                             <div class="card">
-                                <div class="card-header">Category</div>
+                                <div class="card-header">Thể loại</div>
                                 <div class="card-body">
                                     <div>
                                         <form action="viewcourse" method="POST">
-                                            <input class = "searchButton" type="submit" name ="filter">
+                                            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
                                             <div id="list_categories">
                                                 <c:forEach items="${requestScope.category}" var="category">
                                                     <div class="form-check">
@@ -234,7 +233,7 @@
                                             </figure>
                                             <div class="course-1-content pb-4">
                                                 <h2>${course.description}</h2>
-                                                <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">Enroll In This Course</a></p>                               
+                                                <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">Xem chi tiết</a></p>                               
                                             </div>
                                         </div>
                                     </div>
