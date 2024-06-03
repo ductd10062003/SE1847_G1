@@ -16,7 +16,7 @@
                             <a href="../index.jsp" class="nav-link text-left">Trang chủ</a>
                         </li>
                         <li class="has-children">
-                            <a href="/viewcourse" class="nav-link text-left">Khóa học</a>
+                            <a href="viewcourse" class="nav-link text-left">Khóa học</a>
                             <ul class="dropdown">
                                 <li><a href="teachers.html">Our Teachers</a></li>
                                 <li><a href="about.html">Our School</a></li>
@@ -52,7 +52,7 @@
                             <a href="../index.jsp" class="nav-link text-left">Trang chủ</a>
                         </li>
                         <li class="has-children">
-                            <a href="/viewcourse" class="nav-link text-left">Khóa học</a>
+                            <a href="viewcourse" class="nav-link text-left">Khóa học</a>
                             <ul class="dropdown">
                                 <li><a href="teachers.html">Our Teachers</a></li>
                                 <li><a href="about.html">Our School</a></li>
