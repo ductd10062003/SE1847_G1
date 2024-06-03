@@ -85,7 +85,7 @@ public class DAOUser extends DBConnect {
             ps.setString(2, user.getEmail());
             String securePassword = PasswordEncryptor.generateSecurePassword(user.getPassword());
             ps.setString(3, securePassword);
-            ps.setInt(4, 0);
+            ps.setInt(4, user.getRole());
             ps.setInt(5, 1);
             ps.setString(6, java.time.LocalDate.now().toString());
             ps.setInt(7, user.getGender());

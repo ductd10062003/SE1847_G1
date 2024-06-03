@@ -40,9 +40,9 @@ public class Login extends HttpServlet {
         if (request.getSession().getAttribute("user") != null) {
             //logout
             request.getSession().removeAttribute("user");
-        } else {
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+
         }
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
     /**
@@ -73,7 +73,7 @@ public class Login extends HttpServlet {
                 if (user != null) {
                     if (PasswordEncryptor.validatePassword(password, user.getPassword())) {
                         request.getSession().setAttribute("user", user);
-                        response.sendRedirect("index.html");
+                        response.sendRedirect("index.jsp");
                     } else {
                         request.getSession().setAttribute("error", "Password is incorrect");
                         request.getSession().setAttribute("username", username);

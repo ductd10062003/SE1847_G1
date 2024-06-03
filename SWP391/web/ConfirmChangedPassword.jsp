@@ -1,3 +1,4 @@
+<jsp:useBean id="user" scope="session" type="entity.User"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,7 +34,7 @@
         <div class="site-mobile-menu-body"></div>
     </div>
 
-
+    <jsp:include page="layout/header.jsp" />
     <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner">
         <div class="container">
             <div class="d-flex align-items-center">
@@ -64,7 +65,8 @@
                         <a href="#"><span class="icon-facebook"></span></a>
                         <a href="#"><span class="icon-twitter"></span></a>
                         <a href="#"><span class="icon-linkedin"></span></a>
-                        <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a>
+                        <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span
+                                class="icon-menu h3"></span></a>
                     </div>
                 </div>
             </div>
@@ -92,30 +94,16 @@
 
     <div class="site-section">
         <div class="container">
-            <form action="forgot-password" method="post">
-                <div class="row justify-content-center">
-                    <div class="col-md-5">
-                        <div class="row">
-                            <% if(request.getSession().getAttribute("error") != null) { %>
-                            <div class="col-md-12">
-                                <div class="alert alert-danger" role="alert">
-                                    <strong>Error!</strong> <%= (String) request.getSession().getAttribute("error") %>
-                                </div>
-                            </div>
-                            <% request.getSession().removeAttribute("error"); } %>
-                            <div class="col-md-12 form-group">
-                                <label for="email">Your email</label>
-                                <input type="text" id="email" name="email" class="form-control form-control-lg" required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <input type="submit" value="Confirm" class="btn btn-primary btn-lg px-5">
-                            </div>
-                        </div>
-                    </div>
+            <%--            There is an attribute called user in session. Show the user information based on the User in entity package--%>
+            <h2>Your password has been successfully created.</h2>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="fname">Account Name</label>
+                    <input type="text" id="fname" class="form-control form-control-lg" value="${user.name}" disabled>
                 </div>
-            </form>
+            </div>
+            <%--                Anchor to return to home page--%>
+            <a href="index.jsp" class="btn btn-primary">Return to Home Page</a>
         </div>
     </div>
 
@@ -124,7 +112,8 @@
             <div class="row">
                 <div class="col-lg-3">
                     <p class="mb-4"><img src="images/logo.png" alt="Image" class="img-fluid"></p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto iure.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto
+                        iure.</p>
                     <p><a href="#">Learn More</a></p>
                 </div>
                 <div class="col-lg-3">
@@ -166,7 +155,10 @@
                     <div class="copyright">
                         <p>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                            All rights reserved | This template is made with <i class="icon-heart"
+                                                                                aria-hidden="true"></i> by <a
+                                href="https://colorlib.com" target="_blank">Colorlib</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </p>
                     </div>
@@ -178,7 +170,13 @@
 <!-- .site-wrap -->
 
 <!-- loader -->
-<div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#51be78"/></svg></div>
+<div id="loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px">
+        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
+        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+                stroke="#51be78"/>
+    </svg>
+</div>
 
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/jquery-migrate-3.0.1.min.js"></script>
