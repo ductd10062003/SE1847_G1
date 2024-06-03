@@ -372,7 +372,7 @@
 
                 // Append the new row to the container
                 document.getElementById('list_flashcards').appendChild(newRow);
-
+                document.getElementById('err').innerText = '';
             }
 
             //lấy từng giá trị từng thẻ trong flashcard để chuyển thành string và gửi đi
@@ -383,7 +383,7 @@
                     document.getElementById('err').innerText = 'Bạn chưa nhập tên khóa học';
                     return;
                 }
-                if(course_name.length > 50){
+                if (course_name.length > 50) {
                     document.getElementById('err').innerText = 'Tên khóa học quá dài (bé hơn 50 ký tự)';
                     return;
                 }
@@ -404,15 +404,15 @@
                     document.getElementById('err').innerText = 'Bạn chưa điền mô tả';
                     return;
                 }
-                
+
                 document.getElementById('category_id').value = category_id;
                 let data_description = document.getElementById('description').value.trim();
-                
+
                 document.getElementById('data_description').value = data_description;
 //                console.log(document.getElementById('data_description'));
-//                if (document.getElementById('err').innerText.length > 0) {
-//                    return;
-//                }
+                if (document.getElementById('err').innerText.length > 0) {
+                    return;
+                }
                 form.submit();
             }
 
@@ -428,6 +428,7 @@
 
             function changeCategory() {
                 document.getElementById('list_flashcards').innerText = '';
+                document.getElementById('err').innerText = '';
             }
 
             function deleteFlashCard(position, id) {
@@ -501,6 +502,7 @@
                                 let fl_id = listObj[i].flashcard_id;
                                 await addFL(listObj[i].question, listObj[i].answer, fl_id);
                             }
+                            document.getElementById('err').innerText = '';
                             sendFlashCardId();
                         },
                         error: function (xhr, status, error) {
@@ -547,8 +549,7 @@
                         success: async function (data) {
                             if (data.length > 0) {
                                 document.getElementById('err').innerText = data;
-                            }
-                            else{
+                            } else {
                                 document.getElementById('err').innerText = '';
                             }
                         },
@@ -566,6 +567,7 @@
                 let value = description.value.trim();
                 count = value.length;
                 document.getElementById('count').innerText = count;
+                document.getElementById('err').innerText = '';
             }
         </script>
 
