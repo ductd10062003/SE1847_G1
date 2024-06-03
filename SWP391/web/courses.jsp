@@ -54,13 +54,27 @@
             </div>
 
 
-            <jsp:include page="layout/header.jsp" />
+            <div class="py-2 bg-light">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-9 d-none d-lg-block">
+                            <a href="#" class="small mr-3"><span class="icon-question-circle-o mr-2"></span> Have a questions?</a> 
+                            <a href="#" class="small mr-3"><span class="icon-phone2 mr-2"></span> 10 20 123 456</a> 
+                            <a href="#" class="small mr-3"><span class="icon-envelope-o mr-2"></span> info@mydomain.com</a> 
+                        </div>
+                        <div class="col-lg-3 text-right">
+                            <a href="login.html" class="small mr-3"><span class="icon-unlock-alt"></span> Log In</a>
+                            <a href="register.html" class="small btn btn-primary px-4 py-2 rounded-0"><span class="icon-users"></span> Register</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner">
 
                 <div class="container">
                     <div class="d-flex align-items-center">
                         <div class="site-logo">
-                            <a href="index.jsp" class="d-block">
+                            <a href="index.html" class="d-block">
                                 <img src="images/logo.jpg" alt="Image" class="img-fluid">
                             </a>
                         </div>
@@ -68,7 +82,7 @@
                             <nav class="site-navigation position-relative text-right" role="navigation">
                                 <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
                                     <li>
-                                        <a href="index.jsp" class="nav-link text-left">Home</a>
+                                        <a href="index.html" class="nav-link text-left">Home</a>
                                     </li>
                                     <li class="has-children">
                                         <a href="about.html" class="nav-link text-left">About Us</a>
@@ -121,7 +135,7 @@
 
             <div class="custom-breadcrumns border-bottom">
                 <div class="container">
-                    <a href="index.jsp">Home</a>
+                    <a href="index.html">Home</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
                     <span class="current">Courses</span>
                 </div>
@@ -141,67 +155,35 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Nhập tên khóa học" name="course_name">
                                         <div class="input-group-append">
-                                            <button class="btn btn-primary" type="submit">Search</button>
+                                            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-lg-6">
-                        <form action="viewcourse" method="post">
-                            <div class="row">
-                                <c:forEach items="${courses}" var="course">
-                                    <div class="col-lg-4 col-md-6 mb-4">
-                                        <div class="course-1-item">
-                                            <figure class="thumnail">
-                                                <div class="category"><h3>${course.course_name}</h3></div>  
-                                            </figure>
-                                            <div class="course-1-content pb-4">
-                                                <h2>${course.description}</h2>
-                                                <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">View Course</a></p>                               
-                                            </div>
-                                        </div>
-                                    </div>
-                                </c:forEach>    
-                            </div>
-                        </form>
                     </div>                  
 
                     <div class="col-3 align-self-center">
                         <div>
                             <div class="card">
-                                <div class="card-header">Category</div>
+                                <div class="card-header">Thể loại</div>
                                 <div class="card-body">
                                     <div>
                                         <form action="viewcourse" method="POST">
-                                            <input class = "searchButton" type="submit" name ="filter">
-                                            <div id="list_categories">
+                                            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+                                            <div>
                                                 <c:forEach items="${requestScope.category}" var="category">
-                                                    <div class="form-check">
-                                                        <input
-                                                            <c:if test="${category.category_id == requestScope.category_id}">
-                                                                checked
-                                                            </c:if>
-                                                            class="form-check-input"
-                                                            type="radio"
-                                                            name="category"                                            
-                                                            value="${category.category_id}"
-                                                            onclick="changeCategory()"
-                                                            />
-                                                        <label
-                                                            class="form-check-label"
-                                                            for="category"
-                                                            >
-                                                            ${category.category_name}
-                                                        </label>
-                                                    </div>
+                                                    <input 
+                                                        <c:if test="${category.category_id == requestScope.category_id}">
+                                                            checked
+                                                        </c:if>
+                                                        type="checkbox" 
+                                                        id="category_id" 
+                                                        name="category_id" 
+                                                        value="${category.category_id}">
+                                                    <label for="vehicle1">${category.category_name}</label><br>
                                                 </c:forEach>
                                             </div>
-                                            <input type="hidden" name="data_flashcards" id="data_flashcards"/>
-                                            <input type="hidden" name="category_id" id="data_category_id"/>
-                                            <input type="hidden" name="service" value="createFlashCard" />
                                         </form>
                                     </div>                             
                                 </div>
@@ -220,7 +202,7 @@
                                             </figure>
                                             <div class="course-1-content pb-4">
                                                 <h2>${course.description}</h2>
-                                                <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">Enroll In This Course</a></p>                               
+                                                <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">Xem chi tiết</a></p>                               
                                             </div>
                                         </div>
                                     </div>
