@@ -43,6 +43,8 @@ public class ForgotPassword extends HttpServlet {
             GmailVerificationHandler.sendResetPasswordVerificationCode(email, code);
 
             VerifyForgotPassword.addPendingUser(user, request.getSession().getId());
+            
+            request.getSession().setAttribute("username", user.getName());
             request.getRequestDispatcher("confirmResetPasswordVerificationCode.jsp").forward(request, response);
         } else {
             request.getSession().setAttribute("error", "Email is not existed");

@@ -37,11 +37,8 @@ public class Login extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //check if the user logged on already
-        if (request.getSession().getAttribute("user") != null) {
-            //logout
+        if (request.getSession().getAttribute("user") != null)
             request.getSession().removeAttribute("user");
-
-        }
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
