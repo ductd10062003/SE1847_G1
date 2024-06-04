@@ -39,9 +39,7 @@ public class courseDetail extends HttpServlet {
         HttpSession session = request.getSession(true);
         
 
-//        int course_id = Integer.parseInt(request.getParameter("course_id"));
-        // thử course 
-        int course_id = 3;
+        int course_id = Integer.parseInt(request.getParameter("course_id"));
         //Thành phần DAO
         DAOTypeOfPractice daoTypeOfPractices = new DAOTypeOfPractice();
         DAOCourse daoCourse = new DAOCourse();
@@ -94,6 +92,7 @@ public class courseDetail extends HttpServlet {
 
     private void nextFL(HttpServletResponse response, HttpServletRequest request)
             throws ServletException, IOException {
+        
         int courseId = Integer.parseInt(request.getParameter("course_id"));
 
         DAOQuiz daoQuiz = new DAOQuiz();
@@ -158,7 +157,7 @@ public class courseDetail extends HttpServlet {
             }
         }
 
-        response.sendRedirect("course-detail");
+        response.sendRedirect("course-detail?course_id="+courseId);
     }
 
     private void removeClass(HttpServletResponse response, HttpServletRequest request)
@@ -177,7 +176,7 @@ public class courseDetail extends HttpServlet {
         } catch (Exception e) {
             response.getWriter().print("error");
         }
-        response.sendRedirect("course-detail");
+        response.sendRedirect("course-detail?course_id="+courseId);
     }
 
 }
