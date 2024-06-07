@@ -58,7 +58,9 @@ public class ResetPassword extends HttpServlet {
         request.getSession().removeAttribute("code");
         request.getSession().removeAttribute("user-code");
         request.getSession().setAttribute("success", "Password has been reset successfully");
-        request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
+        request.getSession().setAttribute("user", user);
+        
+        request.getRequestDispatcher("ConfirmChangedPassword.jsp").forward(request, response);
 
     }
 

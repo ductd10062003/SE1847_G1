@@ -2,6 +2,24 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/model/DAOCategory.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/controller/authenciation/ForgotPassword.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/controller/authenciation/VerifyForgotPassword.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/controller/authenciation/register.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/model/DBConnect.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/web/layout/header.jsp</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/web/authenciation/encrypt/GmailVerificationHandler.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/model/DAOUser.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/web/authenciation/authenciationAjax/ValidateEmail.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/entity/User.java</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/web/resetPassword.jsp</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/web/META-INF/context.xml</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/web/login.jsp</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/conf/MANIFEST.MF</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/web/register.jsp</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/web/WEB-INF/web.xml</file>
+            <file>file:/D:/SWP/SE1847_G1/SWP391/src/java/controller/authenciation/authenciationAjax/ValidateEmail.java</file>
+        </group>
     </open-files>
 </project-private>

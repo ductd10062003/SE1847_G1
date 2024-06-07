@@ -1,3 +1,4 @@
+<jsp:useBean id="user" scope="session" type="entity.User"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -93,52 +94,38 @@
 
     <div class="site-section">
         <div class="container">
-            <form action="verify-account" method="post">
-                <input type="hidden" id="verify" name="verify" content="verify">
-                <div class="row justify-content-center">
-                    <div class="col-md-5">
-                        <div class="row">
-                            <% if (request.getSession().getAttribute("error") != null) { %>
-                            <div class="col-md-12">
-                                <div class="alert alert-danger" role="alert">
-                                    <strong>Error!</strong> <%= (String) request.getSession().getAttribute("error") %>
-                                </div>
-                            </div>
-                            <% request.getSession().removeAttribute("error");
-                            } %>
-
-                            <%--                            Success report--%>
-                            <% if (request.getSession().getAttribute("success") != null) { %>
-                            <div class="col-md-12">
-                                <div class="alert alert-success" role="alert">
-                                    <strong>Success!</strong> <%= (String) request.getSession().getAttribute("success") %>
-                                </div>
-                            </div>
-                            <%--                            anchor return to home--%>
-                            <div class="col-md-12">
-                                <a href="index.jsp" class="btn btn-primary btn-lg px-5">Return to Home</a>
-                                <% request.getSession().removeAttribute("success");
-                                } %>
-
-                                <div class="col-md-12">
-                                    <div class="alert alert-success" role="alert">
-                                        <strong>Success!</strong> A verification code has been sent to your email.
-                                    </div>
-                                </div>
-                                <div class="col-md-12 form-group">
-                                    <label for="verification-code">Verification Code</label>
-                                    <input type="text" id="verification-code" name="verification-code"
-                                           class="form-control form-control-lg" required>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <input type="submit" value="Confirm" class="btn btn-primary btn-lg px-5">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            </form>
+            <%--            There is an attribute called user in session. Show the user information based on the User in entity package--%>
+            <h2>Your account was successfully created. Welcome</h2>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="fname">First Name</label>
+                    <input type="text" id="fname" class="form-control form-control-lg" value="${user.name}" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control form-control-lg" value="${user.email}" disabled>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" class="form-control form-control-lg" value="${user.phone}" disabled>
+                </div>
+            </div>
+<%--                Add user role. 1 for admin, 2 for teacher and 3 for learner and date of birth--%>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="role">Role</label>
+<%--                    If user.role == 2 display Teacher account, 3 then display Learner account--%>
+                    <input type="text" id="role" class="form-control form-control-lg" value="${user.role == 2 ? 'Teacher' : 'Learner'}" disabled>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="text" id="dob" class="form-control form-control-lg" value="${user.dob}" disabled>
+                </div>
+            </div>
+            <%--                Anchor to return to home page--%>
+            <a href="index.jsp" class="btn btn-primary">Return to Home Page</a>
         </div>
     </div>
 

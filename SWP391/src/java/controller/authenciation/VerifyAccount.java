@@ -54,14 +54,10 @@ public class VerifyAccount extends HttpServlet {
         if(request.getSession().getAttribute("user") != null){
             //logout
             request.getSession().removeAttribute("user");
-        }else{
-            if(request.getSession().getAttribute("verifying") == null)
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-            else{
-                request.getSession().removeAttribute("verifying");
-                request.getRequestDispatcher("ConfirmVerificationCode.jsp").forward(request, response);
-            }
+            request.getSession().removeAttribute("role");
+            request.getRequestDispatcher("register").forward(request, response);
         }
+        request.getRequestDispatcher("register").forward(request, response);
     }
 
     /**
@@ -93,7 +89,10 @@ public class VerifyAccount extends HttpServlet {
 
             pendingUsers.remove(request.getSession().getId());
             request.getSession().removeAttribute("OTP");
-            request.getRequestDispatcher("ConfirmVerificationCode.jsp").forward(request, response);
+
+            request.getSession().setAttribute("user", user);
+
+            request.getRequestDispatcher("ConfirmRegister.jsp").forward(request, response);
         }
     }
 

@@ -9,83 +9,89 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Academics &mdash; Website by Colorlib</title>
-        <meta charset="utf-8" />
-        <meta
+<head>
+    <title>Academics &mdash; Website by Colorlib</title>
+    <meta charset="utf-8" />
+    <meta
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
-            />
+    />
 
-        <link
+    <link
             href="https://fonts.googleapis.com/css?family=Muli:300,400,700,900"
             rel="stylesheet"
-            />
-        <link rel="stylesheet" href="fonts/icomoon/style.css" />
+    />
+    <link rel="stylesheet" href="fonts/icomoon/style.css" />
 
-        <link rel="stylesheet" href="css/bootstrap.min.css" />
-        <link rel="stylesheet" href="css/jquery-ui.css" />
-        <link rel="stylesheet" href="css/owl.carousel.min.css" />
-        <link rel="stylesheet" href="css/owl.theme.default.min.css" />
-        <link rel="stylesheet" href="css/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/jquery-ui.css" />
+    <link rel="stylesheet" href="css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="css/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="css/owl.theme.default.min.css" />
 
-        <link rel="stylesheet" href="css/jquery.fancybox.min.css" />
+    <link rel="stylesheet" href="css/jquery.fancybox.min.css" />
 
-        <link rel="stylesheet" href="css/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css" />
 
-        <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css" />
+    <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css" />
 
-        <link rel="stylesheet" href="css/aos.css" />
-        <link
+    <link rel="stylesheet" href="css/aos.css" />
+    <link
             href="css/jquery.mb.YTPlayer.min.css"
             media="all"
             rel="stylesheet"
             type="text/css"
-            />
+    />
 
-        <script
+    <script
             src="https://kit.fontawesome.com/84a8258e0d.js"
             crossorigin="anonymous"
-        ></script>
+    ></script>
 
-        <link rel="stylesheet" href="css/style.css" />
-    </head>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
 
-    <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
-        <div class="site-wrap">
-            <div class="site-mobile-menu site-navbar-target">
-                <div class="site-mobile-menu-header">
-                    <div class="site-mobile-menu-close mt-3">
-                        <span class="icon-close2 js-menu-toggle"></span>
-                    </div>
-                </div>
-                <div class="site-mobile-menu-body"></div>
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+<div class="site-wrap">
+    <div class="site-mobile-menu site-navbar-target">
+        <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close mt-3">
+                <span class="icon-close2 js-menu-toggle"></span>
             </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+    </div>
 
-            <%@include file="layout/header.jsp" %>
+    <%@include file="layout/header.jsp" %>
 
-            <div
-                class="site-section ftco-subscribe-1 site-blocks-cover pb-4"
-                style="background-image: url('images/bg_1.jpg')"
-                >
-                <div class="container">
-                    <div class="row align-items-end">
-                        <div class="col-lg-7">
-                            <h2 class="mb-0">How To Create Mobile Apps Using Ionic</h2>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-                        </div>
-                    </div>
+    <div
+            class="site-section ftco-subscribe-1 site-blocks-cover pb-4"
+            style="background-image: url('images/bg_1.jpg')"
+    >
+        <div class="container">
+            <div class="row align-items-end">
+                <div class="col-lg-7">
+                    <h2 class="mb-0">Từng bước nhỏ, dẫn đến thành công lớn!</h2>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="custom-breadcrumns border-bottom">
-                <div class="container">
-                    <a href="index.html">Trang chủ</a>
-                    <span class="mx-3 icon-keyboard_arrow_right"></span>
-                    <a href="courses.html">Khóa học</a>
-                    <span class="mx-3 icon-keyboard_arrow_right"></span>
-                    <span class="current">Chi tiết</span>
-                </div>
+    <div class="custom-breadcrumns border-bottom">
+        <div class="container">
+            <a href="index.html">Trang chủ</a>
+            <span class="mx-3 icon-keyboard_arrow_right"></span>
+            <a href="courses.html">Khóa học</a>
+            <span class="mx-3 icon-keyboard_arrow_right"></span>
+            <span class="current">Chi tiết</span>
+        </div>
+    </div>
+
+    <div class="site-section">
+        <div class="container">
+            <div id="err" style="text-align: center; color: red; font-style: italic; font-size: 24px; display: none" >
+                <span></span>
+                <i class="fa-solid fa-delete-left" style="cursor: pointer" onclick="closeErr(this)"></i>
             </div>
 
             <div class="site-section">
@@ -167,11 +173,14 @@
                                 <div style="display: none" id="listFlashCard">${requestScope.listFlashCards}</div>
                                 <div class="modal" tabindex="-1">
                                 </div>
+
                             </div>
+                        </div>
+                        <div class="modal" tabindex="-1">
                         </div>
                     </div>
                 </div>
-
+              
                 <div
                     class="section-bg style-1"
                     style="background-image: url('images/hero_1.jpg')"
@@ -272,10 +281,12 @@
                                     </p>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
+
 
             <!-- .site-wrap -->
 
@@ -283,6 +294,7 @@
             <div id="loader" class="show fullscreen">
                 <svg class="circular" width="48px" height="48px">
                 <circle
+
                     class="path-bg"
                     cx="24"
                     cy="24"
@@ -290,8 +302,10 @@
                     fill="none"
                     stroke-width="4"
                     stroke="#eeeeee"
+
                     />
                 <circle
+
                     class="path"
                     cx="24"
                     cy="24"
@@ -300,6 +314,7 @@
                     stroke-width="4"
                     stroke-miterlimit="10"
                     stroke="#51be78"
+
                     />
                 </svg>
             </div>
@@ -442,5 +457,6 @@
         </script>
 
     </body>
+
 </html>
 
