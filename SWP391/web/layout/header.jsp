@@ -1,6 +1,7 @@
 <%@ page import="entity.User" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
+
 <%if (session.getAttribute("user") == null) {%>
 <!-- User is not logged in -->
 <header class="site-navbar js-sticky-header site-navbar-target" role="banner">
@@ -15,6 +16,7 @@
                         <li class="active">
                             <a href="../index.jsp" class="nav-link text-left">Trang chủ</a>
                         </li>
+
                         <li class="has-children">
                             <a href="viewcourse" class="nav-link text-left">Khóa học</a>
                             <ul class="dropdown">
@@ -64,6 +66,7 @@
                 </nav>
             </div>
             <div class="ml-auto">
+
                 <div class="text-right mr-3">
                     <a href="login" class="small mr-3"><span class="icon-user"></span> ${sessionScope.user.name}</a>
                     <a href="login" class="small btn btn-primary px-4 py-2 rounded-0"><span class="icon-users"></span>
