@@ -1,6 +1,6 @@
 <%-- 
-    Document   : add-course
-    Created on : May 25, 2024, 4:42:10 PM
+    Document   : add-flashcard
+    Created on : May 23, 2024, 7:33:42 PM
     Author     : ductd
 --%>
 
@@ -16,24 +16,8 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Dashboard - SB Admin</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <link href="../view-mentor/css/styles.css" rel="stylesheet" type="text/css"/>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-
-        <style>
-            .search_input{
-                position: relative;
-            }
-            .search_list{
-                position: absolute;
-                display: block;
-                padding-top: 5px;
-                list-style-type: none;
-                background-color: #FFF;
-                z-index: 1000;
-            }
-        </style>
 
     </head>
     <body class="sb-nav-fixed">
@@ -43,19 +27,15 @@
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
-            </form>
+            <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+
+            </div>
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#!">Xem thông tin</a></li>
-                        <!--<li><a class="dropdown-item" href="#!">Activity Log</a></li>-->
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="#!">Đăng xuất</a></li>
                     </ul>
@@ -129,28 +109,12 @@
                     <div class="container-fluid px-4">
                         <div class="row">
                             <div class="col-3">
-                                <h1 class="mt-4">Thêm khóa học</h1>
+                                <h1 class="mt-4">Thêm câu hỏi</h1>
                             </div>
-                            <div class="col-9 d-flex align-items-end pb-3" id="formSearchFlashCard">
-                                <div class="w-75">
-                                    <div class="input-group m-0 search_input">                                        
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="Tìm kiếm câu hỏi"                            
-                                            oninput="searchFlashCard(this)"                                           
-                                            id="search_flashcard"                                           
-                                            />
-                                        <button
-                                            class="btn btn-outline-secondary"
-                                            type="button"
-                                            >
-                                            Tìm kiếm
-                                        </button>
-                                    </div>
-                                    <ul id="itemList" class="search_list border border-top-0 px-3" style="display: none">
-
-                                    </ul>
+                            <div class="col-9 d-flex align-items-end pb-3">
+                                <div>
+                                    <input type="file" name="file" accept=".xlsx" id="fileExcel" />
+                                    <button type="submit" onclick="loadExcel()" >Tải lên</button>         
                                 </div>
                             </div>
                         </div>
@@ -188,9 +152,9 @@
                                                                 required
                                                                 class="form-check-input"
                                                                 type="radio"
-                                                                name="category"                                            
-                                                                value="${category.category_id}"
-                                                                onclick="changeCategory()"
+                                                                name="category"
+                                                                id="category"
+                                                                value="${category.category_id}"                                                               
                                                                 />
                                                             <label
                                                                 class="form-check-label"
@@ -202,39 +166,14 @@
                                                     </c:forEach>
                                                 </div>
                                                 <input type="hidden" name="data_flashcards" id="data_flashcards"/>
-                                                <input type="hidden" name="category_id" id="data_category_id"/>                          
-                                                <input type="hidden" name="service" value="createFlashCard" />                       
+                                                <input type="hidden" name="category_id" id="data_category_id"/>
+                                                <input type="hidden" name="service" value="createFlashCard" />
                                             </form>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-9">
-                                    <div class="row">
-                                        <div class="col">
-                                            <form action="add-course" method="POST" id="course_name">
-                                                <div class="input-group mb-3">
-                                                    <span class="input-group-text" id="basic-addon1">Tên khóa học</span>
-                                                    <input type="text" class="form-control" placeholder="Điền tên khóa học" id="input_course_name" name="course_name" onblur="checkCourseName()" >
-                                                    <input type="hidden" name="category_id" id="category_id"/>
-                                                    <input type="hidden" name="data_description" id="data_description"/>
-                                                    <input type="hidden" name="service" value="createCourse">
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                        <div class="input-group mb-3 col">
-                                            <button class="btn btn-outline-secondary"
-                                                    type="button" >Tạo ngẫu nhiên</button>
-                                            <input type="number" class="form-control"  id="random_number" onblur="addRandom()">
-                                        </div>
-                                    </div>
-                                    <div class="">
-                                        <p class="mb-1">Mô tả:</p>
-                                        <textarea class="w-100 m-0" style="height: 100px" id="description" oninput="descriptionCourse()">                               
-                                        </textarea>
-                                        <p class="text-end"><span id="count">0</span>/500</p>
-                                    </div>
                                     <div class="card mb-4" id="list_flashcards">
                                         <c:if test="${requestScope.listFlashCard != null}">
                                             <c:forEach items="${requestScope.listFlashCard}" var="flashcard">
@@ -256,20 +195,23 @@
                                                             />
                                                     </div>
                                                     <div class="col-2 text-end">
-                                                        <button type="button" class="btn btn-outline-secondary" onclick="deleteFlashCard(this)">Xóa</button>
+                                                        <button type="button" class="btn btn-outline-secondary" onclick="deleteFL(this)">Xóa</button>
                                                     </div>
                                                     <div style="color: red; font-style: italic; font-size: 18px">${fn:contains(flashcard.question, "@@err@@") == true ? "Trùng câu hỏi" : ""}</div>
                                                 </div>
                                             </c:forEach>
                                         </c:if>
                                     </div>
-                                    <div id="err" style="color: red; font-style: italic; font-size: 18px">${success}</div>                    
+                                    <div id="err" style="color: red; font-style: italic; font-size: 18px">${success}</div>
+                                    <div class="d-grid gap-2 mb-3">
+                                        <button class="btn btn-success" type="button" onclick="addRowFlashCard('', '')">Thêm thẻ</button>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="text-center mt-3">
-                                <button class="btn btn-primary" type="button" onclick="sendResquest()">
-                                    Tạo khóa học
+                            <div class="text-end mt-3">
+                                <button class="btn btn-primary" type="button" name="s" value="s" onclick="sendResquest()">
+                                    Tạo câu hỏi
                                 </button>
                             </div>
                         </div>
@@ -277,7 +219,18 @@
                         <div style="height: 100vh"></div>
                     </div>
                 </main>
-
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
         <script>
@@ -299,11 +252,10 @@
 
             });
         </script>
-        <!--======================  ductdHE176150  ==============================-->
+        <!--====================================================-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
+        <script src="https://unpkg.com/read-excel-file@5.x/bundle/read-excel-file.min.js"></script>
         <script>
-
             function searchCategory(position) {
                 let value = position.value.toLocaleLowerCase().trim();
                 let categories = document.querySelectorAll('#list_categories div label');
@@ -311,6 +263,7 @@
                     for (let i = 0; i < categories.length; i++) {
                         if (categories[i].innerText.toLocaleLowerCase().includes(value)) {
                             categories[i].parentNode.style.display = 'block';
+                            console.log(categories[i]);
                         } else {
                             categories[i].parentNode.style.display = 'none';
                         }
@@ -322,7 +275,7 @@
                 }
             }
 
-            function addRowFlashCard(quesion, answer, id) {
+            function addRowFlashCard(quesion, answer) {
                 // Create a new div element
                 let newRow = document.createElement('div');
                 newRow.classList.add('card-body', 'row');
@@ -334,7 +287,6 @@
                 input1.type = 'text';
                 input1.placeholder = 'Thuật ngữ';
                 input1.classList.add('w-100', 'fs-5', 'question');
-                input1.disabled = true;
                 if (quesion !== '') {
                     input1.value = quesion;
                 }
@@ -347,7 +299,6 @@
                 input2.type = 'text';
                 input2.placeholder = 'Định nghĩa';
                 input2.classList.add('w-100', 'fs-5', 'answer');
-                input2.disabled = true;
                 if (answer !== '') {
                     input2.value = answer;
                 }
@@ -361,7 +312,7 @@
                 button.className = 'btn btn-outline-secondary';
                 button.textContent = 'Xóa';
                 button.onclick = function () {
-                    deleteFlashCard(this, id);
+                    deleteFL(this);
                 };
                 col3.appendChild(button);
 
@@ -377,46 +328,52 @@
 
             //lấy từng giá trị từng thẻ trong flashcard để chuyển thành string và gửi đi
             function sendResquest() {
-                let form = document.getElementById('course_name');
-                let course_name = document.getElementById('input_course_name').value;
-                if (course_name.length === 0) {
-                    document.getElementById('err').innerText = 'Bạn chưa nhập tên khóa học';
+                let arr = document.querySelectorAll('#list_flashcards .card-body');
+                let content = '';
+                // lấy từng thẻ trong list, và trong list sẽ lấy giá trị 2 thẻ question và
+                //answer để bắt đầu cộng chuỗi
+                for (let i = 0; i < arr.length; i++) {
+                    let quesion_raw = arr[i].querySelector('.question');
+                    let answer_raw = arr[i].querySelector('.answer');
+
+                    let quesion = quesion_raw.value.trim();
+                    let answer = answer_raw.value.trim();
+
+                    if (quesion.length === 0 || answer.length === 0) {
+                        document.getElementById('err').innerHTML = 'Bạn chưa điền đủ thông tin';
+                        return;
+                    }
+
+                    let pair = quesion + '@@pair@@' + answer;
+                    content = content + pair + '##notpair##';
+
+                }
+
+                let category_id = checkedRadio();
+                if (category_id === "nochoose") {
+                    document.getElementById('err').innerHTML = 'Bạn chưa chọn thể loại';
                     return;
                 }
-                if(course_name.length > 50){
-                    document.getElementById('err').innerText = 'Tên khóa học quá dài (bé hơn 50 ký tự)';
+
+                let data_flashcards = document.getElementById('data_flashcards');
+                data_flashcards.value = content;
+                if (content.trim().length === 0) {
+                    document.getElementById('err').innerHTML = 'Bạn chưa tạo thẻ';
                     return;
                 }
-                let category_id = categoryChecked();
-                if (category_id === 'nochoose') {
-                    document.getElementById('err').innerText = 'Bạn chưa chọn thể loại';
-                    return;
-                }
-                if (flashCardChoose.length === 1) {
-                    document.getElementById('err').innerText = 'Bạn chưa tạo thẻ';
-                    return;
-                }
-                if (count > 500) {
-                    document.getElementById('err').innerText = 'Bạn quá số lượng chữ cái ở mô tả';
-                    return;
-                }
-                if (count === 0) {
-                    document.getElementById('err').innerText = 'Bạn chưa điền mô tả';
-                    return;
-                }
-                
-                document.getElementById('category_id').value = category_id;
-                let data_description = document.getElementById('description').value.trim();
-                
-                document.getElementById('data_description').value = data_description;
-//                console.log(document.getElementById('data_description'));
-//                if (document.getElementById('err').innerText.length > 0) {
-//                    return;
-//                }
+
+                let data_category_id = document.getElementById('data_category_id');
+                data_category_id.value = category_id;
+
+                console.log(data_flashcards.value);
+//                console.log(data_category_id);
+
+                let form = document.getElementById('formSubmit');
                 form.submit();
+
             }
 
-            function categoryChecked() {
+            function checkedRadio() {
                 let input = document.querySelectorAll('#list_categories input');
                 for (let i = 0; i < input.length; i++) {
                     if (input[i].checked) {
@@ -426,146 +383,17 @@
                 return 'nochoose';
             }
 
-            function changeCategory() {
-                document.getElementById('list_flashcards').innerText = '';
-            }
-
-            function deleteFlashCard(position, id) {
-                position.parentNode.parentNode.remove();
-                let arr = flashCardChoose.filter((item) => item !== id);
-                flashCardChoose = arr;
-                sendFlashCardId();
-            }
-
-            function searchFlashCard(position) {
-                let choose_category_id = categoryChecked();
-                let value = position.value;
-                if (value.trim().length === 0) {
-                    document.getElementById('itemList').style.display = 'none';
-                } else if (value.trim().length > 0) {
-                    $.ajax({
-                        url: "/SWP391/mentor/add-course?service=searchFlashCard&categoryId=" + choose_category_id + "&question=" + value,
-                        type: "POST",
-                        success: function (data) {
-                            document.getElementById('itemList').style.display = 'block';
-                            document.getElementById('itemList').innerHTML = data;
-                        },
-                        error: function (xhr, status, error) {
-
-                        }
+            function loadExcel() {
+                let input = document.getElementById('fileExcel');
+                readXlsxFile(input.files[0]).then((rows) => {
+                    console.log(rows);
+                    rows.forEach((cell) => {
+                        addRowFlashCard(cell[0], cell[1]);
                     });
-                }
-            }
-            let flashCardChoose = [0];
-            function addFL(question, answer, id) {
-                if (!flashCardChoose.includes(id)) {
-                    addRowFlashCard(question, answer, id);
-                    flashCardChoose = [...flashCardChoose, id];
-                    sendFlashCardId();
-                }
-            }
-
-            function sendFlashCardId() {
-                $.ajax({
-                    url: "/SWP391/mentor/add-course?service=addFlashCardId&listId=" + flashCardChoose.toString(),
-                    type: "POST",
-                    success: function (data) {
-
-                    },
-                    error: function (xhr, status, error) {
-
-                    }
                 });
             }
-
-            document.addEventListener('click', function (event) {
-                const myDiv = document.getElementById('formSearchFlashCard');
-                // Check if the click was outside the 'myDiv' element
-                if (!myDiv.contains(event.target)) {
-                    document.getElementById('itemList').style.display = 'none';
-                }
-            });
-
-            function addRandom() {
-                let choose_category_id = categoryChecked();
-                let random = document.getElementById('random_number').value;
-                if (random.length > 0) {
-                    $.ajax({
-                        url: "/SWP391/mentor/add-course?service=addFlashCard&categoryId=" + choose_category_id + "&random=" + random,
-                        type: "POST",
-                        success: async function (data) {
-                            document.getElementById('list_flashcards').innerHTML = '';
-                            flashCardChoose = [0];
-                            let listObj = await stringToObject(data);
-                            for (let i = 0; i < listObj.length; i++) {
-                                let fl_id = listObj[i].flashcard_id;
-                                await addFL(listObj[i].question, listObj[i].answer, fl_id);
-                            }
-                            sendFlashCardId();
-                        },
-                        error: function (xhr, status, error) {
-
-                        }
-                    });
-                }
-            }
-
-            //Vì object gửi về là 1 string nên phải làm hàm convert
-            function stringToObject(string) {
-                //Tách chuỗi ra thành các phần tử có key với value ví du:
-                // [name=abc,age=20,gender=male]
-                let stringObj = string.substring(1, string.length - 1);
-                let listObj_raw = stringObj.split("@@split@@");
-                let listObj = []; // tạo 1 obj rỗng
-
-                // duyệt mọi phần tử
-                for (let i = 0; i < listObj_raw.length; i++) {
-                    if (listObj_raw[i].length > 4) {
-                        let keyValueRaw = listObj_raw[i].split("@#split#@");
-                        let obj = {};
-                        for (let j = 0; j < keyValueRaw.length; j++) {
-                            let pair = keyValueRaw[j].split('=');
-                            let key = pair[0].trim();
-                            let value = pair[1];
-                            if (!isNaN(value))
-                                value = parseFloat(value);
-                            obj[key] = value;
-                        }
-                        listObj = [...listObj, obj];
-                    }
-                }
-                return listObj;
-            }
-
-            function checkCourseName() {
-                let flag = true;
-                let name = document.getElementById('input_course_name').value;
-                if (name.trim().length > 0) {
-                    $.ajax({
-                        url: "/SWP391/mentor/add-course?service=checkNameCourse&name=" + name,
-                        type: "POST",
-                        success: async function (data) {
-                            if (data.length > 0) {
-                                document.getElementById('err').innerText = data;
-                            }
-                            else{
-                                document.getElementById('err').innerText = '';
-                            }
-                        },
-                        error: function (xhr, status, error) {
-
-                        }
-                    });
-                } else {
-                    document.getElementById('err').innerText = '';
-                }
-            }
-            let count = 0;
-            function descriptionCourse() {
-                let description = document.getElementById('description');
-                let value = description.value.trim();
-                count = value.length;
-                document.getElementById('count').innerText = count;
+            function deleteFL(position) {
+                position.parentNode.parentNode.remove();
             }
         </script>
 
