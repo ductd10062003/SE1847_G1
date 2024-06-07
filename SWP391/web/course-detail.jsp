@@ -103,16 +103,16 @@
                                     <span>${requestScope.course.course_name}</span>
                                 </h2>
                                 <button type="button" class="btn btn-success" 
-                                        onclick="checkLogin('${sessionScope.user}', this, ${requestScope.course.course_id})"
+                                        onclick="checkLogin('${sessionScope.user}',${requestScope.course.course_id})"
                                         id="joinClass"
                                         >
-                                    ${requestScope.enrolled == 0 ?"Tham gia":"Hủy tham gia"}
+                                    ${requestScope.enroll == null ? "Tham gia" : "Hủy tham gia"}
                                 </button>
                             </div>
                             <div style="font-style: italic">
                                 Chủ để: ${requestScope.category.category_name}
                             </div>
-                            
+
                             <div class="mt-3">
                                 <div>
                                     <c:forEach items="${requestScope.typeOfPractices}" var="TOP">
@@ -127,23 +127,23 @@
                                         style="width: 100%; aspect-ratio: 3 / 1; cursor: pointer; user-select: none; font-size: 24px"
                                         id="flashcard"
                                         >  
-                                        <c:set var="quiz" value="${requestScope.quizs[0]}" />
+
                                         <div
                                             class="card-body d-flex justify-content-center align-items-center w-75 h-100"
-                                            onclick="flip(this, `${quiz}`)"
+                                            onclick="flip(this)"
                                             >
                                             <p
                                                 class="text-center"
                                                 style="overflow-y: auto; max-height: 100%"
                                                 >
-                                                ${quiz.question}
+
                                             </p>
                                         </div>
                                     </div>
                                     <div class="container-fluid d-flex justify-content-center">
-                                        <i class="fa-solid fa-circle-chevron-left" style="font-size: 32px; cursor: pointer; user-select: none" onclick="nextFL(1, ${fn:length(quizs)},${requestScope.course.course_id})"></i>
-                                        <div class="mx-3"><span id="indexFL">1</span>/${fn:length(quizs)}</div>
-                                        <i class="fa-solid fa-circle-chevron-right" style="font-size: 32px; cursor: pointer; user-select: none" onclick="nextFL(2, ${fn:length(quizs)},${requestScope.course.course_id})"></i>
+                                        <i class="fa-solid fa-circle-chevron-left" style="font-size: 32px; cursor: pointer; user-select: none" onclick="nextFlashCard(-1)"></i>
+                                        <div class="mx-3"><span id="indexOfFlashCard"></span>/<span id="numberOfFlashCard"></span></div>
+                                        <i class="fa-solid fa-circle-chevron-right" style="font-size: 32px; cursor: pointer; user-select: none" onclick="nextFlashCard(1)"></i>
                                     </div>
                                 </div>
 
@@ -152,7 +152,7 @@
                                         Chi tiết <i class="fa-regular fa-eye" style="cursor: pointer" onclick="show()" id="showicon"></i>
                                     </div>
                                     <div id="showAllFlashCard" style="display: none">
-                                        <c:forEach items="${requestScope.quizs}" var="quiz">
+                                        <c:forEach items="${requestScope.quizzes}" var="quiz">
                                             <div class="border container-fluid d-flex shadow-sm p-3 mb-2 bg-body-tertiary rounded">
                                                 <div class="border-right" style="width: 40%">
                                                     ${quiz.question}
@@ -164,6 +164,7 @@
                                         </c:forEach>
                                     </div>
                                 </div>
+                                <div style="display: none" id="listFlashCard">${requestScope.listFlashCards}</div>
                                 <div class="modal" tabindex="-1">
                                 </div>
                             </div>
@@ -341,137 +342,103 @@
                                                 }
                                             }
 
-                                            //Vì object gửi về là 1 string nên phải làm hàm convert
-                                            function stringToObject(string) {
-                                                //Tách chuỗi ra thành các phần tử có key với value ví du:
-                                                // [name=abc,age=20,gender=male]
-                                                let keyValuePairs = string.split("@#split#@");
-                                                let obj = {}; // tạo 1 obj rỗng
-
-                                                // duyệt mọi phần tử
-                                                for (let i = 0; i < keyValuePairs.length; i++) {
-                                                    // Tạo 1 mảng chứa key - value,
-                                                    // trong mỗi phần tử lúc nãy vừa tách, ta tách tiếp thành cặp key-value
-                                                    // để thêm vào obj
-                                                    let keyValue = keyValuePairs[i].split("=");
-
-                                                    // Mảng có 2 phần tử, 0: key, 1: value
-                                                    let key = keyValue[0].trim();
-                                                    let value = keyValue[1].trim();
-
-                                                    // Check xem value có phải số hay không? nếu là số thì parse
-                                                    if (!isNaN(value)) {
-                                                        value = parseFloat(value);
-                                                    }
-
-                                                    // thêm key-value vào obj
-                                                    obj[key] = value;
-                                                }
-
-                                                return obj;
-                                            }
-
-                                            //Tạo 1 flag xem trạng thái flip
-                                            let click_flip = false; // nếu false -> đang là câu hỏi
-                                            function flip(id_raw, obj_raw) {
-                                                //lấy thẻ rồi đổi text
-                                                let obj = stringToObject(obj_raw);
-                                                let id = id_raw.querySelector('p');
-                                                if (click_flip === false) {
-                                                    click_flip = true;
-                                                    id.innerHTML = obj.answer;
-                                                } else {
-                                                    click_flip = false;
-                                                    id.innerText = obj.question;
+                                            let json = document.getElementById('listFlashCard').innerHTML;
+                                            let data = JSON.parse(json);
+                                            let flashcard = document.getElementById('flashcard');
+                                            let dataId = 0;
+                                            flashcard.querySelector('p').innerText = data[dataId].question;
+                                            let flipStatus = true;
+                                            function flip() {
+                                                if (flipStatus === true) {
+                                                    flashcard.querySelector('p').innerText = data[dataId].answer;
+                                                    flipStatus = false;
+                                                } else if (flipStatus === false) {
+                                                    flashcard.querySelector('p').innerText = data[dataId].question;
+                                                    flipStatus = true;
                                                 }
                                             }
 
+                                            document.getElementById('numberOfFlashCard').innerText = data.length;
+                                            document.getElementById('indexOfFlashCard').innerText = dataId + 1;
 
-                                            let index_FL = 0;
-                                            function nextFL(status, length, courseId) {
-                                                if (index_FL < length && index_FL >= 0) {
-                                                    if (index_FL > 0 && status === 1)
-                                                        index_FL -= 1;
-                                                    else if (index_FL < length - 1 && status === 2)
-                                                        index_FL += 1;
-                                                    $.ajax({
-                                                        url: "/SWP391/course-detail?service=nextFL&id=" + index_FL + "&course_id=" + courseId,
-                                                        type: "POST",
-                                                        success: function (data) {
-                                                            let getAllFC = document.getElementById('flashcard');
-                                                            getAllFC.innerHTML = data;
-                                                        },
-                                                        error: function (xhr, status, error) {
-
-                                                        }
-                                                    });
-                                                    let indexFL = index_FL + 1;
-                                                    document.getElementById('indexFL').innerHTML = indexFL;
-                                                    //sau khi next thì click_flip sửa về false vì có trường hợp
-                                                    //thẻ đổi qua answer sẽ là true và next nó vẫn là true -> next phải nhấn chuột 2 lần
-                                                    click_flip = false;
+                                            function nextFlashCard(status) {
+                                                if (dataId < data.length - 1 && dataId > 0) {
+                                                    dataId += status;
                                                 }
+                                                if ((dataId === 0 && status === 1) ||
+                                                        (dataId === data.length - 1 && status === -1)) {
+                                                    dataId += status;
+                                                }
+                                                console.log(dataId);
+                                                flashcard.querySelector('p').innerText = data[dataId].question;
+                                                flipStatus = true;
+                                                document.getElementById('indexOfFlashCard').innerText = dataId + 1;
                                             }
 
-                                            //check login to join or remove class
-                                            function checkLogin(member, position, course_id) {
-                                                if (member === null || member.trim().length === 0) {
-                                                    let err = document.getElementById('err');
-                                                    err.querySelector('span').innerHTML = 'Bạn chưa đăng nhập';
+                                            function checkLogin(user, courseId) {
+                                                if (user === null || user.trim().length === 0) {
+                                                    let err = document.querySelector('#err');
+                                                    err.querySelector('span').innerHTML = "Bạn chưa đăng nhập";
                                                     err.style.display = 'block';
-                                                } else {
-                                                    switch (position.innerText.trim()) {
-                                                        case "Tham gia":
-                                                            //tạo url
-                                                            let url_join = "course-detail?service=joinClass&course_id=" + course_id;
-                                                            //tạo 1 form để gửi 
-                                                            const form_join = document.createElement('form');
-                                                            form_join.method = 'post';
-                                                            form_join.action = url_join;
-                                                            document.body.appendChild(form_join);
-                                                            form_join.submit();
-                                                            break;
-                                                        case "Hủy tham gia":
-                                                            //tạo url
-                                                            let url_remove = "course-detail?service=removeClass&course_id=" + course_id;
-                                                            //tạo 1 form để gửi 
-                                                            const form_remove = document.createElement('form');
-                                                            form_remove.method = 'post';
-                                                            form_remove.action = url_remove;
-                                                            document.body.appendChild(form_remove);
-                                                            form_remove.submit();
-                                                            break;
-
-                                                    }
+                                                    return;
+                                                }
+                                                let joinClass = document.getElementById('joinClass').innerText.trim();
+                                                switch (joinClass) {
+                                                    case 'Tham gia':
+                                                        enrollCourse(courseId);
+                                                        return;
+                                                    case 'Hủy tham gia':
+                                                        unEnrollCourse(courseId);
+                                                        return;
                                                 }
                                             }
 
-                                            function checkJoinClass(position) {
-                                                let join = document.getElementById('joinClass').innerText.trim();
-                                                if (join === "Hủy tham gia") {
-                                                    switch (position.innerText.trim()) {
-                                                        case "Trắc nghiệm":
-                                                            console.log("tn");
-                                                            break;
-                                                        case "Nối thẻ":
-                                                            console.log("nt");
-                                                            break;
-                                                        case "Điền chữ":
-                                                            console.log("dc");
-                                                            break;
-                                                    }
-                                                } else {
-                                                    let err = document.getElementById('err');
-                                                    err.querySelector('span').innerHTML = 'Bạn chưa tham gia lớp học';
-                                                    err.style.display = 'block';
+                                            function closeErr(err) {
+                                                err.parentNode.style.display = 'none';
+                                            }
+
+                                            function checkJoinClass(btn) {
+                                                let joinClass = document.getElementById('joinClass').innerText.trim();
+                                                switch (joinClass) {
+                                                    case 'Tham gia':
+                                                        let err = document.querySelector('#err');
+                                                        err.querySelector('span').innerHTML = "Bạn chưa tham gia lớp học";
+                                                        err.style.display = 'block';
+                                                        return;
+                                                    case 'Hủy tham gia':
+
+                                                        return;
                                                 }
                                             }
 
-                                            function closeErr(position) {
-                                                let parent = position.parentNode;
-                                                parent.style.display = 'none';
+                                            function enrollCourse(courseId) {
+                                                $.ajax({
+                                                    url: "/SWP391/course-detail?service=enroll&&course_id=" + courseId,
+                                                    type: "POST",
+                                                    success: function (data) {
+                                                        document.getElementById('joinClass').innerText = 'Hủy tham gia';
+                                                        document.getElementById('err').style.display='none';
+                                                    },
+                                                    error: function (xhr, status, error) {
+
+                                                    }
+                                                });
+                                                console.log(courseId);
                                             }
 
+                                            function unEnrollCourse(courseId) {
+                                                $.ajax({
+                                                    url: "/SWP391/course-detail?service=unenroll&&course_id=" + courseId,
+                                                    type: "POST",
+                                                    success: function (data) {
+                                                        document.getElementById('joinClass').innerText = 'Tham gia';
+                                                    },
+                                                    error: function (xhr, status, error) {
+
+                                                    }
+                                                });
+                                                console.log(courseId);
+                                            }
         </script>
 
     </body>

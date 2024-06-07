@@ -540,7 +540,6 @@
             }
 
             function checkCourseName() {
-                let flag = true;
                 let name = document.getElementById('input_course_name').value;
                 if (name.trim().length > 0) {
                     $.ajax({
@@ -558,7 +557,7 @@
                         }
                     });
                 } else {
-                    document.getElementById('err').innerText = '';
+                    document.getElementById('err').innerText = 'Bạn chưa nhập tên khóa học';
                 }
             }
             let count = 0;
