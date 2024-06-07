@@ -33,6 +33,7 @@
         <div class="site-mobile-menu-body"></div>
     </div>
 
+
     <jsp:include page="layout/header.jsp" />
     <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner">
         <div class="container">
@@ -80,6 +81,7 @@
             </div>
         </div>
     </header>
+
 
     <div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('images/bg_1.jpg')">
         <div class="container">

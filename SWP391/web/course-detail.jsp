@@ -94,192 +94,207 @@
                 <i class="fa-solid fa-delete-left" style="cursor: pointer" onclick="closeErr(this)"></i>
             </div>
 
-            <div class="container-lg d-flex justify-content-center">
+            <div class="site-section">
+                <div class="container">
+                    <div id="err" style="text-align: center; color: red; font-style: italic; font-size: 24px; display: none" >
+                        <span></span>
+                        <i class="fa-solid fa-delete-left" style="cursor: pointer" onclick="closeErr(this)"></i>
+                    </div>
 
-                <div class="w-75">
-                    <div class="d-flex justify-content-between">
-                        <h2 class="section-title-underline">
-                            <span>${requestScope.course.course_name}</span>
-                        </h2>
-                        <button type="button" class="btn btn-success"
-                                onclick="checkLogin('${sessionScope.user}', this, ${requestScope.course.course_id})"
-                                id="joinClass"
-                        >
-                            ${requestScope.enrolled == 0 ?"Tham gia":"Hủy tham gia"}
-                        </button>
-                    </div>
-                    <div style="font-style: italic">
-                        Chủ để: ${requestScope.category.category_name}
-                    </div>
-                    <div class="mt-3">
-                        <div>
-                            <c:forEach items="${requestScope.typeOfPractices}" var="TOP">
-                                <button type="button" class="btn btn-outline-primary" onclick="checkJoinClass(this)" >
-                                        ${TOP.typeOfPractice_name}
+                    <div class="container-lg d-flex justify-content-center">
+
+                        <div class="w-75">
+                            <div class="d-flex justify-content-between">
+                                <h2 class="section-title-underline">
+                                    <span>${requestScope.course.course_name}</span>
+                                </h2>
+                                <button type="button" class="btn btn-success" 
+                                        onclick="checkLogin('${sessionScope.user}',${requestScope.course.course_id})"
+                                        id="joinClass"
+                                        >
+                                    ${requestScope.enroll == null ? "Tham gia" : "Hủy tham gia"}
                                 </button>
-                            </c:forEach>
-                        </div>
-                        <div class="container-fluid p-0">
-                            <div
-                                    class="card mt-3 shadow mb-2 bg-body-tertiary rounded maincolor d-flex justify-content-center align-items-center"
-                                    style="width: 100%; aspect-ratio: 3 / 1; cursor: pointer; user-select: none; font-size: 24px"
-                                    id="flashcard"
-                            >
-                                <c:set var="quiz" value="${requestScope.quizs[0]}" />
-                                <div
-                                        class="card-body d-flex justify-content-center align-items-center w-75 h-100"
-                                        onclick="flip(this, `${quiz}`)"
-                                >
-                                    <p
-                                            class="text-center"
-                                            style="overflow-y: auto; max-height: 100%"
-                                    >
-                                        ${quiz.question}
-                                    </p>
-                                </div>
                             </div>
-                            <div class="container-fluid d-flex justify-content-center">
-                                <i class="fa-solid fa-circle-chevron-left" style="font-size: 32px; cursor: pointer; user-select: none" onclick="nextFL(1, ${fn:length(quizs)},${requestScope.course.course_id})"></i>
-                                <div class="mx-3"><span id="indexFL">1</span>/${fn:length(quizs)}</div>
-                                <i class="fa-solid fa-circle-chevron-right" style="font-size: 32px; cursor: pointer; user-select: none" onclick="nextFL(2, ${fn:length(quizs)},${requestScope.course.course_id})"></i>
+                            <div style="font-style: italic">
+                                Chủ để: ${requestScope.category.category_name}
                             </div>
-                        </div>
 
-                        <div class="mb-5">
-                            <div style="user-select:none">
-                                Chi tiết <i class="fa-regular fa-eye" style="cursor: pointer" onclick="show()" id="showicon"></i>
-                            </div>
-                            <div id="showAllFlashCard" style="display: none">
-                                <c:forEach items="${requestScope.quizs}" var="quiz">
-                                    <div class="border container-fluid d-flex shadow-sm p-3 mb-2 bg-body-tertiary rounded">
-                                        <div class="border-right" style="width: 40%">
-                                                ${quiz.question}
-                                        </div>
-                                        <div class="pl-4" style="width: 60%">
-                                                ${quiz.answer}
+                            <div class="mt-3">
+                                <div>
+                                    <c:forEach items="${requestScope.typeOfPractices}" var="TOP">
+                                        <button type="button" class="btn btn-outline-primary" onclick="checkJoinClass(this)" >
+                                            ${TOP.typeOfPractice_name}
+                                        </button>
+                                    </c:forEach>
+                                </div>
+                                <div class="container-fluid p-0">
+                                    <div
+                                        class="card mt-3 shadow mb-2 bg-body-tertiary rounded maincolor d-flex justify-content-center align-items-center"
+                                        style="width: 100%; aspect-ratio: 3 / 1; cursor: pointer; user-select: none; font-size: 24px"
+                                        id="flashcard"
+                                        >  
+
+                                        <div
+                                            class="card-body d-flex justify-content-center align-items-center w-75 h-100"
+                                            onclick="flip(this)"
+                                            >
+                                            <p
+                                                class="text-center"
+                                                style="overflow-y: auto; max-height: 100%"
+                                                >
+
+                                            </p>
                                         </div>
                                     </div>
-                                </c:forEach>
+                                    <div class="container-fluid d-flex justify-content-center">
+                                        <i class="fa-solid fa-circle-chevron-left" style="font-size: 32px; cursor: pointer; user-select: none" onclick="nextFlashCard(-1)"></i>
+                                        <div class="mx-3"><span id="indexOfFlashCard"></span>/<span id="numberOfFlashCard"></span></div>
+                                        <i class="fa-solid fa-circle-chevron-right" style="font-size: 32px; cursor: pointer; user-select: none" onclick="nextFlashCard(1)"></i>
+                                    </div>
+                                </div>
+
+                                <div class="mb-5">
+                                    <div style="user-select:none">
+                                        Chi tiết <i class="fa-regular fa-eye" style="cursor: pointer" onclick="show()" id="showicon"></i>
+                                    </div>
+                                    <div id="showAllFlashCard" style="display: none">
+                                        <c:forEach items="${requestScope.quizzes}" var="quiz">
+                                            <div class="border container-fluid d-flex shadow-sm p-3 mb-2 bg-body-tertiary rounded">
+                                                <div class="border-right" style="width: 40%">
+                                                    ${quiz.question}
+                                                </div>
+                                                <div class="pl-4" style="width: 60%">
+                                                    ${quiz.answer}
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div style="display: none" id="listFlashCard">${requestScope.listFlashCards}</div>
+                                <div class="modal" tabindex="-1">
+                                </div>
+
                             </div>
                         </div>
                         <div class="modal" tabindex="-1">
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div
-                class="section-bg style-1"
-                style="background-image: url('images/hero_1.jpg')"
-        >
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <span class="icon flaticon-mortarboard"></span>
-                        <h3>Our Philosphy</h3>
-                        <p>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                            Reiciendis recusandae, iure repellat quis delectus ea? Dolore,
-                            amet reprehenderit.
-                        </p>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <span class="icon flaticon-school-material"></span>
-                        <h3>Academics Principle</h3>
-                        <p>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                            Reiciendis recusandae, iure repellat quis delectus ea? Dolore,
-                            amet reprehenderit.
-                        </p>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <span class="icon flaticon-library"></span>
-                        <h3>Key of Success</h3>
-                        <p>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                            Reiciendis recusandae, iure repellat quis delectus ea? Dolore,
-                            amet reprehenderit.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <p class="mb-4">
-                            <img src="images/logo.png" alt="Image" class="img-fluid" />
-                        </p>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae
-                            nemo minima qui dolor, iusto iure.
-                        </p>
-                        <p><a href="#">Learn More</a></p>
-                    </div>
-                    <div class="col-lg-3">
-                        <h3 class="footer-heading"><span>Our Campus</span></h3>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Acedemic</a></li>
-                            <li><a href="#">News</a></li>
-                            <li><a href="#">Our Interns</a></li>
-                            <li><a href="#">Our Leadership</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">Human Resources</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-3">
-                        <h3 class="footer-heading"><span>Our Courses</span></h3>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Math</a></li>
-                            <li><a href="#">Science &amp; Engineering</a></li>
-                            <li><a href="#">Arts &amp; Humanities</a></li>
-                            <li><a href="#">Economics &amp; Finance</a></li>
-                            <li><a href="#">Business Administration</a></li>
-                            <li><a href="#">Computer Science</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-3">
-                        <h3 class="footer-heading"><span>Contact</span></h3>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Support Community</a></li>
-                            <li><a href="#">Press</a></li>
-                            <li><a href="#">Share Your Story</a></li>
-                            <li><a href="#">Our Supporters</a></li>
-                        </ul>
+              
+                <div
+                    class="section-bg style-1"
+                    style="background-image: url('images/hero_1.jpg')"
+                    >
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                                <span class="icon flaticon-mortarboard"></span>
+                                <h3>Our Philosphy</h3>
+                                <p>
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                    Reiciendis recusandae, iure repellat quis delectus ea? Dolore,
+                                    amet reprehenderit.
+                                </p>
+                            </div>
+                            <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                                <span class="icon flaticon-school-material"></span>
+                                <h3>Academics Principle</h3>
+                                <p>
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                    Reiciendis recusandae, iure repellat quis delectus ea? Dolore,
+                                    amet reprehenderit.
+                                </p>
+                            </div>
+                            <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                                <span class="icon flaticon-library"></span>
+                                <h3>Key of Success</h3>
+                                <p>
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                    Reiciendis recusandae, iure repellat quis delectus ea? Dolore,
+                                    amet reprehenderit.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="copyright">
-                            <p>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                Copyright &copy;
-                                <script>
-                                    document.write(new Date().getFullYear());
-                                </script>
-                                All rights reserved | This template is made with
-                                <i class="icon-heart" aria-hidden="true"></i> by
-                                <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            </p>
+                <div class="footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <p class="mb-4">
+                                    <img src="images/logo.png" alt="Image" class="img-fluid" />
+                                </p>
+                                <p>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae
+                                    nemo minima qui dolor, iusto iure.
+                                </p>
+                                <p><a href="#">Learn More</a></p>
+                            </div>
+                            <div class="col-lg-3">
+                                <h3 class="footer-heading"><span>Our Campus</span></h3>
+                                <ul class="list-unstyled">
+                                    <li><a href="#">Acedemic</a></li>
+                                    <li><a href="#">News</a></li>
+                                    <li><a href="#">Our Interns</a></li>
+                                    <li><a href="#">Our Leadership</a></li>
+                                    <li><a href="#">Careers</a></li>
+                                    <li><a href="#">Human Resources</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3">
+                                <h3 class="footer-heading"><span>Our Courses</span></h3>
+                                <ul class="list-unstyled">
+                                    <li><a href="#">Math</a></li>
+                                    <li><a href="#">Science &amp; Engineering</a></li>
+                                    <li><a href="#">Arts &amp; Humanities</a></li>
+                                    <li><a href="#">Economics &amp; Finance</a></li>
+                                    <li><a href="#">Business Administration</a></li>
+                                    <li><a href="#">Computer Science</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3">
+                                <h3 class="footer-heading"><span>Contact</span></h3>
+                                <ul class="list-unstyled">
+                                    <li><a href="#">Help Center</a></li>
+                                    <li><a href="#">Support Community</a></li>
+                                    <li><a href="#">Press</a></li>
+                                    <li><a href="#">Share Your Story</a></li>
+                                    <li><a href="#">Our Supporters</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="copyright">
+                                    <p>
+                                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                        Copyright &copy;
+                                        <script>
+                                            document.write(new Date().getFullYear());
+                                        </script>
+                                        All rights reserved | This template is made with
+                                        <i class="icon-heart" aria-hidden="true"></i> by
+                                        <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    </p>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- .site-wrap -->
 
-    <!-- loader -->
-    <div id="loader" class="show fullscreen">
-        <svg class="circular" width="48px" height="48px">
-            <circle
+            <!-- .site-wrap -->
+
+            <!-- loader -->
+            <div id="loader" class="show fullscreen">
+                <svg class="circular" width="48px" height="48px">
+                <circle
+
                     class="path-bg"
                     cx="24"
                     cy="24"
@@ -287,8 +302,10 @@
                     fill="none"
                     stroke-width="4"
                     stroke="#eeeeee"
-            />
-            <circle
+
+                    />
+                <circle
+
                     class="path"
                     cx="24"
                     cy="24"
@@ -297,181 +314,149 @@
                     stroke-width="4"
                     stroke-miterlimit="10"
                     stroke="#51be78"
-            />
-        </svg>
-    </div>
 
-</div>
+                    />
+                </svg>
+            </div>
 
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/jquery-migrate-3.0.1.min.js"></script>
-<script src="js/jquery-ui.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/jquery.stellar.min.js"></script>
-<script src="js/jquery.countdown.min.js"></script>
-<script src="js/bootstrap-datepicker.min.js"></script>
-<script src="js/jquery.easing.1.3.js"></script>
-<script src="js/aos.js"></script>
-<script src="js/jquery.fancybox.min.js"></script>
-<script src="js/jquery.sticky.js"></script>
-<script src="js/jquery.mb.YTPlayer.min.js"></script>
+        </div>
 
-<script src="js/main.js"></script>
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/jquery-migrate-3.0.1.min.js"></script>
+        <script src="js/jquery-ui.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/jquery.stellar.min.js"></script>
+        <script src="js/jquery.countdown.min.js"></script>
+        <script src="js/bootstrap-datepicker.min.js"></script>
+        <script src="js/jquery.easing.1.3.js"></script>
+        <script src="js/aos.js"></script>
+        <script src="js/jquery.fancybox.min.js"></script>
+        <script src="js/jquery.sticky.js"></script>
+        <script src="js/jquery.mb.YTPlayer.min.js"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script>
+        <script src="js/main.js"></script>
 
-    //Tạo 1 flag xem trạng thái show
-    let showFL = false; //nếu flase -> đang
-    function show() {
-        if (showFL === false) {
-            showFL = true;
-            document.getElementById('showicon').classList.remove('fa-eye');
-            document.getElementById('showicon').classList.add('fa-eye-slash');
-            document.getElementById('showAllFlashCard').style.display = 'block';
-        } else {
-            showFL = false;
-            document.getElementById('showicon').classList.remove('fa-eye-slash');
-            document.getElementById('showicon').classList.add('fa-eye');
-            document.getElementById('showAllFlashCard').style.display = 'none';
-        }
-    }
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script>
 
-    //Vì object gửi về là 1 string nên phải làm hàm convert
-    function stringToObject(string) {
-        //Tách chuỗi ra thành các phần tử có key với value ví du:
-        // [name=abc,age=20,gender=male]
-        let keyValuePairs = string.split("@#split#@");
-        let obj = {}; // tạo 1 obj rỗng
+                                            //Tạo 1 flag xem trạng thái show
+                                            let showFL = false; //nếu flase -> đang 
+                                            function show() {
+                                                if (showFL === false) {
+                                                    showFL = true;
+                                                    document.getElementById('showicon').classList.remove('fa-eye');
+                                                    document.getElementById('showicon').classList.add('fa-eye-slash');
+                                                    document.getElementById('showAllFlashCard').style.display = 'block';
+                                                } else {
+                                                    showFL = false;
+                                                    document.getElementById('showicon').classList.remove('fa-eye-slash');
+                                                    document.getElementById('showicon').classList.add('fa-eye');
+                                                    document.getElementById('showAllFlashCard').style.display = 'none';
+                                                }
+                                            }
 
-        // duyệt mọi phần tử
-        for (let i = 0; i < keyValuePairs.length; i++) {
-            // Tạo 1 mảng chứa key - value,
-            // trong mỗi phần tử lúc nãy vừa tách, ta tách tiếp thành cặp key-value
-            // để thêm vào obj
-            let keyValue = keyValuePairs[i].split("=");
+                                            let json = document.getElementById('listFlashCard').innerHTML;
+                                            let data = JSON.parse(json);
+                                            let flashcard = document.getElementById('flashcard');
+                                            let dataId = 0;
+                                            flashcard.querySelector('p').innerText = data[dataId].question;
+                                            let flipStatus = true;
+                                            function flip() {
+                                                if (flipStatus === true) {
+                                                    flashcard.querySelector('p').innerText = data[dataId].answer;
+                                                    flipStatus = false;
+                                                } else if (flipStatus === false) {
+                                                    flashcard.querySelector('p').innerText = data[dataId].question;
+                                                    flipStatus = true;
+                                                }
+                                            }
 
-            // Mảng có 2 phần tử, 0: key, 1: value
-            let key = keyValue[0].trim();
-            let value = keyValue[1].trim();
+                                            document.getElementById('numberOfFlashCard').innerText = data.length;
+                                            document.getElementById('indexOfFlashCard').innerText = dataId + 1;
 
-            // Check xem value có phải số hay không? nếu là số thì parse
-            if (!isNaN(value)) {
-                value = parseFloat(value);
-            }
+                                            function nextFlashCard(status) {
+                                                if (dataId < data.length - 1 && dataId > 0) {
+                                                    dataId += status;
+                                                }
+                                                if ((dataId === 0 && status === 1) ||
+                                                        (dataId === data.length - 1 && status === -1)) {
+                                                    dataId += status;
+                                                }
+                                                console.log(dataId);
+                                                flashcard.querySelector('p').innerText = data[dataId].question;
+                                                flipStatus = true;
+                                                document.getElementById('indexOfFlashCard').innerText = dataId + 1;
+                                            }
 
-            // thêm key-value vào obj
-            obj[key] = value;
-        }
+                                            function checkLogin(user, courseId) {
+                                                if (user === null || user.trim().length === 0) {
+                                                    let err = document.querySelector('#err');
+                                                    err.querySelector('span').innerHTML = "Bạn chưa đăng nhập";
+                                                    err.style.display = 'block';
+                                                    return;
+                                                }
+                                                let joinClass = document.getElementById('joinClass').innerText.trim();
+                                                switch (joinClass) {
+                                                    case 'Tham gia':
+                                                        enrollCourse(courseId);
+                                                        return;
+                                                    case 'Hủy tham gia':
+                                                        unEnrollCourse(courseId);
+                                                        return;
+                                                }
+                                            }
 
-        return obj;
-    }
+                                            function closeErr(err) {
+                                                err.parentNode.style.display = 'none';
+                                            }
 
-    //Tạo 1 flag xem trạng thái flip
-    let click_flip = false; // nếu false -> đang là câu hỏi
-    function flip(id_raw, obj_raw) {
-        //lấy thẻ rồi đổi text
-        let obj = stringToObject(obj_raw);
-        let id = id_raw.querySelector('p');
-        if (click_flip === false) {
-            click_flip = true;
-            id.innerHTML = obj.answer;
-        } else {
-            click_flip = false;
-            id.innerText = obj.question;
-        }
-    }
+                                            function checkJoinClass(btn) {
+                                                let joinClass = document.getElementById('joinClass').innerText.trim();
+                                                switch (joinClass) {
+                                                    case 'Tham gia':
+                                                        let err = document.querySelector('#err');
+                                                        err.querySelector('span').innerHTML = "Bạn chưa tham gia lớp học";
+                                                        err.style.display = 'block';
+                                                        return;
+                                                    case 'Hủy tham gia':
 
+                                                        return;
+                                                }
+                                            }
 
-    let index_FL = 0;
-    function nextFL(status, length, courseId) {
-        if (index_FL < length && index_FL >= 0) {
-            if (index_FL > 0 && status === 1)
-                index_FL -= 1;
-            else if (index_FL < length - 1 && status === 2)
-                index_FL += 1;
-            $.ajax({
-                url: "/SWP391/course-detail?service=nextFL&id=" + index_FL+"&course_id="+courseId,
-                type: "POST",
-                success: function (data) {
-                    let getAllFC = document.getElementById('flashcard');
-                    getAllFC.innerHTML = data;
-                },
-                error: function (xhr, status, error) {
+                                            function enrollCourse(courseId) {
+                                                $.ajax({
+                                                    url: "/SWP391/course-detail?service=enroll&&course_id=" + courseId,
+                                                    type: "POST",
+                                                    success: function (data) {
+                                                        document.getElementById('joinClass').innerText = 'Hủy tham gia';
+                                                        document.getElementById('err').style.display='none';
+                                                    },
+                                                    error: function (xhr, status, error) {
 
-                }
-            });
-            let indexFL = index_FL + 1;
-            document.getElementById('indexFL').innerHTML = indexFL;
-            //sau khi next thì click_flip sửa về false vì có trường hợp
-            //thẻ đổi qua answer sẽ là true và next nó vẫn là true -> next phải nhấn chuột 2 lần
-            click_flip = false;
-        }
-    }
+                                                    }
+                                                });
+                                                console.log(courseId);
+                                            }
 
-    //check login to join or remove class
-    function checkLogin(user, position, course_id) {
-        if (user === null || user.trim().length === 0) {
-            let err = document.getElementById('err');
-            err.querySelector('span').innerHTML = 'Bạn chưa đăng nhập';
-            err.style.display = 'block';
-        } else {
-            switch (position.innerText.trim()) {
-                case "Tham gia":
-                    //tạo url
-                    let url_join = "course-detail?service=joinClass&course_id=" + course_id;
-                    //tạo 1 form để gửi
-                    const form_join = document.createElement('form');
-                    form_join.method = 'post';
-                    form_join.action = url_join;
-                    document.body.appendChild(form_join);
-                    form_join.submit();
-                    break;
-                case "Hủy tham gia":
-                    //tạo url
-                    let url_remove = "course-detail?service=removeClass&course_id=" + course_id;
-                    //tạo 1 form để gửi
-                    const form_remove = document.createElement('form');
-                    form_remove.method = 'post';
-                    form_remove.action = url_remove;
-                    document.body.appendChild(form_remove);
-                    form_remove.submit();
-                    break;
+                                            function unEnrollCourse(courseId) {
+                                                $.ajax({
+                                                    url: "/SWP391/course-detail?service=unenroll&&course_id=" + courseId,
+                                                    type: "POST",
+                                                    success: function (data) {
+                                                        document.getElementById('joinClass').innerText = 'Tham gia';
+                                                    },
+                                                    error: function (xhr, status, error) {
 
-            }
-        }
-    }
+                                                    }
+                                                });
+                                                console.log(courseId);
+                                            }
+        </script>
 
-    function checkJoinClass(position) {
-        let join = document.getElementById('joinClass').innerText.trim();
-        if (join === "Hủy tham gia") {
-            switch (position.innerText.trim()) {
-                case "Trắc nghiệm":
-                    console.log("tn");
-                    break;
-                case "Nối thẻ":
-                    console.log("nt");
-                    break;
-                case "Điền chữ":
-                    console.log("dc");
-                    break;
-            }
-        } else {
-            let err = document.getElementById('err');
-            err.querySelector('span').innerHTML = 'Bạn chưa tham gia lớp học';
-            err.style.display = 'block';
-        }
-    }
+    </body>
 
-    function closeErr(position) {
-        let parent = position.parentNode;
-        parent.style.display = 'none';
-    }
-
-</script>
-
-</body>
 </html>
 
