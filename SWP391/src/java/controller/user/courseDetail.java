@@ -39,7 +39,7 @@ public class courseDetail extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        HttpSession session = request.getSession(true);
+        
 
         // get course_id
         String courseId_raw = request.getParameter("course_id");
@@ -63,6 +63,7 @@ public class courseDetail extends HttpServlet {
         Gson gson = new Gson();
 
         //test user
+        HttpSession session = request.getSession(true);
         DAOUser daoUser = new DAOUser();
         session.setAttribute("user", daoUser.getUserByID(2));
         User user = (User) session.getAttribute("user");
