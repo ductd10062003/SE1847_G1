@@ -311,6 +311,19 @@
 
 </script>
 
+<%--Validate username--%>
+<script>
+    var username = document.getElementById("username");
+    username.addEventListener("input", function () {
+        var usernameRegex = /^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d_ ]{6,32}$/g;
+        if (!usernameRegex.test(username.value)) {
+            username.setCustomValidity("Username must be from 6-32 characters, at least 1 uppercase, 1 lowercase character and contain only letters, numbers, spaces and underscores!");
+        } else {
+            username.setCustomValidity("");
+        }
+    });
+</script>
+
 <script>
     function validate() {
         let username = document.getElementById("username").value;

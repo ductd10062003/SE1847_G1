@@ -1,3 +1,4 @@
+<%@ page import="entity.User" %>
 <jsp:useBean id="user" scope="session" type="entity.User"/>
 <!DOCTYPE html>
 <html lang="en">
@@ -124,8 +125,20 @@
                     <input type="text" id="dob" class="form-control form-control-lg" value="${user.dob}" disabled>
                 </div>
             </div>
-            <%--                Anchor to return to home page--%>
-            <a href="index.jsp" class="btn btn-primary">Return to Home Page</a>
+<%--            Form to return to home page by calling post request in login server--%>
+            <form action="login" method="post">
+                <div class="row justify-content-center">
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <input type="hidden" name="username" value="${user.name}">
+                                <input type="hidden" name="password" value="${user.password}">
+                                <input type="submit" class="btn btn-primary btn-lg px-5" value="Go to home page">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 

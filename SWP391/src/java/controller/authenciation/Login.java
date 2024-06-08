@@ -60,33 +60,43 @@ public class Login extends HttpServlet {
         // If the user is not found, set the error message and forward to login page
         // If there is any exception, set the error message and forward to login page
 
-        if (request.getSession().getAttribute("user") != null) {
-            response.sendRedirect("home");
-        } else {
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            if (username != null && password != null) {
-                User user = new DAOUser().getUserByUsername(username);
-                if (user != null) {
-                    if (PasswordEncryptor.validatePassword(password, user.getPassword())) {
-                        request.getSession().setAttribute("user", user);
-                        response.sendRedirect("index.jsp");
-                    } else {
-                        request.getSession().setAttribute("error", "Password is incorrect");
-                        request.getSession().setAttribute("username", username);
-                        request.getRequestDispatcher("login.jsp").forward(request, response);
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        if (username != null && password != null) {
+            User user = new DAOUser().getUserByUsername(username);
+            if (user != null) {
+                if (PasswordEncryptor.validatePassword(password, user.getPassword())) {
+                    request.getSession().setAttribute("user", user);
+                    switch (user.getRole()) {
+                        case 1:
+                            response.sendRedirect("ThisIsAdmin.jsp");
+                            break;
+                        case 2:
+                            response.sendRedirect("view-mentor/mentor-dashboard.jsp");
+                            break;
+                        case 3:
+                            response.sendRedirect("index.jsp");
+                            break;
+                        default:
+                            request.getSession().setAttribute("error", "Role is not defined");
+                            request.getRequestDispatcher("login").forward(request, response);
                     }
-
                 } else {
-                    request.getSession().setAttribute("error", "Username user not exist");
+                    request.getSession().setAttribute("error", "Password is incorrect");
                     request.getSession().setAttribute("username", username);
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 }
+
             } else {
-                request.getSession().setAttribute("error", "Username and password are required");
+                request.getSession().setAttribute("error", "Username user not exist");
+                request.getSession().setAttribute("username", username);
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
+        } else {
+            request.getSession().setAttribute("error", "Username and password are required");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
+
     }
 
     /**
