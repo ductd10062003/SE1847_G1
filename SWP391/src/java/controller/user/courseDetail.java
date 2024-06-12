@@ -38,9 +38,6 @@ public class courseDetail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        
-
         // get course_id
         String courseId_raw = request.getParameter("course_id");
         int courseId = Integer.parseInt(courseId_raw);
@@ -82,12 +79,10 @@ public class courseDetail extends HttpServlet {
             throws ServletException, IOException {
         String service = request.getParameter("service");
         switch (service) {
-            case "enroll":
+            case "enroll" ->
                 enroll(request, response);
-                break;
-            case "unenroll":
-                unenroll(response, request);
-                break;
+            case "unenroll" ->
+                unenroll(request);
         }
     }
 
@@ -116,7 +111,7 @@ public class courseDetail extends HttpServlet {
 
     }
 
-    private void unenroll(HttpServletResponse response, HttpServletRequest request)
+    private void unenroll(HttpServletRequest request)
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(true);
@@ -127,6 +122,13 @@ public class courseDetail extends HttpServlet {
 
         daoUserEnrollCourse.updateUserEnrollCourse(user.getUser_id(), courseId, 0);
 
+    }
+
+    private void getProgressData(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(true);
+        User user = (User) session.getAttribute("user");
+        int courseId = Integer.parseInt(request.getParameter("course_id"));
     }
 
 }
