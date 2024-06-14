@@ -1,8 +1,11 @@
 package model;
 
+import entity.Discussion;
 import entity.DiscussionCategory;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class DAODiscussionCategory extends DBConnect{
     public DAODiscussionCategory() {
@@ -63,4 +66,37 @@ public class DAODiscussionCategory extends DBConnect{
         DiscussionCategory discussionCategory = new DiscussionCategory(1, "category_name", sqlTime.toString(), sqlTime.toString(), true);
         daoDiscussionCategory.insertDiscussionCategory(discussionCategory);
     }
+
+    public ArrayList<DiscussionCategory> getAllCategories() {
+        ArrayList<DiscussionCategory> categories = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM DiscussionCategory";
+            ResultSet rs = conn.prepareStatement(query).executeQuery();
+            while (rs.next()) {
+                categories.add(new DiscussionCategory(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getBoolean(5)));
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+        return categories;
+    }
+
+    public String getCategoryNameByID(int category_id){
+        String category_name = "";
+        try {
+            String query = "SELECT category_name FROM DiscussionCategory WHERE category_id = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setInt(1, category_id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next()){
+                category_name = rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+        return category_name;
+    }
+
 }

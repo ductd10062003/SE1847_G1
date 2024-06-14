@@ -1,3 +1,11 @@
+<%@ page import="entity.Category" %>
+<%@ page import="java.util.List" %>
+<%@ page import="entity.DiscussionCategory" %>
+<%@ page import="entity.Discussion" %>
+<%@ page import="model.DAODiscussion" %>
+<%@ page import="model.DAODiscussionCategory" %>
+<%@ page import="controller.discussion.Util" %>
+<%@ page import="model.DAOUser" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,6 +31,7 @@
             display: flex;
             align-items: center;
         }
+
         .form-check-input {
             margin-right: 10px;
         }
@@ -42,42 +51,9 @@
         <div class="site-mobile-menu-body"></div>
     </div>
 
-    <jsp:include page="layout/header.jsp" />
+
     <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner">
-        <div class="container">
-            <div class="d-flex align-items-center">
-                <div class="site-logo">
-                    <a href="index.jsp" class="d-block">
-                        <img src="images/logo.jpg" alt="Image" class="img-fluid">
-                    </a>
-                </div>
-                <div class="mr-auto">
-                    <nav class="site-navigation position-relative text-right" role="navigation">
-                        <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                            <li><a href="index.jsp" class="nav-link text-left">Home</a></li>
-                            <li class="has-children">
-                                <a href="about.html" class="nav-link text-left">About Us</a>
-                                <ul class="dropdown">
-                                    <li><a href="teachers.html">Our Teachers</a></li>
-                                    <li><a href="about.html">Our School</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="admissions.html" class="nav-link text-left">Admissions</a></li>
-                            <li><a href="courses.html" class="nav-link text-left">Courses</a></li>
-                            <li><a href="contact.html" class="nav-link text-left">Contact</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="ml-auto">
-                    <div class="social-wrap">
-                        <a href="#"><span class="icon-facebook"></span></a>
-                        <a href="#"><span class="icon-twitter"></span></a>
-                        <a href="#"><span class="icon-linkedin"></span></a>
-                        <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <jsp:include page="layout/header.jsp"/>
     </header>
 
     <div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('images/bg_1.jpg')">
@@ -111,25 +87,15 @@
                 </div>
             </div>
 
-            <div class="row mb-3">
-                <div class="col-12">
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-secondary">Newest</button>
-                        <button type="button" class="btn btn-secondary">Active</button>
-                        <button type="button" class="btn btn-secondary">Bountied</button>
-                        <button type="button" class="btn btn-secondary">Unanswered</button>
-                        <button type="button" class="btn btn-secondary">More</button>
-                    </div>
-                </div>
-            </div>
-
-            <form action="" method="post">
+            <form action="view-discussions" method="get">
                 <div class="row mb-3">
                     <div class="col-12">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Search for questions" aria-label="Search for questions" aria-describedby="button-search">
+                            <input type="text" class="form-control" placeholder="Search by keyword"
+                                   aria-label="Search for questions" aria-describedby="button-search" name="keyword">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" id="button-search">Search</button>
+                                <button class="btn btn-outline-primary" type="submit" id="button-search">Search
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -139,42 +105,44 @@
                     <div class="col-12">
                         <h5>Categories</h5>
                     </div>
+                    <% for (DiscussionCategory category : (List<DiscussionCategory>) session.getAttribute("categories")) {%>
                     <div class="col-3">
+
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="category1">
-                            <label class="form-check-label" for="category1">
-                                Android
+                            <input class="form-check-input" type="checkbox" value="<%=category.getCategory_name()%>"
+                                   id="<%=category.getCategory_id()%>" name="categories">
+                            <label class="form-check-label" for="<%=category.getCategory_id()%>">
+                                <%=category.getCategory_name()%>
                             </label>
                         </div>
-                    </div>
 
+                    </div>
+                    <%}%>
                 </div>
+
             </form>
 
 
             <div class="row">
                 <div class="col-12">
                     <!-- Repeat this block for each question -->
+                    <%for(Discussion discussion : (List<Discussion>)session.getAttribute("discussions")){%>
                     <div class="question-summary border p-3 mb-2">
                         <div class="row">
                             <div class="col-md-1 text-center">
-                                <div>0 votes</div>
-                                <div>0 answers</div>
-                                <div>2 views</div>
+                                <div><%=new DAODiscussion().getCommentCount(discussion.getDiscussion_id())%> answers</div>
                             </div>
                             <div class="col-md-11">
-                                <h5><a href="#">Android Studio not detected by react-native doctor (MacOS)</a></h5>
-                                <p class="mb-1">I have installed Android Studio via JetBrains Toolbox. Although I followed all the steps according to the documentation, react-native doctor complains about missing Android Studio. Context: MacOS 14...</p>
+                                <h5><a href="#"><%=Util.stringShortener(discussion.getTitle(), 70)%></a></h5>
+                                <p class="mb-1"><%=Util.stringShortener(discussion.getContent(), 200)%></p>
                                 <div>
-                                    <span class="badge badge-primary">android</span>
-                                    <span class="badge badge-primary">react-native</span>
-                                    <span class="badge badge-primary">android-studio</span>
-                                    <span class="badge badge-primary">jetbrains-toolbox</span>
+                                    <span class="badge badge-primary"><%=new DAODiscussionCategory().getCategoryNameByID(discussion.getCategory_id())%></span>
                                 </div>
-                                <small class="text-muted">asked 55 secs ago by <a href="#">fandasson</a></small>
+                                <small class="text-muted">asked <%=Util.calculateDaysPassed(discussion.getCreate_at())%> days ago by <b><%=new DAOUser().getUserByID(discussion.getUser_id()).getName()%></b></small>
                             </div>
                         </div>
                     </div>
+                    <%}%>
                     <!-- End question block -->
                 </div>
             </div>
@@ -187,7 +155,8 @@
             <div class="row">
                 <div class="col-lg-3">
                     <p class="mb-4"><img src="images/logo.png" alt="Image" class="img-fluid"></p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto iure.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto
+                        iure.</p>
                     <p><a href="#">Learn More</a></p>
                 </div>
                 <div class="col-lg-3">
@@ -229,7 +198,10 @@
                     <div class="copyright">
                         <p>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                            All rights reserved | This template is made with <i class="icon-heart"
+                                                                                aria-hidden="true"></i> by <a
+                                href="https://colorlib.com" target="_blank">Colorlib</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </p>
                     </div>
