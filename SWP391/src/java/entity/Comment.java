@@ -1,14 +1,23 @@
 package entity;
 
 public class Comment {
+//    content    nvarchar(500) NOT NULL,
+//    user_id    int           NOT NULL,
+//    Comment_id int IDENTITY  NOT NULL,
+//    discussion_id int        NOT NULL,
+//    create_at  int           NOT NULL,
+//    PRIMARY KEY (Comment_id)
     private String content;
-    private int user_id, comment_id;
-    private String create_at;
+    private int user_id;
+    private int Comment_id;
+    private int discussion_id;
+    private int create_at;
 
-    public Comment(String content, int user_id, int comment_id, String create_at) {
+    public Comment(String content, int user_id, int Comment_id, int discussion_id, int create_at) {
         this.content = content;
         this.user_id = user_id;
-        this.comment_id = comment_id;
+        this.Comment_id = Comment_id;
+        this.discussion_id = discussion_id;
         this.create_at = create_at;
     }
 
@@ -32,26 +41,26 @@ public class Comment {
     }
 
     public int getComment_id() {
-        return comment_id;
+        return Comment_id;
     }
 
     public void setComment_id(int comment_id) {
-        this.comment_id = comment_id;
+        Comment_id = comment_id;
     }
 
-    public String getCreate_at() {
+    public int getDiscussion_id() {
+        return discussion_id;
+    }
+
+    public void setDiscussion_id(int discussion_id) {
+        this.discussion_id = discussion_id;
+    }
+
+    public int getCreate_at() {
         return create_at;
     }
 
-    public void setCreate_at(String create_at) {
+    public void setCreate_at(int create_at) {
         this.create_at = create_at;
     }
-
-    @Override
-    public String toString() {
-        return "Comment{" + "content=" + content + ", user_id=" + user_id + ", comment_id=" + comment_id + ", create_at=" + create_at + '}';
-    }
-    
-    
-    
 }
