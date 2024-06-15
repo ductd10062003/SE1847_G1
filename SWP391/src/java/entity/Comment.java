@@ -11,9 +11,9 @@ public class Comment {
     private int user_id;
     private int Comment_id;
     private int discussion_id;
-    private int create_at;
+    private String create_at;
 
-    public Comment(String content, int user_id, int Comment_id, int discussion_id, int create_at) {
+    public Comment(String content, int user_id, int Comment_id, int discussion_id, String create_at) {
         this.content = content;
         this.user_id = user_id;
         this.Comment_id = Comment_id;
@@ -56,11 +56,11 @@ public class Comment {
         this.discussion_id = discussion_id;
     }
 
-    public int getCreate_at() {
+    public String getCreate_at() {
         return create_at;
     }
 
-    public void setCreate_at(int create_at) {
+    public void setCreate_at(String create_at) {
         this.create_at = create_at;
     }
 }
