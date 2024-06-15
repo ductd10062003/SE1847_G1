@@ -3,15 +3,77 @@
 --========================================================================
 --Tạo bảng---------------------------
 --create database SWP_G1_V2
--- use SWP_G1_V2 select * from [User]
-use master
-
--- Drop database if it exists
-Drop DATABASE IF EXISTS SWP_G1_V2;
-
-create database SWP_G1_V2
-
+-- use SWP_G1_V2 select * from Discussion
 use SWP_G1_V2
+-- Delete all constrains from this database if exist
+ALTER TABLE User_Enroll_Course
+    DROP CONSTRAINT FKUser_Enrol952811;
+
+ALTER TABLE User_Enroll_Course
+    DROP CONSTRAINT FKUser_Enrol369795;
+
+ALTER TABLE flashcard
+    DROP CONSTRAINT FKflashcard200337;
+
+ALTER TABLE Result_Detail
+    DROP CONSTRAINT FKResult_Det440593;
+
+ALTER TABLE User_Practice
+    DROP CONSTRAINT FKUser_Pract87055;
+
+ALTER TABLE User_Practice
+    DROP CONSTRAINT FKUser_Pract981078;
+
+ALTER TABLE User_Practice
+    DROP CONSTRAINT FKUser_Pract601937;
+
+ALTER TABLE Course
+    DROP CONSTRAINT FKCourse13033;
+
+ALTER TABLE Quiz
+    DROP CONSTRAINT FKQuiz491781;
+
+ALTER TABLE Quiz
+    DROP CONSTRAINT FKQuiz898896;
+
+ALTER TABLE Discussion
+    DROP CONSTRAINT FKDiscussi292579;
+
+ALTER TABLE Discussion
+    DROP CONSTRAINT FKDiscussi982579;
+
+ALTER TABLE Comment
+    DROP CONSTRAINT FKCommentUser;
+
+ALTER TABLE Comment
+    DROP CONSTRAINT FKCommentDiscuss;
+
+-- Delete all table if exist
+IF OBJECT_ID('User_Enroll_Course', 'U') IS NOT NULL
+    DROP TABLE User_Enroll_Course;
+IF OBJECT_ID('User_Practice', 'U') IS NOT NULL
+    DROP TABLE User_Practice;
+IF OBJECT_ID('Type_Of_Practice', 'U') IS NOT NULL
+    DROP TABLE Type_Of_Practice;
+IF OBJECT_ID('Result_Detail', 'U') IS NOT NULL
+    DROP TABLE Result_Detail;
+IF OBJECT_ID('Quiz', 'U') IS NOT NULL
+    DROP TABLE Quiz;
+IF OBJECT_ID('flashcard', 'U') IS NOT NULL
+    DROP TABLE flashcard;
+IF OBJECT_ID('Discussion', 'U') IS NOT NULL
+    DROP TABLE Discussion;
+IF OBJECT_ID('DiscussionCategory', 'U') IS NOT NULL
+    DROP TABLE DiscussionCategory;
+IF OBJECT_ID('Comment', 'U') IS NOT NULL
+    DROP TABLE Comment;
+IF OBJECT_ID('Course', 'U') IS NOT NULL
+    DROP TABLE Course;
+IF OBJECT_ID('Category', 'U') IS NOT NULL
+    DROP TABLE Category;
+IF OBJECT_ID('User', 'U') IS NOT NULL
+    DROP TABLE [User];
+
 
 CREATE TABLE Category
 (
@@ -64,7 +126,7 @@ CREATE TABLE comment
     user_id    int           NOT NULL,
     Comment_id int IDENTITY  NOT NULL,
     discussion_id int        NOT NULL,
-    create_at  int           NOT NULL,
+    create_at  date           NOT NULL,
     PRIMARY KEY (Comment_id)
 );
 CREATE TABLE DiscussionCategory
@@ -309,5 +371,58 @@ values (1, 1),
        (5, 31),
        (5, 32),
        (5, 33)
+-- Tao Category Discussion
+insert into DiscussionCategory(category_name, create_at, update_at, active)
+values (N'Câu hỏi về cơ thể', CAST(GETDATE() AS DATE), CAST(GETDATE() AS DATE), 1),
+       (N'Câu hỏi về quần áo', CAST(GETDATE() AS DATE), CAST(GETDATE() AS DATE), 1),
+       (N'Câu hỏi về ẩm thực', CAST(GETDATE() AS DATE), CAST(GETDATE() AS DATE), 1),
+       (N'Câu hỏi về động vật', CAST(GETDATE() AS DATE), CAST(GETDATE() AS DATE), 1),
+       (N'Câu hỏi về thiên nhiên', CAST(GETDATE() AS DATE), CAST(GETDATE() AS DATE), 1)
 
-	
+-- Tạo discussion ===========
+INSERT INTO Discussion (title, content, create_at, update_at, active, user_id, category_id)
+VALUES
+    (N'Câu hỏi về cơ thể và những điều cần biết để duy trì sức khỏe tốt hàng ngày',
+     N'Câu hỏi về cơ thể con người, bao gồm các hệ thống cơ quan, các chức năng sinh học và cách duy trì sức khỏe qua việc tập thể dục và ăn uống lành mạnh. Chúng ta sẽ thảo luận về các thói quen tốt và cách phòng tránh bệnh tật.',
+     CAST(GETDATE() AS DATE), CAST(GETDATE() AS DATE), 1, 21, 1),
+
+    (N'Câu hỏi về quần áo và xu hướng thời trang hiện nay trong các mùa trong năm',
+     N'Câu hỏi về quần áo và xu hướng thời trang, bao gồm các loại trang phục phổ biến, cách phối đồ theo mùa, và các xu hướng thời trang hiện đại. Chúng ta sẽ thảo luận về cách lựa chọn trang phục phù hợp với từng hoàn cảnh và phong cách cá nhân.',
+     CAST(GETDATE() AS DATE), CAST(GETDATE() AS DATE), 1, 21, 2),
+
+    (N'Câu hỏi về ẩm thực và các món ăn đặc trưng của các vùng miền khác nhau',
+     N'Câu hỏi về ẩm thực, bao gồm các món ăn đặc trưng của các vùng miền khác nhau, các kỹ thuật nấu ăn và cách chế biến các món ăn phổ biến. Chúng ta sẽ thảo luận về cách kết hợp các nguyên liệu để tạo ra các món ăn ngon và bổ dưỡng.',
+     CAST(GETDATE() AS DATE), CAST(GETDATE() AS DATE), 1, 21, 3),
+
+    (N'Câu hỏi về động vật và hành vi của chúng trong môi trường tự nhiên và nuôi nhốt',
+     N'Câu hỏi về động vật, bao gồm các loài động vật hoang dã và nuôi nhốt, hành vi và sinh thái học của chúng, cũng như cách bảo vệ và bảo tồn các loài động vật quý hiếm. Chúng ta sẽ thảo luận về mối quan hệ giữa con người và động vật.',
+     CAST(GETDATE() AS DATE), CAST(GETDATE() AS DATE), 1, 21, 4),
+
+    (N'Câu hỏi về thiên nhiên và cách bảo vệ môi trường sống của chúng ta',
+     N'Câu hỏi về thiên nhiên, bao gồm các hệ sinh thái, đa dạng sinh học, và cách bảo vệ môi trường sống của chúng ta. Chúng ta sẽ thảo luận về tác động của con người đến thiên nhiên và các biện pháp để bảo vệ tài nguyên thiên nhiên.',
+     CAST(GETDATE() AS DATE), CAST(GETDATE() AS DATE), 1, 21, 5);
+-- Tạo comment ===========
+insert into Comment(content, user_id, discussion_id, create_at)
+values (N'Câu trả lời 1', 21, 1, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 2', 22, 1, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 3', 23, 1, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 4', 24, 1, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 5', 25, 1, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 6', 21, 2, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 7', 22, 2, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 8', 23, 2, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 9', 24, 2, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 10', 25, 2, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 11', 21, 3, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 12', 22, 3, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 13', 23, 3, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 14', 24, 3, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 15', 25, 3, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 16', 21, 4, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 17', 22, 4, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 18', 23, 4, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 19', 24, 4, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 20', 25, 4, CAST(GETDATE() AS DATE)),
+       (N'Câu trả lời 21', 21, 5, CAST(GETDATE() AS DATE))
+
+
