@@ -1,3 +1,9 @@
+<%@ page import="model.DAODiscussionCategory" %>
+<%@ page import="entity.Discussion" %>
+<%@ page import="controller.discussion.Util" %>
+<%@ page import="model.DAOUser" %>
+<%@ page import="entity.Comment" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,11 +24,18 @@
     <link rel="stylesheet" href="css/aos.css">
     <link href="css/jquery.mb.YTPlayer.min.css" media="all" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        #editor-container {
+            height: 200px;
+        }
+    </style>
     <style>
         .form-check {
             display: flex;
             align-items: center;
         }
+
         .form-check-input {
             margin-right: 10px;
         }
@@ -42,7 +55,7 @@
         <div class="site-mobile-menu-body"></div>
     </div>
 
-    <jsp:include page="layout/header.jsp" />
+    <jsp:include page="layout/header.jsp"/>
     <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner">
         <div class="container">
             <div class="d-flex align-items-center">
@@ -73,7 +86,8 @@
                         <a href="#"><span class="icon-facebook"></span></a>
                         <a href="#"><span class="icon-twitter"></span></a>
                         <a href="#"><span class="icon-linkedin"></span></a>
-                        <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a>
+                        <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span
+                                class="icon-menu h3"></span></a>
                     </div>
                 </div>
             </div>
@@ -103,8 +117,13 @@
         <div class="container">
             <div class="row mb-3">
                 <div class="col-12">
-                    <h2>Question Title: Android Studio not detected by react-native doctor (MacOS)</h2>
-                    <p class="text-muted">asked 1 hour ago by <a href="#">fandasson</a></p>
+                    <h2><%=((Discussion) (session.getAttribute("discussion"))).getTitle()%>
+                    </h2>
+                    <p class="text-muted">
+                        Created <%=Util.calculateDaysPassed(((Discussion) (session.getAttribute("discussion"))).getCreate_at())%>
+                        days ago
+                        by <%=new DAOUser().getUserByID(((Discussion) (session.getAttribute("discussion"))).getUser_id()).getName()%>
+                    </p>
                 </div>
             </div>
 
@@ -112,14 +131,16 @@
             <div class="row mb-3">
                 <div class="col-12">
                     <div class="question-content border p-3 mb-2">
-                        <p>I have installed Android Studio via JetBrains Toolbox. Although I followed all the steps according to the documentation, react-native doctor complains about missing Android Studio. Context: MacOS 14...</p>
-                        <div>
-                            <span class="badge badge-primary">android</span>
-                            <span class="badge badge-primary">react-native</span>
-                            <span class="badge badge-primary">android-studio</span>
-                            <span class="badge badge-primary">jetbrains-toolbox</span>
+                        <div id="content">
+                            ${sessionScope.discussion.content}
                         </div>
-                        <small class="text-muted">1 hour ago</small>
+                        <div>
+                            <span class="badge badge-primary"><%=new DAODiscussionCategory().getCategoryNameByID(((Discussion) (session.getAttribute("discussion"))).getCategory_id())%></span>
+                        </div>
+                        <small class="text-muted">Created <%=Util.calculateDaysPassed(((Discussion) (session.getAttribute("discussion"))).getCreate_at())%>
+                            days ago</small>
+                        <small class="text-muted">Updated <%=Util.calculateDaysPassed(((Discussion) (session.getAttribute("discussion"))).getUpdate_at())%>
+                            days ago</small>
                     </div>
                 </div>
             </div>
@@ -127,34 +148,29 @@
             <!-- Answers -->
             <div class="row mb-3">
                 <div class="col-12">
-                    <h5>Answers</h5>
+                    <h5>Comments</h5>
+                    <%for (Comment comment : (ArrayList<Comment>) (session.getAttribute("comments"))) {%>
                     <div class="answer border p-3 mb-2">
                         <div class="row">
                             <div class="col-md-11">
-                                <p>I had the same issue. Make sure that the environment variable ANDROID_HOME is set to the correct path where Android SDK is installed. You can add the following to your ~/.bash_profile:</p>
-                                <pre><code>export ANDROID_HOME=/Users/yourname/Library/Android/sdk</code></pre>
-                                <small class="text-muted">answered 10 mins ago by <a href="#">User3</a></small>
+                                <div id="<%=comment.getComment_id()%>">
+                                    <%=comment.getContent()%>
+                                </div>
+                                <small class="text-muted">answered <%=Util.calculateDaysPassed(comment.getCreate_at())%>
+                                    days ago by <b><%=new DAOUser().getUserByID(comment.getUser_id()).getName()%>
+                                    </b></small>
                             </div>
                         </div>
                     </div>
-                    <div class="answer border p-3 mb-2">
-                        <div class="row">
-                            <div class="col-md-1 text-center">
-                                <div>0 votes</div>
-                            </div>
-                            <div class="col-md-11">
-                                <p>Check if you have all the necessary plugins installed in Android Studio. Sometimes missing plugins can cause this issue.</p>
-                                <small class="text-muted">answered 5 mins ago by <a href="#">User4</a></small>
-                            </div>
-                        </div>
-                    </div>
+                    <%}%>
                     <!-- Answer Form -->
-                    <form>
-                        <div class="form-group">
-                            <label for="answer">Your Answer</label>
-                            <textarea class="form-control" id="answer" rows="4"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Post Your Answer</button>
+                    <div class="form-group">
+                        <label for="editor-container">Your Comment</label>
+                        <div id="editor-container"></div>
+                    </div>
+                    <form id="comment-form" action="add-comment" method="post">
+                        <input type="hidden" name="commentContent" id="commentContent">
+                        <button class="btn btn-primary" id="comment-submit">Post Your Answer</button>
                     </form>
                 </div>
             </div>
@@ -168,7 +184,8 @@
             <div class="row">
                 <div class="col-lg-3">
                     <p class="mb-4"><img src="images/logo.png" alt="Image" class="img-fluid"></p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto iure.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto
+                        iure.</p>
                     <p><a href="#">Learn More</a></p>
                 </div>
                 <div class="col-lg-3">
@@ -210,7 +227,10 @@
                     <div class="copyright">
                         <p>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                            All rights reserved | This template is made with <i class="icon-heart"
+                                                                                aria-hidden="true"></i> by <a
+                                href="https://colorlib.com" target="_blank">Colorlib</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </p>
                     </div>
@@ -220,7 +240,33 @@
     </div>
 </div>
 <!-- .site-wrap -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+    // Initialize Quill editor
+    var quill = new Quill('#editor-container', {
+        theme: 'snow', // or 'bubble'
+        modules: {
+            toolbar: [
+                [{'header': [1, 2, false]}],
+                ['bold', 'italic', 'underline'],
+                ['link', 'blockquote', 'code-block'],
+                [{'list': 'ordered'}, {'list': 'bullet'}],
+                [{'script': 'sub'}, {'script': 'super'}],
+                [{'indent': '-1'}, {'indent': '+1'}],
+                [{'direction': 'rtl'}],
+                [{'color': []}, {'background': []}],
+                [{'align': []}],
+                ['clean'] // remove formatting button
+            ]
+        }
+    });
 
+    // Get content and submit form
+    document.getElementById('comment-form').addEventListener('submit', function(event) {
+        var content = quill.root.innerHTML; // Get HTML content
+        document.getElementById('commentContent').value = content; // Set content in hidden input
+    });
+</script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/jquery-migrate-3.0.1.min.js"></script>
 <script src="js/jquery-ui.js"></script>

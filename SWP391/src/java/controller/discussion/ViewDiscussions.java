@@ -40,6 +40,9 @@ public class ViewDiscussions extends HttpServlet {
 
         req.getSession().setAttribute("discussions", discussions);
         req.getSession().setAttribute("categories", categoryList);
+
+
+
         req.getRequestDispatcher("BrowseDiscussion.jsp").forward(req, resp);
     }
 

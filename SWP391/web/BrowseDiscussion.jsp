@@ -105,9 +105,8 @@
                     <div class="col-12">
                         <h5>Categories</h5>
                     </div>
-                    <% for (DiscussionCategory category : (List<DiscussionCategory>) session.getAttribute("categories")) {%>
+                    <% for (DiscussionCategory category : (List<DiscussionCategory>) session.getAttribute("categories")) { %>
                     <div class="col-3">
-
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="<%=category.getCategory_name()%>"
                                    id="<%=category.getCategory_id()%>" name="categories">
@@ -115,40 +114,39 @@
                                 <%=category.getCategory_name()%>
                             </label>
                         </div>
-
                     </div>
-                    <%}%>
+                    <% } %>
                 </div>
-
             </form>
-
 
             <div class="row">
                 <div class="col-12">
                     <!-- Repeat this block for each question -->
-                    <%for(Discussion discussion : (List<Discussion>)session.getAttribute("discussions")){%>
+                    <% for (Discussion discussion : (List<Discussion>) session.getAttribute("discussions")) { %>
                     <div class="question-summary border p-3 mb-2">
                         <div class="row">
                             <div class="col-md-1 text-center">
-                                <div><%=new DAODiscussion().getCommentCount(discussion.getDiscussion_id())%> answers</div>
+                                <div><%= new DAODiscussion().getCommentCount(discussion.getDiscussion_id()) %> answers
+                                </div>
                             </div>
                             <div class="col-md-11">
-                                <h5><a href="#"><%=Util.stringShortener(discussion.getTitle(), 70)%></a></h5>
-                                <p class="mb-1"><%=Util.stringShortener(discussion.getContent(), 200)%></p>
+                                <h5><a href="discussion-details?id=<%= discussion.getDiscussion_id() %>">
+                                    <%= Util.shortenedHTML(discussion.getTitle(), 200)%></a></h5>
+                                <p class="mb-1"><%= Util.shortenedHTML(discussion.getContent(), 500) %></p>
                                 <div>
-                                    <span class="badge badge-primary"><%=new DAODiscussionCategory().getCategoryNameByID(discussion.getCategory_id())%></span>
+                                    <span class="badge badge-primary"><%= new DAODiscussionCategory().getCategoryNameByID(discussion.getCategory_id()) %></span>
                                 </div>
-                                <small class="text-muted">asked <%=Util.calculateDaysPassed(discussion.getCreate_at())%> days ago by <b><%=new DAOUser().getUserByID(discussion.getUser_id()).getName()%></b></small>
+                                <small class="text-muted">asked <%= Util.calculateDaysPassed(discussion.getCreate_at()) %>
+                                    days ago by <b><%= new DAOUser().getUserByID(discussion.getUser_id()).getName() %></b></small>
                             </div>
                         </div>
                     </div>
-                    <%}%>
+                    <% } %>
                     <!-- End question block -->
                 </div>
             </div>
         </div>
     </div>
-
 
     <div class="footer">
         <div class="container">

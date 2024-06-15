@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Editor Example</title>
+    <!-- Include Quill styles -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        #editor-container {
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+<!-- Create the editor container -->
+<div id="editor-container"></div>
+
+<!-- Include Quill library -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+    // Initialize Quill editor
+    var quill = new Quill('#editor-container', {
+        theme: 'snow', // or 'bubble'
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, false] }],
+                ['bold', 'italic', 'underline'],
+                ['link', 'blockquote', 'code-block'],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                [{ 'script': 'sub' }, { 'script': 'super' }],
+                [{ 'indent': '-1' }, { 'indent': '+1' }],
+                [{ 'direction': 'rtl' }],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'align': [] }],
+                ['clean'] // remove formatting button
+            ]
+        }
+    });
+</script>
+
+<!-- Add a button to get editor content -->
+<button id="get-content">Get Content</button>
+<textarea id="output" style="width: 100%; height: 200px;"></textarea>
+
+<div id="preview" style="width: 100%; height: 200px">
+
+</div>
+
+<script>
+    // Get content button event listener
+    document.getElementById('get-content').addEventListener('click', function() {
+        var content = quill.root.innerHTML; // Get HTML content
+        document.getElementById('output').value = content; // Display content in textarea
+        document.getElementById('preview').innerHTML = content; // Display content in div
+    });
+</script>
+</body>
+</html>
