@@ -58,7 +58,7 @@
                             <h5 class="card-title">Bạn hãy chọn đáp án đúng</h5>
                         </div>
                         <div class="card-body text-center">
-                            <button style="cursor: pointer;" class="btn btn-primary btn-lg" onclick="start(${requestScope.course_id})">Bắt đầu</button>
+                            <button style="cursor: pointer;" class="btn btn-primary btn-lg" onclick="start(${requestScope.course_id}, ${requestScope.user_practice_id})">Bắt đầu</button>
                         </div>
                     </div>
 
@@ -79,24 +79,24 @@
                     </div>
                     <div class="w-75 mt-3" style="height: 50%;">
                         <div class="row w-100 p-0 m-2" style="height: 45%;">
-                            <div class="col card d-flex justify-content-center align-items-center mr-2 p-2" style="height: 100%; cursor: pointer; user-select: none;" onclick="choose(this)">
+                            <div class="col card d-flex justify-content-center align-items-center mr-2 p-2" style="height: 100%; cursor: pointer; user-select: none;" onclick="choose(this, ${requestScope.course_id})">
                                 <p style="overflow-y: auto; max-height: 100%; max-width: 100%;" class="answer">
 
                                 </p>
                             </div>
-                            <div class="col card d-flex justify-content-center align-items-center ml-2 p-2" style="height: 100%; user-select: none; cursor: pointer;" onclick="choose(this)">
+                            <div class="col card d-flex justify-content-center align-items-center ml-2 p-2" style="height: 100%; user-select: none; cursor: pointer;" onclick="choose(this, ${requestScope.course_id})">
                                 <p style="overflow-y: auto; max-height: 100%; max-width: 100%;" class="answer">
 
                                 </p>
                             </div>
                         </div>
                         <div class="row w-100 p-0 m-2" style="height: 45%;">
-                            <div class="col card d-flex justify-content-center align-items-center mr-2 p-2" style="height: 100%; user-select: none; cursor: pointer;" onclick="choose(this)">
+                            <div class="col card d-flex justify-content-center align-items-center mr-2 p-2" style="height: 100%; user-select: none; cursor: pointer;" onclick="choose(this, ${requestScope.course_id})">
                                 <p style="overflow-y: auto; max-height: 100%; max-width: 100%;" class="answer">
 
                                 </p>
                             </div>
-                            <div class="col card d-flex justify-content-center align-items-center ml-2 p-2" style="height: 100%; user-select: none; cursor: pointer;" onclick="choose(this)">
+                            <div class="col card d-flex justify-content-center align-items-center ml-2 p-2" style="height: 100%; user-select: none; cursor: pointer;" onclick="choose(this, ${requestScope.course_id})">
                                 <p style="overflow-y: auto; max-height: 100%; max-width: 100%;" class="answer">
 
                                 </p>
@@ -156,158 +156,181 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script>
-                                let listFlashCard;
-                                let flashcardId = 0;
-                                let total = 0;
-                                let time = 0;
-                                let times;
-                                let correct = 0;
-                                let listCorrect = [];
-                                let incorrect = 0;
-                                let listIncorrect = [];
-                                function start(courseId) {
-                                    document.getElementById('startUp').style.display = 'none';
-                                    document.getElementById('quiz').style.display = 'block';
-                                    $.ajax({
-                                        url: "/SWP391/multiple-choice?service=start&&course_id=" + courseId,
-                                        type: "POST",
-                                        success: function (data) {
-                                            listFlashCard = JSON.parse(data);
-                                            total = listFlashCard.length;
-                                            document.getElementById('total').innerText = total;
-                                            times = setInterval(() => {
-                                                time++;
-                                                let displayTime = formatTime();
-                                                document.getElementById('time').innerText = displayTime;
-                                            }, 1000);
-                                            quiz();
-                                        },
-                                        error: function (xhr, status, error) {
-
-                                        }
-                                    });
-                                }
-
-                                function formatTime() {
-                                    let displayTime = '';
-                                    if (time < 60) {
-                                        displayTime = time + ' giây';
-                                    } else if (time >= 60) {
-                                        let minutes = Math.floor(time / 60);
-                                        let seconds = time % 60;
-                                        displayTime = minutes + ' phút ' + seconds + ' giây';
-                                    } else if (time >= 3600) {
-                                        let hour = Math.floor(time / 60);
-                                        if (time % 60 > 60) {
-                                            let minutes = Math.floor(time / 3600);
-                                            displayTime = minutes + ' phút ' + seconds;
-                                        }
-                                        let seconds = time % 3600;
-                                        displayTime = hour + ' giờ ' + displayTime + ' giây';
-                                    }
-                                    return displayTime;
-                                }
-
-                                let count = 0;
-                                async function choose(answerRaw) {
-                                    count++;
-                                    let answer = answerRaw.querySelector('p').innerText.trim();
-                                    if (count === 1 && flashcardId < total) {
-                                        if (answer === listFlashCard[flashcardId].answer.trim()) {
-                                            correct++;
-                                            answerRaw.classList.add('bg-success');
-                                            listCorrect.push(flashcardId);
-                                        } else {
-                                            incorrect++;
-                                            answerRaw.classList.add('bg-danger');
-                                            listIncorrect.push(flashcardId);
-                                        }
-
-                                        let delay = new Promise((resolve) => setTimeout(resolve, 1000));
-                                        await delay;
-
-                                        answerRaw.classList.remove('bg-success');
-                                        answerRaw.classList.remove('bg-danger');
-
-                                        flashcardId = flashcardId + 1;
-                                        if (flashcardId < total) {
-                                            quiz();
-                                            count = 0;
-                                        } else {
-                                            clearInterval(times);                                 
-                                            document.getElementById('quiz').style.display = 'none';
-                                            document.getElementById('result').style.display = 'block';
-                                            createListTableAnswer();
-                                        }
-                                    }
-                                }
-
-                                async function quiz() {
-                                    document.getElementById('question').innerText = listFlashCard[flashcardId].question;
-                                    document.getElementById('numberOfQuestion').innerText = (flashcardId + 1);
-                                    let answer = document.querySelectorAll('.answer');
-                                    let listAnswer = [flashcardId];
-                                    for (let i = 1; i < answer.length; i++) {
-                                        let duplicate = 1;
-                                        let listAnswerItem = 0;
-                                        while (duplicate >= 0) {
-                                            listAnswerItem = Math.floor(Math.random() * total);
-                                            duplicate = listAnswer.indexOf(listAnswerItem);
-                                        }
-                                        listAnswer.push(listAnswerItem);
-                                    }
-
-                                    let listAnswerHave = [];
-                                    for (let i = 0; i < listAnswer.length; i++) {
-                                        let answerItem = Math.floor(Math.random() * listAnswer.length);
-                                        let duplicate = listAnswerHave.indexOf(listAnswer[answerItem]);
-                                        while (duplicate >= 0) {
-                                            answerItem = Math.floor(Math.random() * listAnswer.length);
-                                            duplicate = listAnswerHave.indexOf(listAnswer[answerItem]);
-                                        }
-                                        listAnswerHave.push(listAnswer[answerItem]);
-                                        answer[i].innerText = listFlashCard[listAnswer[answerItem]].answer;
-                                    }
+                        let listFlashCard;
+                        let flashcardId = 0;
+                        let total = 0;
+                        let time = 0;
+                        let times;
+                        let correct = 0;
+                        let listCorrect = [];
+                        let incorrect = 0;
+                        let listIncorrect = [];
+                        let userPracticeId = 0;
+                        function start(courseId, user_practice_id) {
+                            document.getElementById('startUp').style.display = 'none';
+                            document.getElementById('quiz').style.display = 'block';
+                            userPracticeId = user_practice_id;
+                            $.ajax({
+                                url: "/SWP391/multiple-choice?service=start&course_id=" + courseId,
+                                type: "POST",
+                                success: function (data) {
+                                    listFlashCard = JSON.parse(data);
+                                    total = listFlashCard.length;
+                                    document.getElementById('total').innerText = total;
+                                    times = setInterval(() => {
+                                        time++;
+                                        let displayTime = formatTime();
+                                        document.getElementById('time').innerText = displayTime;
+                                    }, 1000);
+                                    quiz();
+                                },
+                                error: function (xhr, status, error) {
 
                                 }
+                            });
+                        }
 
-                                function createListTableAnswer() {
-                                    let table = document.getElementById('listAnswerStatus');
-
-                                    document.getElementById('resultTime').innerText = formatTime();
-                                    document.getElementById('resultCorrect').innerText = correct;
-                                    document.getElementById('resultIncorrect').innerText = incorrect;
-
-                                    for (let i = 0; i < listFlashCard.length; i++) {
-                                        let row = document.createElement('tr');
-                                        let cell1 = document.createElement('th');
-                                        cell1.innerText = (i + 1);
-                                        let cell2 = document.createElement('td');
-                                        cell2.innerText = listFlashCard[i].question;
-                                        let cell3 = document.createElement('td');
-                                        cell3.innerText = listFlashCard[i].answer;
-                                        let cell4 = document.createElement('td');
-                                        let icon = document.createElement('i');
-                                        if (listCorrect.indexOf(i) >= 0) {
-                                            icon.classList.add('fa-solid', 'fa-check');
-                                            cell4.appendChild(icon);
-                                        } else {
-                                            icon.classList.add('fa-solid', 'fa-xmark');
-                                            cell4.appendChild(icon);
-                                        }
-
-
-                                        table.appendChild(row);
-                                        row.appendChild(cell1);
-                                        row.appendChild(cell2);
-                                        row.appendChild(cell3);
-                                        row.appendChild(cell4);
-                                    }
+                        function formatTime() {
+                            let displayTime = '';
+                            if (time < 60) {
+                                displayTime = time + ' giây';
+                            } else if (time >= 60) {
+                                let minutes = Math.floor(time / 60);
+                                let seconds = time % 60;
+                                displayTime = minutes + ' phút ' + seconds + ' giây';
+                            } else if (time >= 3600) {
+                                let hour = Math.floor(time / 60);
+                                if (time % 60 > 60) {
+                                    let minutes = Math.floor(time / 3600);
+                                    displayTime = minutes + ' phút ' + seconds;
                                 }
-                                
-                                function reset(courseId){
-                                    window.location.href = 'multiple-choice?course_id='+courseId;
+                                let seconds = time % 3600;
+                                displayTime = hour + ' giờ ' + displayTime + ' giây';
+                            }
+                            return displayTime;
+                        }
+
+                        let count = 0;
+                        async function choose(answerRaw, courseId) {
+                            count++;
+                            let answer = answerRaw.querySelector('p').innerText.trim();
+                            if (count === 1 && flashcardId < total) {
+                                if (answer === listFlashCard[flashcardId].answer.trim()) {
+                                    correct++;
+                                    answerRaw.classList.add('bg-success');
+                                    listCorrect.push(flashcardId);
+                                } else {
+                                    incorrect++;
+                                    answerRaw.classList.add('bg-danger');
+                                    listIncorrect.push(flashcardId);
                                 }
+
+                                let delay = new Promise((resolve) => setTimeout(resolve, 1000));
+                                await delay;
+
+                                answerRaw.classList.remove('bg-success');
+                                answerRaw.classList.remove('bg-danger');
+
+                                flashcardId = flashcardId + 1;
+                                if (flashcardId < total) {
+                                    quiz();
+                                    count = 0;
+                                } else {
+                                    clearInterval(times);
+                                    document.getElementById('quiz').style.display = 'none';
+                                    document.getElementById('result').style.display = 'block';
+                                    createListTableAnswer();
+                                    updateResult(courseId);
+                                }
+                            }
+                        }
+
+                        async function quiz() {
+                            document.getElementById('question').innerText = listFlashCard[flashcardId].question;
+                            document.getElementById('numberOfQuestion').innerText = (flashcardId + 1);
+                            let answer = document.querySelectorAll('.answer');
+                            let listAnswer = [flashcardId];
+                            for (let i = 1; i < answer.length; i++) {
+                                let duplicate = 1;
+                                let listAnswerItem = 0;
+                                while (duplicate >= 0) {
+                                    listAnswerItem = Math.floor(Math.random() * total);
+                                    duplicate = listAnswer.indexOf(listAnswerItem);
+                                }
+                                listAnswer.push(listAnswerItem);
+                            }
+
+                            let listAnswerHave = [];
+                            for (let i = 0; i < listAnswer.length; i++) {
+                                let answerItem = Math.floor(Math.random() * listAnswer.length);
+                                let duplicate = listAnswerHave.indexOf(listAnswer[answerItem]);
+                                while (duplicate >= 0) {
+                                    answerItem = Math.floor(Math.random() * listAnswer.length);
+                                    duplicate = listAnswerHave.indexOf(listAnswer[answerItem]);
+                                }
+                                listAnswerHave.push(listAnswer[answerItem]);
+                                answer[i].innerText = listFlashCard[listAnswer[answerItem]].answer;
+                            }
+
+                        }
+
+                        function createListTableAnswer() {
+                            let table = document.getElementById('listAnswerStatus');
+
+                            document.getElementById('resultTime').innerText = formatTime();
+                            document.getElementById('resultCorrect').innerText = correct;
+                            document.getElementById('resultIncorrect').innerText = incorrect;
+
+                            for (let i = 0; i < listFlashCard.length; i++) {
+                                let row = document.createElement('tr');
+                                let cell1 = document.createElement('th');
+                                cell1.innerText = (i + 1);
+                                let cell2 = document.createElement('td');
+                                cell2.innerText = listFlashCard[i].question;
+                                let cell3 = document.createElement('td');
+                                cell3.innerText = listFlashCard[i].answer;
+                                let cell4 = document.createElement('td');
+                                let icon = document.createElement('i');
+                                if (listCorrect.indexOf(i) >= 0) {
+                                    icon.classList.add('fa-solid', 'fa-check');
+                                    cell4.appendChild(icon);
+                                } else {
+                                    icon.classList.add('fa-solid', 'fa-xmark');
+                                    cell4.appendChild(icon);
+                                }
+
+
+                                table.appendChild(row);
+                                row.appendChild(cell1);
+                                row.appendChild(cell2);
+                                row.appendChild(cell3);
+                                row.appendChild(cell4);
+                            }
+                        }
+
+                        function reset(courseId) {
+                            window.location.href = 'multiple-choice?course_id=' + courseId + '&user_practice_id=' + userPracticeId;
+                        }
+
+                        function updateResult(courseId) {
+                            $.ajax({
+                                url: "/SWP391/multiple-choice",
+                                type: "POST",
+                                data: {
+                                    service: 'result',
+                                    course_id: courseId,
+                                    result_correct: correct,
+                                    result_time: time,
+                                    user_practice: userPracticeId
+                                },
+                                success: function (data) {
+
+                                },
+                                error: function (xhr, status, error) {
+
+                                }
+                            });
+                        }
         </script>
     </body>
 </html>

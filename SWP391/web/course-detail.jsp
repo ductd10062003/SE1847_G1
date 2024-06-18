@@ -122,7 +122,7 @@
                                     <div class="mt-3">
                                         <div>
                                             <c:forEach items="${requestScope.typeOfPractices}" var="TOP">
-                                                <button type="button" class="btn btn-outline-primary" onclick="checkJoinClass(this)" >
+                                                <button type="button" class="btn btn-outline-primary" onclick="checkJoinClass(this, ${requestScope.course.course_id})" value="${TOP.typeOfPractice_id}">
                                                     ${TOP.typeOfPractice_name}
                                                 </button>
                                             </c:forEach>
@@ -153,9 +153,9 @@
                                             </div>
                                         </div>
 
-                                        <div id="progress">
-                                            <p>Kết quả luyện tập <i class="fa-regular fa-eye" style="cursor: pointer" onclick="showProgress()" id="showProgress"></i></p>
-                                            <table class="table" style="display: none">
+                                        <div id="progress" style="user-select: none;">
+                                            <p>Kết quả luyện tập <i class="fa-regular fa-eye" style="cursor: pointer;" onclick="showProgress(${requestScope.course.course_id})" id="showProgress"></i></p>
+                                            <table class="table" style="display: none; user-select: none;" >
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>
@@ -168,20 +168,20 @@
                                                     <tr>
                                                         <th scope="row">1</th>
                                                         <td>Trắc nghiệm</td>
-                                                        <td>Otto</td>
-                                                        <td>@mdo</td>
+                                                        <td id="multipleChoiceMark"></td>
+                                                        <td id="multipleChoiceTime"></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">2</th>
                                                         <td>Điền chữ</td>
-                                                        <td>Thornton</td>
-                                                        <td>@fat</td>
+                                                        <td id="fillInBlankMark"></td>
+                                                        <td id="fillInBlankTime"></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">3</th>
                                                         <td>Nối thẻ</td>
-                                                        <td>Thornton</td>
-                                                        <td>@fat</td>
+                                                        <td id="matchingMark"></td>
+                                                        <td id="matchingTime"></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -446,18 +446,38 @@
                                                         err.parentNode.style.display = 'none';
                                                     }
 
-                                                    function checkJoinClass(btn) {
+                                                    function checkJoinClass(btn, courseId) {
                                                         let joinClass = document.getElementById('joinClass').innerText.trim();
                                                         switch (joinClass) {
                                                             case 'Tham gia':
                                                                 let err = document.querySelector('#err');
                                                                 err.querySelector('span').innerHTML = "Bạn chưa tham gia lớp học";
                                                                 err.style.display = 'block';
-                                                                return;
+                                                                return false;
                                                             case 'Hủy tham gia':
-
-                                                                return;
+                                                                if (btn !== undefined) {
+                                                                    practice(btn, courseId);
+                                                                }
+                                                                return true;
                                                         }
+                                                    }
+
+                                                    function practice(btn, courseId) {
+                                                        $.ajax({
+                                                            url: "/SWP391/course-detail",
+                                                            data: {
+                                                                service: 'practice',
+                                                                course_id: courseId,
+                                                                TOP_id: btn.value
+                                                            },
+                                                            type: "POST",
+                                                            success: function (data) {
+                                                                window.location.href = data;
+                                                            },
+                                                            error: function (xhr, status, error) {
+
+                                                            }
+                                                        });
                                                     }
 
                                                     function enrollCourse(courseId) {
@@ -489,17 +509,59 @@
                                                         console.log(courseId);
                                                     }
 
-                                                    function getProgressData() {
+                                                    function getProgressData(courseId) {
                                                         $.ajax({
                                                             url: "/SWP391/course-detail?service=progress&course_id=" + courseId,
                                                             type: "POST",
                                                             success: function (data) {
-                                                                document.getElementById('joinClass').innerText = 'Tham gia';
+                                                                let obj = JSON.parse(data);
+                                                                document.getElementById('multipleChoiceMark').innerHTML = obj[0].result;
+                                                                document.getElementById('multipleChoiceTime').innerHTML = formatTime(obj[0].time);
+                                                                document.getElementById('fillInBlankMark').innerHTML = obj[1].result;
+                                                                document.getElementById('fillInBlankTime').innerHTML = formatTime(obj[1].time);
+                                                                document.getElementById('matchingMark').innerHTML = obj[2].result;
+                                                                document.getElementById('matchingTime').innerHTML = formatTime(obj[2].time);
                                                             },
                                                             error: function (xhr, status, error) {
 
                                                             }
                                                         });
+                                                    }
+
+                                                    function formatTime(time) {
+                                                        let displayTime = '';
+                                                        if (time < 60) {
+                                                            displayTime = time + ' giây';
+                                                        } else if (time >= 60) {
+                                                            let minutes = Math.floor(time / 60);
+                                                            let seconds = time % 60;
+                                                            displayTime = minutes + ' phút ' + seconds + ' giây';
+                                                        } else if (time >= 3600) {
+                                                            let hour = Math.floor(time / 60);
+                                                            if (time % 60 > 60) {
+                                                                let minutes = Math.floor(time / 3600);
+                                                                displayTime = minutes + ' phút ' + seconds;
+                                                            }
+                                                            let seconds = time % 3600;
+                                                            displayTime = hour + ' giờ ' + displayTime + ' giây';
+                                                        }
+                                                        return displayTime;
+                                                    }
+
+                                                    let showPR = true;
+                                                    function showProgress(courseId) {
+                                                        if (checkJoinClass() === false)
+                                                            return;
+                                                        getProgressData(courseId);
+                                                        if (showPR === true) {
+                                                            document.querySelector('#progress table').style.display = 'block';
+
+                                                            showPR = false;
+                                                        } else {
+                                                            document.querySelector('#progress table').style.display = 'none';
+
+                                                            showPR = true;
+                                                        }
                                                     }
                 </script>
 

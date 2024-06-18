@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SWP391/project_v3/SWP391/src/java/model/DAOUserPractice.java</file>
-            <file>file:/D:/SWP391/project_v3/SWP391/src/java/model/DAOResultDetail.java</file>
-            <file>file:/D:/SWP391/project_v3/SWP391/web/course-detail.jsp</file>
-            <file>file:/D:/SWP391/project_v3/SWP391/src/java/controller/user/courseDetail.java</file>
+            <file>file:/D:/SWP391/project_v3/SWP391/web/practice/matching.jsp</file>
+            <file>file:/D:/SWP391/project_v3/SWP391/src/java/entity/FlashCard.java</file>
         </group>
     </open-files>
 </project-private>

@@ -58,7 +58,7 @@
                             <h5 class="card-title">Bạn hãy điền vào chỗ trống</h5>
                         </div>
                         <div class="card-body text-center">
-                            <button style="cursor: pointer;" class="btn btn-primary btn-lg" onclick="start(${requestScope.course_id})">Bắt đầu</button>
+                            <button style="cursor: pointer;" class="btn btn-primary btn-lg" onclick="start(${requestScope.course_id}, ${requestScope.user_practice_id})">Bắt đầu</button>
                         </div>
                     </div>
 
@@ -90,7 +90,7 @@
                         </div>
                         <div class="row w-100 p-0 m-2" style="height: 20%;">
                             <div class="col d-flex justify-content-center align-items-center mr-2 p-2" style="height: 100%;">
-                                <button type="button" class="btn btn-primary btn-lg" onclick="confirm()">Xác nhận</button>
+                                <button type="button" class="btn btn-primary btn-lg" onclick="confirm(${requestScope.course_id})">Xác nhận</button>
                             </div>
                         </div>
                     </div>
@@ -155,9 +155,13 @@
                         let listCorrect = [];
                         let incorrect = 0;
                         let listIncorrect = [];
-                        function start(courseId) {
+                        let userPracticeId = 0;
+                        let id_course = 0;
+                        function start(courseId, user_practice_id) {
                             document.getElementById('startUp').style.display = 'none';
                             document.getElementById('quiz').style.display = 'block';
+                            userPracticeId = user_practice_id;
+                            id_course = courseId;
                             $.ajax({
                                 url: "/SWP391/fill-in-blank?service=start&&course_id=" + courseId,
                                 type: "POST",
@@ -224,7 +228,7 @@
                         }
 
                         let count = 0;
-                        async function confirm() {
+                        async function confirm(courseId) {
                             count++;
                             document.getElementById('showAnswer').style.display = 'block';
                             document.getElementById('showAnswer').innerText = listFlashCard[flashcardId].question;
@@ -265,6 +269,7 @@
                                     document.getElementById('quiz').style.display = 'none';
                                     document.getElementById('result').style.display = 'block';
                                     createListTableAnswer();
+                                    updateResult(courseId);
                                 }
                             }
                         }
@@ -324,7 +329,7 @@
                         }
 
                         function reset(courseId) {
-                            window.location.href = 'fill-in-blank?course_id=' + courseId;
+                            window.location.href = 'fill-in-blank?course_id=' + courseId + '&user_practice_id=' + userPracticeId;
                         }
 
                         function updateResult() {
@@ -347,7 +352,30 @@
                                 }
                             });
                         }
+                        function updateResult(courseId) {
+                            $.ajax({
+                                url: "/SWP391/multiple-choice",
+                                type: "POST",
+                                data: {
+                                    service: 'result',
+                                    course_id: courseId,
+                                    result_correct: correct,
+                                    result_time: time,
+                                    user_practice: userPracticeId
+                                },
+                                success: function (data) {
 
+                                },
+                                error: function (xhr, status, error) {
+
+                                }
+                            });
+                        }
+                        
+                        document.addEventListener('keydown', (event) =>{
+                            if(event.key === 'Enter')
+                                confirm(id_course);
+                        });
         </script>
     </body>
 </html>

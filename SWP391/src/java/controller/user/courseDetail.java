@@ -9,6 +9,7 @@ import entity.Category;
 import entity.Course;
 import entity.FlashCard;
 import entity.Quiz;
+import entity.ResultDetail;
 import entity.TypeOfPractice;
 import entity.User;
 import entity.UserPractice;
@@ -65,12 +66,14 @@ public class courseDetail extends HttpServlet {
         session.setAttribute("user", daoUser.getUserByID(2));
         User user = (User) session.getAttribute("user");
         //set attribute
+        if (user != null) {
+            request.setAttribute("enroll", daoUserEnrollCourse.getUserEnrollCourse(user.getUser_id(), courseId));
+        }
         request.setAttribute("course", course);
         request.setAttribute("category", category);
         request.setAttribute("typeOfPractices", listT_O_P);
         request.setAttribute("listFlashCards", gson.toJson(listFlashCard));
         request.setAttribute("quizzes", listFlashCard);
-        request.setAttribute("enroll", daoUserEnrollCourse.getUserEnrollCourse(user.getUser_id(), courseId));
         request.getRequestDispatcher("course-detail.jsp").forward(request, response);
     }
 
@@ -83,6 +86,10 @@ public class courseDetail extends HttpServlet {
                 enroll(request, response);
             case "unenroll" ->
                 unenroll(request);
+            case "progress" ->
+                getProgressData(request, response);
+            case "practice" ->
+                practice(request, response);
         }
     }
 
@@ -129,6 +136,36 @@ public class courseDetail extends HttpServlet {
         HttpSession session = request.getSession(true);
         User user = (User) session.getAttribute("user");
         int courseId = Integer.parseInt(request.getParameter("course_id"));
+
+        DAOUserPractice daoUserPractice = new DAOUserPractice();
+        DAOResultDetail dAOResultDetail = new DAOResultDetail();
+        DAOTypeOfPractice daoTypeOfPractice = new DAOTypeOfPractice();
+
+        Vector<ResultDetail> v = new Vector<>();
+        for (TypeOfPractice top : daoTypeOfPractice.getAllTypeOfPractices()) {
+            UserPractice up = daoUserPractice.getUserPracticeByUserIdAndCourseIdAndTOPId(user.getUser_id(), courseId, top.getTypeOfPractice_id());
+            ResultDetail rd = dAOResultDetail.getResultDetail(up.getUserPractice_id());
+            v.add(rd);
+        }
+        Gson gson = new Gson();
+
+        response.getWriter().print(gson.toJson(v));
     }
 
+    private void practice(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(true);
+        User user = (User) session.getAttribute("user");
+        int courseId = Integer.parseInt(request.getParameter("course_id"));
+        int TOP_id = Integer.parseInt(request.getParameter("TOP_id"));
+        
+        DAOUserPractice daoUserPractice = new DAOUserPractice();        
+        int up_id = daoUserPractice.getUserPracticeByUserIdAndCourseIdAndTOPId(user.getUser_id(), courseId, TOP_id).getUserPractice_id();
+        
+        switch (TOP_id) {
+            case 1 -> response.getWriter().print("multiple-choice?course_id="+courseId+"&user_practice_id="+up_id);
+            case 2 -> response.getWriter().print("fill-in-blank?course_id="+courseId+"&user_practice_id="+up_id);
+            case 3 -> response.getWriter().print("matching?course_id="+courseId+"&user_practice_id="+up_id);
+        }
+    }
 }
