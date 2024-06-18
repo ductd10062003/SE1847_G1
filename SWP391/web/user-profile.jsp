@@ -45,9 +45,9 @@
                             <div class="card-body pt-0">
                                 <table class="table table-bordered">
                                     <tr>
-                                        <th width="30%">Roll</th>
+                                        <th width="30%">Role</th>
                                         <td width="2%">:</td>
-                                        <td>3</td>
+                                        <td>${requestScope.users.role}</td>
                                     </tr>
                                     <tr>
                                         <th width="30%">User name</th>
