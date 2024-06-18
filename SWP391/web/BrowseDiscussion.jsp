@@ -1,10 +1,16 @@
-<%@ page import="entity.User" %>
-<jsp:useBean id="user" scope="session" type="entity.User"/>
+<%@ page import="entity.Category" %>
+<%@ page import="java.util.List" %>
+<%@ page import="entity.DiscussionCategory" %>
+<%@ page import="entity.Discussion" %>
+<%@ page import="model.DAODiscussion" %>
+<%@ page import="model.DAODiscussionCategory" %>
+<%@ page import="controller.discussion.Util" %>
+<%@ page import="model.DAOUser" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Confirm Verification Code</title>
+    <title>Posts</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -20,6 +26,16 @@
     <link rel="stylesheet" href="css/aos.css">
     <link href="css/jquery.mb.YTPlayer.min.css" media="all" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .form-check {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-check-input {
+            margin-right: 10px;
+        }
+    </style>
 </head>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -35,51 +51,17 @@
         <div class="site-mobile-menu-body"></div>
     </div>
 
-    <jsp:include page="layout/header.jsp" />
+
     <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner">
-        <div class="container">
-            <div class="d-flex align-items-center">
-                <div class="site-logo">
-                    <a href="index.jsp" class="d-block">
-                        <img src="images/logo.jpg" alt="Image" class="img-fluid">
-                    </a>
-                </div>
-                <div class="mr-auto">
-                    <nav class="site-navigation position-relative text-right" role="navigation">
-                        <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                            <li><a href="index.jsp" class="nav-link text-left">Home</a></li>
-                            <li class="has-children">
-                                <a href="about.html" class="nav-link text-left">About Us</a>
-                                <ul class="dropdown">
-                                    <li><a href="teachers.html">Our Teachers</a></li>
-                                    <li><a href="about.html">Our School</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="admissions.html" class="nav-link text-left">Admissions</a></li>
-                            <li><a href="courses.html" class="nav-link text-left">Courses</a></li>
-                            <li><a href="contact.html" class="nav-link text-left">Contact</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="ml-auto">
-                    <div class="social-wrap">
-                        <a href="#"><span class="icon-facebook"></span></a>
-                        <a href="#"><span class="icon-twitter"></span></a>
-                        <a href="#"><span class="icon-linkedin"></span></a>
-                        <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span
-                                class="icon-menu h3"></span></a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <jsp:include page="layout/header.jsp"/>
     </header>
 
     <div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('images/bg_1.jpg')">
         <div class="container">
             <div class="row align-items-end justify-content-center text-center">
                 <div class="col-lg-7">
-                    <h2 class="mb-0">Confirm Verification Code</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+                    <h2 class="mb-0">Posts</h2>
+                    <p>Read our latest posts below.</p>
                 </div>
             </div>
         </div>
@@ -89,56 +71,80 @@
         <div class="container">
             <a href="index.jsp">Home</a>
             <span class="mx-3 icon-keyboard_arrow_right"></span>
-            <span class="current">Confirm Verification Code</span>
+            <span class="current">Posts</span>
         </div>
     </div>
 
     <div class="site-section">
         <div class="container">
-            <%--            There is an attribute called user in session. Show the user information based on the User in entity package--%>
-            <h2>Your account was successfully created. Welcome</h2>
-            <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="fname">First Name</label>
-                    <input type="text" id="fname" class="form-control form-control-lg" value="${user.name}" disabled>
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <h2>All Questions</h2>
+                    <p>24,193,657 questions</p>
+                </div>
+                <div class="col-md-4 text-md-right">
+                    <button class="btn btn-primary">Ask Question</button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control form-control-lg" value="${user.email}" disabled>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="phone">Phone</label>
-                    <input type="text" id="phone" class="form-control form-control-lg" value="${user.phone}" disabled>
-                </div>
-            </div>
-<%--                Add user role. 1 for admin, 2 for teacher and 3 for learner and date of birth--%>
-            <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="role">Role</label>
-<%--                    If user.role == 2 display Teacher account, 3 then display Learner account--%>
-                    <input type="text" id="role" class="form-control form-control-lg" value="${user.role == 2 ? 'Teacher' : 'Learner'}" disabled>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="dob">Date of Birth</label>
-                    <input type="text" id="dob" class="form-control form-control-lg" value="${user.dob}" disabled>
-                </div>
-            </div>
-<%--            Form to return to home page by calling post request in login server--%>
-            <form action="login" method="post">
-                <div class="row justify-content-center">
-                    <div class="col-md-5">
-                        <div class="row">
-                            <div class="col-md-12 form-group">
-                                <input type="hidden" name="username" value="${user.name}">
-                                <input type="hidden" name="password" value="${user.password}">
-                                <input type="submit" class="btn btn-primary btn-lg px-5" value="Go to home page">
+
+            <form action="view-discussions" method="get">
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Search by keyword"
+                                   aria-label="Search for questions" aria-describedby="button-search" name="keyword">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-primary" type="submit" id="button-search">Search
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <h5>Categories</h5>
+                    </div>
+                    <% for (DiscussionCategory category : (List<DiscussionCategory>) session.getAttribute("categories")) { %>
+                    <div class="col-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="<%=category.getCategory_name()%>"
+                                   id="<%=category.getCategory_id()%>" name="categories">
+                            <label class="form-check-label" for="<%=category.getCategory_id()%>">
+                                <%=category.getCategory_name()%>
+                            </label>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
             </form>
+
+            <div class="row">
+                <div class="col-12">
+                    <!-- Repeat this block for each question -->
+                    <% for (Discussion discussion : (List<Discussion>) session.getAttribute("discussions")) { %>
+                    <div class="question-summary border p-3 mb-2">
+                        <div class="row">
+                            <div class="col-md-1 text-center">
+                                <div><%= new DAODiscussion().getCommentCount(discussion.getDiscussion_id()) %> answers
+                                </div>
+                            </div>
+                            <div class="col-md-11">
+                                <h5><a href="discussion-details?id=<%= discussion.getDiscussion_id() %>">
+                                    <%= Util.shortenedHTML(discussion.getTitle(), 200)%></a></h5>
+                                <p class="mb-1"><%= Util.shortenedHTML(discussion.getContent(), 500) %></p>
+                                <div>
+                                    <span class="badge badge-primary"><%= new DAODiscussionCategory().getCategoryNameByID(discussion.getCategory_id()) %></span>
+                                </div>
+                                <small class="text-muted">asked <%= Util.calculateDaysPassed(discussion.getCreate_at()) %>
+                                    days ago by <b><%= new DAOUser().getUserByID(discussion.getUser_id()).getName() %></b></small>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                    <!-- End question block -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -154,7 +160,7 @@
                 <div class="col-lg-3">
                     <h3 class="footer-heading"><span>Our Campus</span></h3>
                     <ul class="list-unstyled">
-                        <li><a href="#">Acedemic</a></li>
+                        <li><a href="#">Academic</a></li>
                         <li><a href="#">News</a></li>
                         <li><a href="#">Our Interns</a></li>
                         <li><a href="#">Our Leadership</a></li>
@@ -204,15 +210,6 @@
 </div>
 <!-- .site-wrap -->
 
-<!-- loader -->
-<div id="loader" class="show fullscreen">
-    <svg class="circular" width="48px" height="48px">
-        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
-        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-                stroke="#51be78"/>
-    </svg>
-</div>
-
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/jquery-migrate-3.0.1.min.js"></script>
 <script src="js/jquery-ui.js"></script>
@@ -224,11 +221,3 @@
 <script src="js/bootstrap-datepicker.min.js"></script>
 <script src="js/jquery.easing.1.3.js"></script>
 <script src="js/aos.js"></script>
-<script src="js/jquery.fancybox.min.js"></script>
-<script src="js/jquery.sticky.js"></script>
-<script src="js/jquery.mb.YTPlayer.min.js"></script>
-<script src="js/main.js"></script>
-
-</body>
-
-</html>
