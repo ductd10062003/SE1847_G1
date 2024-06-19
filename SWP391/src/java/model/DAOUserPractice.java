@@ -46,23 +46,4 @@ public class DAOUserPractice extends DBConnect {
         }
         return vector;
     }
-    
-    public UserPractice getUserPracticeByUserIdAndCourseIdAndTOPId(int user_id, int course_id, int topId) {
-        String sql = "select * from User_Practice where user_id=? and course_id=? and TOP_id = ?";
-        UserPractice up = null;
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, user_id);
-            ps.setInt(2, course_id);
-            ps.setInt(3, topId);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                up = new UserPractice(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4));
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return up;
-    }
-    
 }
