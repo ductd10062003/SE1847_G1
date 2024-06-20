@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.sql.SQLException;
 
 public class DAOCategory extends DBConnect {
 
@@ -68,6 +69,37 @@ public class DAOCategory extends DBConnect {
         }
         return category;
     }
+    
+    
+    public int updateCategory(Category category) {
+        String sql = "UPDATE [category] SET category_name=?, update_at=?, active=? WHERE category_id=?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, category.getCategory_name());
+            ps.setString(2, category.getDate_last_edited());
+            ps.setInt(3, category.getActive());
+            ps.setInt(4, category.getCategory_id());
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+    
+    public int addCategory(Category category) {
+        String sql = "INSERT INTO category (category_name, create_at, update_at, active) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, category.getCategory_name());
+            ps.setString(2, category.getDate_created());
+            ps.setString(3, category.getDate_last_edited());
+            ps.setInt(4, category.getActive());
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+    
     public static void main(String[] args) {
         for(Category i : new DAOCategory().getCategoriesByName("ể")){
             System.out.println(i);
