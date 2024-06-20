@@ -34,15 +34,16 @@
                                 <h4 class="text-right">User profile</h4>
                             </div>
                             <form action ="updateProfile" method="Post">
-                            <div class="row mt-3">
-                                <div class="col-md-12"><label class="labels">Name</label><input type="text" class="form-control" placeholder="enter name" name="name" value="${requestScope.users.name}"></div>
-                                <div class="col-md-12"><label class="labels">Gender</label><input type="text" class="form-control" placeholder="enter gender" name="gender" value="${requestScope.users.gender}"></div>
-                                <div class="col-md-12"><label class="labels">Date of birth</label><input type="text" class="form-control" placeholder="enter dob" name="dob" value="${requestScope.users.dob}"></div>
-                                <div class="col-md-12"><label class="labels">Phone</label><input type="text" class="form-control" placeholder="enter phone" name="phone" value="${requestScope.users.phone}"></div>
-                            </div>
-                            <button class="mt-5 text-center" type="submit">Save</button>
-                            <div class="mt-5 text-center"><a href="index.jsp" class="btn btn-primary">Back to homepage</a></div>
-                        </form> 
+                                <div class="row mt-3">
+                                    <div class="col-md-12"><label class="labels">Name</label><input type="text" class="form-control" placeholder="enter name" name="name" value="${requestScope.users.name}"></div>
+                                    <div class="col-md-12"><label class="labels">Gender</label><input type="text" class="form-control" placeholder="enter gender" name="gender" value="${requestScope.users.gender}"></div>
+                                    <div class="col-md-12"><label class="labels">Date of birth</label><input type="text" class="form-control" placeholder="enter dob" name="dob" value="${requestScope.users.dob}"></div>
+                                    <div class="col-md-12"><label class="labels">Phone</label><input type="text" class="form-control" placeholder="enter phone" name="phone" value="${requestScope.users.phone}"></div>
+                                    <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="enter email" name="email" value="${requestScope.users.email}"></div>
+                                </div>
+                                <button class="mt-5 text-center" type="submit">Save</button>
+                                <div class="mt-5 text-center"><a href="index.jsp" class="btn btn-primary">Back to homepage</a></div>
+                            </form> 
                         </div>
                     </div>
                 </div>

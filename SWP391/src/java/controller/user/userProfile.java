@@ -57,6 +57,7 @@ public class userProfile extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         DAOUser daoUser = new DAOUser();       
+        
         User list = daoUser.getUserByID(29);
         request.setAttribute("users", list);
         request.getRequestDispatcher("user-profile.jsp").forward(request, response);
