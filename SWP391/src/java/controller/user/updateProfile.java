@@ -77,7 +77,7 @@ public class updateProfile extends HttpServlet {
         
         //Account a = (Account) session.getAttribute("account");
         String name = request.getParameter("name");
-        //int gender = request.getParameter("gender");
+        int gender = request.getParameter("gender").equals("male") ? 1 : 0;
         String dob = request.getParameter("dob");
         String phone = request.getParameter("phone");      
         String email = request.getParameter("email"); 
@@ -85,14 +85,15 @@ public class updateProfile extends HttpServlet {
         //get the user from the session
         User user = new User();
         user.setName(name);
-        //user.setGender(gender);
+        user.setGender(gender);
         user.setDob(dob);
         user.setPhone(phone);
         user.setEmail(email);
         
         //upadte database
         DAOUser daoUser = new DAOUser();  
-        daoUser.updateProfile(29,name,dob,phone,email);
+        user = (User) request.getSession().getAttribute("user");              
+        daoUser.updateProfile(user.getUser_id(),name,gender,dob,phone,email);
         response.sendRedirect("userProfile");
     }
 

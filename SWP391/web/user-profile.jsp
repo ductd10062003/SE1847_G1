@@ -37,13 +37,14 @@
             media="all"
             rel="stylesheet"
             type="text/css"/>
+        <link rel="stylesheet" href="css/style.css">
         <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet">
         <!-- Bootstrap CSS -->
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
         <!-- Font Awesome CSS -->
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css'>
-        <link rel="stylesheet" href="css/style.css">
+        
     </head>
     <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
         <jsp:include page="layout/header.jsp" />

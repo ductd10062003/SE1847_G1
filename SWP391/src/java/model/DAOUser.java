@@ -110,15 +110,16 @@ public class DAOUser extends DBConnect {
         }
     }
 
-    public void updateProfile(int user_id, String name, String dob, String phone,String email) {
-        String sql = "UPDATE [User] SET name =?,dob=?,phone =?,email=? WHERE USER_ID = ?";
+    public void updateProfile(int user_id, String name,int gender, String dob, String phone,String email) {
+        String sql = "UPDATE [User] SET name =?,gender=?,dob=?,phone =?,email=? WHERE USER_ID = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, name);
-            ps.setString(2, dob);
-            ps.setString(3, phone);
-            ps.setString(4, email);
-            ps.setInt(5, user_id);
+            ps.setInt(2, gender);
+            ps.setString(3, dob);
+            ps.setString(4, phone);
+            ps.setString(5, email);
+            ps.setInt(6, user_id);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
