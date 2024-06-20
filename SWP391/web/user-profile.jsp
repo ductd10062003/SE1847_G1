@@ -34,7 +34,7 @@
                                 <p class="mb-0"><strong class="pr-1">User ID:</strong>${requestScope.users.user_id}</p>
                             </div>
                         </div>
-                        <a href="update-profile.html" class="btn btn-primary">Update profile</a>    
+                        <a href="updateProfile" class="btn btn-primary">Update profile</a>    
                         <a href="index.jsp" class="btn btn-primary">Back to homepage</a>
                     </div>
                     <div class="col-lg-8">
