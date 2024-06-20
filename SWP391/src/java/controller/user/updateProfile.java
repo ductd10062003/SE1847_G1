@@ -57,9 +57,9 @@ public class updateProfile extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         DAOUser daoUser = new DAOUser();    
-        //Account a = (Account) session.getAttribute("account");
-        
-        User list = daoUser.getUserByID(29);
+        User user = new User();
+        user = (User) request.getSession().getAttribute("user");              
+        User list = daoUser.getUserByID(user.getUser_id());
         request.setAttribute("users", list);
         request.getRequestDispatcher("update-profile.jsp").forward(request, response);
     } 

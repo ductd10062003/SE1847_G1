@@ -31,7 +31,7 @@
                                     <h3>${requestScope.users.name}</h3>                           
                             </div>
                             <div class="card-body">
-                                <p class="mb-0"><strong class="pr-1">User ID:</strong>${requestScope.users.user_id}</p>
+                                <p class="mb-0"><strong class="pr-1">User ID:</strong>${sessionScope.user.user_id}</p>
                             </div>
                         </div>
                         <a href="updateProfile" class="btn btn-primary">Update profile</a>    
