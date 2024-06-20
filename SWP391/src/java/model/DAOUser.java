@@ -5,6 +5,7 @@ import entity.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Vector;
 
 public class DAOUser extends DBConnect {
@@ -41,7 +42,7 @@ public class DAOUser extends DBConnect {
         }
         return vector;
     }
-    
+
     public User getUserByID(int user_id) {
         User user = new User();
         String sql = "select * from [user] where user_id = ?";
@@ -74,7 +75,6 @@ public class DAOUser extends DBConnect {
         }
         return user;
     }
-
 
     public void createUser(User user) {
 
@@ -109,7 +109,22 @@ public class DAOUser extends DBConnect {
             e.printStackTrace();
         }
     }
-    
+
+    public void updateProfile(int user_id, String name, String dob, String phone,String email) {
+        String sql = "UPDATE [User] SET name =?,dob=?,phone =?,email=? WHERE USER_ID = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setString(2, dob);
+            ps.setString(3, phone);
+            ps.setString(4, email);
+            ps.setInt(5, user_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println(new DAOUser().getUserByEmail("otakuaria4710@gmail.com"));
     }

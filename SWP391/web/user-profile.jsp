@@ -34,7 +34,7 @@
                                 <p class="mb-0"><strong class="pr-1">User ID:</strong>${requestScope.users.user_id}</p>
                             </div>
                         </div>
-                        <a href="update-profile.html" class="btn btn-primary">Update profile</a>    
+                        <a href="updateProfile" class="btn btn-primary">Update profile</a>    
                         <a href="index.jsp" class="btn btn-primary">Back to homepage</a>
                     </div>
                     <div class="col-lg-8">
@@ -45,9 +45,9 @@
                             <div class="card-body pt-0">
                                 <table class="table table-bordered">
                                     <tr>
-                                        <th width="30%">Roll</th>
+                                        <th width="30%">Role</th>
                                         <td width="2%">:</td>
-                                        <td>3</td>
+                                        <td>${requestScope.users.role}</td>
                                     </tr>
                                     <tr>
                                         <th width="30%">User name</th>

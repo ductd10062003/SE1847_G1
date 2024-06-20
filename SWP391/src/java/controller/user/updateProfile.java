@@ -12,14 +12,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Vector;
+import jakarta.servlet.http.HttpSession;
 import model.DAOUser;
 
 /**
  *
  * @author DAT
  */
-public class userProfile extends HttpServlet {
+public class updateProfile extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +36,10 @@ public class userProfile extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet userProfile</title>");  
+            out.println("<title>Servlet updateProfile</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet userProfile at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet updateProfile at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,11 +56,12 @@ public class userProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        DAOUser daoUser = new DAOUser();       
+        DAOUser daoUser = new DAOUser();    
+        //Account a = (Account) session.getAttribute("account");
         
         User list = daoUser.getUserByID(29);
         request.setAttribute("users", list);
-        request.getRequestDispatcher("user-profile.jsp").forward(request, response);
+        request.getRequestDispatcher("update-profile.jsp").forward(request, response);
     } 
 
     /** 
@@ -73,7 +74,26 @@ public class userProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        
+        //Account a = (Account) session.getAttribute("account");
+        String name = request.getParameter("name");
+        //int gender = request.getParameter("gender");
+        String dob = request.getParameter("dob");
+        String phone = request.getParameter("phone");      
+        String email = request.getParameter("email"); 
+        
+        //get the user from the session
+        User user = new User();
+        user.setName(name);
+        //user.setGender(gender);
+        user.setDob(dob);
+        user.setPhone(phone);
+        user.setEmail(email);
+        
+        //upadte database
+        DAOUser daoUser = new DAOUser();  
+        daoUser.updateProfile(29,name,dob,phone,email);
+        response.sendRedirect("userProfile");
     }
 
     /** 
