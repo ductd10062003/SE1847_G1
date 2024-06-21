@@ -62,8 +62,8 @@ public class courseDetail extends HttpServlet {
 
         //test user
         HttpSession session = request.getSession(true);
-        DAOUser daoUser = new DAOUser();
-        session.setAttribute("user", daoUser.getUserByID(2));
+        //DAOUser daoUser = new DAOUser();
+        //session.setAttribute("user", daoUser.getUserByID(2));
         User user = (User) session.getAttribute("user");
         //set attribute
         if (user != null) {
