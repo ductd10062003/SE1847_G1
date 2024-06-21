@@ -85,7 +85,6 @@ public class VerifyAccount extends HttpServlet {
             }
 
             new DAOUser().createUser(user);
-            request.getSession().setAttribute("success", "Account created successfully");
 
             pendingUsers.remove(request.getSession().getId());
             request.getSession().removeAttribute("OTP");

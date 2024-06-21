@@ -1,10 +1,14 @@
-<%@ page import="entity.User" %>
-<jsp:useBean id="user" scope="session" type="entity.User"/>
+<%@ page import="model.DAODiscussionCategory" %>
+<%@ page import="entity.Discussion" %>
+<%@ page import="controller.discussion.Util" %>
+<%@ page import="model.DAOUser" %>
+<%@ page import="entity.Comment" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Confirm Verification Code</title>
+    <title>Posts</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -20,6 +24,22 @@
     <link rel="stylesheet" href="css/aos.css">
     <link href="css/jquery.mb.YTPlayer.min.css" media="all" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        #editor-container {
+            height: 200px;
+        }
+    </style>
+    <style>
+        .form-check {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-check-input {
+            margin-right: 10px;
+        }
+    </style>
 </head>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -35,7 +55,7 @@
         <div class="site-mobile-menu-body"></div>
     </div>
 
-    <jsp:include page="layout/header.jsp" />
+    <jsp:include page="layout/header.jsp"/>
     <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner">
         <div class="container">
             <div class="d-flex align-items-center">
@@ -78,8 +98,8 @@
         <div class="container">
             <div class="row align-items-end justify-content-center text-center">
                 <div class="col-lg-7">
-                    <h2 class="mb-0">Confirm Verification Code</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+                    <h2 class="mb-0">Posts</h2>
+                    <p>Read our latest posts below.</p>
                 </div>
             </div>
         </div>
@@ -89,58 +109,75 @@
         <div class="container">
             <a href="index.jsp">Home</a>
             <span class="mx-3 icon-keyboard_arrow_right"></span>
-            <span class="current">Confirm Verification Code</span>
+            <span class="current">Posts</span>
         </div>
     </div>
 
     <div class="site-section">
         <div class="container">
-            <%--            There is an attribute called user in session. Show the user information based on the User in entity package--%>
-            <h2>Your account was successfully created. Welcome</h2>
-            <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="fname">First Name</label>
-                    <input type="text" id="fname" class="form-control form-control-lg" value="${user.name}" disabled>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <h2><%=((Discussion) (session.getAttribute("discussion"))).getTitle()%>
+                    </h2>
+                    <p class="text-muted">
+                        Created <%=Util.calculateDaysPassed(((Discussion) (session.getAttribute("discussion"))).getCreate_at())%>
+                        days ago
+                        by <%=new DAOUser().getUserByID(((Discussion) (session.getAttribute("discussion"))).getUser_id()).getName()%>
+                    </p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control form-control-lg" value="${user.email}" disabled>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="phone">Phone</label>
-                    <input type="text" id="phone" class="form-control form-control-lg" value="${user.phone}" disabled>
-                </div>
-            </div>
-<%--                Add user role. 1 for admin, 2 for teacher and 3 for learner and date of birth--%>
-            <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="role">Role</label>
-<%--                    If user.role == 2 display Teacher account, 3 then display Learner account--%>
-                    <input type="text" id="role" class="form-control form-control-lg" value="${user.role == 2 ? 'Teacher' : 'Learner'}" disabled>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="dob">Date of Birth</label>
-                    <input type="text" id="dob" class="form-control form-control-lg" value="${user.dob}" disabled>
+
+            <!-- Question Content -->
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="question-content border p-3 mb-2">
+                        <div id="content">
+                            ${sessionScope.discussion.content}
+                        </div>
+                        <div>
+                            <span class="badge badge-primary"><%=new DAODiscussionCategory().getCategoryNameByID(((Discussion) (session.getAttribute("discussion"))).getCategory_id())%></span>
+                        </div>
+                        <small class="text-muted">Created <%=Util.calculateDaysPassed(((Discussion) (session.getAttribute("discussion"))).getCreate_at())%>
+                            days ago</small>
+                        <small class="text-muted">Updated <%=Util.calculateDaysPassed(((Discussion) (session.getAttribute("discussion"))).getUpdate_at())%>
+                            days ago</small>
+                    </div>
                 </div>
             </div>
-<%--            Form to return to home page by calling post request in login server--%>
-            <form action="login" method="post">
-                <div class="row justify-content-center">
-                    <div class="col-md-5">
+
+            <!-- Answers -->
+            <div class="row mb-3">
+                <div class="col-12">
+                    <h5>Comments</h5>
+                    <%for (Comment comment : (ArrayList<Comment>) (session.getAttribute("comments"))) {%>
+                    <div class="answer border p-3 mb-2">
                         <div class="row">
-                            <div class="col-md-12 form-group">
-                                <input type="hidden" name="username" value="${user.name}">
-                                <input type="hidden" name="password" value="${user.password}">
-                                <input type="submit" class="btn btn-primary btn-lg px-5" value="Go to home page">
+                            <div class="col-md-11">
+                                <div id="<%=comment.getComment_id()%>">
+                                    <%=comment.getContent()%>
+                                </div>
+                                <small class="text-muted">answered <%=Util.calculateDaysPassed(comment.getCreate_at())%>
+                                    days ago by <b><%=new DAOUser().getUserByID(comment.getUser_id()).getName()%>
+                                    </b></small>
                             </div>
                         </div>
                     </div>
+                    <%}%>
+                    <!-- Answer Form -->
+                    <div class="form-group">
+                        <label for="editor-container">Your Comment</label>
+                        <div id="editor-container"></div>
+                    </div>
+                    <form id="comment-form" action="add-comment" method="post">
+                        <input type="hidden" name="commentContent" id="commentContent">
+                        <button class="btn btn-primary" id="comment-submit">Post Your Answer</button>
+                    </form>
                 </div>
-            </form>
+            </div>
+
         </div>
     </div>
+
 
     <div class="footer">
         <div class="container">
@@ -154,7 +191,7 @@
                 <div class="col-lg-3">
                     <h3 class="footer-heading"><span>Our Campus</span></h3>
                     <ul class="list-unstyled">
-                        <li><a href="#">Acedemic</a></li>
+                        <li><a href="#">Academic</a></li>
                         <li><a href="#">News</a></li>
                         <li><a href="#">Our Interns</a></li>
                         <li><a href="#">Our Leadership</a></li>
@@ -203,16 +240,33 @@
     </div>
 </div>
 <!-- .site-wrap -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+    // Initialize Quill editor
+    var quill = new Quill('#editor-container', {
+        theme: 'snow', // or 'bubble'
+        modules: {
+            toolbar: [
+                [{'header': [1, 2, false]}],
+                ['bold', 'italic', 'underline'],
+                ['link', 'blockquote', 'code-block'],
+                [{'list': 'ordered'}, {'list': 'bullet'}],
+                [{'script': 'sub'}, {'script': 'super'}],
+                [{'indent': '-1'}, {'indent': '+1'}],
+                [{'direction': 'rtl'}],
+                [{'color': []}, {'background': []}],
+                [{'align': []}],
+                ['clean'] // remove formatting button
+            ]
+        }
+    });
 
-<!-- loader -->
-<div id="loader" class="show fullscreen">
-    <svg class="circular" width="48px" height="48px">
-        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
-        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-                stroke="#51be78"/>
-    </svg>
-</div>
-
+    // Get content and submit form
+    document.getElementById('comment-form').addEventListener('submit', function(event) {
+        var content = quill.root.innerHTML; // Get HTML content
+        document.getElementById('commentContent').value = content; // Set content in hidden input
+    });
+</script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/jquery-migrate-3.0.1.min.js"></script>
 <script src="js/jquery-ui.js"></script>
@@ -224,11 +278,3 @@
 <script src="js/bootstrap-datepicker.min.js"></script>
 <script src="js/jquery.easing.1.3.js"></script>
 <script src="js/aos.js"></script>
-<script src="js/jquery.fancybox.min.js"></script>
-<script src="js/jquery.sticky.js"></script>
-<script src="js/jquery.mb.YTPlayer.min.js"></script>
-<script src="js/main.js"></script>
-
-</body>
-
-</html>

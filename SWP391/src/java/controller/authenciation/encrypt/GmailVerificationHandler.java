@@ -49,9 +49,9 @@ public class GmailVerificationHandler {
         try {
             Properties pr = setupMailProperties();
 
-            jakarta.mail.Message mess = new MimeMessage(createSession(pr));
+            Message mess = new MimeMessage(createSession(pr));
             mess.setHeader("Content-type", "text/html; charset=UTF-8");
-            mess.setFrom(new jakarta.mail.internet.InternetAddress(FROM_EMAIL));
+            mess.setFrom(new InternetAddress(FROM_EMAIL));
             mess.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient, false));
             mess.setSubject(subject);
             mess.setText(message);
