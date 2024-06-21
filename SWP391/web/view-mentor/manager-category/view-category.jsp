@@ -187,17 +187,17 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-5">
-                                <h2>Category <b>Management</b></h2>
+                                <h2>Quản lí <b>danh mục</b></h2>
                             </div>
                             <div class="col-sm-6">
                                 <form class="form-inline" action="manageCategory" method="get">
                                     <div class="input-group">
-                                        <input type="text" name="keyword" class="form-control" placeholder="Search" value="${keyword}">
+                                        <input type="text" name="keyword" class="form-control" placeholder="Tìm kiếm" value="${keyword}">
                                         <div class="input-group-append">
                                             <button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
                                         </div>
                                     </div>
-                                    <a href="manageCategory?action=create" class="btn btn-secondary ml-2"><i class="material-icons">&#xE147;</i> <span>Add New Category</span></a>
+                                    <a href="manageCategory?action=create" class="btn btn-secondary ml-2"><i class="material-icons">&#xE147;</i> <span>Thêm danh mục</span></a>
                                 </form>
                             </div>
                         </div>
@@ -205,12 +205,12 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>Category_id</th>
-                                <th>Category_name</th>						
-                                <th>Date Created</th>
-                                <th>Date_last_edited</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>ID</th>
+                                <th>Tên danh mục</th>						
+                                <th>Ngày tạo</th>
+                                <th>Ngày sửa</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -220,7 +220,7 @@
                                     <td>${category.category_name}</td>
                                     <td>${category.date_created}</td>
                                     <td>${category.date_last_edited}</td>
-                                    <td><span class="status ${category.active == 1 ? 'text-success' : 'text-danger'}">&bull;</span> ${category.active == 1 ? 'Active' : 'Inactive'}</td>
+                                    <td><span class="status ${category.active == 1 ? 'text-success' : 'text-danger'}">&bull;</span> ${category.active == 1 ? 'Kích hoạt' : 'Vô hiệu'}</td>
                                     <td>
                                         <a href="manageCategory?action=edit&id=${category.category_id}" class="settings" title="Settings" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
                                     </td>
@@ -228,18 +228,7 @@
                             </c:forEach>
                         </tbody>
                     </table>
-                    <div class="clearfix">
-                        <div class="hint-text">Showing <b>${categories.size()}</b> out of <b>25</b> entries</div>
-                        <ul class="pagination">
-                            <li class="page-item disabled"><a href="#">Previous</a></li>
-                            <li class="page-item"><a href="#" class="page-link">1</a></li>
-                            <li class="page-item"><a href="#" class="page-link">2</a></li>
-                            <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                            <li class="page-item"><a href="#" class="page-link">4</a></li>
-                            <li class="page-item"><a href="#" class="page-link">5</a></li>
-                            <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                        </ul>
-                    </div>
+                    
                 </div>
             </div>
         </div>     

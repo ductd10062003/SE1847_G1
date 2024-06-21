@@ -182,7 +182,7 @@ body {
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>Create <b>Category</b></h2>
+                        <h2>Thêm <b>danh mục</b></h2>
                     </div>
                 </div>
             </div>
@@ -190,19 +190,19 @@ body {
                 <input type="hidden" name="action" value="add">
                 
                 <div class="form-group">
-                    <label>Category Name</label>
+                    <label>Tên danh mục</label>
                     <input type="text" name="category_name" class="form-control" " required>
                 </div>
                 
                 <div class="form-group">
-                    <label>Status</label>
+                    <label>Trạng thái</label>
                     <select name="active" class="form-control">
-                        <option value="1" >Active</option>
-                        <option value="0" >Inactive</option>
+                        <option value="1" >Kích hoạt</option>
+                        <option value="0" >Vô hiệu</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
                 </div>
             </form>
         </div>

@@ -182,7 +182,7 @@ body {
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>Update <b>Category</b></h2>
+                        <h2>Sửa <b>danh mục</b></h2>
                     </div>
                 </div>
             </div>
@@ -190,22 +190,22 @@ body {
                 <input type="hidden" name="action" value="update">
                 <input type="hidden" name="category_id" value="${category.category_id}">
                 <div class="form-group">
-                    <label>Category Name</label>
+                    <label>Tên danh mục</label>
                     <input type="text" name="category_name" class="form-control" value="${category.category_name}" required>
                 </div>
                 <div class="form-group">
-                    <label>Date Created</label>
+                    <label>Ngày tạo</label>
                     <input type="text" name="date_created" class="form-control" value="${category.date_created}" disabled>
                 </div>
                 <div class="form-group">
-                    <label>Status</label>
+                    <label>Trạng thái</label>
                     <select name="active" class="form-control">
-                        <option value="1" ${category.active == 1 ? 'selected' : ''}>Active</option>
-                        <option value="0" ${category.active == 0 ? 'selected' : ''}>Inactive</option>
+                        <option value="1" ${category.active == 1 ? 'selected' : ''}>Kích hoạt</option>
+                        <option value="0" ${category.active == 0 ? 'selected' : ''}>Vô hiệu</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-primary">Thay đổi</button>
                 </div>
             </form>
         </div>
