@@ -1,6 +1,6 @@
 <%-- 
-    Document   : matching
-    Created on : Jun 10, 2024, 10:56:59 AM
+    Document   : matching-backup
+    Created on : Jun 18, 2024, 9:04:25 AM
     Author     : ductd
 --%>
 
@@ -178,7 +178,6 @@
                         let incorrect = 0;
                         let listIncorrect = [];
                         let userPracticeId = 0;
-                        let currentTarget;
                         function start(courseId, user_practice_id) {
                             document.getElementById('startUp').style.display = 'none';
                             document.getElementById('quiz').style.display = 'block';
@@ -190,18 +189,11 @@
                                     listFlashCard = JSON.parse(data);
                                     total = listFlashCard.length;
                                     document.getElementById('total').innerText = total;
-                                    times = setInterval(() => {
-                                        time++;
-                                        let displayTime = formatTime();
-                                        document.getElementById('time').innerText = displayTime;
-                                    }, 1000);
-                                    let matchingElement = document.querySelectorAll('.matchingElement');
-                                    for (let i = 0; i < matchingElement.length; i++) {
-                                        matchingElement[i].addEventListener('dragstart', function (e) {
-                                            currentTarget = this;
-                                            console.log(this);
-                                        });
-                                    }
+//                                    times = setInterval(() => {
+//                                        time++;
+//                                        let displayTime = formatTime();
+//                                        document.getElementById('time').innerText = displayTime;
+//                                    }, 1000);
                                     quiz();
                                 },
                                 error: function (xhr, status, error) {
@@ -210,30 +202,9 @@
                             });
                         }
 
-                        let dragOver = (event) => {
-                            event.preventDefault();
-                        };
-                        let drop = (event) => {
-                            let _this = event.target;
-                            if (_this.id.length > 2) {
-                                let oldId = _this.id;
-                                let currentTargetId = currentTarget.id;
-                                _this.id = 'idididid' + currentTargetId.substring(3, currentTargetId.length);
-                                _this.innerHTML = currentTarget.innerText;
-                                let a = document.getElementById('for' + oldId.substring(8, oldId.length));
-                                a.querySelector('p').style.display = 'block';
-                                currentTarget.querySelector('p').style.display = 'none';
-                                console.log("a");
-                            } else {
-                                let currentTargetId = currentTarget.id;
-                                _this.id = 'idididid' + currentTargetId.substring(3, currentTargetId.length);
-                                _this.innerHTML = currentTarget.innerText;
-                                currentTarget.querySelector('p').style.display = 'none';
-                                console.log("b");
-                            }
-                        };
-                        function quiz() {
 
+                        function quiz() {
+                            let currentTarget;
                             let flashCards = document.querySelectorAll('.flashCard');
                             for (let i = 0; i < flashCards.length; i++) {
                                 let question = flashCards[i].querySelector('.question');
@@ -242,20 +213,12 @@
                                 question.classList.remove('bg-danger');
                                 question.innerHTML = '';
                                 question.removeAttribute('id');
-                                if (count === 1) {
-                                    question.removeEventListener('dragover', dragOver);
-                                    question.removeEventListener('drop', drop);
-                                }
                                 let answer = flashCards[i].querySelector('.answer');
                                 answer.classList.remove('bg-success');
                                 answer.classList.remove('matching');
                                 answer.classList.remove('bg-danger');
                                 answer.innerHTML = '';
                                 answer.removeAttribute('id');
-                                if (count === 1) {
-                                    answer.removeEventListener('dragover', dragOver);
-                                    answer.removeEventListener('drop', drop);
-                                }
                             }
                             let matchingElement = document.querySelectorAll('.matchingElement');
 
@@ -306,24 +269,76 @@
                                     matchingElement[i].id = ('for' + listFlashCard[matchingElementValue].flashcard_id);
                                 }
                             }
-
                             for (let i = 0; i < flashCards.length; i++) {
                                 let item = flashCards[i].querySelectorAll('div');
                                 for (let j = 0; j < item.length; j++) {
                                     if (item[j].classList.contains('matching')) {
-                                        item[j].addEventListener('dragover', dragOver);
-                                        item[j].addEventListener('drop', drop);
+                                        item[j].addEventListener('dragover', function (e) {
+                                            e.preventDefault();
+                                        });
+                                        item[j].addEventListener('drop', function (e) {
+                                            if (this.id.length > 2) {
+                                                console.log(this.id)
+                                                let oldId = this.id;
+                                                let currentTargetId = currentTarget.id;
+                                                this.id = 'idididid' + currentTargetId.substring(3, currentTargetId.length);
+                                                console.log(this.innerHTML)
+                                                this.innerHTML = currentTarget.innerText;
+                                                console.log(this.innerHTML)
+                                                let a = document.getElementById('for' + oldId.substring(8, oldId.length));
+                                                a.querySelector('p').style.display = 'block';
+                                                currentTarget.querySelector('p').style.display = 'none';
+                                                console.log(j)
+                                            } else {
+                                                console.log(typeof this.id)
+                                                let currentTargetId = currentTarget.id;
+                                                this.id = 'idididid' + currentTargetId.substring(3, currentTargetId.length);
+                                                console.log(this.innerHTML)
+                                                this.innerHTML = currentTarget.innerText;
+                                                console.log(this.innerHTML)
+                                                currentTarget.querySelector('p').style.display = 'none';
+                                                
+                                            }
+                                        });
                                     }
                                 }
+                            }
+
+                            for (let i = 0; i < matchingElement.length; i++) {
+                                matchingElement[i].addEventListener('dragstart', function (e) {
+                                    currentTarget = this;
+                                    console.log(this)
+                                });
                             }
                             document.getElementById('numberOfQuestion').innerText = (flashcardId / 3);
                         }
 
+
+
+//                        function createInput(value) {
+//                            let input = document.createElement('input');
+//                            input.type = 'text';
+//                            input.className = 'form-control text-center';
+//                            input.placeholder = '_';
+//                            input.style.width = '40px';
+//                            input.value = value;
+//                            input.addEventListener('input', () => {
+//                                if (input.value.length > 0) {
+//                                    input.value = input.value.length === 1 ? input.value[0] : input.value[1];
+//                                    let nextInput = input.nextElementSibling;
+//                                    if (nextInput && nextInput.tagName === 'INPUT') {
+//                                        nextInput.focus();
+//                                    }
+//                                }
+//                            });
+//                            document.getElementById('answer').appendChild(input);
+//                        }
+//
                         let count = 0;
                         async function confirm(courseId) {
                             count++;
 
-                            if (count === 1 && flashcardId_p < total) {
+                            if (count === 1 && flashcardId < total) {
                                 let matching = document.querySelectorAll('.flashCard');
                                 for (let i = 0; i < matching.length; i++) {
                                     let question = matching[i].querySelector('.question');
@@ -347,7 +362,7 @@
                                 let delay = new Promise((resolve) => setTimeout(resolve, 1500));
                                 await delay;
 
-                                if (flashcardId_p < total) {
+                                if (flashcardId < total) {
                                     quiz();
                                     count = 0;
                                 } else {
@@ -359,84 +374,104 @@
                                 }
                             }
                         }
-
-                        function createListTableAnswer() {
-                            let table = document.getElementById('listAnswerStatus');
-
-                            document.getElementById('resultTime').innerText = formatTime();
-                            document.getElementById('resultCorrect').innerText = correct;
-                            document.getElementById('resultIncorrect').innerText = incorrect;
-
-                            for (let i = 0; i < listFlashCard.length; i++) {
-                                let row = document.createElement('tr');
-                                let cell1 = document.createElement('th');
-                                cell1.innerText = (i + 1);
-                                let cell2 = document.createElement('td');
-                                cell2.innerText = listFlashCard[i].question;
-                                let cell3 = document.createElement('td');
-                                cell3.innerText = listFlashCard[i].answer;
-                                let cell4 = document.createElement('td');
-                                let icon = document.createElement('i');
-                                if (listCorrect.indexOf(i) >= 0) {
-                                    icon.classList.add('fa-solid', 'fa-check');
-                                    cell4.appendChild(icon);
-                                } else {
-                                    icon.classList.add('fa-solid', 'fa-xmark');
-                                    cell4.appendChild(icon);
-                                }
-
-
-                                table.appendChild(row);
-                                row.appendChild(cell1);
-                                row.appendChild(cell2);
-                                row.appendChild(cell3);
-                                row.appendChild(cell4);
-                            }
-                        }
-
-                        function formatTime() {
-                            let displayTime = '';
-                            if (time < 60) {
-                                displayTime = time + ' giây';
-                            } else if (time >= 60) {
-                                let minutes = Math.floor(time / 60);
-                                let seconds = time % 60;
-                                displayTime = minutes + ' phút ' + seconds + ' giây';
-                            } else if (time >= 3600) {
-                                let hour = Math.floor(time / 60);
-                                if (time % 60 > 60) {
-                                    let minutes = Math.floor(time / 3600);
-                                    displayTime = minutes + ' phút ' + seconds;
-                                }
-                                let seconds = time % 3600;
-                                displayTime = hour + ' giờ ' + displayTime + ' giây';
-                            }
-                            return displayTime;
-                        }
-
-                        function reset(courseId) {
-                            window.location.href = 'fill-in-blank?course_id=' + courseId + '&user_practice_id=' + userPracticeId;
-                        }
-
-                        function updateResult(courseId) {
-                            $.ajax({
-                                url: "/SWP391/multiple-choice",
-                                type: "POST",
-                                data: {
-                                    service: 'result',
-                                    course_id: courseId,
-                                    result_correct: correct,
-                                    result_time: time,
-                                    user_practice: userPracticeId
-                                },
-                                success: function (data) {
-
-                                },
-                                error: function (xhr, status, error) {
-
-                                }
-                            });
-                        }
+//
+//                        function createListTableAnswer() {
+//                            let table = document.getElementById('listAnswerStatus');
+//
+//                            document.getElementById('resultTime').innerText = formatTime();
+//                            document.getElementById('resultCorrect').innerText = correct;
+//                            document.getElementById('resultIncorrect').innerText = incorrect;
+//
+//                            for (let i = 0; i < listFlashCard.length; i++) {
+//                                let row = document.createElement('tr');
+//                                let cell1 = document.createElement('th');
+//                                cell1.innerText = (i + 1);
+//                                let cell2 = document.createElement('td');
+//                                cell2.innerText = listFlashCard[i].question;
+//                                let cell3 = document.createElement('td');
+//                                cell3.innerText = listFlashCard[i].answer;
+//                                let cell4 = document.createElement('td');
+//                                let icon = document.createElement('i');
+//                                if (listCorrect.indexOf(i) >= 0) {
+//                                    icon.classList.add('fa-solid', 'fa-check');
+//                                    cell4.appendChild(icon);
+//                                } else {
+//                                    icon.classList.add('fa-solid', 'fa-xmark');
+//                                    cell4.appendChild(icon);
+//                                }
+//
+//
+//                                table.appendChild(row);
+//                                row.appendChild(cell1);
+//                                row.appendChild(cell2);
+//                                row.appendChild(cell3);
+//                                row.appendChild(cell4);
+//                            }
+//                        }
+//
+//                        function formatTime() {
+//                            let displayTime = '';
+//                            if (time < 60) {
+//                                displayTime = time + ' giây';
+//                            } else if (time >= 60) {
+//                                let minutes = Math.floor(time / 60);
+//                                let seconds = time % 60;
+//                                displayTime = minutes + ' phút ' + seconds + ' giây';
+//                            } else if (time >= 3600) {
+//                                let hour = Math.floor(time / 60);
+//                                if (time % 60 > 60) {
+//                                    let minutes = Math.floor(time / 3600);
+//                                    displayTime = minutes + ' phút ' + seconds;
+//                                }
+//                                let seconds = time % 3600;
+//                                displayTime = hour + ' giờ ' + displayTime + ' giây';
+//                            }
+//                            return displayTime;
+//                        }
+//
+//                        function reset(courseId) {
+//                            window.location.href = 'fill-in-blank?course_id=' + courseId + '&user_practice_id=' + userPracticeId;
+//                        }
+//
+//                        function updateResult() {
+//                            $.ajax({
+//                                url: "/SWP391/fill-in-blank?service=start&&course_id=" + courseId,
+//                                type: "POST",
+//                                success: function (data) {
+//                                    listFlashCard = JSON.parse(data);
+//                                    total = listFlashCard.length;
+//                                    document.getElementById('total').innerText = total;
+//                                    times = setInterval(() => {
+//                                        time++;
+//                                        let displayTime = formatTime();
+//                                        document.getElementById('time').innerText = displayTime;
+//                                    }, 1000);
+//                                    quiz();
+//                                },
+//                                error: function (xhr, status, error) {
+//
+//                                }
+//                            });
+//                        }
+//                        function updateResult(courseId) {
+//                            $.ajax({
+//                                url: "/SWP391/multiple-choice",
+//                                type: "POST",
+//                                data: {
+//                                    service: 'result',
+//                                    course_id: courseId,
+//                                    result_correct: correct,
+//                                    result_time: time,
+//                                    user_practice: userPracticeId
+//                                },
+//                                success: function (data) {
+//
+//                                },
+//                                error: function (xhr, status, error) {
+//
+//                                }
+//                            });
+//                        }
         </script>
     </body>
 </html>
