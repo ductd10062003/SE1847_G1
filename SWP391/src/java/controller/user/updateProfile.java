@@ -6,7 +6,6 @@
 package controller.user;
 
 import entity.User;
-import jakarta.mail.Session;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,14 +13,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.Vector;
 import model.DAOUser;
 
 /**
  *
  * @author DAT
  */
-public class userProfile extends HttpServlet {
+public class updateProfile extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,10 +36,10 @@ public class userProfile extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet userProfile</title>");  
+            out.println("<title>Servlet updateProfile</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet userProfile at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet updateProfile at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,13 +56,12 @@ public class userProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        DAOUser daoUser = new DAOUser();  
+        DAOUser daoUser = new DAOUser();    
         User user = new User();
-        user = (User) request.getSession().getAttribute("user");
-               
+        user = (User) request.getSession().getAttribute("user");              
         User list = daoUser.getUserByID(user.getUser_id());
         request.setAttribute("users", list);
-        request.getRequestDispatcher("user-profile.jsp").forward(request, response);
+        request.getRequestDispatcher("update-profile.jsp").forward(request, response);
     } 
 
     /** 
@@ -77,7 +74,27 @@ public class userProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        
+        //Account a = (Account) session.getAttribute("account");
+        String name = request.getParameter("name");
+        int gender = request.getParameter("gender").equals("male") ? 1 : 0;
+        String dob = request.getParameter("dob");
+        String phone = request.getParameter("phone");      
+        String email = request.getParameter("email"); 
+        
+        //get the user from the session
+        User user = new User();
+        user.setName(name);
+        user.setGender(gender);
+        user.setDob(dob);
+        user.setPhone(phone);
+        user.setEmail(email);
+        
+        //upadte database
+        DAOUser daoUser = new DAOUser();  
+        user = (User) request.getSession().getAttribute("user");              
+        daoUser.updateProfile(user.getUser_id(),name,gender,dob,phone,email);
+        response.sendRedirect("userProfile");
     }
 
     /** 

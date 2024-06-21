@@ -396,15 +396,73 @@
                                                     let flashcard = document.getElementById('flashcard');
                                                     let dataId = 0;
                                                     flashcard.querySelector('p').innerText = data[dataId].question;
-                                                    let flipStatus = true;
-                                                    function flip() {
-                                                        if (flipStatus === true) {
-                                                            flashcard.querySelector('p').innerText = data[dataId].answer;
-                                                            flipStatus = false;
-                                                        } else if (flipStatus === false) {
-                                                            flashcard.querySelector('p').innerText = data[dataId].question;
-                                                            flipStatus = true;
-                                                        }
+                                                    flipStatus = true;
+                                                }
+                                            }
+
+                                            document.getElementById('numberOfFlashCard').innerText = data.length;
+                                            document.getElementById('indexOfFlashCard').innerText = dataId + 1;
+
+                                            function nextFlashCard(status) {
+                                                if (dataId < data.length - 1 && dataId > 0) {
+                                                    dataId += status;
+                                                }
+                                                if ((dataId === 0 && status === 1) ||
+                                                        (dataId === data.length - 1 && status === -1)) {
+                                                    dataId += status;
+                                                }
+                                                console.log(dataId);
+                                                flashcard.querySelector('p').innerText = data[dataId].question;
+                                                flipStatus = true;
+                                                document.getElementById('indexOfFlashCard').innerText = dataId + 1;
+                                            }
+
+                                            function checkLogin(user, courseId) {
+                                                if (user === null || user.trim().length === 0) {
+                                                    let err = document.querySelector('#err');
+                                                    err.querySelector('span').innerHTML = "Bạn chưa đăng nhập";
+                                                    err.style.display = 'block';
+                                                    return;
+                                                }
+                                                let joinClass = document.getElementById('joinClass').innerText.trim();
+                                                switch (joinClass) {
+                                                    case 'Tham gia':
+                                                        enrollCourse(courseId);
+                                                        return;
+                                                    case 'Hủy tham gia':
+                                                        unEnrollCourse(courseId);
+                                                        return;
+                                                }
+                                            }
+
+                                            function closeErr(err) {
+                                                err.parentNode.style.display = 'none';
+                                            }
+
+                                            function checkJoinClass(btn) {
+                                                let joinClass = document.getElementById('joinClass').innerText.trim();
+                                                switch (joinClass) {
+                                                    case 'Tham gia':
+                                                        let err = document.querySelector('#err');
+                                                        err.querySelector('span').innerHTML = "Bạn chưa tham gia lớp học";
+                                                        err.style.display = 'block';
+                                                        return;
+                                                    case 'Hủy tham gia':
+
+                                                        return;
+                                                }
+                                            }
+
+                                            function enrollCourse(courseId) {
+                                                $.ajax({
+                                                    url: "/SWP391/course-detail?service=enroll&&course_id=" + courseId,
+                                                    type: "POST",
+                                                    success: function (data) {
+                                                        document.getElementById('joinClass').innerText = 'Hủy tham gia';
+                                                        document.getElementById('err').style.display = 'none';
+                                                    },
+                                                    error: function (xhr, status, error) {
+
                                                     }
 
                                                     document.getElementById('numberOfFlashCard').innerText = data.length;
