@@ -24,6 +24,10 @@
         <servlet-name>updateProfile</servlet-name>
         <servlet-class>controller.user.updateProfile</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>homePage</servlet-name>
+        <servlet-class>controller.user.homePage</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>testCategory</servlet-name>
         <url-pattern>/testCategory</url-pattern>
@@ -47,5 +51,9 @@
     <servlet-mapping>
         <servlet-name>updateProfile</servlet-name>
         <url-pattern>/updateProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>homePage</servlet-name>
+        <url-pattern>/homePage</url-pattern>
     </servlet-mapping>
 </web-app>
