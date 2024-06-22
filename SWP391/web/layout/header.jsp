@@ -61,7 +61,7 @@
                             </ul>
                         </li>
                         <li><a href="admissions.html" class="nav-link text-left">Xếp hạng</a></li>
-                        <li><a href="courses.html" class="nav-link text-left">Thảo luận</a></li>
+                        <li><a href="view-discussions" class="nav-link text-left">Thảo luận</a></li>
                     </ul>
                 </nav>
             </div>

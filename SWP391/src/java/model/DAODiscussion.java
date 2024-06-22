@@ -272,4 +272,28 @@ public class DAODiscussion extends DBConnect{
 //        }
         System.out.println("count discussions: " + dao.getHostUser(1));
     }
+    
+    public Discussion getDiscussionById(int i) {
+        String query = "SELECT * FROM Discussion WHERE discussion_id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, i);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Discussion(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getBoolean(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getInt(8)
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
 }

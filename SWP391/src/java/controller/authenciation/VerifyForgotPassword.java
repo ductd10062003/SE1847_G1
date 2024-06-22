@@ -38,7 +38,7 @@ public class VerifyForgotPassword extends HttpServlet {
     private static void expirePendingUserThread(String code){
         new Thread(() -> {
             try {
-                Thread.sleep(60000);
+                Thread.sleep(300000);
                 pendingUsers.remove(code);
             } catch (InterruptedException e) {
                 e.printStackTrace();

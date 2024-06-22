@@ -13,25 +13,27 @@ import model.DAODiscussion;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 @WebServlet(name = "discussion-details", urlPatterns = {"/discussion-details"})
 public class DiscussionDetails extends HttpServlet {
 
-    private void handleRequest (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        String id = req.getParameter("id");
-//        if(req.getSession().getAttribute("discussion") != null)
-//            id = Integer.toString(((Discussion) req.getSession().getAttribute("discussion")).getDiscussion_id());
-//        if(id == null)
-//            req.getRequestDispatcher("view-discussions").forward(req, resp);
-//        else
-//        {
-//            Discussion discussion = new DAODiscussion().getDiscussionById(Integer.parseInt(id));
-//            ArrayList<Comment> comments = new DAOComment().getCommentByDiscussionId(Integer.parseInt(id));
-//
-//            req.getSession().setAttribute("comments", comments);
-//            req.getSession().setAttribute("discussion", discussion);
-//
-//            req.getRequestDispatcher("ViewDiscussion.jsp").forward(req, resp);
-//        }
+    private void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = req.getParameter("id");
+        if(req.getSession().getAttribute("discussion") != null)
+            id = Integer.toString(((Discussion) req.getSession().getAttribute("discussion")).getDiscussion_id());
+        if(id == null)
+            req.getRequestDispatcher("view-discussions").forward(req, resp);
+        else
+        {
+            Discussion discussion = new DAODiscussion().getDiscussionById(Integer.parseInt(id));
+            ArrayList<Comment> comments = new DAOComment().getCommentByDiscussionId(Integer.parseInt(id));
+
+            req.getSession().setAttribute("comments", comments);
+            req.getSession().setAttribute("discussion", discussion);
+
+            req.getRequestDispatcher("ViewDiscussion.jsp").forward(req, resp);
+        }
+// Dua nao comment het ra dcm
     }
 
     @Override

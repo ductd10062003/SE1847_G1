@@ -127,6 +127,6 @@ public class DAOUser extends DBConnect {
     }
 
     public static void main(String[] args) {
-        System.out.println(new DAOUser().getUserByEmail("otakuaria4710@gmail.com"));
+        System.out.println(new DAOUser().getUserByEmail("user1@gmail.com"));
     }
 }
