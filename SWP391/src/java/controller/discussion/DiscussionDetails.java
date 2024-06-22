@@ -18,9 +18,8 @@ import java.util.ArrayList;
 public class DiscussionDetails extends HttpServlet {
 
     private void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
-        if(req.getSession().getAttribute("discussion") != null)
-            id = Integer.toString(((Discussion) req.getSession().getAttribute("discussion")).getDiscussion_id());
+        String id = req.getParameter("id") == null ? (String) req.getSession().getAttribute("id") : req.getParameter("id");
+
         if(id == null)
             req.getRequestDispatcher("view-discussions").forward(req, resp);
         else
@@ -33,7 +32,6 @@ public class DiscussionDetails extends HttpServlet {
 
             req.getRequestDispatcher("ViewDiscussion.jsp").forward(req, resp);
         }
-// Dua nao comment het ra dcm
     }
 
     @Override
