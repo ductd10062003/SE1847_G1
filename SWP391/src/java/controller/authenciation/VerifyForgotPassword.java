@@ -85,7 +85,7 @@ public class VerifyForgotPassword extends HttpServlet {
             request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
         } else {
             request.getSession().setAttribute("error", "Invalid code");
-            request.getRequestDispatcher("ConfirmChangedPassword.jsp").forward(request, response);
+            request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);
         }
 
     }
