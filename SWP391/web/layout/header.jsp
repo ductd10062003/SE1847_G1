@@ -65,6 +65,10 @@
                     </ul>
                 </nav>
             </div>
+            <form action="forgot-password" method="post">
+                <input type="hidden" name="email" value="${sessionScope.user.email}">
+                <button type="submit" class="btn btn-primary px-4 py-2 rounded-0">Đổi mật khẩu</button>
+            </form>
             <div class="ml-auto">
 
                 <div class="text-right mr-3">
