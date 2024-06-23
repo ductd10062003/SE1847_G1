@@ -88,7 +88,7 @@
                                     <tr>
                                         <th width="30%">Vai trò</th>
                                         <td width="2%">:</td>
-                                        <td>${requestScope.users.role}</td>
+                                        <td>${requestScope.users.role == 2 ? 'Giáo viên' : 'Học sinh'}</td>
                                     </tr>
                                     <tr>
                                         <th width="30%">Tên người dùng</th>
@@ -98,7 +98,7 @@
                                     <tr>
                                         <th width="30%">Giới tính</th>
                                         <td width="2%">:</td>
-                                        <td>${requestScope.users.gender}</td>
+                                        <td>${requestScope.users.gender == 1 ? 'Nam' : 'Nữ'}</td>
                                     </tr>
                                     <tr>
                                         <th width="30%">Ngày sinh</th>
