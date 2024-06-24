@@ -35,7 +35,7 @@
         <link href="css/jquery.mb.YTPlayer.min.css" media="all" rel="stylesheet" type="text/css">
 
         <link rel="stylesheet" href="css/style.css">
-
+        <link rel="stylesheet" href="css/viewcourse.css">
 
 
     </head>
@@ -81,10 +81,10 @@
             <div class="site-section">
                 <div class="container">
                     <a href="courseEnroll" class="btn btn-primary">Các khóa học đã đăng kí</a>
-                    <h2 class="mt-5">Các khóa học</h2>
+                    <h2 class="mt-6">Các khóa học</h2>
                     <p></p>
                     <p></p>
-
+                    
                     <div class="container">
                         <div class="row mb-4">
                             <div class="col-lg-6">
@@ -98,10 +98,10 @@
                                 </form>
                             </div>
                         </div>
-                    </div>                  
-
-                    <div class="col-3 align-self-center">
-                        <div>
+                    </div> 
+                    
+                    <div id="content">
+                        <div id="tab1">
                             <div class="card">
                                 <div class="card-header">Thể loại</div>
                                 <div class="card-body">
@@ -126,10 +126,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>   
-
-                    <div class="site-section">
-                        <div class="container">
+                        <div id="tab2">
                             <div class="row">
                                 <c:forEach items="${requestScope.course}" var="course">
                                     <div class="col-lg-4 col-md-6 mb-4">
@@ -155,12 +152,24 @@
                                 </div>
                             </div>
                         </div>
-                    </div>               
+                    </div>
+
+                    <div class="container">
+                        <div class="row mb-4">
+                            <div class="col-lg-6">
+                            </div>
+                        </div>
+                    </div>                  
+
+                    <div class="col-3 align-self-center">
+                        <div>                          
+                        </div>
+                    </div>                 
                 </div>
             </div>
         </div>
         <!-- .site-wrap -->
-            
+
         <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
             <div class="container">
                 <div class="row">
@@ -241,7 +250,7 @@
                 </div>
             </div>
         </div>    
-        
+
 
         <!-- loader -->
         <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#51be78"/></svg></div>
