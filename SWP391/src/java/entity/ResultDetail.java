@@ -1,40 +1,53 @@
 package entity;
 
-
 public class ResultDetail {
+
     private float result;
     private int user_practice_id, time, result_detail_id;
     public String name;
     public int user_id;
-    public int userPractice_id;
     public int typeOfPractice_id;
+
+    public int getTypeOfPractice_id() {
+        return typeOfPractice_id;
+    }
+
+    public void setTypeOfPractice_id(int typeOfPractice_id) {
+        this.typeOfPractice_id = typeOfPractice_id;
+    }
     public String typeOfPractice_name;
-    
+
     public ResultDetail() {
     }
-    
-    public ResultDetail(String name,int user_id,float result,int time){
+
+    public ResultDetail(String name, int user_id, float result, int time) {
         this.name = name;
         this.user_id = user_id;
         this.result = result;
         this.time = time;
     }
 
-    public ResultDetail(String name,int user_id,int userPractice_id,int typeOfPractice_id,String typeOfPractice_name,float result,int time){
+    public ResultDetail(String name, int user_id, String typeOfPractice_name, float result, int time) {
         this.name = name;
         this.user_id = user_id;
-        this.userPractice_id = userPractice_id;
-        this.typeOfPractice_id = typeOfPractice_id;
         this.typeOfPractice_name = typeOfPractice_name;
         this.result = result;
         this.time = time;
     }
-    
+
     public ResultDetail(float result, int user_practice_id, int time, int result_detail_id) {
         this.result = result;
         this.user_practice_id = user_practice_id;
         this.time = time;
         this.result_detail_id = result_detail_id;
+    }
+
+    public String getTypeOfPractice_name() {
+        return typeOfPractice_name;
+    }
+
+    public void setTypeOfPractice_name(String typeOfPractice_name) {
+        this.typeOfPractice_name = typeOfPractice_name;
     }
 
     public String getName() {
@@ -51,30 +64,6 @@ public class ResultDetail {
 
     public void setUser_id(int user_id) {
         this.user_id = user_id;
-    }
-
-    public int getUserPractice_id() {
-        return userPractice_id;
-    }
-
-    public void setUserPractice_id(int userPractice_id) {
-        this.userPractice_id = userPractice_id;
-    }
-
-    public int getTypeOfPractice_id() {
-        return typeOfPractice_id;
-    }
-
-    public void setTypeOfPractice_id(int typeOfPractice_id) {
-        this.typeOfPractice_id = typeOfPractice_id;
-    }
-
-    public String getTypeOfPractice_name() {
-        return typeOfPractice_name;
-    }
-
-    public void setTypeOfPractice_name(String typeOfPractice_name) {
-        this.typeOfPractice_name = typeOfPractice_name;
     }
 
     public float getResult() {
@@ -113,7 +102,5 @@ public class ResultDetail {
     public String toString() {
         return "ResultDetail{" + "result=" + result + ", user_practice_id=" + user_practice_id + ", time=" + time + ", result_detail_id=" + result_detail_id + '}';
     }
-    
-    
-    
+
 }

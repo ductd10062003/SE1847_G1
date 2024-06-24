@@ -17,19 +17,20 @@ public class DAOResultDetail extends DBConnect {
 
     public ArrayList<ResultDetail> getResultByTOP_ID(int typeOfPractice_id) {
         ArrayList<ResultDetail> result = new ArrayList<>();
-        String sql = "SELECT name,u.user_id,up.user_practice_id,tp.TOP_id, TOP_name, rd.result, rd.time\n"
+        String sql = "SELECT name,u.user_id, tp.TOP_name, SUM(rd.result) AS total_result, SUM(rd.time) AS total_time\n"
                 + "from [User] u \n"
                 + "INNER JOIN User_Practice up ON u.user_id = up.user_id\n"
                 + "INNER JOIN Type_Of_Practice tp on up.TOP_id = tp.TOP_id\n"
                 + "INNER JOIN Result_Detail rd on rd.user_practice_id = up.user_practice_id\n"
                 + "where tp.TOP_id=?\n"
-                + "ORDER BY rd.result DESC";
+                + "GROUP BY u.name, u.user_id, tp.TOP_name\n"
+                + "ORDER BY total_result DESC;";
         try {
             PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ps.setInt(1, typeOfPractice_id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                result.add(new ResultDetail(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getFloat(6), rs.getInt(7)));
+                result.add(new ResultDetail(rs.getString(1), rs.getInt(2),rs.getString(3), rs.getFloat(4), rs.getInt(5)));
             }
         } catch (Exception e) {
             System.out.println(e);
