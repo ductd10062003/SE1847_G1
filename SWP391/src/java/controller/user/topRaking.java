@@ -4,7 +4,6 @@ package controller.user;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 import entity.ResultDetail;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,7 +39,7 @@ public class topRaking extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<ResultDetail> list = daoResult.getResultByTOP_ID(1);
+        ArrayList<ResultDetail> list = daoResult.getTopRanking();
         request.setAttribute("ranking", list);
         request.getRequestDispatcher("/topRanking.jsp").forward(request, response);
     }
@@ -58,8 +57,17 @@ public class topRaking extends HttpServlet {
             throws ServletException, IOException {
         String value = request.getParameter("type");
         int numberInput = Integer.parseInt(value);
-        ArrayList<ResultDetail> list = daoResult.getResultByTOP_ID(numberInput);
-        request.setAttribute("ranking", list);
+        
+        if (numberInput == 0) {
+            ArrayList<ResultDetail> list = daoResult.getTopRanking();
+            request.setAttribute("ranking", list);
+        }
+        
+        if (numberInput != 0) {
+            ArrayList<ResultDetail> list = daoResult.getResultByTOP_ID(numberInput);
+            request.setAttribute("ranking", list);
+        }
+        
         request.getRequestDispatcher("/topRanking.jsp").forward(request, response);
     }
 

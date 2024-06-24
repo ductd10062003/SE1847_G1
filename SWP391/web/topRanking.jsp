@@ -64,10 +64,10 @@
                 <div class="wrapper">
                     <table>
                         <select name="type" id="type">
+                            <option value="0">Tổng hợp</option>
                             <option value="1">Trắc nghiệm</option>
                             <option value="2">Nối thẻ</option>
-                            <option value="3">Điền chữ</option>
-                            <option value="Tổng hợp">Tổng hợp</option>
+                            <option value="3">Điền chữ</option>                            
                         </select>
                         <button type="submit">Submit</button>
                         <thead>
