@@ -6,14 +6,12 @@
 package controller.user;
 
 import entity.User;
-import jakarta.mail.Session;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.Vector;
 import model.DAOUser;
 
@@ -58,11 +56,8 @@ public class userProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        DAOUser daoUser = new DAOUser();  
-        User user = new User();
-        user = (User) request.getSession().getAttribute("user");
-               
-        User list = daoUser.getUserByID(user.getUser_id());
+        DAOUser daoUser = new DAOUser();
+        User list = daoUser.getUserByID(29);
         request.setAttribute("users", list);
         request.getRequestDispatcher("user-profile.jsp").forward(request, response);
     } 

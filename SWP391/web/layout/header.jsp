@@ -68,7 +68,7 @@
             <div class="ml-auto">
 
                 <div class="text-right mr-3">
-                    <a href="userProfile" class="small mr-3"><span class="icon-user"></span> ${sessionScope.user.name}</a>
+                    <a href="login" class="small mr-3"><span class="icon-user"></span> ${sessionScope.user.name}</a>
                     <a href="login" class="small btn btn-primary px-4 py-2 rounded-0"><span class="icon-users"></span>
                         Đăng xuất</a>
                 </div>
