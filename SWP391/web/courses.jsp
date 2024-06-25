@@ -80,10 +80,11 @@
 
             <div class="site-section">
                 <div class="container">
+                    <div class="col-lg-6">
                     <a href="courseEnroll" class="btn btn-primary">Các khóa học đã đăng kí</a>
-                    <h2 class="mt-6">Các khóa học</h2>
                     <p></p>
                     <p></p>
+                    </div>
                     
                     <div class="container">
                         <div class="row mb-4">
