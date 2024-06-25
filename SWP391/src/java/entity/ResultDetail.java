@@ -1,5 +1,6 @@
 package entity;
 
+
 public class ResultDetail {
 
     private float result;
@@ -18,6 +19,13 @@ public class ResultDetail {
     public String typeOfPractice_name;
 
     public ResultDetail() {
+    }
+    
+    public ResultDetail(String name,int user_id,float result,int time){
+        this.name = name;
+        this.user_id = user_id;
+        this.result = result;
+        this.time = time;
     }
 
     public ResultDetail(String name, int user_id, float result, int time) {
