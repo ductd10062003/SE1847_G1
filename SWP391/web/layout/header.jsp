@@ -28,9 +28,11 @@
             </div>
             <div class="ml-auto">
                 <div class="text-right">
-                    <c:if test="${sessionScope.user==null}"><a href="login" class="small mr-3"><span class="icon-unlock-alt"></span> Đăng nhập</a>
+                    <c:if test="${sessionScope.user==null}">
+                        <a href="login" class="small mr-3"><span class="icon-unlock-alt"></span> Đăng nhập</a>
                         <a href="register" class="small btn btn-primary px-4 py-2 rounded-0"><span
-                                class="icon-users"></span> Đăng ký</a></c:if> 
+                                class="icon-users"></span> Đăng ký</a>
+                    </c:if> 
                     <c:if test="${sessionScope.user!=null}" ><a href="userProfile" class="small mr-3"><span class="icon-user"></span> ${sessionScope.user.name}</a></c:if>             
                 </div>
             </div>
