@@ -186,7 +186,7 @@ body {
                     </div>
                 </div>
             </div>
-            <form action="manageCategory" method="post">
+            <form action="manage-category" method="post">
                 <input type="hidden" name="action" value="add">
                 
                 <div class="form-group">

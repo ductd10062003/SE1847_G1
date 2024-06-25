@@ -12,6 +12,8 @@ import entity.Quiz;
 import entity.ResultDetail;
 import entity.TypeOfPractice;
 import entity.User;
+import entity.UserEnrollCourse;
+import entity.UserHavePremium;
 import entity.UserPractice;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +23,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.Vector;
 import model.DAOCategory;
 import model.DAOCourse;
@@ -30,6 +33,7 @@ import model.DAOResultDetail;
 import model.DAOTypeOfPractice;
 import model.DAOUser;
 import model.DAOUserEnrollCourse;
+import model.DAOUserHavePremium;
 import model.DAOUserPractice;
 
 // DucTD-HE176150
@@ -67,7 +71,10 @@ public class courseDetail extends HttpServlet {
         User user = (User) session.getAttribute("user");
         //set attribute
         if (user != null) {
-            request.setAttribute("enroll", daoUserEnrollCourse.getUserEnrollCourse(user.getUser_id(), courseId));
+            UserEnrollCourse uec = daoUserEnrollCourse.getUserEnrollCourse(user.getUser_id(), courseId);
+            if (uec != null) {
+                request.setAttribute("enroll", uec.getStatus());
+            }
         }
         request.setAttribute("course", course);
         request.setAttribute("category", category);
@@ -104,10 +111,23 @@ public class courseDetail extends HttpServlet {
         DAOUserEnrollCourse daoUserEnrollCourse = new DAOUserEnrollCourse();
         DAOUserPractice daoUserPractice = new DAOUserPractice();
         DAOResultDetail daoResultDetail = new DAOResultDetail();
+        DAOUserHavePremium daoUserHavePremium = new DAOUserHavePremium();
 
         if (daoUserEnrollCourse.getUserEnrollCourse(user.getUser_id(), courseId) == null) {
             daoUserEnrollCourse.createUserEnrollCourse(user.getUser_id(), courseId);
-            daoUserPractice.createUserPractice(user.getUser_id(), courseId);
+            int times = 3;
+            if (daoUserHavePremium.getUserHavePremiumByUserId(user.getUser_id()) != null) {
+                UserHavePremium uhp = daoUserHavePremium.getUserHavePremiumByUserId(user.getUser_id());
+                LocalDate now = LocalDate.now();
+                LocalDate end_at = LocalDate.parse(uhp.getEnd_at());
+                if (now.isBefore(end_at)) {
+                    times = -1;
+                } else {
+                    times = 0;
+                }
+
+            }
+            daoUserPractice.createUserPractice(user.getUser_id(), courseId, times);
 
             for (UserPractice i : daoUserPractice.getUserPracticeByUserIdAndCourseId(user.getUser_id(), courseId)) {
                 daoResultDetail.createResultDetail(i.getUserPractice_id());
@@ -158,14 +178,37 @@ public class courseDetail extends HttpServlet {
         User user = (User) session.getAttribute("user");
         int courseId = Integer.parseInt(request.getParameter("course_id"));
         int TOP_id = Integer.parseInt(request.getParameter("TOP_id"));
-        
-        DAOUserPractice daoUserPractice = new DAOUserPractice();        
-        int up_id = daoUserPractice.getUserPracticeByUserIdAndCourseIdAndTOPId(user.getUser_id(), courseId, TOP_id).getUserPractice_id();
-        
-        switch (TOP_id) {
-            case 1 -> response.getWriter().print("multiple-choice?course_id="+courseId+"&user_practice_id="+up_id);
-            case 2 -> response.getWriter().print("fill-in-blank?course_id="+courseId+"&user_practice_id="+up_id);
-            case 3 -> response.getWriter().print("matching?course_id="+courseId+"&user_practice_id="+up_id);
+
+        DAOUserPractice daoUserPractice = new DAOUserPractice();
+        DAOUserHavePremium daoUserHavePremium = new DAOUserHavePremium();
+
+        UserHavePremium uhp = daoUserHavePremium.getUserHavePremiumByUserId(user.getUser_id());
+        if (uhp != null) {
+            LocalDate now = LocalDate.now();
+            LocalDate end_at = LocalDate.parse(uhp.getEnd_at());
+            if (now.isAfter(end_at)) {
+                daoUserPractice.updateTimes(user.getUser_id(), courseId, TOP_id, 0);
+            }
         }
+
+        UserPractice up = daoUserPractice.getUserPracticeByUserIdAndCourseIdAndTOPId2(user.getUser_id(), courseId, TOP_id);
+        int times = up.getTimes();
+
+        if (times != 0) {
+            int up_id = up.getUserPractice_id();
+            int times_after = (times == -1) ? times : (times - 1);
+            daoUserPractice.updateTimes(user.getUser_id(), courseId, TOP_id, times_after);
+            switch (TOP_id) {
+                case 1 ->
+                    response.getWriter().print("multiple-choice?course_id=" + courseId + "&user_practice_id=" + up_id);
+                case 2 ->
+                    response.getWriter().print("fill-in-blank?course_id=" + courseId + "&user_practice_id=" + up_id);
+                case 3 ->
+                    response.getWriter().print("matching?course_id=" + courseId + "&user_practice_id=" + up_id);
+            }
+        } else {
+            response.getWriter().print("err");
+        }
+
     }
 }

@@ -72,9 +72,9 @@
                                 <div class="col-md-12"><label class="labels">Tên người dùng</label><input type="text" class="form-control" placeholder="enter name" name="name" value="${requestScope.users.name}"></div>
                                 <div class="col-md-12"><label class="labels"><label>Giới tính</label>
                                         <div class="form-check">
-                                                <input class="form-check-input" type="radio" id="male" name="gender"value="male" 
-                                                <c:if test="${requestScope.users.gender == 1}">checked</c:if> required>
-                                                <label class="form-check-label" for="male">Nam</label>
+                                            <input class="form-check-input" type="radio" id="male" name="gender"value="male" 
+                                                   <c:if test="${requestScope.users.gender == 1}">checked</c:if> required>
+                                                   <label class="form-check-label" for="male">Nam</label>
                                             </div>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" id="female" name="gender"value="female" 
@@ -90,7 +90,6 @@
                             <div class="mt-5 text-center">
                                 <input type="submit" value="Lưu thông tin" class="btn btn-primary btn-lg px-5">
                             </div>
-                            <div class="mt-5 text-center"><a href="index.jsp" class="btn btn-primary">Trở về trang chủ</a></div>
                         </form> 
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 package entity;
 
 public class UserPractice {
-    private int user_id, course_id, typeOfPractice_id, userPractice_id;
+    private int user_id, course_id, typeOfPractice_id, userPractice_id, times;
 
     public UserPractice() {
     }
@@ -11,6 +11,22 @@ public class UserPractice {
         this.course_id = course_id;
         this.typeOfPractice_id = typeOfPractice_id;
         this.userPractice_id = userPractice_id;
+    }
+
+    public UserPractice(int user_id, int course_id, int typeOfPractice_id, int userPractice_id, int times) {
+        this.user_id = user_id;
+        this.course_id = course_id;
+        this.typeOfPractice_id = typeOfPractice_id;
+        this.userPractice_id = userPractice_id;
+        this.times = times;
+    }
+    
+    public int getTimes() {
+        return times;
+    }
+
+    public void setTimes(int times) {
+        this.times = times;
     }
 
     public int getUser_id() {

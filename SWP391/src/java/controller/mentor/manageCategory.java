@@ -12,7 +12,7 @@ import java.util.Vector;
 import model.DAOCategory;
 import entity.Category;
 
-@WebServlet(name = "manageCategory", urlPatterns = {"/manageCategory"})
+@WebServlet(name = "manageCategory", urlPatterns = {"/mentor/manage-category"})
 public class manageCategory extends HttpServlet {
 
     @Override
@@ -24,9 +24,9 @@ public class manageCategory extends HttpServlet {
             int categoryId = Integer.parseInt(request.getParameter("id"));
             Category category = daoCategory.getCategoryByID(categoryId);
             request.setAttribute("category", category);
-            request.getRequestDispatcher("/view-mentor/manager-category/update-category.jsp").forward(request, response);
+            request.getRequestDispatcher("../view-mentor/manager-category/update-category.jsp").forward(request, response);
         } else if ("create".equals(action)) {
-            request.getRequestDispatcher("/view-mentor/manager-category/add-category.jsp").forward(request, response);
+            request.getRequestDispatcher("../view-mentor/manager-category/add-category.jsp").forward(request, response);
         } else {
             String keyword = request.getParameter("keyword");
             Vector<Category> categories;
@@ -37,7 +37,7 @@ public class manageCategory extends HttpServlet {
             }
             request.setAttribute("categories", categories);
             request.setAttribute("keyword", keyword);
-            request.getRequestDispatcher("/view-mentor/manager-category/view-category.jsp").forward(request, response);
+            request.getRequestDispatcher("../view-mentor/manager-category/view-category.jsp").forward(request, response);
         }
     }
 
@@ -55,7 +55,7 @@ public class manageCategory extends HttpServlet {
 
             Category category = new Category(categoryId, categoryName, null, dateLastEdited, active);
             daoCategory.updateCategory(category);
-            response.sendRedirect("manageCategory");
+            response.sendRedirect("manage-category");
         } else if ("add".equals(action)) {
             String categoryName = request.getParameter("category_name");
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -70,7 +70,7 @@ public class manageCategory extends HttpServlet {
             newCategory.setActive(active);
             
             daoCategory.addCategory(newCategory);
-            response.sendRedirect("manageCategory");
+            response.sendRedirect("manage-category");
         } else {
             doGet(request, response);
         }
