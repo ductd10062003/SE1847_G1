@@ -37,7 +37,7 @@ public class ForgotPassword extends HttpServlet {
         User user = new DAOUser().getUserByEmail(email);
         if(user != null){
             String code;
-            code = PasswordEncryptor.generateSalt();
+            code = PasswordEncryptor.generateSalt().substring(0, 6);
             request.getSession().setAttribute("code", PasswordEncryptor.generateSecurePassword(code));
 
             GmailVerificationHandler.sendResetPasswordVerificationCode(email, code);

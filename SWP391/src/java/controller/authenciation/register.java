@@ -51,7 +51,7 @@ public class register extends HttpServlet {
         //User(int user_id, String name, String email, String password, int role, int active, String create_at, int gender, String dob, String phone, String image)
         User user = new User(0, username, email, password, role, 1, java.time.LocalDate.now().toString(), gender, dob, phone, "");
 
-        String OTP = PasswordEncryptor.generateSalt();
+        String OTP = PasswordEncryptor.generateSalt().substring(0, 6);
 
         GmailVerificationHandler.sendCreateAccountVerificationCode(email, OTP);
 

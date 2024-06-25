@@ -20,6 +20,22 @@
         <servlet-name>userProfile</servlet-name>
         <servlet-class>controller.user.userProfile</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>updateProfile</servlet-name>
+        <servlet-class>controller.user.updateProfile</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>homePage</servlet-name>
+        <servlet-class>controller.user.homePage</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>topRanking</servlet-name>
+        <servlet-class>controller.user.topRaking</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>pay</servlet-name>
+        <servlet-class>controller.vnpay.pay</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>testCategory</servlet-name>
         <url-pattern>/testCategory</url-pattern>
@@ -39,5 +55,21 @@
     <servlet-mapping>
         <servlet-name>userProfile</servlet-name>
         <url-pattern>/userProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateProfile</servlet-name>
+        <url-pattern>/updateProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>homePage</servlet-name>
+        <url-pattern>/homePage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>topRanking</servlet-name>
+        <url-pattern>/topRanking</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>pay</servlet-name>
+        <url-pattern>/pay</url-pattern>
     </servlet-mapping>
 </web-app>

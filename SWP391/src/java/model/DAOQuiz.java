@@ -56,5 +56,9 @@ public class DAOQuiz extends DBConnect{
         return n;
     }
     
-
+    public static void main(String[] args) {
+        Vector<Integer> v = new Vector<>(); v.add(0);v.add(1);
+        System.out.println(new DAOQuiz().createQuiz(6, v));
+    }
+    
 }

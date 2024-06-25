@@ -1,0 +1,85 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 24 Jun 2024, 16:22:10
+    Author     : DAT
+*/
+
+#wrapper{
+    margin-left: 5%;
+    margin-right: 5%;
+    font-family: arial;
+}
+.clr{
+    clear: both;
+}
+/*khung*/
+#content{
+    margin-left:20px;
+    width:100%
+}
+#tab1{
+    width: 15%;
+    float:left;
+    background-color: #E2D9BC;
+}
+ul.tab{
+    list-style:none;
+}
+ul.tab li{
+   display:block;
+   margin-top: 10px;
+}
+ul.tab li a{
+   text-decoration:none;
+   font-size:16px;
+}
+ul.tab li a:hover{
+   background-color: #F90;
+}
+ul.tab li a.active{
+   background-color: #F90;
+   color:white;
+}
+/*Contents*/
+#tab2{
+    width: 80%;
+    float:left;
+}
+/*Phần sản phẩm*/
+ul.item{
+    list-style: none;
+    float:left;
+    width: 100%;
+}
+ul.item li{
+    width: 25%;
+    height: 250px;
+    text-align: center;
+    float:left;
+    margin: 20px;
+    border:2px solid chocolate;
+    border-radius: 20px;
+}
+ul.item li img{
+    margin-top: 5px;
+    width: 90%;
+    height: 70%;
+}
+ul.item li a{
+    text-decoration: none;
+}
+ul.item li:hover{
+    background: bisque;
+}
+ul.item p{
+    margin:5px;
+    color:blue;
+    font-size: 12px;
+}
+.old{
+    text-decoration: line-through;
+    color:red;
+}

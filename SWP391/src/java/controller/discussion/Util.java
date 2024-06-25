@@ -11,6 +11,7 @@ NEU KHONG CHAY DUOC THI THEM THU VIEN O LIB: jsoup-1.10.2.jar vao trong thu vien
 import org.jsoup.nodes.Document;
 
 public class Util {
+
     public static long calculateDaysPassed(String dateString) {
         // Define the date format
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

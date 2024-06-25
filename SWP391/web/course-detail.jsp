@@ -112,11 +112,12 @@
                                                 onclick="checkLogin('${sessionScope.user}',${requestScope.course.course_id})"
                                                 id="joinClass"
                                                 >
-                                            ${requestScope.enroll == null ? "Tham gia" : "Hủy tham gia"}
-                                        </button>
-                                    </div>
-                                    <div style="font-style: italic">
-                                        Chủ để: ${requestScope.category.category_name}
+                                            <c:if test="${requestScope.enroll == null || requestScope.enroll == '0'}" >Tham gia</c:if>
+                                            <c:if test="${requestScope.enroll != null && requestScope.enroll == '1'}" >Hủy tham gia</c:if>
+                                            </button>
+                                        </div>
+                                        <div style="font-style: italic">
+                                            Chủ để: ${requestScope.category.category_name}
                                     </div>
 
                                     <div class="mt-3">
@@ -472,7 +473,13 @@
                                                             },
                                                             type: "POST",
                                                             success: function (data) {
-                                                                window.location.href = data;
+                                                                if (data === 'err') {
+                                                                    let err = document.querySelector('#err');
+                                                                    err.querySelector('span').innerHTML = "Bạn đã hết lượt thử cho phần này";
+                                                                    err.style.display = 'block';
+                                                                } else {
+                                                                    window.location.href = data;
+                                                                }
                                                             },
                                                             error: function (xhr, status, error) {
 
