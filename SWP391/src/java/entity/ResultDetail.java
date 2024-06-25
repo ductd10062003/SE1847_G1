@@ -28,12 +28,6 @@ public class ResultDetail {
         this.time = time;
     }
 
-    public ResultDetail(String name, int user_id, float result, int time) {
-        this.name = name;
-        this.user_id = user_id;
-        this.result = result;
-        this.time = time;
-    }
 
     public ResultDetail(String name, int user_id, String typeOfPractice_name, float result, int time) {
         this.name = name;
