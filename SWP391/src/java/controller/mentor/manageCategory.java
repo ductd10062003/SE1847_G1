@@ -28,19 +28,37 @@ public class manageCategory extends HttpServlet {
         } else if ("create".equals(action)) {
             request.getRequestDispatcher("../view-mentor/manager-category/add-category.jsp").forward(request, response);
         } else {
-            String keyword = request.getParameter("keyword");
-            Vector<Category> categories;
-            if (keyword != null && !keyword.isEmpty()) {
-                categories = daoCategory.getCategoriesByName(keyword);
-            } else {
-                categories = daoCategory.getAllCategories();
+        String keyword = request.getParameter("keyword");
+        String sortType = request.getParameter("sort"); 
+
+        Vector<Category> categories;
+        if (sortType != null && !sortType.isEmpty()) {
+            switch (sortType) {
+                case "newest_created":
+                    categories = daoCategory.getCategoriesSortedByNewestCreated();
+                    break;
+                case "oldest_created":
+                    categories = daoCategory.getCategoriesSortedByOldestCreated();
+                    break;
+                case "newest_edited":
+                    categories = daoCategory.getCategoriesSortedByNewestEdited();
+                    break;
+                case "oldest_edited":
+                    categories = daoCategory.getCategoriesSortedByOldestEdited();
+                    break;
+                default:
+                    categories = daoCategory.getAllCategories(); 
+                    break;
             }
+        } else {
+            categories = daoCategory.getAllCategories(); 
+        }
             request.setAttribute("categories", categories);
             request.setAttribute("keyword", keyword);
             request.getRequestDispatcher("../view-mentor/manager-category/view-category.jsp").forward(request, response);
         }
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

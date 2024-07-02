@@ -194,7 +194,7 @@
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                 <div class="input-group">
                     <input class="form-control" type="hidden"  />
-                    
+
                 </div>
             </form>
             <!-- Navbar-->
@@ -286,8 +286,22 @@
                                                         <button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
                                                     </div>
                                                 </div>
+
+                                                <div class="dropdown ml-2">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Sắp xếp theo
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="sortDropdown">
+                                                        <a class="dropdown-item" href="?sort=newest_created">Ngày tạo mới nhất</a>
+                                                        <a class="dropdown-item" href="?sort=oldest_created">Ngày tạo cũ nhất</a>
+                                                        <a class="dropdown-item" href="?sort=newest_edited">Ngày sửa mới nhất</a>
+                                                        <a class="dropdown-item" href="?sort=oldest_edited">Ngày sửa cũ nhất</a>
+                                                    </div>
+                                                </div>
+
                                                 <a href="manage-category?action=create" class="btn btn-secondary ml-2"><i class="material-icons">&#xE147;</i> <span>Thêm danh mục</span></a>
                                             </form>
+
                                         </div>
                                     </div>
                                 </div>
