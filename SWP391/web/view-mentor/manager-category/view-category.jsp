@@ -285,8 +285,8 @@
                                             <form class="form-inline mb-2" method="get" action="manage-category" onsubmit="return validateForm()">
                                                 <div class="input-group">
                                                     <select class="form-control" id="filterBy" name="filterBy">
-                                                        <option value="createdDate">Ngày tạo:</option>
-                                                        <option value="lastEditedDate">Ngày sửa:</option>
+                                                        <option value="createdDate" ${filterBy == 'createdDate' ? 'selected' : ''}>Ngày tạo:</option>
+                                                        <option value="lastEditedDate" ${filterBy == 'lastEditedDate' ? 'selected' : ''}>Ngày sửa:</option>
                                                     </select>
                                                 </div>
                                                 <div class="input-group ml-md-2">
@@ -362,6 +362,29 @@
                                     </tbody>
                                 </table>
 
+                                <!-- Pagination -->
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                            <a class="page-link" href="?${queryString}&page=${currentPage - 1}&pageSize=${pageSize}" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <c:forEach var="i" begin="1" end="${totalPages}">
+                                            <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                                <a class="page-link" href="?${queryString}&page=${i}&pageSize=${pageSize}">${i}</a>
+                                            </li>
+                                        </c:forEach>
+                                        <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                            <a class="page-link" href="?${queryString}&page=${currentPage + 1}&pageSize=${pageSize}" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+
+
+
                             </div>
                         </div>
                     </div> 
@@ -388,20 +411,20 @@
 
             });
         </script>
-        
-        <script>
-    function validateForm() {
-        var startDate = document.getElementById("startDate").value;
-        var endDate = document.getElementById("endDate").value;
 
-        if (!startDate || !endDate) {
-            // Thông báo cảnh báo nếu ngày bắt đầu hoặc ngày kết thúc không được chọn
-            alert("Vui lòng chọn cả ngày bắt đầu và ngày kết thúc để lọc danh mục.");
-            return false; // Ngăn không cho form được gửi đi
-        }
-        return true; // Cho phép form được gửi đi
-    }
-</script>
+        <script>
+            function validateForm() {
+                var startDate = document.getElementById("startDate").value;
+                var endDate = document.getElementById("endDate").value;
+
+                if (!startDate || !endDate) {
+                    // Thông báo cảnh báo nếu ngày bắt đầu hoặc ngày kết thúc không được chọn
+                    alert("Vui lòng chọn cả ngày bắt đầu và ngày kết thúc để lọc danh mục.");
+                    return false; // Ngăn không cho form được gửi đi
+                }
+                return true; // Cho phép form được gửi đi
+            }
+        </script>
 
     </body>
 </html>

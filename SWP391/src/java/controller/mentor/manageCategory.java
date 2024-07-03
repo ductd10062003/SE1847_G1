@@ -11,9 +11,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.Vector;
 import model.DAOCategory;
 import entity.Category;
+import java.util.List;
 
 @WebServlet(name = "manageCategory", urlPatterns = {"/mentor/manage-category"})
 public class manageCategory extends HttpServlet {
+
+    private static final int DEFAULT_PAGE_SIZE = 10;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -33,6 +36,15 @@ public class manageCategory extends HttpServlet {
             String filterBy = request.getParameter("filterBy");
             String startDate = request.getParameter("startDate");
             String endDate = request.getParameter("endDate");
+
+            int page = 1;
+            int pageSize = 8;
+            if (request.getParameter("page") != null) {
+                page = Integer.parseInt(request.getParameter("page"));
+            }
+            if (request.getParameter("pageSize") != null) {
+                pageSize = Integer.parseInt(request.getParameter("pageSize"));
+            }
 
             Vector<Category> categories;
             if (sortType != null && !sortType.isEmpty()) {
@@ -55,15 +67,29 @@ public class manageCategory extends HttpServlet {
                 }
             } else if (keyword != null && !keyword.isEmpty()) {
                 categories = daoCategory.getCategoriesByName(keyword);
-            } else if (filterBy != null && !filterBy.isEmpty()){
+            } else if (filterBy != null && !filterBy.isEmpty()) {
                 categories = daoCategory.getCategoriesByDateRange(startDate, endDate, filterBy);
-            }else {
+            } else {
                 categories = daoCategory.getAllCategories();
             }
-            request.setAttribute("categories", categories);
+
+            int totalCategories = categories.size();
+            int totalPages = (int) Math.ceil((double) totalCategories / pageSize);
+            int fromIndex = (page - 1) * pageSize;
+            int toIndex = Math.min(fromIndex + pageSize, totalCategories);
+            Vector<Category> pageCategories = new Vector<>(categories.subList(fromIndex, toIndex));
+
+            request.setAttribute("categories", pageCategories);
             request.setAttribute("keyword", keyword);
             request.setAttribute("startDate", startDate);
             request.setAttribute("endDate", endDate);
+            request.setAttribute("filterBy", filterBy);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("pageSize", pageSize);
+            String queryString = request.getQueryString();
+            request.setAttribute("queryString", queryString != null ? queryString.replaceAll("&?page=\\d*", "").replaceAll("&?pageSize=\\d*", "") : "");
+
             request.getRequestDispatcher("../view-mentor/manager-category/view-category.jsp").forward(request, response);
         }
     }
