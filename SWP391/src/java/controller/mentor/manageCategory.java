@@ -28,37 +28,46 @@ public class manageCategory extends HttpServlet {
         } else if ("create".equals(action)) {
             request.getRequestDispatcher("../view-mentor/manager-category/add-category.jsp").forward(request, response);
         } else {
-        String keyword = request.getParameter("keyword");
-        String sortType = request.getParameter("sort"); 
+            String keyword = request.getParameter("keyword");
+            String sortType = request.getParameter("sort");
+            String filterBy = request.getParameter("filterBy");
+            String startDate = request.getParameter("startDate");
+            String endDate = request.getParameter("endDate");
 
-        Vector<Category> categories;
-        if (sortType != null && !sortType.isEmpty()) {
-            switch (sortType) {
-                case "newest_created":
-                    categories = daoCategory.getCategoriesSortedByNewestCreated();
-                    break;
-                case "oldest_created":
-                    categories = daoCategory.getCategoriesSortedByOldestCreated();
-                    break;
-                case "newest_edited":
-                    categories = daoCategory.getCategoriesSortedByNewestEdited();
-                    break;
-                case "oldest_edited":
-                    categories = daoCategory.getCategoriesSortedByOldestEdited();
-                    break;
-                default:
-                    categories = daoCategory.getAllCategories(); 
-                    break;
+            Vector<Category> categories;
+            if (sortType != null && !sortType.isEmpty()) {
+                switch (sortType) {
+                    case "newest_created":
+                        categories = daoCategory.getCategoriesSortedByNewestCreated();
+                        break;
+                    case "oldest_created":
+                        categories = daoCategory.getCategoriesSortedByOldestCreated();
+                        break;
+                    case "newest_edited":
+                        categories = daoCategory.getCategoriesSortedByNewestEdited();
+                        break;
+                    case "oldest_edited":
+                        categories = daoCategory.getCategoriesSortedByOldestEdited();
+                        break;
+                    default:
+                        categories = daoCategory.getAllCategories();
+                        break;
+                }
+            } else if (keyword != null && !keyword.isEmpty()) {
+                categories = daoCategory.getCategoriesByName(keyword);
+            } else if (filterBy != null && !filterBy.isEmpty()){
+                categories = daoCategory.getCategoriesByDateRange(startDate, endDate, filterBy);
+            }else {
+                categories = daoCategory.getAllCategories();
             }
-        } else {
-            categories = daoCategory.getAllCategories(); 
-        }
             request.setAttribute("categories", categories);
             request.setAttribute("keyword", keyword);
+            request.setAttribute("startDate", startDate);
+            request.setAttribute("endDate", endDate);
             request.getRequestDispatcher("../view-mentor/manager-category/view-category.jsp").forward(request, response);
         }
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -86,7 +95,7 @@ public class manageCategory extends HttpServlet {
             newCategory.setDate_created(dateCreated);
             newCategory.setDate_last_edited(dateLastEdidted);
             newCategory.setActive(active);
-            
+
             daoCategory.addCategory(newCategory);
             response.sendRedirect("manage-category");
         } else {

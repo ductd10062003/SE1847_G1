@@ -275,11 +275,37 @@
                             <div class="table-wrapper">
                                 <div class="table-title">
                                     <div class="row">
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-3">
                                             <h2>Quản lí <b>danh mục</b></h2>
                                         </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-6">
+                                            <form class="form-inline mb-2" method="get" action="manage-category" onsubmit="return validateForm()">
+                                                <div class="input-group">
+                                                    <select class="form-control" id="filterBy" name="filterBy">
+                                                        <option value="createdDate">Ngày tạo:</option>
+                                                        <option value="lastEditedDate">Ngày sửa:</option>
+                                                    </select>
+                                                </div>
+                                                <div class="input-group ml-md-2">
+                                                    <input type="date" class="form-control" id="startDate" name="startDate" value="${startDate}">
+                                                </div>
+                                                <span class="input-group-text">đến</span>
+                                                <div class="input-group ml-md-2">
+                                                    <input type="date" class="form-control" id="endDate" name="endDate" value="${endDate}">
+                                                </div>
+                                                <div class="input-group ml-md-2">
+                                                    <button type="submit" class="btn btn-primary">Lọc</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
                                         <div class="col-sm-6">
                                             <form class="form-inline" action="manage-category" method="get">
+
+
                                                 <div class="input-group">
                                                     <input type="text" name="keyword" class="form-control" placeholder="Tìm kiếm" value="${keyword}">
                                                     <div class="input-group-append">
@@ -300,10 +326,14 @@
                                                 </div>
 
                                                 <a href="manage-category?action=create" class="btn btn-secondary ml-2"><i class="material-icons">&#xE147;</i> <span>Thêm danh mục</span></a>
+
                                             </form>
 
                                         </div>
-                                    </div>
+
+                                    </div>       
+
+
                                 </div>
                                 <table class="table table-striped table-hover">
                                     <thead>
@@ -358,6 +388,20 @@
 
             });
         </script>
+        
+        <script>
+    function validateForm() {
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
+
+        if (!startDate || !endDate) {
+            // Thông báo cảnh báo nếu ngày bắt đầu hoặc ngày kết thúc không được chọn
+            alert("Vui lòng chọn cả ngày bắt đầu và ngày kết thúc để lọc danh mục.");
+            return false; // Ngăn không cho form được gửi đi
+        }
+        return true; // Cho phép form được gửi đi
+    }
+</script>
 
     </body>
 </html>
