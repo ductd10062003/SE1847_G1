@@ -65,9 +65,9 @@
                     <table>
                         <select name="type" id="type">
                             <option value="0">Tổng hợp</option>
-                            <option value="1">Trắc nghiệm</option>
-                            <option value="2">Điền chữ</option>
-                            <option value="3">Nối thẻ</option>                            
+                            <c:forEach items="${requestScope.type}" var="type" varStatus="loop" >
+                                <option value="${loop.index + 1}">${type.typeOfPractice_name}</option>      
+                            </c:forEach>                                                 
                         </select>
                         <button type="submit">Submit</button>
                         <thead>
