@@ -32,6 +32,10 @@
         <servlet-name>topRanking</servlet-name>
         <servlet-class>controller.user.topRaking</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>pay</servlet-name>
+        <servlet-class>controller.vnpay.pay</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>testCategory</servlet-name>
         <url-pattern>/testCategory</url-pattern>
@@ -63,5 +67,9 @@
     <servlet-mapping>
         <servlet-name>topRanking</servlet-name>
         <url-pattern>/topRanking</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>pay</servlet-name>
+        <url-pattern>/pay</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -6,6 +6,7 @@
 <%@ page import="model.DAODiscussionCategory" %>
 <%@ page import="controller.discussion.Util" %>
 <%@ page import="model.DAOUser" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,9 +46,7 @@
 
 
 
-    <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner">
-        <jsp:include page="layout/header.jsp"/>
-    </header>
+<%@include file="layout/header.jsp" %>
 
     <div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('images/bg_1.jpg')">
         <div class="container">
@@ -72,8 +71,8 @@
         <div class="container">
             <div class="row mb-3">
                 <div class="col-md-8">
-                    <h2>All Questions</h2>
-                    <p>24,193,657 questions</p>
+<!--                    <h2>All Questions</h2>
+                    <p>24,193,657 questions</p>-->
                 </div>
                 <div class="col-md-4 text-md-right">
                     <button class="btn btn-primary">Ask Question</button>
