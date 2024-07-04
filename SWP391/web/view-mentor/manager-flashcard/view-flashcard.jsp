@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Management Category</title>
+        <title>Management Flashcard</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -281,13 +281,13 @@
                                 <div class="table-title">
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h2>Quản lí <b>danh mục</b></h2>
+                                            <h2>Quản lí <b>thẻ nhớ</b></h2>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-sm-6 col-md-6">
-                                            <form class="form-inline mb-2" method="get" action="manage-category" onsubmit="return validateForm()">
+                                            <form class="form-inline mb-2" method="get" action="manageFlashCard" onsubmit="return validateForm()">
                                                 <div class="input-group">
                                                     <select class="form-control" id="filterBy" name="filterBy">
                                                         <option value="createdDate" ${filterBy == 'createdDate' ? 'selected' : ''}>Ngày tạo:</option>
@@ -308,7 +308,7 @@
                                         </div>
 
                                         <div class="col-sm-6">
-                                            <form class="form-inline" action="manage-category" method="get">
+                                            <form class="form-inline" action="manageFlashCard" method="get">
 
 
                                                 <div class="input-group">
@@ -330,7 +330,6 @@
                                                     </div>
                                                 </div>
 
-                                                <a href="manage-category?action=create" class="btn btn-secondary ml-2"><i class="material-icons">&#xE147;</i> <span>Thêm danh mục</span></a>
 
                                             </form>
 
@@ -344,23 +343,29 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Tên danh mục</th>						
+                                            <th>Câu hỏi</th>
+                                            <th>Đáp án</th>
                                             <th>Ngày tạo</th>
                                             <th>Ngày sửa</th>
                                             <th>Trạng thái</th>
+                                            <th>ID Danh mục</th>
+                                            <th>Hình ảnh</th>
                                             <th>Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach var="category" items="${categories}">
+                                        <c:forEach var="flashcard" items="${flashcards}">
                                             <tr>
-                                                <td>${category.category_id}</td>
-                                                <td>${category.category_name}</td>
-                                                <td>${category.date_created}</td>
-                                                <td>${category.date_last_edited}</td>
-                                                <td><span class="status ${category.active == 1 ? 'text-success' : 'text-danger'}">&bull;</span> ${category.active == 1 ? 'Kích hoạt' : 'Vô hiệu'}</td>
+                                                <td>${flashcard.flashcard_id}</td>
+                                                <td>${flashcard.question}</td>
+                                                <td>${flashcard.answer}</td>
+                                                <td>${flashcard.create_at}</td>
+                                                <td>${flashcard.update_at}</td>
+                                                <td><span class="status ${flashcard.active == 1 ? 'text-success' : 'text-danger'}">&bull;</span> ${flashcard.active == 1 ? 'Kích hoạt' : 'Vô hiệu'}</td>
+                                                <td>${flashcard.category_id}</td>
+                                                <td>${flashcard.image}</td>
                                                 <td>
-                                                    <a href="manage-category?action=edit&id=${category.category_id}" class="settings" title="Settings" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                                                    <a href="manageFlashCard?action=edit&id=${flashcard.flashcard_id}" class="settings" title="Settings" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -431,5 +436,16 @@
             }
         </script>
 
+    </body>
+</html>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>Hello World!</h1>
     </body>
 </html>

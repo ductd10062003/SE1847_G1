@@ -9,25 +9,28 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Vector;
+import model.DAOFlashCard;
 import model.DAOCategory;
+import entity.FlashCard;
 import entity.Category;
 import java.util.List;
 
-@WebServlet(name = "manageCategory", urlPatterns = {"/mentor/manage-category"})
-public class manageCategory extends HttpServlet {
+@WebServlet(name = "manageFlashCard", urlPatterns = {"/mentor/manageFlashCard"})
+public class manageFlashCard extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        DAOFlashCard daoFlashcard = new DAOFlashCard();
         DAOCategory daoCategory = new DAOCategory();
         String action = request.getParameter("action");
         if ("edit".equals(action)) {
-            int categoryId = Integer.parseInt(request.getParameter("id"));
-            Category category = daoCategory.getCategoryByID(categoryId);
-            request.setAttribute("category", category);
-            request.getRequestDispatcher("../view-mentor/manager-category/update-category.jsp").forward(request, response);
-        } else if ("create".equals(action)) {
-            request.getRequestDispatcher("../view-mentor/manager-category/add-category.jsp").forward(request, response);
+            int flashcardId = Integer.parseInt(request.getParameter("id"));
+            FlashCard flashcard = daoFlashcard.getFlashCardByID2(flashcardId);
+            Vector<Category> categories = daoCategory.getAllCategories();
+            request.setAttribute("flashcard", flashcard);
+            request.setAttribute("categories", categories);
+            request.getRequestDispatcher("../view-mentor/manager-flashcard/update-flashcard.jsp").forward(request, response);
         } else {
             String keyword = request.getParameter("keyword");
             String sortType = request.getParameter("sort");
@@ -44,40 +47,40 @@ public class manageCategory extends HttpServlet {
                 pageSize = Integer.parseInt(request.getParameter("pageSize"));
             }
 
-            Vector<Category> categories;
+            Vector<FlashCard> flashcards;
             if (sortType != null && !sortType.isEmpty()) {
                 switch (sortType) {
                     case "newest_created":
-                        categories = daoCategory.getCategoriesSortedByNewestCreated();
+                        flashcards = daoFlashcard.getFlashCardsSortedByNewestCreated();
                         break;
                     case "oldest_created":
-                        categories = daoCategory.getCategoriesSortedByOldestCreated();
+                        flashcards = daoFlashcard.getFlashCardsSortedByOldestCreated();
                         break;
                     case "newest_edited":
-                        categories = daoCategory.getCategoriesSortedByNewestEdited();
+                        flashcards = daoFlashcard.getFlashCardsSortedByNewestEdited();
                         break;
                     case "oldest_edited":
-                        categories = daoCategory.getCategoriesSortedByOldestEdited();
+                        flashcards = daoFlashcard.getFlashCardsSortedByOldestEdited();
                         break;
                     default:
-                        categories = daoCategory.getAllCategories();
+                        flashcards = daoFlashcard.getAllFlashCards();
                         break;
                 }
             } else if (keyword != null && !keyword.isEmpty()) {
-                categories = daoCategory.getCategoriesByName(keyword);
+                flashcards = daoFlashcard.getFlashCardsByQuestion(keyword);
             } else if (filterBy != null && !filterBy.isEmpty()) {
-                categories = daoCategory.getCategoriesByDateRange(startDate, endDate, filterBy);
+                flashcards = daoFlashcard.getFlashCardsByDateRange(startDate, endDate, filterBy);
             } else {
-                categories = daoCategory.getAllCategories();
+                flashcards = daoFlashcard.getAllFlashCards();
             }
 
-            int totalCategories = categories.size();
-            int totalPages = (int) Math.ceil((double) totalCategories / pageSize);
+            int totalFlashcards = flashcards.size();
+            int totalPages = (int) Math.ceil((double) totalFlashcards / pageSize);
             int fromIndex = (page - 1) * pageSize;
-            int toIndex = Math.min(fromIndex + pageSize, totalCategories);
-            Vector<Category> pageCategories = new Vector<>(categories.subList(fromIndex, toIndex));
+            int toIndex = Math.min(fromIndex + pageSize, totalFlashcards);
+            Vector<FlashCard> pageFlashcards = new Vector<>(flashcards.subList(fromIndex, toIndex));
 
-            request.setAttribute("categories", pageCategories);
+            request.setAttribute("flashcards", pageFlashcards);
             request.setAttribute("keyword", keyword);
             request.setAttribute("startDate", startDate);
             request.setAttribute("endDate", endDate);
@@ -88,40 +91,28 @@ public class manageCategory extends HttpServlet {
             String queryString = request.getQueryString();
             request.setAttribute("queryString", queryString != null ? queryString.replaceAll("&?page=\\d*", "").replaceAll("&?pageSize=\\d*", "") : "");
 
-            request.getRequestDispatcher("../view-mentor/manager-category/view-category.jsp").forward(request, response);
+            request.getRequestDispatcher("../view-mentor/manager-flashcard/view-flashcard.jsp").forward(request, response);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAOCategory daoCategory = new DAOCategory();
+        DAOFlashCard daoFlashcard = new DAOFlashCard();
         String action = request.getParameter("action");
         if ("update".equals(action)) {
-            int categoryId = Integer.parseInt(request.getParameter("category_id"));
-            String categoryName = request.getParameter("category_name");
+            int flashcardId = Integer.parseInt(request.getParameter("flashcard_id"));
+            String question = request.getParameter("question");
+            String answer = request.getParameter("answer");
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String dateLastEdited = dtf.format(LocalDateTime.now());
             int active = Integer.parseInt(request.getParameter("active"));
+            int categoryID = Integer.parseInt(request.getParameter("category_id"));
+            String image = request.getParameter("image");
 
-            Category category = new Category(categoryId, categoryName, null, dateLastEdited, active);
-            daoCategory.updateCategory(category);
-            response.sendRedirect("manage-category");
-        } else if ("add".equals(action)) {
-            String categoryName = request.getParameter("category_name");
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String dateCreated = dtf.format(LocalDateTime.now());
-            String dateLastEdidted = dtf.format(LocalDateTime.now());
-            int active = Integer.parseInt(request.getParameter("active"));
-
-            Category newCategory = new Category();
-            newCategory.setCategory_name(categoryName);
-            newCategory.setDate_created(dateCreated);
-            newCategory.setDate_last_edited(dateLastEdidted);
-            newCategory.setActive(active);
-
-            daoCategory.addCategory(newCategory);
-            response.sendRedirect("manage-category");
+            FlashCard flashcard = new FlashCard(flashcardId, question, answer, null, dateLastEdited, active, categoryID, image);
+            daoFlashcard.updateFlashcard(flashcard);
+            response.sendRedirect("manageFlashCard");
         } else {
             doGet(request, response);
         }

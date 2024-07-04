@@ -323,5 +323,24 @@
 
             });
         </script>
+        <script>
+            $(document).ready(function () {
+                // Validate form inputs
+                $('form').on('submit', function (e) {
+                    var isValid = true;
+                    $('input[type="text"], textarea').each(function () {
+                        if ($.trim($(this).val()) === '') {
+                            alert('Các trường không được để trống hoặc chỉ chứa khoảng trắng.');
+                            isValid = false;
+                            return false;
+                        }
+                    });
+                    if (!isValid) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        </script>
+
     </body>
 </html>
