@@ -63,7 +63,7 @@
                 <div class="container">
                     <a href="index.html">Home</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
-                    <a href="courses.html">Courses</a>
+                    <a href="viewcourse">Courses</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
                     <span class="current">Các khóa học đã đăng kí</span>
                 </div>
@@ -97,8 +97,7 @@
                         <form action="courseEnroll" method="GET">
                             <div class="input-group">
                                 <select class="form-control" name="categoryName">
-                                    <option value="">Chọn danh mục</option> <!-- Tùy chọn mặc định -->
-                                    <!-- Duyệt và tạo các tùy chọn cho dropdown từ danh sách danh mục -->
+                                    <option value="">Chọn danh mục</option> 
                                     <c:forEach items="${categories}" var="category">
                                         <option value="${category.category_name}">${category.category_name}</option>
                                     </c:forEach>
@@ -122,7 +121,7 @@
                                             </figure>
                                             <div class="course-1-content pb-4">
                                                 <h2>${course.description}</h2>
-                                                <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">View Course</a></p>                               
+                                                <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">Xem chi tiết</a></p>                               
                                             </div>
                                         </div>
                                     </div>
@@ -130,19 +129,7 @@
 
                             </div>
 
-                            <div class="row">
-                            <div class="col-12 text-center">
-                                <nav>
-                                    <ul class="pagination">
-                                        <c:forEach var="i" begin="1" end="${totalPages}">
-                                            <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                <a class="page-link" href="courseEnroll?page=${i}&categoryName=${param.categoryName}&courseName=${param.courseName}">${i}</a>
-                                            </li>
-                                        </c:forEach>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
+                            
 
                         </div>
                     </div>

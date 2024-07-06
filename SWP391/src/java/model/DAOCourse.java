@@ -151,17 +151,13 @@ public class DAOCourse extends DBConnect {
     
     //    nguyen dang truong
     //lay ra cac khoa hoc ma nguoi dung dang ki
-    public Vector<Course> searchUserEnrollCourse(String user_id, int offset, int limit) {
+    public Vector<Course> searchUserEnrollCourse(String user_id) {
         Vector<Course> courses = new Vector<>();
         String sql = "SELECT c.course_id FROM User_Enroll_Course uec "
                 + "JOIN Course c ON uec.course_id = c.course_id "
-                + "WHERE uec.user_id = ? "
-                + "ORDER BY c.course_id " // Thêm ORDER BY để sử dụng OFFSET FETCH
-                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+                + "WHERE uec.user_id = ? ";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user_id);
-            ps.setInt(2, offset);
-            ps.setInt(3, limit);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     int course_id = rs.getInt("course_id");
@@ -178,19 +174,15 @@ public class DAOCourse extends DBConnect {
     }
 
     //tim cac khoa hoc theo ten da enroll
-    public Vector<Course> searchEnrolledCoursesByName(String user_id, String courseName, int currentPage, int pageSize) {
+    public Vector<Course> searchEnrolledCoursesByName(String user_id, String courseName) {
         Vector<Course> courses = new Vector<>();
         String sql = "SELECT c.* FROM User_Enroll_Course uec "
                 + "JOIN Course c ON uec.course_id = c.course_id "
-                + "WHERE uec.user_id = ? AND c.course_name LIKE ? "
-                + "ORDER BY c.course_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+                + "WHERE uec.user_id = ? AND c.course_name LIKE ? ";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, user_id);
-            ps.setString(2, "%" + courseName + "%"); // Tìm kiếm một phần của tên khóa học
-            int offset = Math.max((currentPage - 1) * pageSize, 0); // Đảm bảo offset không âm
-            ps.setInt(3, offset);
-            ps.setInt(4, pageSize);
+            ps.setString(2, "%" + courseName + "%"); 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int course_id = rs.getInt(1);
@@ -212,21 +204,17 @@ public class DAOCourse extends DBConnect {
     }
 
     //filter cac khoa hoc da enroll theo category
-    public Vector<Course> getEnrolledCoursesByCategory(String userId, String categoryName, int currentPage, int pageSize) {
+    public Vector<Course> getEnrolledCoursesByCategory(String userId, String categoryName) {
     Vector<Course> enrolledCourses = new Vector<>();
     String sql = "SELECT c.* "
             + "FROM Course c "
             + "INNER JOIN User_Enroll_Course uec ON c.course_id = uec.course_id "
             + "INNER JOIN Category cat ON c.category_id = cat.category_id "
-            + "WHERE uec.user_id = ? AND cat.category_name = ? "
-            + "ORDER BY c.course_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+            + "WHERE uec.user_id = ? AND cat.category_name = ? ";
     try {
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, userId);
         ps.setString(2, categoryName);
-        int offset = Math.max((currentPage - 1) * pageSize, 0); // Đảm bảo offset không âm
-        ps.setInt(3, offset);
-        ps.setInt(4, pageSize);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             Course course = new Course(
@@ -249,19 +237,19 @@ public class DAOCourse extends DBConnect {
 
 
     //in ra cac khoa hoc da hoan thanh(result>3)
-   public Vector<Course> getCompletedCourses(String user_id, int currentPage, int pageSize) {
+   public Vector<Course> getCompletedCourses(String user_id) {
     Vector<Course> courses = new Vector<>();
-    String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id "
-            + "FROM Result_Detail rd "
-            + "JOIN User_Practice up ON rd.user_practice_id = up.user_practice_id "
-            + "JOIN Course c ON up.course_id = c.course_id "
-            + "WHERE up.user_id = ? AND rd.result >= 3 "
-            + "ORDER BY c.course_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+     String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id " +
+                       "FROM Course c " +
+                       "JOIN User_Enroll_Course uec ON c.course_id = uec.course_id " +
+                       "JOIN User_Practice up ON up.course_id = c.course_id " +
+                       "JOIN Result_Detail rd ON rd.user_practice_id = up.user_practice_id " +
+                       "WHERE uec.user_id = ? " +
+                       "AND rd.result > 3 " +
+                       "GROUP BY c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id " +
+                       "HAVING COUNT(DISTINCT up.TOP_id) = 3";
     try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, user_id);
-        int offset = Math.max((currentPage - 1) * pageSize, 0); // Đảm bảo offset không âm
-        ps.setInt(2, offset);
-        ps.setInt(3, pageSize);
         try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Course course = new Course();
@@ -284,20 +272,21 @@ public class DAOCourse extends DBConnect {
 
 
     //search cac khoa hoc da hoan thanh theo ten
-    public Vector<Course> searchCompletedCoursesByName(String user_id, String courseName, int offset, int limit) {
+    public Vector<Course> searchCompletedCoursesByName(String user_id, String courseName) {
     Vector<Course> courses = new Vector<>();
-    String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id "
-                + "FROM Result_Detail rd "
-                + "JOIN User_Practice up ON rd.user_practice_id = up.user_practice_id "
-                + "JOIN Course c ON up.course_id = c.course_id "
-                + "WHERE up.user_id = ? AND rd.result >= 3 AND c.course_name LIKE ? "
-                + "ORDER BY c.course_id "
-                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+    String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id " +
+                       "FROM Course c " +
+                       "JOIN User_Enroll_Course uec ON c.course_id = uec.course_id " +
+                       "JOIN User_Practice up ON up.course_id = c.course_id " +
+                       "JOIN Result_Detail rd ON rd.user_practice_id = up.user_practice_id " +
+                       "WHERE uec.user_id = ? " +
+                       "AND rd.result > 3 " +
+                       "GROUP BY c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id " +
+                       "HAVING COUNT(DISTINCT up.TOP_id) = 3" +
+                       "AND c.course_name LIKE ? ";
     try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, user_id);
         ps.setString(2, "%" + courseName + "%");
-        ps.setInt(3, offset);
-        ps.setInt(4, limit);
         try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 int course_id = rs.getInt("course_id");
@@ -321,21 +310,17 @@ public class DAOCourse extends DBConnect {
 
 
     //filter cac khoa hoc da hoan thanh theo category
-    public Vector<Course> getCompletedCoursesByCategory(String userId, String categoryName, int offset, int limit) {
+    public Vector<Course> getCompletedCoursesByCategory(String userId, String categoryName) {
     Vector<Course> completedCourses = new Vector<>();
     String sql = "SELECT DISTINCT c.* "
                 + "FROM Result_Detail rd "
                 + "INNER JOIN User_Practice up ON rd.user_practice_id = up.user_practice_id "
                 + "INNER JOIN Course c ON up.course_id = c.course_id "
                 + "INNER JOIN Category cat ON c.category_id = cat.category_id "
-                + "WHERE up.user_id = ? AND cat.category_name = ? AND rd.result >= 3 "
-                + "ORDER BY c.course_id "
-                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+                + "WHERE up.user_id = ? AND cat.category_name = ? AND rd.result >= 3 ";
     try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, userId);
         ps.setString(2, categoryName);
-        ps.setInt(3, offset);
-        ps.setInt(4, limit);
         try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Course course = new Course(
@@ -359,19 +344,26 @@ public class DAOCourse extends DBConnect {
 
 
     //in ra cac khoa hoc dang hoc(result<3)
-   public Vector<Course> getStudyingCourses(String user_id, int offset, int limit) {
+   public Vector<Course> getStudyingCourses(String user_id) {
     Vector<Course> courses = new Vector<>();
-    String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id "
-                + "FROM Result_Detail rd "
-                + "JOIN User_Practice up ON rd.user_practice_id = up.user_practice_id "
-                + "JOIN Course c ON up.course_id = c.course_id "
-                + "WHERE up.user_id = ? AND rd.result < 3 "
-                + "ORDER BY c.course_id "
-                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-    try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, user_id);
-        ps.setInt(2, offset);
-        ps.setInt(3, limit);
+    String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id " +
+                "FROM Course c " +
+                "JOIN User_Enroll_Course uec ON c.course_id = uec.course_id " +
+                "LEFT JOIN ( " +
+                "   SELECT c.course_id " +
+                "   FROM Course c " +
+                "   JOIN User_Enroll_Course uec ON c.course_id = uec.course_id " +
+                "   JOIN User_Practice up ON up.course_id = c.course_id " +
+                "   JOIN Result_Detail rd ON rd.user_practice_id = up.user_practice_id " +
+                "   WHERE uec.user_id = ? " +
+                "   AND rd.result > 3 " +
+                "   GROUP BY c.course_id " +
+                "   HAVING COUNT(DISTINCT up.TOP_id) = 3 " +
+                ") AS completed_courses ON c.course_id = completed_courses.course_id " +
+                "WHERE uec.user_id = ? AND completed_courses.course_id IS NULL";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, user_id);
+            ps.setString(2, user_id);
         try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Course course = new Course();
@@ -394,20 +386,25 @@ public class DAOCourse extends DBConnect {
 
 
     //search cac khoa hoc dang hoc theo ten
-    public Vector<Course> searchStudyingCoursesByName(String user_id, String courseName, int offset, int limit) {
+    public Vector<Course> searchStudyingCoursesByName(String user_id, String courseName) {
     Vector<Course> courses = new Vector<>();
-    String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id "
-                + "FROM Result_Detail rd "
-                + "JOIN User_Practice up ON rd.user_practice_id = up.user_practice_id "
-                + "JOIN Course c ON up.course_id = c.course_id "
-                + "WHERE up.user_id = ? AND rd.result < 3 AND c.course_name LIKE ? "
-                + "ORDER BY c.course_id "
-                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+    String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id " +
+                "FROM Course c " +
+                "JOIN User_Enroll_Course uec ON c.course_id = uec.course_id " +
+                "LEFT JOIN ( " +
+                "   SELECT up.course_id " +
+                "   FROM User_Practice up " +
+                "   JOIN Result_Detail rd ON rd.user_practice_id = up.user_practice_id " +
+                "   WHERE rd.result > 3 " +
+                "   GROUP BY up.course_id " +
+                "   HAVING COUNT(DISTINCT up.TOP_id) = 3 " +
+                ") AS completed_courses ON c.course_id = completed_courses.course_id " +
+                "WHERE uec.user_id = ? " +
+                "AND completed_courses.course_id IS NULL " +
+                "AND LOWER(c.course_name) LIKE LOWER(?) ESCAPE '|'";
     try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, user_id);
         ps.setString(2, "%" + courseName + "%");
-        ps.setInt(3, offset);
-        ps.setInt(4, limit);
         try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 int course_id = rs.getInt("course_id");
@@ -431,21 +428,17 @@ public class DAOCourse extends DBConnect {
 
 
     //filter cac khoa hoc dang hoctheo category
-    public Vector<Course> getStudyingCoursesByCategory(String userId, String categoryName, int offset, int limit) {
+    public Vector<Course> getStudyingCoursesByCategory(String userId, String categoryName) {
     Vector<Course> courses = new Vector<>();
     String sql = "SELECT DISTINCT c.* "
                 + "FROM Result_Detail rd "
                 + "INNER JOIN User_Practice up ON rd.user_practice_id = up.user_practice_id "
                 + "INNER JOIN Course c ON up.course_id = c.course_id "
                 + "INNER JOIN Category cat ON c.category_id = cat.category_id "
-                + "WHERE up.user_id = ? AND cat.category_name = ? AND rd.result < 3 "
-                + "ORDER BY c.course_id "
-                + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+                + "WHERE up.user_id = ? AND cat.category_name = ? AND rd.result < 3 ";
     try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, userId);
         ps.setString(2, categoryName);
-        ps.setInt(3, offset);
-        ps.setInt(4, limit);
         try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Course course = new Course(
