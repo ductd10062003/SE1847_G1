@@ -64,7 +64,7 @@
                 <div class="container">
                     <a href="index.html">Home</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
-                    <a href="courses.html">Courses</a>
+                    <a href="viewcourse">Courses</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
                     <a href="courseEnroll">Các khóa học đã đăng kí</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
@@ -133,19 +133,7 @@
 
                             </div>
 
-                            <div class="row">
-                            <div class="col-12 text-center">
-                                <nav>
-                                    <ul class="pagination">
-                                        <c:forEach var="i" begin="1" end="${totalPages}">
-                                            <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                <a class="page-link" href="courseStudying?page=${i}&categoryName=${param.categoryName}&courseName=${param.courseName}">${i}</a>
-                                            </li>
-                                        </c:forEach>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
+                            
 
                         </div>
                     </div>
