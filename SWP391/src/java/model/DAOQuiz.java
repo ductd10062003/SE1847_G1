@@ -44,7 +44,7 @@ public class DAOQuiz extends DBConnect{
         String sql = "insert into Quiz(course_id,flashcard_id)"
                 + "values (?,?)";
         int n = 0;
-        for(int i = 1; i < flashcard_ids.size(); i++){
+        for(int i = 0; i < flashcard_ids.size(); i++){
             try {
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ps.setInt(1, course_id);
