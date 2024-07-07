@@ -14,7 +14,7 @@
                 <nav class="site-navigation position-relative text-right" role="navigation" id="layoutheader">
                     <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
                         <li>
-                            <a href="index.jsp" class="nav-link text-left">Trang chủ</a>
+                            <a href="homePage" class="nav-link text-left">Trang chủ</a>
                         </li>
 
                         <li>

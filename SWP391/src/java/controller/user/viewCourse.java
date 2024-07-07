@@ -96,7 +96,7 @@ public class viewCourse extends HttpServlet {
                 System.err.println("Y");
             }
             request.setAttribute("course", listcourse);
-            paging(request, listcourse);
+            //paging(request, listcourse);
 
         }
         request.setAttribute("category", category);
