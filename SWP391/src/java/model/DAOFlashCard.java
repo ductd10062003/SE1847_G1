@@ -23,6 +23,22 @@ public class DAOFlashCard extends DBConnect {
         }
         return vector;
     }
+    
+        public Vector<FlashCard> getAllFlashCardsByCategoryId(int categoryId) {
+        String sql = "select * from flashcard where category_id = ?";
+        Vector<FlashCard> vector = new Vector<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setInt(1, categoryId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                vector.add(new FlashCard(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getString(8)));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return vector;
+    }
 
     public FlashCard getFlashCardByID(int flashcard_id) {
         String sql = "select * from flashcard where flashcard_id = ?";
@@ -74,10 +90,10 @@ public class DAOFlashCard extends DBConnect {
         return fl;
     }
 
-    public Vector<FlashCard> getFlashCardByQuestionsNameAndCategory(String question,int categoryId) {
+    public Vector<FlashCard> getFlashCardByQuestionsNameAndCategory(String question, int categoryId) {
         Vector<FlashCard> vector = new Vector<>();
         try {
-            String sql = "select * from flashcard where question like N'%"+question+"%' and category_id=?";
+            String sql = "select * from flashcard where question like N'%" + question + "%' and category_id=?";
             PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ps.setInt(1, categoryId);
             ResultSet rs = ps.executeQuery();
@@ -90,16 +106,33 @@ public class DAOFlashCard extends DBConnect {
 
         return vector;
     }
-    
+
+    public FlashCard getFlashCardByQuestionNameAndCategory(String question, int categoryId) {
+        FlashCard fc = null;
+        try {
+            String sql = "select * from flashcard where question = N'" + question + "' and category_id=?";
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setInt(1, categoryId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                fc = new FlashCard(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getString(8));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+
+        return fc;
+    }
+
     public Vector<FlashCard> getFlashCardByRandomNumber(int random, int categoryId, String notIn) {
         String sql = "";
-        if(notIn != null && notIn.length() == 0){
-            sql = "select top "+random+" * from flashcard where category_id = ? order by NEWID()";
-        }else{
-             sql = "select top "+random+" * from flashcard where category_id = ? and flashcard_id not in "+notIn+" order by NEWID()";
+        if (notIn != null && notIn.length() == 0) {
+            sql = "select top " + random + " * from flashcard where category_id = ? order by NEWID()";
+        } else {
+            sql = "select top " + random + " * from flashcard where category_id = ? and flashcard_id not in " + notIn + " order by NEWID()";
         }
         Vector<FlashCard> vector = new Vector<>();
-        try {            
+        try {
             PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ps.setInt(1, categoryId);
             ResultSet rs = ps.executeQuery();
@@ -112,10 +145,10 @@ public class DAOFlashCard extends DBConnect {
 
         return vector;
     }
-    
+
     public int insertFlashCardsByList(Vector<FlashCard> vector) {
-        String sql = "insert into flashcard(question,answer,create_at,update_at,active,Category_id)\n"
-                + "values(?,?,?,?,?,?)";
+        String sql = "insert into flashcard(question,answer,create_at,update_at,active,Category_id, image)\n"
+                + "values(?,?,?,?,?,?,?)";
         int n = 0;
         int i = 0;
         try {
@@ -123,10 +156,11 @@ public class DAOFlashCard extends DBConnect {
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ps.setString(1, fl.getQuestion());
                 ps.setString(2, fl.getAnswer());
-                ps.setString(3, fl.getCreate_at());
-                ps.setString(4, fl.getUpdate_at());
-                ps.setInt(5, fl.getActive());
+                ps.setString(3, java.time.LocalDate.now().toString());
+                ps.setString(4, java.time.LocalDate.now().toString());
+                ps.setInt(5, 1);
                 ps.setInt(6, fl.getCategory_id());
+                ps.setString(7, fl.getImage());
                 i = ps.executeUpdate();
             }
             n++;
@@ -137,7 +171,7 @@ public class DAOFlashCard extends DBConnect {
     }
 
     public static void main(String[] args) {
-        for(FlashCard i: new DAOFlashCard().getFlashCardByRandomNumber(100, 2, "(0)")){
+        for (FlashCard i : new DAOFlashCard().getFlashCardByRandomNumber(100, 2, "(0)")) {
             System.out.println(i);
         }
     }
