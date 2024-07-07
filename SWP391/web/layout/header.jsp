@@ -18,7 +18,7 @@
                         </li>
 
                         <li>
-                            <a href="viewcourse" class="nav-link text-left">Khóa học</a>
+                            <a href="viewcourse?page=1" class="nav-link text-left">Khóa học</a>
                         </li>
                         <li><a href="topRanking" class="nav-link text-left">Xếp hạng</a></li>
                         <li><a href="view-discussions" class="nav-link text-left">Thảo luận</a></li>

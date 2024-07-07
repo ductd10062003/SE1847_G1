@@ -88,7 +88,7 @@
                     <div class="container">
                         <div class="row mb-4">
                             <div class="col-lg-6">
-                                <form action="viewcourse" method="post">
+                                <form action="viewcourse" method="Post">
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Nhập tên khóa học" name="course_name">
                                         <div class="input-group-append">
@@ -106,7 +106,7 @@
                                 <div class="card-header">Thể loại</div>
                                 <div class="card-body">
                                     <div>
-                                        <form action="viewcourse" method="POST">
+                                        <form action="viewcourse" method="Post">
                                             <button class="btn btn-primary" type="submit">Tìm kiếm</button>
                                             <div>
                                                 <c:forEach items="${requestScope.category}" var="category">
@@ -118,7 +118,7 @@
                                                         id="category_id" 
                                                         name="category_id" 
                                                         value="${category.category_id}">
-                                                    <label for="vehicle1">${category.category_name}</label><br>
+                                                        ${category.category_name}<br>
                                                 </c:forEach>
                                             </div>
                                         </form>

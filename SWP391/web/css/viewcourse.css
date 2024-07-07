@@ -21,7 +21,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     width:100%
 }
 #tab1{
-    width: 15%;
+    width: 20%;
     float:left;
     background-color: #E2D9BC;
 }
@@ -45,7 +45,7 @@ ul.tab li a.active{
 }
 /*Contents*/
 #tab2{
-    width: 80%;
+    width: 70%;
     float:left;
 }
 /*Phần sản phẩm*/
