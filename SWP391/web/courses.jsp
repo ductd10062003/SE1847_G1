@@ -37,7 +37,12 @@
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/viewcourse.css">
 
-
+        <script>
+            function getOnclick() {
+                let form = document.getElementById("f1");
+                form.submit();
+            }
+        </script>
     </head>
 
     <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -84,7 +89,7 @@
                     <h2 class="mt-6">Các khóa học</h2>
                     <p></p>
                     <p></p>
-                    
+
                     <div class="container">
                         <div class="row mb-4">
                             <div class="col-lg-6">
@@ -99,34 +104,29 @@
                             </div>
                         </div>
                     </div> 
-                    
-                    <div id="content">
-                        <div id="tab1">
-                            <div class="card">
-                                <div class="card-header">Thể loại</div>
-                                <div class="card-body">
-                                    <div>
-                                        <form action="viewcourse" method="Post">
-                                            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
-                                            <div>
-                                                <c:forEach items="${requestScope.category}" var="category">
-                                                    <input 
-                                                        <c:if test="${category.category_id == requestScope.category_id}">
-                                                            checked
-                                                        </c:if>
-                                                        type="checkbox" 
-                                                        id="category_id" 
-                                                        name="category_id" 
-                                                        value="${category.category_id}">
-                                                        ${category.category_name}<br>
-                                                </c:forEach>
-                                            </div>
-                                        </form>
-                                    </div>                             
-                                </div>
+
+                    <div class="container">
+                        <div class="row mb-4">
+                            <div class="col-lg-6">
+                                <form id="f1" action="viewcourse" method="Post">
+                                    <div class="input-group">
+                                        <select class="form-control" name="category_id" id="category_id" onchange="getOnclick()"> 
+                                            <c:forEach items="${requestScope.category}" var="category" varStatus="loop" >
+                                                <option 
+                                                    <c:if test="${requestScope.selected==category.category_id}">
+                                                        selected
+                                                    </c:if>
+                                                    value="${category.category_id}">${category.category_name}</option>      
+                                            </c:forEach> 
+                                        </select>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                        <div id="tab2">
+                    </div> 
+
+                    <div class="site-section">
+                        <div class="container">
                             <div class="row">
                                 <c:forEach items="${requestScope.course}" var="course">
                                     <div class="col-lg-4 col-md-6 mb-4">

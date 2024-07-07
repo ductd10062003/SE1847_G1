@@ -50,6 +50,26 @@ public class DAOCourse extends DBConnect {
         return list;
     }
 
+    public ArrayList<Course> getCouseByCategoryIDandName(String category_id, String course_name) {
+        ArrayList<Course> course = new ArrayList<>();
+        String sql = "select course_name,description \n"
+                + "from Category ca INNER Join Course c \n"
+                + "on ca.category_id = c.category_id\n"
+                + "where c.category_id = ? and course_name like ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setString(1, category_id);
+            ps.setString(2, course_name);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                course.add(new Course(rs.getString(1), rs.getString(2)));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return course;
+    }
+
     public ArrayList<Course> getCourseByName2(String course_name) {
         ArrayList<Course> course = new ArrayList<>();
         String sql = "select course_name,description from [course] where course_name like ?";

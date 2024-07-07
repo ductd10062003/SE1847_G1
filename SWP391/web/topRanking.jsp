@@ -39,6 +39,13 @@
             type="text/css"/>
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/topRanking.css">
+
+        <script>
+            function getOnclick(){
+                let form = document.getElementById("f1");
+                form.submit();
+            }
+        </script>
     </head>
     <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
         <jsp:include page="layout/header.jsp" />
@@ -60,16 +67,19 @@
             <header>
                 <h1>Top Ranking</h1>
             </header>
-            <form action="topRanking" method="POST">
+            <form id="f1" action="topRanking" method="POST">
                 <div class="wrapper">
                     <table>
-                        <select name="type" id="type">
+                        <select name="type" id="type" onchange="getOnclick()"> 
                             <option value="0">Tổng hợp</option>
                             <c:forEach items="${requestScope.type}" var="type" varStatus="loop" >
-                                <option value="${loop.index + 1}">${type.typeOfPractice_name}</option>      
+                                <option 
+                                    <c:if test="${requestScope.selected==type.typeOfPractice_id}">
+                                        selected
+                                    </c:if>
+                                    value="${loop.index + 1}">${type.typeOfPractice_name}</option>      
                             </c:forEach>                                                 
                         </select>
-                        <button type="submit">Submit</button>
                         <thead>
                             <tr>
                                 <th>Xếp Hạng</th>
