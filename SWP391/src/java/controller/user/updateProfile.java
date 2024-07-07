@@ -75,6 +75,7 @@ public class updateProfile extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         
+        //Account a = (Account) session.getAttribute("account");
         String name = request.getParameter("name");
         int gender = request.getParameter("gender").equals("male") ? 1 : 0;
         String dob = request.getParameter("dob");

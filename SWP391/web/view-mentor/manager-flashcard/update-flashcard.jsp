@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Management Category</title>
+        <title>Update Flashcard</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -178,11 +178,6 @@
                 font-size: 13px;
             }
         </style>
-        <script>
-            $(document).ready(function () {
-                $('[data-toggle="tooltip"]').tooltip();
-            });
-        </script>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -280,116 +275,49 @@
                             <div class="table-wrapper">
                                 <div class="table-title">
                                     <div class="row">
-                                        <div class="col-sm-3">
-                                            <h2>Quản lí <b>danh mục</b></h2>
+                                        <div class="col-sm-6">
+                                            <h2>Sửa <b>thẻ nhớ</b></h2>
                                         </div>
                                     </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-6 col-md-6">
-                                            <form class="form-inline mb-2" method="get" action="manage-category" onsubmit="return validateForm()">
-                                                <div class="input-group">
-                                                    <select class="form-control" id="filterBy" name="filterBy">
-                                                        <option value="createdDate" ${filterBy == 'createdDate' ? 'selected' : ''}>Ngày tạo:</option>
-                                                        <option value="lastEditedDate" ${filterBy == 'lastEditedDate' ? 'selected' : ''}>Ngày sửa:</option>
-                                                    </select>
-                                                </div>
-                                                <div class="input-group ml-md-2">
-                                                    <input type="date" class="form-control" id="startDate" name="startDate" value="${startDate}">
-                                                </div>
-                                                <span class="input-group-text">đến</span>
-                                                <div class="input-group ml-md-2">
-                                                    <input type="date" class="form-control" id="endDate" name="endDate" value="${endDate}">
-                                                </div>
-                                                <div class="input-group ml-md-2">
-                                                    <button type="submit" class="btn btn-primary">Lọc</button>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                        <div class="col-sm-6">
-                                            <form class="form-inline" action="manage-category" method="get">
-
-
-                                                <div class="input-group">
-                                                    <input type="text" name="keyword" class="form-control" placeholder="Tìm kiếm" value="${keyword}">
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
-                                                    </div>
-                                                </div>
-
-                                                <div class="dropdown ml-2">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Sắp xếp theo
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="sortDropdown">
-                                                        <a class="dropdown-item" href="?sort=newest_created">Ngày tạo mới nhất</a>
-                                                        <a class="dropdown-item" href="?sort=oldest_created">Ngày tạo cũ nhất</a>
-                                                        <a class="dropdown-item" href="?sort=newest_edited">Ngày sửa mới nhất</a>
-                                                        <a class="dropdown-item" href="?sort=oldest_edited">Ngày sửa cũ nhất</a>
-                                                    </div>
-                                                </div>
-
-                                                <a href="manage-category?action=create" class="btn btn-secondary ml-2"><i class="material-icons">&#xE147;</i> <span>Thêm danh mục</span></a>
-
-                                            </form>
-
-                                        </div>
-
-                                    </div>       
-
-
                                 </div>
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Tên danh mục</th>						
-                                            <th>Ngày tạo</th>
-                                            <th>Ngày sửa</th>
-                                            <th>Trạng thái</th>
-                                            <th>Hành động</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach var="category" items="${categories}">
-                                            <tr>
-                                                <td>${category.category_id}</td>
-                                                <td>${category.category_name}</td>
-                                                <td>${category.date_created}</td>
-                                                <td>${category.date_last_edited}</td>
-                                                <td><span class="status ${category.active == 1 ? 'text-success' : 'text-danger'}">&bull;</span> ${category.active == 1 ? 'Kích hoạt' : 'Vô hiệu'}</td>
-                                                <td>
-                                                    <a href="manage-category?action=edit&id=${category.category_id}" class="settings" title="Settings" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
-
-                                <!-- Pagination -->
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination">
-                                        <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                                            <a class="page-link" href="?${queryString}&page=${currentPage - 1}&pageSize=${pageSize}" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </a>
-                                        </li>
-                                        <c:forEach var="i" begin="1" end="${totalPages}">
-                                            <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                <a class="page-link" href="?${queryString}&page=${i}&pageSize=${pageSize}">${i}</a>
-                                            </li>
-                                        </c:forEach>
-                                        <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-                                            <a class="page-link" href="?${queryString}&page=${currentPage + 1}&pageSize=${pageSize}" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-
-
-
+                                <form action="manageFlashCard" method="post">
+                                    <input type="hidden" name="action" value="update">
+                                    <input type="hidden" name="flashcard_id" value="${flashcard.flashcard_id}">
+                                    <div class="form-group">
+                                        <label>Câu hỏi</label>
+                                        <input type="text" name="question" class="form-control" value="${flashcard.question}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Đáp án</label>
+                                        <input type="text" name="answer" class="form-control" value="${flashcard.answer}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Ngày tạo</label>
+                                        <input type="text" name="date_created" class="form-control" value="${flashcard.create_at}" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Trạng thái</label>
+                                        <select name="active" class="form-control">
+                                            <option value="1" ${flashcard.active == 1 ? 'selected' : ''}>Kích hoạt</option>
+                                            <option value="0" ${flashcard.active == 0 ? 'selected' : ''}>Vô hiệu</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>ID Danh mục</label>
+                                        <select class="form-control" id="category" name="category_id">
+                                            <c:forEach var="category" items="${categories}">
+                                                <option value="${category.category_id}" ${category.category_id == flashcard.category_id ? 'selected' : ''}>${category.category_name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                    <!--                                    <div class="form-group">
+                                                                            <label>Hình ảnh</label>
+                                                                            <input type="text" name="image" class="form-control" value="${flashcard.image}" required>
+                                                                        </div>-->
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">Thay đổi</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div> 
@@ -416,20 +344,23 @@
 
             });
         </script>
-
         <script>
-            function validateForm() {
-                var startDate = document.getElementById("startDate").value;
-                var endDate = document.getElementById("endDate").value;
-
-                if (!startDate || !endDate) {
-                    // Thông báo cảnh báo nếu ngày bắt đầu hoặc ngày kết thúc không được chọn
-                    alert("Vui lòng chọn cả ngày bắt đầu và ngày kết thúc để lọc danh mục.");
-                    return false; // Ngăn không cho form được gửi đi
-                }
-                return true; // Cho phép form được gửi đi
-            }
+            $(document).ready(function () {
+                // Validate form inputs
+                $('form').on('submit', function (e) {
+                    var isValid = true;
+                    $('input[type="text"], textarea').each(function () {
+                        if ($.trim($(this).val()) === '') {
+                            alert('Các trường không được để trống hoặc chỉ chứa khoảng trắng.');
+                            isValid = false;
+                            return false;
+                        }
+                    });
+                    if (!isValid) {
+                        e.preventDefault();
+                    }
+                });
+            });
         </script>
-
     </body>
 </html>

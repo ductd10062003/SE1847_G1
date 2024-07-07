@@ -4,7 +4,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+import entity.Category;
 import entity.ResultDetail;
+import entity.TypeOfPractice;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,7 +18,10 @@ import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Vector;
+import model.DAOCategory;
 import model.DAOResultDetail;
+import model.DAOTypeOfPractice;
 
 /**
  *
@@ -26,6 +31,8 @@ import model.DAOResultDetail;
 public class topRaking extends HttpServlet {
 
     private DAOResultDetail daoResult = new DAOResultDetail();
+    private DAOCategory daoCategory = new DAOCategory();
+    private DAOTypeOfPractice daoTypeOfPractice = new DAOTypeOfPractice();
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -40,7 +47,9 @@ public class topRaking extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ArrayList<ResultDetail> list = daoResult.getTopRanking();
+        Vector<TypeOfPractice> listC = daoTypeOfPractice.getAllTypeOfPractices();
         request.setAttribute("ranking", list);
+        request.setAttribute("type", listC);
         request.getRequestDispatcher("/topRanking.jsp").forward(request, response);
     }
 
@@ -67,7 +76,9 @@ public class topRaking extends HttpServlet {
             ArrayList<ResultDetail> list = daoResult.getResultByTOP_ID(numberInput);
             request.setAttribute("ranking", list);
         }
-        
+        Vector<TypeOfPractice> listC = daoTypeOfPractice.getAllTypeOfPractices();
+        request.setAttribute("type", listC);
+        request.setAttribute("selected", value);
         request.getRequestDispatcher("/topRanking.jsp").forward(request, response);
     }
 

@@ -41,9 +41,9 @@ public class viewCourse extends HttpServlet {
      */
     private void paging(HttpServletRequest request, ArrayList<Course> list) {
 
-        int page, numberpage = 6;
+        int page, numberpage = 3;
         int size = list.size();
-        int num = (size % 6 == 0 ? (size / 6) : ((size / 6) + 1));
+        int num = (size % 3 == 0 ? (size / 3) : ((size / 3) + 1));
         String xpage = request.getParameter("page");
         if (xpage == null) {
             page = 1;
@@ -74,36 +74,59 @@ public class viewCourse extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+//        request.setCharacterEncoding("UTF-8");
+//        String search = request.getParameter("course_name");
+//        System.out.println(search);
+//        ArrayList<Category> category = daoCategory.getAllCategories2();
+//        if (search != null) {
+//            search = search.trim();
+//            ArrayList<Course> course = daoCourse.getCourseByName2(search);
+//            request.setAttribute("course", course);
+//            paging(request, course);
+//        }
+//
+//        String searchById = request.getParameter("category_id");
+//        System.out.println(searchById);
+//        if (searchById != null) {
+//            searchById = searchById.trim();
+//            ArrayList<Course> listcourse = new ArrayList<>();
+//            try {
+//                listcourse = daoCourse.getCouseByCategoryID(searchById);
+//            } catch (Exception e) {
+//                System.err.println("Y");
+//            }
+//            request.setAttribute("course", listcourse);
+//            request.setAttribute("selected", searchById);
+//            paging(request, listcourse);          
+//        }
+//        
+//        request.setAttribute("category", category);
+//        request.setAttribute("category_id", searchById);
+//        request.setAttribute("course_name", search);
+//        request.getRequestDispatcher("/courses.jsp").forward(request, response);
         request.setCharacterEncoding("UTF-8");
         String search = request.getParameter("course_name");
-        System.out.println(search);
-
-        if (search != null) {
-            search = search.trim();
-            ArrayList<Course> course = daoCourse.getCourseByName2(search);
-            request.setAttribute("course", course);
-            //paging(request, course);
-        }
-        
-        
         String searchById = request.getParameter("category_id");
-        System.out.println(searchById);
-        if (searchById != null) {
-            searchById = searchById.trim();
-            ArrayList<Course> listcourse = new ArrayList<>();
-            try {
-                listcourse = daoCourse.getCouseByCategoryID(searchById);
-            } catch (Exception e) {
-                System.err.println("Y");
-            }
+        if (search != null && searchById==null) {
+            ArrayList<Course> course = daoCourse.getCourseByName2(search);
+            ArrayList<Category> category = daoCategory.getAllCategories2();           
+            request.setAttribute("course", course);
+            request.setAttribute("category", category);
+            request.getRequestDispatcher("/courses.jsp").forward(request, response);
+        }if (search == null && searchById != null) {
+            ArrayList<Course> listcourse = daoCourse.getCouseByCategoryID(searchById);
+            ArrayList<Category> category = daoCategory.getAllCategories2();            
             request.setAttribute("course", listcourse);
-            //paging(request, listcourse);
-        
+            request.setAttribute("selected", searchById);
+            request.setAttribute("category", category);
+            request.getRequestDispatcher("/courses.jsp").forward(request, response);
+        }if (search !=null && searchById!=null){
+            ArrayList<Course> listcourse = daoCourse.getCouseByCategoryIDandName(searchById,search);
+            ArrayList<Category> category = daoCategory.getAllCategories2();   
+            request.setAttribute("course", listcourse);
+            request.setAttribute("selected", searchById);
+            request.setAttribute("category", category);
+            request.getRequestDispatcher("/courses.jsp").forward(request, response);
         }
-        ArrayList<Category> category = daoCategory.getAllCategories2();
-        request.setAttribute("category", category);
-        request.setAttribute("category_id", searchById);
-        request.setAttribute("course_name", search); 
-        request.getRequestDispatcher("/courses.jsp").forward(request, response);
     }
 }

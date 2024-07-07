@@ -75,7 +75,7 @@ public class Login extends HttpServlet {
                             response.sendRedirect("view-mentor/mentor-dashboard.jsp");
                             break;
                         case 3:
-                            response.sendRedirect("index.jsp");
+                            response.sendRedirect("homePage");
                             break;
                         default:
                             request.getSession().setAttribute("error", "Role is not defined");
