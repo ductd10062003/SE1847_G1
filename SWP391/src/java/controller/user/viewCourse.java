@@ -41,9 +41,9 @@ public class viewCourse extends HttpServlet {
      */
     private void paging(HttpServletRequest request, ArrayList<Course> list) {
 
-        int page, numberpage = 3;
+        int page, numberpage = 6;
         int size = list.size();
-        int num = (size % 3 == 0 ? (size / 3) : ((size / 3) + 1));
+        int num = (size % 6 == 0 ? (size / 6) : ((size / 6) + 1));
         String xpage = request.getParameter("page");
         if (xpage == null) {
             page = 1;
