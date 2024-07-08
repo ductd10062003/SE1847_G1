@@ -36,6 +36,10 @@
         <servlet-name>pay</servlet-name>
         <servlet-class>controller.vnpay.pay</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>mentorProfile</servlet-name>
+        <servlet-class>controller.mentor.mentorProfile</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>testCategory</servlet-name>
         <url-pattern>/testCategory</url-pattern>
@@ -71,5 +75,9 @@
     <servlet-mapping>
         <servlet-name>pay</servlet-name>
         <url-pattern>/pay</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>mentorProfile</servlet-name>
+        <url-pattern>/mentorProfile</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -119,7 +119,9 @@
                                         <div style="font-style: italic">
                                             Chủ để: ${requestScope.category.category_name}
                                     </div>
-
+                                        <div style="font-style: italic">
+                                            Tạo bởi: ${requestScope.category.category_name}
+                                    </div>
                                     <div class="mt-3">
                                         <div>
                                             <c:forEach items="${requestScope.typeOfPractices}" var="TOP">

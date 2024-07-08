@@ -3,11 +3,6 @@
     Created on : 18 Jun 2024, 11:59:52
     Author     : DAT
 --%>
-<%-- 
-    Document   : courses
-    Created on : 28 May 2024, 19:23:07
-    Author     : DAT
---%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
