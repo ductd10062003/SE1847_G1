@@ -24,6 +24,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Vector;
 import model.DAOCategory;
 import model.DAOCourse;
@@ -48,6 +49,7 @@ public class courseDetail extends HttpServlet {
         int courseId = Integer.parseInt(courseId_raw);
 
         //DAO
+        DAOUser daoUser = new DAOUser();
         DAOCourse daoCourse = new DAOCourse();
         DAOCategory daoCategory = new DAOCategory();
         DAOTypeOfPractice daoT_O_P = new DAOTypeOfPractice();
@@ -55,6 +57,7 @@ public class courseDetail extends HttpServlet {
         DAOFlashCard daoFlashCard = new DAOFlashCard();
 
         //Entity
+        User mentor = daoUser.getUserByCourseID(courseId);
         Course course = daoCourse.getCourseByID(courseId);
         Category category = daoCategory.getCategoryByID(course.getCategory_id());
         Vector<TypeOfPractice> listT_O_P = daoT_O_P.getAllTypeOfPractices();
@@ -77,6 +80,7 @@ public class courseDetail extends HttpServlet {
             }
         }
         request.setAttribute("course", course);
+        request.setAttribute("mentor", mentor);
         request.setAttribute("category", category);
         request.setAttribute("typeOfPractices", listT_O_P);
         request.setAttribute("listFlashCards", gson.toJson(listFlashCard));

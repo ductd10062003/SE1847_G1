@@ -12,13 +12,17 @@ public class Course {
     
     public Course() {
     }
-
+    
     public Course(String course_name, String description) {
         this.course_name = course_name;
         this.description = description;
     }
+    
+    public Course(String name) {
+        this.name = name;
+    }
 
-    public Course(String name, int user_id, int role, int gender, String dob, String phone, String email, String course_name, String description) {
+    public Course(String name, int user_id, int role, int gender, String dob, String phone, String email, String course_name,int course_id, String description) {
         this.name = name;
         this.user_id = user_id;
         this.role = role;
@@ -27,6 +31,7 @@ public class Course {
         this.phone = phone;
         this.email = email;
         this.course_name = course_name;
+        this.course_id = course_id;
         this.description = description;
     }
 

@@ -74,11 +74,12 @@ public class mentorProfile extends HttpServlet {
         DAOUser daoUser = new DAOUser();
         DAOCourse daoCourse = new DAOCourse();
         User user = new User();
-        User list = daoUser.getUserByUsername("mentor 22");
-        ArrayList<Course> course = daoCourse.getCourseByUserName("mentor 22");
+        String name = request.getParameter("name");        
+        User list = daoUser.getUserByUsername(name);
+        ArrayList<Course> course = daoCourse.getCourseByUserName(name);
         request.setAttribute("course", course);       
         request.setAttribute("users", list);
-        paging(request, course);
+        //paging(request, course);
         request.getRequestDispatcher("mentor-profile.jsp").forward(request, response);
     }
 

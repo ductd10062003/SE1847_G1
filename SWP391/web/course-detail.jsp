@@ -107,10 +107,10 @@
                                         <c:if test="${requestScope.enroll != null && requestScope.enroll == '1'}" >Hủy tham gia</c:if>
                                         </button>
                                     </div>
-<!--                                    <div style="font-style: italic">
+                                    <div style="font-style: italic">
                                         Chủ để: ${requestScope.category.category_name}
-                                </div>-->
-
+                                </div>
+                                Tạo bởi: <a href="mentorProfile?name=${requestScope.mentor.name}" class="small mr-3">${requestScope.mentor.name}</a>
                                 <div class="mt-3">
                                     <div>
                                         <c:forEach items="${requestScope.typeOfPractices}" var="TOP">
@@ -421,21 +421,21 @@
                                                         flipStatus = true;
                                                     }
                                                 }
-                                                
+
                                                 document.getElementById('indexOfFlashCard').innerText = dataId + 1;
 //
-                                                    function nextFlashCard(status) {
-                                                        if (dataId < data.length - 1 && dataId > 0) {
-                                                            dataId += status;
-                                                        }
-                                                        if ((dataId === 0 && status === 1) ||
-                                                                (dataId === data.length - 1 && status === -1)) {
-                                                            dataId += status;
-                                                        }
-                                                        display(data[dataId], data[dataId].question)
-                                                        flipStatus = true;
-                                                        document.getElementById('indexOfFlashCard').innerText = dataId + 1;
+                                                function nextFlashCard(status) {
+                                                    if (dataId < data.length - 1 && dataId > 0) {
+                                                        dataId += status;
                                                     }
+                                                    if ((dataId === 0 && status === 1) ||
+                                                            (dataId === data.length - 1 && status === -1)) {
+                                                        dataId += status;
+                                                    }
+                                                    display(data[dataId], data[dataId].question)
+                                                    flipStatus = true;
+                                                    document.getElementById('indexOfFlashCard').innerText = dataId + 1;
+                                                }
 
                                                 function checkLogin(user, courseId) {
                                                     if (user === null || user.trim().length === 0) {

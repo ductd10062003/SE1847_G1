@@ -59,6 +59,25 @@ public class DAOUser extends DBConnect {
         return user;
     }
 
+    public User getUserByCourseID(int course_id) {
+        User user = new User();
+        String sql = "select name\n"
+                + "from Course c inner join [User] u\n"
+                + "on c.created_by = u.user_id\n"
+                + "where course_id=?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setInt(1, course_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                user = new User(rs.getString(1));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return user;
+    }
+
     // getUserByUsername
     public User getUserByUsername(String username) {
         User user = null;
@@ -110,7 +129,7 @@ public class DAOUser extends DBConnect {
         }
     }
 
-    public void updateProfile(int user_id, String name,int gender, String dob, String phone,String email) {
+    public void updateProfile(int user_id, String name, int gender, String dob, String phone, String email) {
         String sql = "UPDATE [User] SET name =?,gender=?,dob=?,phone =?,email=? WHERE USER_ID = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
