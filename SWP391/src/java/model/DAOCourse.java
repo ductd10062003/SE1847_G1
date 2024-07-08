@@ -301,8 +301,11 @@ public class DAOCourse extends DBConnect {
             );
             enrolledCourses.add(course);
         }
-        return enrolledCourses;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    return enrolledCourses;
+}
 
 
     //in ra cac khoa hoc da hoan thanh(result>3)
@@ -395,10 +398,7 @@ public class DAOCourse extends DBConnect {
             if (i < categoryNames.length - 1) {
                 sql.append(", ");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
         sql.append(") ");
     }
 
@@ -543,8 +543,6 @@ public class DAOCourse extends DBConnect {
             if (i < categoryNames.length - 1) {
                 sql.append(", ");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         sql.append(") ");
     }
@@ -575,6 +573,8 @@ public class DAOCourse extends DBConnect {
     } catch (Exception e) {
         e.printStackTrace();
     }
+    return courses;
+}
 
 
 
