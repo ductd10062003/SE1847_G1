@@ -17,6 +17,7 @@ import entity.Course;
 import model.DAOCourse;
 import entity.Category;
 import model.DAOCategory;
+
 /**
  *
  * @author DANGTRUONG
@@ -34,30 +35,51 @@ public class courseEnroll extends HttpServlet {
         String user_id = "1";
 
         if (user_id == null || user_id.isEmpty()) {
-            response.sendRedirect("login.html");
+            response.sendRedirect("login");
             return;
         }
 
         DAOCourse daoCourse = new DAOCourse();
         DAOCategory daoCategory = new DAOCategory();
-        
+
         Vector<Course> courses;
         Vector<Category> categories = daoCategory.getAllCategories();
 
         String courseName = request.getParameter("courseName");
-        String categoryName = request.getParameter("categoryName");
-        
-        
-         if (courseName != null && !courseName.isEmpty()) {
-            courses = daoCourse.searchEnrolledCoursesByName(user_id, courseName);
-        } else if (categoryName != null && !categoryName.isEmpty()) {
-            courses = daoCourse.getEnrolledCoursesByCategory(user_id, categoryName);
-        } else {
-            courses = daoCourse.searchUserEnrollCourse(user_id);;
+        String[] categoryNames = request.getParameterValues("categoryName");
+
+        int page = 1;
+        int pageSize = 6;
+        if (request.getParameter("page") != null) {
+            page = Integer.parseInt(request.getParameter("page"));
         }
-        
+        if (request.getParameter("pageSize") != null) {
+            pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        }
+
+        if (courseName != null && !courseName.isEmpty()) {
+            courses = daoCourse.searchEnrolledCoursesByName(user_id, courseName);
+        } else if (categoryNames != null && categoryNames.length > 0) {
+            courses = daoCourse.getEnrolledCoursesByCategories(user_id, categoryNames);
+        } else {
+            courses = daoCourse.searchUserEnrollCourse(user_id);
+        }
+
+        int totalCourses = courses.size();
+        int totalPages = (int) Math.ceil((double) totalCourses / pageSize);
+        int fromIndex = (page - 1) * pageSize;
+        int toIndex = Math.min(fromIndex + pageSize, totalCourses);
+        Vector<Course> pageCourses = new Vector<>(courses.subList(fromIndex, toIndex));
+
         request.setAttribute("categories", categories);
-        request.setAttribute("courses", courses);
+        request.setAttribute("courses", pageCourses);
+        request.setAttribute("courseName", courseName);
+        request.setAttribute("categoryNames", categoryNames);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("pageSize", pageSize);
+        String queryString = request.getQueryString();
+        request.setAttribute("queryString", queryString != null ? queryString.replaceAll("&?page=\\d*", "").replaceAll("&?pageSize=\\d*", "") : "");
         request.getRequestDispatcher("course-enroll.jsp").forward(request, response);
 
     }

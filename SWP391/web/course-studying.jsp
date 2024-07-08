@@ -47,7 +47,7 @@
             </div>
 
             <%@include file="layout/header.jsp" %>
-            
+
 
             <div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('images/bg_1.jpg')">
                 <div class="container">
@@ -77,66 +77,93 @@
                     <a href="courseEnroll" class="btn btn-primary">Các khóa học đã đăng kí</a>
                     <a href="courseCompleted" class="btn btn-primary">Các khóa học đã hoàn thành</a>
 
-                    <h2 class="mt-5">Các khóa học đang học</h2>
-                    <p></p>
-                    <p></p>
-
-                    <div class="container">
-                        <div class="row mb-4">
-                            <div class="col-lg-6">
-                                <form action="courseStudying" method="GET">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Nhập tên khóa học" name="courseName">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6">
-                        <form action="courseStudying" method="GET">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Các khóa học đang học</h2>
+                        <form action="courseStudying" method="GET" class="form-inline">
                             <div class="input-group">
-                                <select class="form-control" name="categoryName">
-                                    <option value="">Chọn danh mục</option> <!-- Tùy chọn mặc định -->
-                                    <!-- Duyệt và tạo các tùy chọn cho dropdown từ danh sách danh mục -->
-                                    <c:forEach items="${categories}" var="category">
-                                        <option value="${category.category_name}">${category.category_name}</option>
-                                    </c:forEach>
-                                </select>
+                                <input type="text" class="form-control" placeholder="Nhập tên khóa học" name="courseName" value="${courseName}">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit">Lọc</button>
+                                    <button class="btn btn-primary" type="submit">Tìm kiếm</button>
                                 </div>
                             </div>
                         </form>
                     </div>
 
-
-                    <div class="site-section">
-                        <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
                             <div class="row">
-                                <c:forEach items="${courses}" var="course">
-                                    <div class="col-lg-4 col-md-6 mb-4">
-                                        <div class="course-1-item">
-                                            <figure class="thumnail">
-                                                <div class="category"><h3>${course.course_name}</h3></div>  
-                                            </figure>
-                                            <div class="course-1-content pb-4">
-                                                <h2>${course.description}</h2>
-                                                <p><a href="course-single.html" class="btn btn-primary rounded-0 px-4">View Course</a></p>                               
+                                <div class="col-md-3">
+                                    <h3>Danh mục</h3>
+                                    <form action="courseStudying" method="GET">
+                                        <c:forEach items="${categories}" var="category">
+                                            <div class="form-check">
+                                                <c:set var="isChecked" value="false" />
+                                                <c:if test="${not empty categoryNames}">
+                                                    <c:forEach items="${categoryNames}" var="selectedCategory">
+                                                        <c:if test="${selectedCategory eq category.category_name}">
+                                                            <c:set var="isChecked" value="true" />
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:if>
+                                                <input class="form-check-input" type="checkbox" name="categoryName"
+                                                       value="${category.category_name}" id="category${category.category_id}"
+                                                       ${isChecked ? 'checked' : ''}>
+                                                <label class="form-check-label" for="category${category.category_id}">
+                                                    ${category.category_name}
+                                                </label>
                                             </div>
-                                        </div>
+                                        </c:forEach>
+                                        <button class="btn btn-primary mt-3" type="submit">Lọc</button>
+                                    </form>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <c:forEach items="${courses}" var="course">
+                                            <div class="col-lg-4 col-md-6 mb-4">
+                                                <div class="course-1-item">
+                                                    <figure class="thumnail">
+                                                        <div class="category"><h3>${course.course_name}</h3></div>
+                                                    </figure>
+                                                    <div class="course-1-content pb-4">
+                                                        <h2>${course.description}</h2>
+                                                        <p><a href="course-detail?course_id=${course.course_id}" class="btn btn-primary rounded-0 px-4">Xem chi tiết</a></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
                                     </div>
-                                </c:forEach>    
+
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                                <a class="page-link" href="?${queryString}&page=${currentPage - 1}&pageSize=${pageSize}" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                            <c:forEach var="i" begin="1" end="${totalPages}">
+                                                <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                                    <a class="page-link" href="?${queryString}&page=${i}&pageSize=${pageSize}">${i}</a>
+                                                </li>
+                                            </c:forEach>
+                                            <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                                <a class="page-link" href="?${queryString}&page=${currentPage + 1}&pageSize=${pageSize}" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+
+                                </div>
+
 
                             </div>
-
-                            
-
                         </div>
-                    </div>
+                    </div>         
+
+
+
+
+
                 </div>
             </div>
 
