@@ -68,7 +68,7 @@ public class courseCompleted extends HttpServlet {
         Vector<Course> pageCourses = new Vector<>(courses.subList(fromIndex, toIndex));
 
         request.setAttribute("categories", categories);
-        request.setAttribute("courses", courses);
+        request.setAttribute("courses", pageCourses);
         request.setAttribute("courseName", courseName);
         request.setAttribute("categoryNames", categoryNames);
         request.setAttribute("currentPage", page);
