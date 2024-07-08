@@ -75,7 +75,7 @@ public class DAOCourse extends DBConnect {
         String sql = "  select u.name,u.user_id,u.role,u.gender,u.dob,u.phone,u.email,c.course_name,c.description\n"
                 + "  from Course c inner join [User] u\n"
                 + "  on c.created_by = u.user_id\n"
-                + "  where u.name = ?";
+                + "  where u.name like ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ps.setString(1, "%" + name + "%");
