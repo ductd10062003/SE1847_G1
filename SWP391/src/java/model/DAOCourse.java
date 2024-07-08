@@ -52,7 +52,7 @@ public class DAOCourse extends DBConnect {
 
     public ArrayList<Course> getCouseByCategoryIDandName(String category_id, String course_name) {
         ArrayList<Course> course = new ArrayList<>();
-        String sql = "select course_name,description \n"
+        String sql = "select course_name,course_id,description \n"
                 + "from Category ca INNER Join Course c \n"
                 + "on ca.category_id = c.category_id\n"
                 + "where c.category_id = ? and c.course_name like ?";
@@ -62,7 +62,7 @@ public class DAOCourse extends DBConnect {
             ps.setString(2, "%" + course_name + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                course.add(new Course(rs.getString(1), rs.getString(2)));
+                course.add(new Course(rs.getString(1),rs.getInt(2), rs.getString(3)));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -72,7 +72,7 @@ public class DAOCourse extends DBConnect {
 
     public ArrayList<Course> getCourseByUserName(String name) {
         ArrayList<Course> course = new ArrayList<>();
-        String sql = "  select u.name,u.user_id,u.role,u.gender,u.dob,u.phone,u.email,c.course_name,c.description\n"
+        String sql = "  select u.name,u.user_id,u.role,u.gender,u.dob,u.phone,u.email,c.course_name,c.course_id,c.description\n"
                 + "  from Course c inner join [User] u\n"
                 + "  on c.created_by = u.user_id\n"
                 + "  where u.name like ?";
@@ -81,23 +81,23 @@ public class DAOCourse extends DBConnect {
             ps.setString(1, "%" + name + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                course.add(new Course(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+                course.add(new Course(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8),rs.getInt(9), rs.getString(10)));
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return course;
     }
-   
+
     public ArrayList<Course> getCourseByName2(String course_name) {
         ArrayList<Course> course = new ArrayList<>();
-        String sql = "select course_name,description from [course] where course_name like ?";
+        String sql = "select course_name,course_id,description from [course] where course_name like ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ps.setString(1, "%" + course_name + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                course.add(new Course(rs.getString(1), rs.getString(2)));
+                course.add(new Course(rs.getString(1),rs.getInt(2), rs.getString(3)));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -107,14 +107,14 @@ public class DAOCourse extends DBConnect {
 
     public ArrayList<Course> getCouseByCategoryID(String category_id) {
         ArrayList<Course> course = new ArrayList<>();
-        String sql = "  select course_name,description from Category ca INNER Join Course c on ca.category_id = c.category_id\n"
+        String sql = "  select course_name,course_id,description from Category ca INNER Join Course c on ca.category_id = c.category_id\n"
                 + "  where c.category_id = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ps.setString(1, category_id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                course.add(new Course(rs.getString(1), rs.getString(2)));
+                course.add(new Course(rs.getString(1),rs.getInt(2), rs.getString(3)));
             }
         } catch (Exception e) {
             System.out.println(e);
