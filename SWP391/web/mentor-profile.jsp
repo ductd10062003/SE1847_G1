@@ -118,31 +118,29 @@
         <div class="site-section">
             <div class="container">
                 <div class="row">
-                    <c:forEach items="${requestScope.users}" var="users">
+                    <c:forEach items="${requestScope.course}" var="course">
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="course-1-item">
                                 <figure class="thumnail">
-                                    <div class="category"><h3>${users.course_name}</h3></div>  
+                                    <div class="category"><h3>${course.course_name}</h3></div>  
                                 </figure>
                                 <div class="course-1-content pb-4">
-                                    <h2>${users.description}</h2>
-                                    <p><a href="course-detail?course_id=${users.course_id}" class="btn btn-primary rounded-0 px-4">Xem chi tiết</a></p>                               
+                                    <h2>${course.description}</h2>
+                                    <p><a href="course-detail?course_id=${course.course_id}" class="btn btn-primary rounded-0 px-4">Xem chi tiết</a></p>                               
                                 </div>
                             </div>
                         </div>
                     </c:forEach>    
                     <div class="text-center" style="display: inline-block; margin-right:auto; width: 100%">
-                        <c:forEach begin="${1}" end="${requestScope.num}" var="i">
-                            <a style='text-decoration: none; color: white;' href="viewcourse?page=${i}">
-                                <button style='margin-right: 1px;' class="btn btn-outline-dark ${i == page ? "active" : ""}">
-                                    ${i}
-                                </button>
-                            </a>
+
+                        <c:forEach var="i" begin="1" end="${numPages}">
+                            <a href="mentorProfile?page=${i}" class="btn btn-outline-dark ${i == page ? 'active' : ''}" >${i}</a>
                         </c:forEach>
                     </div>
+
                 </div>
             </div>
-        </div>                            
+        </div>                           
 
         <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
             <div class="container">

@@ -143,10 +143,10 @@
                                     </div>
                                 </c:forEach>    
                                 <div class="text-center" style="display: inline-block; margin-right:auto; width: 100%">
-                                   
+
                                     <c:forEach var="i" begin="1" end="${numPages}">
-        <a href="viewcourse?page=${i}" class="btn btn-outline-dark ${i == page ? 'active' : ''}" >${i}</a>
-    </c:forEach>
+                                        <a href="viewcourse?page=${i}" class="btn btn-outline-dark ${i == page ? 'active' : ''}" >${i}</a>
+                                    </c:forEach>
                                 </div>
 
                             </div>
