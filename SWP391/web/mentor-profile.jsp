@@ -132,12 +132,12 @@
                         </div>
                     </c:forEach>    
                     <div class="text-center" style="display: inline-block; margin-right:auto; width: 100%">
-
                         <c:forEach var="i" begin="1" end="${numPages}">
-                            <a href="mentorProfile?page=${i}" class="btn btn-outline-dark ${i == page ? 'active' : ''}" >${i}</a>
+                            <a href="mentorProfile?page=${i}&name=${param.name}" class="btn btn-outline-dark ${i == page ? 'active' : ''}">
+                                ${i}
+                            </a>
                         </c:forEach>
                     </div>
-
 
                 </div>
             </div>

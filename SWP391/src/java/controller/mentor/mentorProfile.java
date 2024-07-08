@@ -32,31 +32,37 @@ public class mentorProfile extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private void paging(HttpServletRequest request, ArrayList<Course> list) {
-
         int page;
-        int numberPage = 6; // Số mục trên mỗi trang
+        int numberPerPage = 6; // Số mục trên mỗi trang
         int size = list.size();
-        int numPages = (size + numberPage - 1) / numberPage; // Tính số trang
+        int numPages = (size + numberPerPage - 1) / numberPerPage; // Tính số trang
 
+        // Lấy tham số trang từ request
         String xpage = request.getParameter("page");
         if (xpage == null || xpage.isEmpty()) {
             page = 1; // Nếu không có tham số trang, đặt trang mặc định là 1
         } else {
             try {
                 page = Integer.parseInt(xpage);
+                if (page < 1 || page > numPages) {
+                    page = 1; // Đảm bảo trang nằm trong khoảng hợp lệ
+                }
             } catch (NumberFormatException e) {
-                page = 1; // Đặt trang mặc định là 1 nếu tham số không hợp lệ
+                page = 1; // Xử lý ngoại lệ nếu tham số trang không hợp lệ
             }
         }
 
-        int start = (page - 1) * numberPage;
-        int end = Math.min(page * numberPage, size);
+        // Tính vị trí bắt đầu và kết thúc của mục trên trang hiện tại
+        int start = (page - 1) * numberPerPage;
+        int end = Math.min(start + numberPerPage, size);
 
+        // Lấy danh sách các mục trong phạm vi trang hiện tại
         ArrayList<Course> pagedCourses = new ArrayList<>(list.subList(start, end));
+
+        // Đặt các thuộc tính vào request để truyền tới JSP
         request.setAttribute("course", pagedCourses);
         request.setAttribute("page", page);
         request.setAttribute("numPages", numPages);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -74,12 +80,12 @@ public class mentorProfile extends HttpServlet {
         DAOUser daoUser = new DAOUser();
         DAOCourse daoCourse = new DAOCourse();
         User user = new User();
-        String name = request.getParameter("name");        
+        String name = request.getParameter("name");
         User list = daoUser.getUserByUsername(name);
         ArrayList<Course> course = daoCourse.getCourseByUserName(name);
-        request.setAttribute("course", course);       
+        request.setAttribute("course", course);
         request.setAttribute("users", list);
-        //paging(request, course);
+        paging(request, course);
         request.getRequestDispatcher("mentor-profile.jsp").forward(request, response);
     }
 

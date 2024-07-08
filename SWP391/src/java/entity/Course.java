@@ -18,6 +18,12 @@ public class Course {
         this.description = description;
     }
     
+    public Course(String course_name,int course_id, String description) {
+        this.course_name = course_name;
+        this.course_id = course_id;
+        this.description = description;
+    }
+    
     public Course(String name) {
         this.name = name;
     }
