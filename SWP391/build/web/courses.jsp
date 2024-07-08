@@ -93,7 +93,7 @@
                     <div class="container">
                         <div class="row mb-4">
                             <div class="col-lg-6">
-                                <form action="viewcourse" method="Post">
+                                <form id="searchForm" action="viewcourse" method="Post">
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Nhập tên khóa học" name="course_name">
                                         <div class="input-group-append">
@@ -111,6 +111,7 @@
                                 <form id="f1" action="viewcourse" method="Post">
                                     <div class="input-group">
                                         <select class="form-control" name="category_id" id="category_id" onchange="getOnclick()"> 
+                                            <option value="0">Tổng hợp</option>
                                             <c:forEach items="${requestScope.category}" var="category" varStatus="loop" >
                                                 <option 
                                                     <c:if test="${requestScope.selected==category.category_id}">
@@ -142,14 +143,12 @@
                                     </div>
                                 </c:forEach>    
                                 <div class="text-center" style="display: inline-block; margin-right:auto; width: 100%">
-                                    <c:forEach begin="${1}" end="${requestScope.num}" var="i">
-                                        <a style='text-decoration: none; color: white;' href="viewcourse?page=${i}">
-                                            <button style='margin-right: 1px;' class="btn btn-outline-dark ${i == page ? "active" : ""}">
-                                                ${i}
-                                            </button>
-                                        </a>
-                                    </c:forEach>
+                                   
+                                    <c:forEach var="i" begin="1" end="${numPages}">
+        <a href="viewcourse?page=${i}" class="btn btn-outline-dark ${i == page ? 'active' : ''}" >${i}</a>
+    </c:forEach>
                                 </div>
+
                             </div>
                         </div>
                     </div>

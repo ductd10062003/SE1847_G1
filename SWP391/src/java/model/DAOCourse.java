@@ -55,11 +55,11 @@ public class DAOCourse extends DBConnect {
         String sql = "select course_name,description \n"
                 + "from Category ca INNER Join Course c \n"
                 + "on ca.category_id = c.category_id\n"
-                + "where c.category_id = ? and course_name like ?";
+                + "where c.category_id = ? and c.course_name like ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ps.setString(1, category_id);
-            ps.setString(2, course_name);
+            ps.setString(2, "%" + course_name + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 course.add(new Course(rs.getString(1), rs.getString(2)));
@@ -70,6 +70,25 @@ public class DAOCourse extends DBConnect {
         return course;
     }
 
+    public ArrayList<Course> getCourseByUserName(String name) {
+        ArrayList<Course> course = new ArrayList<>();
+        String sql = "  select u.name,u.user_id,u.role,u.gender,u.dob,u.phone,u.email,c.course_name,c.description\n"
+                + "  from Course c inner join [User] u\n"
+                + "  on c.created_by = u.user_id\n"
+                + "  where u.name = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setString(1, "%" + name + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                course.add(new Course(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return course;
+    }
+   
     public ArrayList<Course> getCourseByName2(String course_name) {
         ArrayList<Course> course = new ArrayList<>();
         String sql = "select course_name,description from [course] where course_name like ?";
