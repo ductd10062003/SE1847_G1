@@ -77,10 +77,11 @@ public class homePage extends HttpServlet {
             throws ServletException, IOException {
         DAOCourse daoCourse = new DAOCourse();
         DAOUser daoUser = new DAOUser();
-//      ArrayList<Course> list = daoCourse.getTop6NewestCourse();
+        ArrayList<Course> list = daoCourse.getTop6NewestCourse();
 
-        ArrayList<User> user = daoUser.getHomePage();
-
+        ArrayList<User> user = daoUser.getTop6Mentor();
+        
+        request.setAttribute("list", list);        
         request.setAttribute("user", user);
         request.getRequestDispatcher("homePage.jsp").forward(request, response);
     }

@@ -60,17 +60,19 @@ public class DAOUser extends DBConnect {
         return user;
     }
 
-    public ArrayList<User> getHomePage() {
+    public ArrayList<User> getTop6Mentor() {
         ArrayList<User> user = new ArrayList<>();
-        String sql = "SELECT course_name,course_id,description,name,user_id,role\n"
-                + "FROM Course c\n"
-                + "INNER JOIN [User] u ON c.created_by = u.user_id\n"
-                + "WHERE u.role = 2";
+        String sql = "SELECT TOP 6 u.name, u.user_id, u.role, COUNT(c.course_name) AS total_courses\n"
+                + "FROM [User] u\n"
+                + "LEFT JOIN Course c ON u.user_id = c.created_by\n"
+                + "WHERE u.role = 2\n"
+                + "GROUP BY u.user_id, u.name, u.role\n"
+                + "ORDER BY total_courses DESC;";
         try {
             PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                user.add(new User(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6)));
+                user.add(new User(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4)));
             }
         } catch (Exception e) {
             return null;

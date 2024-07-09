@@ -58,67 +58,9 @@
                 <div class="site-mobile-menu-body"></div>
             </div>
 
-
-            <div class="hero-slide owl-carousel site-blocks-cover">
-                <div
-                    class="intro-section"
-                    style="background-image: url('images/hero_1.jpg')"
-                    >
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-lg-12 mx-auto text-center" data-aos="fade-up">
-                                <h1>Academics University</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="intro-section"
-                    style="background-image: url('images/hero_1.jpg')"
-                    >
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-lg-12 mx-auto text-center" data-aos="fade-up">
-                                <h1>You Can Learn Anything</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="site-section">
                 <div class="container">
-                    <h2 class="section-title-underline mb-3">Các khóa học gợi ý</h2>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="owl-slide-3 owl-carousel">
-                                <c:forEach items="${requestScope.user}" var="user">
-                                    <div class="course-1-item">
-                                        <figure class="thumnail">
-                                            <div class="category"><h3>${user.course_name}</h3></div>
-                                        </figure>
-                                        <div class="course-1-content pb-4">
-                                            <h2>${user.description}</h2>
-                                            <p>
-                                                <a
-                                                    href="course-detail?course_id=${user.course_id}"
-                                                    class="btn btn-primary rounded-0 px-4"
-                                                    >Xem chi tiết</a
-                                                >
-                                            </p>
-                                        </div>
-                                    </div>
-                                </c:forEach> 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="site-section">
-                <div class="container">
-                    <h2 class="section-title-underline mb-3">Các khóa học gợi ý</h2>
+                                        <h2 class="section-title-underline mb-3">Các tác giả tiêu biểu</h2>
                     <div class="row">
                         <div class="col-12">
                             <div class="owl-slide-3 owl-carousel">
@@ -128,7 +70,7 @@
                                             <div class="category"><h3>${user.name}</h3></div>
                                         </figure>
                                         <div class="course-1-content pb-4">
-                                            <h2>${user.user_id}</h2>
+                                            <h2>Số khóa học đã tạo: ${user.count}</h2>
                                             <p>
                                                 <a
                                                     href="mentorProfile?name=${user.name}"
@@ -142,10 +84,32 @@
                             </div>
                         </div>
                     </div>
+                    <h2 class="section-title-underline mb-3">Các khóa học gợi ý</h2>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="owl-slide-3 owl-carousel">
+                                <c:forEach items="${requestScope.list}" var="list">
+                                    <div class="course-1-item">
+                                        <figure class="thumnail">
+                                            <div class="category"><h3>${list.course_name}</h3></div>
+                                        </figure>
+                                        <div class="course-1-content pb-4">
+                                            <h2>${list.description}</h2>
+                                            <p>
+                                                <a
+                                                    href="course-detail?course_id=${list.course_id}"
+                                                    class="btn btn-primary rounded-0 px-4"
+                                                    >Xem chi tiết</a
+                                                >
+                                            </p>
+                                        </div>
+                                    </div>
+                                </c:forEach> 
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div> 
-
-
+            </div>
             <div
                 class="section-bg style-1"
                 style="background-image: url('images/hero_1.jpg')"
