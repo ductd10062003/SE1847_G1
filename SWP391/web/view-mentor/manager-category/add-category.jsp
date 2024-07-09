@@ -294,7 +294,6 @@
                                     <label>Trạng thái</label>
                                     <select name="active" class="form-control">
                                         <option value="1">Kích hoạt</option>
-                                        <option value="0">Vô hiệu</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
