@@ -16,6 +16,7 @@ import java.util.Vector;
 import entity.Course;
 import model.DAOCourse;
 import entity.Category;
+import entity.User;
 import model.DAOCategory;
 
 @WebServlet(name = "courseStudying", urlPatterns = {"/courseStudying"})
@@ -28,12 +29,20 @@ public class courseStudying extends HttpServlet {
 //        String user_id = request.getParameter("user_id");
 //        HttpSession session = request.getSession();
 //        String user_id = (String) session.getAttribute("user_id");
-        String user_id = "1";
+//        String user_id = "1";
+//
+//        if (user_id == null || user_id.isEmpty()) {
+//            response.sendRedirect("login");
+//            return;
+//        }
+        User user = (User) request.getSession().getAttribute("user");
 
-        if (user_id == null || user_id.isEmpty()) {
+        if (user == null) {
             response.sendRedirect("login");
             return;
         }
+
+        String user_id = String.valueOf(user.getUser_id());
 
         DAOCourse daoCourse = new DAOCourse();
         DAOCategory daoCategory = new DAOCategory();

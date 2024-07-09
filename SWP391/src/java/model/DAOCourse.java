@@ -211,7 +211,7 @@ public class DAOCourse extends DBConnect {
         Vector<Course> courses = new Vector<>();
         String sql = "SELECT c.course_id FROM User_Enroll_Course uec "
                 + "JOIN Course c ON uec.course_id = c.course_id "
-                + "WHERE uec.user_id = ? ";
+                + "WHERE uec.user_id = ? AND status=1";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user_id);
             try (ResultSet rs = ps.executeQuery()) {
@@ -234,7 +234,7 @@ public class DAOCourse extends DBConnect {
         Vector<Course> courses = new Vector<>();
         String sql = "SELECT c.* FROM User_Enroll_Course uec "
                 + "JOIN Course c ON uec.course_id = c.course_id "
-                + "WHERE uec.user_id = ? AND c.course_name LIKE ? ";
+                + "WHERE uec.user_id = ? AND c.course_name LIKE ? AND status=1";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, user_id);
@@ -266,7 +266,7 @@ public class DAOCourse extends DBConnect {
             .append("FROM Course c ")
             .append("INNER JOIN User_Enroll_Course uec ON c.course_id = uec.course_id ")
             .append("INNER JOIN Category cat ON c.category_id = cat.category_id ")
-            .append("WHERE uec.user_id = ? ");
+            .append("WHERE uec.user_id = ? AND status=1");
 
     if (categoryNames != null && categoryNames.length > 0) {
         sql.append("AND cat.category_name IN (");
@@ -311,17 +311,21 @@ public class DAOCourse extends DBConnect {
     //in ra cac khoa hoc da hoan thanh(result>3)
     public Vector<Course> getCompletedCourses(String user_id) {
         Vector<Course> courses = new Vector<>();
-        String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id "
-                + "FROM Course c "
-                + "JOIN User_Enroll_Course uec ON c.course_id = uec.course_id "
-                + "JOIN User_Practice up ON up.course_id = c.course_id "
-                + "JOIN Result_Detail rd ON rd.user_practice_id = up.user_practice_id "
-                + "WHERE uec.user_id = ? "
-                + "AND rd.result > 3 "
-                + "GROUP BY c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id "
-                + "HAVING COUNT(DISTINCT up.TOP_id) = 3";
+        String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id " +
+                     "FROM Course c " +
+                     "JOIN (" +
+                     "    SELECT uec.course_id " +
+                     "    FROM User_Enroll_Course uec " +
+                     "    WHERE uec.user_id = ? AND uec.status = 1" +
+                     ") enrolled_courses ON c.course_id = enrolled_courses.course_id " +
+                     "JOIN User_Practice up ON up.course_id = c.course_id AND up.user_id = ? " +
+                     "JOIN Result_Detail rd ON rd.user_practice_id = up.user_practice_id " +
+                     "WHERE rd.result > 3 " +
+                     "GROUP BY c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id " +
+                     "HAVING COUNT(DISTINCT up.TOP_id) = 3";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user_id);
+            ps.setString(2, user_id);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Course course = new Course();
@@ -345,19 +349,23 @@ public class DAOCourse extends DBConnect {
     //search cac khoa hoc da hoan thanh theo ten
     public Vector<Course> searchCompletedCoursesByName(String user_id, String courseName) {
         Vector<Course> courses = new Vector<>();
-        String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id "
-                + "FROM Course c "
-                + "JOIN User_Enroll_Course uec ON c.course_id = uec.course_id "
-                + "JOIN User_Practice up ON up.course_id = c.course_id "
-                + "JOIN Result_Detail rd ON rd.user_practice_id = up.user_practice_id "
-                + "WHERE uec.user_id = ? "
-                + "AND rd.result > 3 "
-                + "GROUP BY c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id "
-                + "HAVING COUNT(DISTINCT up.TOP_id) = 3"
-                + "AND c.course_name LIKE ? ";
+        String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id " +
+                     "FROM Course c " +
+                     "JOIN (" +
+                     "    SELECT uec.course_id " +
+                     "    FROM User_Enroll_Course uec " +
+                     "    WHERE uec.user_id = ? AND uec.status = 1" +
+                     ") enrolled_courses ON c.course_id = enrolled_courses.course_id " +
+                     "JOIN User_Practice up ON up.course_id = c.course_id AND up.user_id = ? " +
+                     "JOIN Result_Detail rd ON rd.user_practice_id = up.user_practice_id " +
+                     "WHERE rd.result > 3 " +
+                     "GROUP BY c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id " +
+                     "HAVING COUNT(DISTINCT up.TOP_id) = 3" +
+                     "AND c.course_name LIKE ? ";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user_id);
-            ps.setString(2, "%" + courseName + "%");
+            ps.setString(2, user_id);
+            ps.setString(3, "%" + courseName + "%");
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     int course_id = rs.getInt("course_id");
@@ -382,14 +390,17 @@ public class DAOCourse extends DBConnect {
     //filter cac khoa hoc da hoan thanh theo category
     public Vector<Course> filterCompletedCoursesByCategories(String userId, String[] categoryNames) {
     Vector<Course> courses = new Vector<>();
-    StringBuilder sql = new StringBuilder("SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id ")
+     StringBuilder sql = new StringBuilder("SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id ")
             .append("FROM Course c ")
-            .append("JOIN User_Enroll_Course uec ON c.course_id = uec.course_id ")
-            .append("JOIN User_Practice up ON up.course_id = c.course_id ")
+            .append("JOIN (")
+            .append("    SELECT uec.course_id ")
+            .append("    FROM User_Enroll_Course uec ")
+            .append("    WHERE uec.user_id = ? AND uec.status = 1")
+            .append(") enrolled_courses ON c.course_id = enrolled_courses.course_id ")
+            .append("JOIN User_Practice up ON up.course_id = c.course_id AND up.user_id = ? ")
             .append("JOIN Result_Detail rd ON rd.user_practice_id = up.user_practice_id ")
             .append("JOIN Category cat ON c.category_id = cat.category_id ")
-            .append("WHERE uec.user_id = ? ")
-            .append("AND rd.result > 3 ");
+            .append("WHERE rd.result > 3 ");
 
     if (categoryNames != null && categoryNames.length > 0) {
         sql.append("AND cat.category_name IN (");
@@ -408,9 +419,10 @@ public class DAOCourse extends DBConnect {
    try {
         PreparedStatement ps = conn.prepareStatement(sql.toString());
         ps.setString(1, userId);
+        ps.setString(2, userId);
         if (categoryNames != null && categoryNames.length > 0) {
             for (int i = 0; i < categoryNames.length; i++) {
-                ps.setString(2 + i, categoryNames[i]);
+                ps.setString(3 + i, categoryNames[i]);
             }
         }
         ResultSet rs = ps.executeQuery();
@@ -437,24 +449,25 @@ public class DAOCourse extends DBConnect {
     //in ra cac khoa hoc dang hoc(result<3)
     public Vector<Course> getStudyingCourses(String user_id) {
         Vector<Course> courses = new Vector<>();
-        String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id "
-                + "FROM Course c "
-                + "JOIN User_Enroll_Course uec ON c.course_id = uec.course_id "
-                + "LEFT JOIN ( "
-                + "   SELECT c.course_id "
-                + "   FROM Course c "
-                + "   JOIN User_Enroll_Course uec ON c.course_id = uec.course_id "
-                + "   JOIN User_Practice up ON up.course_id = c.course_id "
-                + "   JOIN Result_Detail rd ON rd.user_practice_id = up.user_practice_id "
-                + "   WHERE uec.user_id = ? "
-                + "   AND rd.result > 3 "
-                + "   GROUP BY c.course_id "
-                + "   HAVING COUNT(DISTINCT up.TOP_id) = 3 "
-                + ") AS completed_courses ON c.course_id = completed_courses.course_id "
-                + "WHERE uec.user_id = ? AND completed_courses.course_id IS NULL";
+        String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id " +
+             "FROM Course c " +
+             "JOIN User_Enroll_Course uec ON c.course_id = uec.course_id " +
+             "LEFT JOIN ( " +
+             "    SELECT c.course_id " +
+             "    FROM Course c " +
+             "    JOIN User_Enroll_Course uec ON c.course_id = uec.course_id " +
+             "    JOIN User_Practice up ON up.course_id = c.course_id AND up.user_id = ? " +
+             "    JOIN Result_Detail rd ON rd.user_practice_id = up.user_practice_id " +
+             "    WHERE uec.user_id = ? AND uec.status = 1 AND rd.result > 3 " +
+             "    GROUP BY c.course_id " +
+             "    HAVING COUNT(DISTINCT up.TOP_id) = 3 " +
+             ") AS completed_courses ON c.course_id = completed_courses.course_id " +
+             "WHERE uec.user_id = ? AND uec.status = 1 AND completed_courses.course_id IS NULL";
+
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user_id);
             ps.setString(2, user_id);
+            ps.setString(3, user_id);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Course course = new Course();
@@ -478,23 +491,25 @@ public class DAOCourse extends DBConnect {
     //search cac khoa hoc dang hoc theo ten
     public Vector<Course> searchStudyingCoursesByName(String user_id, String courseName) {
         Vector<Course> courses = new Vector<>();
-        String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id "
-                + "FROM Course c "
-                + "JOIN User_Enroll_Course uec ON c.course_id = uec.course_id "
-                + "LEFT JOIN ( "
-                + "   SELECT up.course_id "
-                + "   FROM User_Practice up "
-                + "   JOIN Result_Detail rd ON rd.user_practice_id = up.user_practice_id "
-                + "   WHERE rd.result > 3 "
-                + "   GROUP BY up.course_id "
-                + "   HAVING COUNT(DISTINCT up.TOP_id) = 3 "
-                + ") AS completed_courses ON c.course_id = completed_courses.course_id "
-                + "WHERE uec.user_id = ? "
-                + "AND completed_courses.course_id IS NULL "
-                + "AND LOWER(c.course_name) LIKE LOWER(?) ESCAPE '|'";
+        String sql = "SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id " +
+             "FROM Course c " +
+             "JOIN User_Enroll_Course uec ON c.course_id = uec.course_id " +
+             "LEFT JOIN ( " +
+             "    SELECT up.course_id " +
+             "    FROM User_Practice up " +
+             "    JOIN Result_Detail rd ON rd.user_practice_id = up.user_practice_id " +
+             "    WHERE up.user_id = ? AND rd.result > 3 " +
+             "    GROUP BY up.course_id " +
+             "    HAVING COUNT(DISTINCT up.TOP_id) = 3 " +
+             ") AS completed_courses ON c.course_id = completed_courses.course_id " +
+             "WHERE uec.user_id = ? AND uec.status = 1 " +
+             "AND completed_courses.course_id IS NULL " +
+             "AND LOWER(c.course_name) LIKE LOWER(?) ESCAPE '|'";
+
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user_id);
-            ps.setString(2, "%" + courseName + "%");
+            ps.setString(2, user_id);
+            ps.setString(3, "%" + courseName + "%");
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     int course_id = rs.getInt("course_id");
@@ -519,22 +534,19 @@ public class DAOCourse extends DBConnect {
     //filter cac khoa hoc dang hoctheo category
     public Vector<Course> filterStudyingCoursesByCategories(String userId, String[] categoryNames) {
     Vector<Course> courses = new Vector<>();
-    StringBuilder sql = new StringBuilder("SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id ")
+     StringBuilder sql = new StringBuilder("SELECT DISTINCT c.course_id, c.course_name, c.description, c.create_at, c.update_at, c.active, c.created_by, c.category_id ")
             .append("FROM Course c ")
             .append("JOIN User_Enroll_Course uec ON c.course_id = uec.course_id ")
             .append("LEFT JOIN ( ")
-            .append("   SELECT c.course_id ")
-            .append("   FROM Course c ")
-            .append("   JOIN User_Enroll_Course uec ON c.course_id = uec.course_id ")
-            .append("   JOIN User_Practice up ON up.course_id = c.course_id ")
+            .append("   SELECT up.course_id ")
+            .append("   FROM User_Practice up ")
             .append("   JOIN Result_Detail rd ON rd.user_practice_id = up.user_practice_id ")
-            .append("   WHERE uec.user_id = ? ")
-            .append("   AND rd.result > 3 ")
-            .append("   GROUP BY c.course_id ")
+            .append("   WHERE up.user_id = ? AND rd.result > 3 ")
+            .append("   GROUP BY up.course_id ")
             .append("   HAVING COUNT(DISTINCT up.TOP_id) = 3 ")
             .append(") AS completed_courses ON c.course_id = completed_courses.course_id ")
             .append("JOIN Category cat ON c.category_id = cat.category_id ")
-            .append("WHERE uec.user_id = ? AND completed_courses.course_id IS NULL ");
+            .append("WHERE uec.user_id = ? AND uec.status = 1 AND completed_courses.course_id IS NULL ");
 
     if (categoryNames != null && categoryNames.length > 0) {
         sql.append("AND cat.category_name IN (");
