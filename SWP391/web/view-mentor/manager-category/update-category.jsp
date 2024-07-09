@@ -288,11 +288,13 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Trạng thái</label>
-                                        <select name="active" class="form-control">
+                                        <select name="active" class="form-control" disabled>
                                             <option value="1" ${category.active == 1 ? 'selected' : ''}>Kích hoạt</option>
                                             <option value="0" ${category.active == 0 ? 'selected' : ''}>Vô hiệu</option>
                                         </select>
+                                        <input type="hidden" name="active" value="1">
                                     </div>
+
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">Thay đổi</button>
                                     </div>
