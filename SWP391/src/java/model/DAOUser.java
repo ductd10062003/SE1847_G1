@@ -6,6 +6,7 @@ import entity.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class DAOUser extends DBConnect {
@@ -52,6 +53,24 @@ public class DAOUser extends DBConnect {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return user;
+    }
+
+    public ArrayList<User> getHomePage() {
+        ArrayList<User> user = new ArrayList<>();
+        String sql = "SELECT course_name,course_id,description,name,user_id,role\n"
+                + "FROM Course c\n"
+                + "INNER JOIN [User] u ON c.created_by = u.user_id\n"
+                + "WHERE u.role = 2";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                user.add(new User(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6)));
             }
         } catch (Exception e) {
             return null;

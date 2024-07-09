@@ -22,6 +22,7 @@ import model.DAOUser;
  */
 import entity.Category;
 import entity.Course;
+import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -75,9 +76,12 @@ public class homePage extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DAOCourse daoCourse = new DAOCourse();
-        DAOCategory daoCategory = new DAOCategory();
-        ArrayList<Course> list = daoCourse.getTop6NewestCourse();
-        request.setAttribute("course", list);
+        DAOUser daoUser = new DAOUser();
+//      ArrayList<Course> list = daoCourse.getTop6NewestCourse();
+
+        ArrayList<User> user = daoUser.getHomePage();
+
+        request.setAttribute("user", user);
         request.getRequestDispatcher("homePage.jsp").forward(request, response);
     }
 

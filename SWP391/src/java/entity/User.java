@@ -7,12 +7,23 @@ public class User {
     private String create_at;
     private int gender;
     public String dob, phone, image;
-    
+    private String course_name, description;
+    private int course_id;
+            
     public User() {
     }
     
     public User(String name) {
         this.name = name;
+    } 
+    
+    public User(String course_name,int course_id, String description,String name,int user_id,int role) {
+        this.course_name = course_name;
+        this.course_id = course_id;
+        this.description = description;
+        this.name = name;      
+        this.user_id = user_id;
+        this.role = role;
     }
 
     public User(int user_id, String name, String email, String password, int role, int active, String create_at, int gender, String dob, String phone, String image) {
@@ -27,6 +38,30 @@ public class User {
         this.dob = dob;
         this.phone = phone;
         this.image = image;
+    }
+
+    public int getCourse_id() {
+        return course_id;
+    }
+
+    public void setCourse_id(int course_id) {
+        this.course_id = course_id;
+    }
+
+    public String getCourse_name() {
+        return course_name;
+    }
+
+    public void setCourse_name(String course_name) {
+        this.course_name = course_name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getUser_id() {
