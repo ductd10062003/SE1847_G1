@@ -6,6 +6,7 @@ import entity.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class DAOUser extends DBConnect {
@@ -52,6 +53,26 @@ public class DAOUser extends DBConnect {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return user;
+    }
+
+    public ArrayList<User> getTop6Mentor() {
+        ArrayList<User> user = new ArrayList<>();
+        String sql = "SELECT TOP 6 u.name, u.user_id, u.role, COUNT(c.course_name) AS total_courses\n"
+                + "FROM [User] u\n"
+                + "LEFT JOIN Course c ON u.user_id = c.created_by\n"
+                + "WHERE u.role = 2\n"
+                + "GROUP BY u.user_id, u.name, u.role\n"
+                + "ORDER BY total_courses DESC;";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                user.add(new User(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4)));
             }
         } catch (Exception e) {
             return null;
