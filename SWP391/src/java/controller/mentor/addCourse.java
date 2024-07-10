@@ -100,7 +100,7 @@ public class addCourse extends HttpServlet {
         String courseName = request.getParameter("courseName");
         String des = request.getParameter("description");
         String[] flashcards = request.getParameterValues("flashcards[]");
-
+        int categoryID = Integer.parseInt(request.getParameter("categoryID"));
         DAOCourse daoCourse = new DAOCourse();
         DAOQuiz daoQuiz = new DAOQuiz();
 
@@ -109,7 +109,7 @@ public class addCourse extends HttpServlet {
             return;
         }
         
-        Course course = new Course(courseName, des, java.time.LocalDate.now().toString(), java.time.LocalDate.now().toString(), 1, 22, 1);
+        Course course = new Course(courseName, des, java.time.LocalDate.now().toString(), java.time.LocalDate.now().toString(), 1, 22, categoryID);
         daoCourse.createCourse(course);
         int id = daoCourse.lastedCourseCreatedBy(22);
         Vector<Integer> vector = new Vector<>();

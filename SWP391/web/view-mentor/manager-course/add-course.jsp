@@ -243,6 +243,8 @@
         <script>
                                 let numberOfFlashcard = 0;
                                 let flashcardsID = [];
+                                let oldCategoryID = -11;
+                                let newCategoryID = -11;
 
                                 function filterFunction() {
                                     let categoryId = document.getElementById('category').value;
@@ -279,6 +281,10 @@
                                     flashcardsID = flashcardsID.filter((value) => value !== number);
                                     document.getElementById('numberOfFlashcard').innerText = flashcardsID.length + ' thẻ';
                                     uploadForm.remove();
+                                    if(flashcardsID.length === 0){
+                                        oldCategoryID = newCategoryID;
+                                        changeCategory();
+                                    }
                                 }
 
 
@@ -377,30 +383,30 @@
 
 
                                 function confirm() {
-                                    if(flashcardsID.length === 0){
+                                    if (flashcardsID.length === 0) {
                                         document.getElementById('err').innerText = 'Bạn chưa tạo thẻ';
                                         return;
                                     }
-                                    if(flashcardsID.length % 3 !== 0){
+                                    if (flashcardsID.length % 3 !== 0) {
                                         document.getElementById('err').innerText = 'Sô thẻ phải chia hết cho 12';
                                         return;
                                     }
-                                    
+
                                     let name = document.getElementById('floatingName').value.trim();
-                                    if(name.length === 0){
+                                    if (name.length === 0) {
                                         document.getElementById('err').innerText = 'Bạn chưa điền tên';
                                         return;
                                     }
-                                    if(name.length > 50){
+                                    if (name.length > 50) {
                                         document.getElementById('err').innerText = 'Tên tối đa 50 ký tự';
                                         return;
                                     }
                                     let description = floatingDescription.value.trim();
-                                    if(description.length === 0){
+                                    if (description.length === 0) {
                                         document.getElementById('err').innerText = 'Bạn chưa điền mô tả';
                                         return;
                                     }
-                                    if(description.length > 100){
+                                    if (description.length > 100) {
                                         document.getElementById('err').innerText = 'Mô tả tối đa 100 ký tự';
                                         return;
                                     }
@@ -409,15 +415,15 @@
                                         type: 'post',
                                         data: {
                                             service: 'create',
-                                            courseName:name,
+                                            courseName: name,
                                             description: description,
+                                            categoryID: newCategoryID,
                                             flashcards: flashcardsID
                                         },
                                         success: function (data) {
-                                            if(data === '01'){
+                                            if (data === '01') {
                                                 document.getElementById('err').innerText = 'Trùng tên';
-                                            }
-                                            else{
+                                            } else {
                                                 document.getElementById('err').innerText = 'Thành công';
                                             }
                                         }
@@ -426,10 +432,22 @@
 
 
                                 function changeCategory() {
+                                    console.log(flashcardsID);
                                     document.getElementById('err').innerText = '';
                                     let dropdownContent = document.getElementById('dropdownContent');
                                     dropdownContent.innerHTML = '';
                                     let categoryId = document.getElementById('category').value;
+                                    if (oldCategoryID === -11 || flashcardsID.length === 0) {
+                                        oldCategoryID = +categoryId;
+                                        newCategoryID = oldCategoryID;
+                                        document.getElementById('err').innerText = '';
+                                    } else {
+                                        newCategoryID = +categoryId;
+                                    }
+                                    if(oldCategoryID !== newCategoryID){
+                                        document.getElementById('err').innerText = 'Bạn đang có thẻ khác thể loại';
+                                        return;
+                                    }
                                     $.ajax({
                                         url: 'add-course',
                                         type: 'post',
@@ -458,6 +476,7 @@
                                 }
 
                                 function randomFlashcards(input) {
+                                    if(oldCategoryID !== newCategoryID) return;
                                     let value = +input.value;
                                     let categoryId = document.getElementById('category').value;
                                     if (categoryId.trim().length === 0) {
