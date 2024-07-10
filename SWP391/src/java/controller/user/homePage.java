@@ -1,5 +1,15 @@
 package controller.user;
 
+import entity.Category;
+import entity.Course;
+import java.io.IOException;
+import java.io.PrintWriter;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import model.DAOCategory;
@@ -12,6 +22,7 @@ import model.DAOUser;
  */
 import entity.Category;
 import entity.Course;
+import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -65,11 +76,14 @@ public class homePage extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DAOCourse daoCourse = new DAOCourse();
-        ArrayList<Course> list = daoCourse.getAllCourses2();
-        request.setAttribute("course", list);
+        DAOUser daoUser = new DAOUser();
+        ArrayList<Course> list = daoCourse.getTop6NewestCourse();
 
-        //paging(request, list);
-        request.getRequestDispatcher("/homePage.jsp").forward(request, response);
+        ArrayList<User> user = daoUser.getTop6Mentor();
+        
+        request.setAttribute("list", list);        
+        request.setAttribute("user", user);
+        request.getRequestDispatcher("homePage.jsp").forward(request, response);
     }
 
     /**

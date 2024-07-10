@@ -35,9 +35,14 @@
         <link href="css/jquery.mb.YTPlayer.min.css" media="all" rel="stylesheet" type="text/css">
 
         <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/viewcourse.css">
 
-
-
+        <script>
+            function getOnclick() {
+                let form = document.getElementById("f1");
+                form.submit();
+            }
+        </script>
     </head>
 
     <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -81,14 +86,14 @@
             <div class="site-section">
                 <div class="container">
                     <a href="courseEnroll" class="btn btn-primary">Các khóa học đã đăng kí</a>
-                    <h2 class="mt-5">Các khóa học</h2>
+                    <h2 class="mt-6">Các khóa học</h2>
                     <p></p>
                     <p></p>
 
                     <div class="container">
                         <div class="row mb-4">
                             <div class="col-lg-6">
-                                <form action="viewcourse" method="post">
+                                <form id="searchForm" action="viewcourse" method="Post">
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Nhập tên khóa học" name="course_name">
                                         <div class="input-group-append">
@@ -98,35 +103,28 @@
                                 </form>
                             </div>
                         </div>
-                    </div>                  
+                    </div> 
 
-                    <div class="col-3 align-self-center">
-                        <div>
-                            <div class="card">
-                                <div class="card-header">Thể loại</div>
-                                <div class="card-body">
-                                    <div>
-                                        <form action="viewcourse" method="POST">
-                                            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
-                                            <div>
-                                                <c:forEach items="${requestScope.category}" var="category">
-                                                    <input 
-                                                        <c:if test="${category.category_id == requestScope.category_id}">
-                                                            checked
-                                                        </c:if>
-                                                        type="checkbox" 
-                                                        id="category_id" 
-                                                        name="category_id" 
-                                                        value="${category.category_id}">
-                                                    <label for="vehicle1">${category.category_name}</label><br>
-                                                </c:forEach>
-                                            </div>
-                                        </form>
-                                    </div>                             
-                                </div>
+                    <div class="container">
+                        <div class="row mb-4">
+                            <div class="col-lg-6">
+                                <form id="f1" action="viewcourse" method="Post">
+                                    <div class="input-group">
+                                        <select class="form-control" name="category_id" id="category_id" onchange="getOnclick()"> 
+                                            <option value="0">Tổng hợp</option>
+                                            <c:forEach items="${requestScope.category}" var="category" varStatus="loop" >
+                                                <option 
+                                                    <c:if test="${requestScope.selected==category.category_id}">
+                                                        selected
+                                                    </c:if>
+                                                    value="${category.category_id}">${category.category_name}</option>      
+                                            </c:forEach> 
+                                        </select>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                    </div>   
+                    </div> 
 
                     <div class="site-section">
                         <div class="container">
@@ -145,22 +143,32 @@
                                     </div>
                                 </c:forEach>    
                                 <div class="text-center" style="display: inline-block; margin-right:auto; width: 100%">
-                                    <c:forEach begin="${1}" end="${requestScope.num}" var="i">
-                                        <a style='text-decoration: none; color: white;' href="viewcourse?page=${i}">
-                                            <button style='margin-right: 1px;' class="btn btn-outline-dark ${i == page ? "active" : ""}">
-                                                ${i}
-                                            </button>
-                                        </a>
+
+                                    <c:forEach var="i" begin="1" end="${numPages}">
+                                        <a href="viewcourse?page=${i}" class="btn btn-outline-dark ${i == page ? 'active' : ''}" >${i}</a>
                                     </c:forEach>
                                 </div>
+
                             </div>
                         </div>
-                    </div>               
+                    </div>
+
+                    <div class="container">
+                        <div class="row mb-4">
+                            <div class="col-lg-6">
+                            </div>
+                        </div>
+                    </div>                  
+
+                    <div class="col-3 align-self-center">
+                        <div>                          
+                        </div>
+                    </div>                 
                 </div>
             </div>
         </div>
         <!-- .site-wrap -->
-            
+
         <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
             <div class="container">
                 <div class="row">
@@ -241,7 +249,7 @@
                 </div>
             </div>
         </div>    
-        
+
 
         <!-- loader -->
         <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#51be78"/></svg></div>

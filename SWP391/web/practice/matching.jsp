@@ -143,7 +143,7 @@
                 </div>
                 <div class="w-100 d-flex align-items-center justify-content-center mt-2">
                     <button type="button" class="btn btn-outline-primary mr-2" onclick="reset(${requestScope.course_id})">Học lại</button>
-                    <button type="button" class="btn btn-primary">Trang chủ</button>
+                    <button type="button" class="btn btn-primary" onclick="back(${requestScope.course_id})">Trở về</button>
                 </div>
             </div>
         </div>
@@ -189,7 +189,7 @@
                                 success: function (data) {
                                     listFlashCard = JSON.parse(data);
                                     total = listFlashCard.length;
-                                    document.getElementById('total').innerText = total;
+                                    document.getElementById('total').innerText = (total/3);
                                     times = setInterval(() => {
                                         time++;
                                         let displayTime = formatTime();
@@ -436,6 +436,10 @@
 
                                 }
                             });
+                        }
+                        
+                        function back(course_id){
+                            window.location.href='course-detail?course_id='+course_id;
                         }
         </script>
     </body>

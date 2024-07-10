@@ -69,32 +69,27 @@
                         </div>
                         <form action ="updateProfile" method="Post" onsubmit="return validate()">
                             <div class="row mt-3">
-                                <div class="col-md-12"><label class="labels">Tên người dùng</label><input type="text" class="form-control" placeholder="enter name" name="name" value="${requestScope.users.name}"></div>
+                                <div class="col-md-12"><label class="labels">Tên người dùng</label><input type="text" class="form-control" placeholder="enter name" name="name" value="${requestScope.users.name}"disabled></div>
                                 <div class="col-md-12"><label class="labels"><label>Giới tính</label>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="male" name="gender" value="male"
-                                                   required>
-                                            <label class="form-check-label" for="male">
-                                                Male
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="female" name="gender"
-                                                   value="female" required>
-                                            <label class="form-check-label" for="female">
-                                                Female
-                                            </label>
-                                        </div>
-                                </div>       
-                                        <div class="col-md-12"><label class="labels">Ngày sinh</label><input type="date" class="form-control" placeholder="enter dob" id="dob" name="dob" value="${requestScope.users.dob}" required></div>
-                                        <div class="col-md-12"><label class="labels">Số điện thoại</label><input type="text" class="form-control" placeholder="enter phone" name="phone" value="${requestScope.users.phone}" pattern="[0-9]{10}" required></div>        
-                                        <div class="col-md-12"><label class="labels">Email</label><input type="email" class="form-control" placeholder="enter email" name="email" value="${requestScope.users.email}" required></div>
-                                        <span id="email-exist-message" style="color:red;"></span>
-                                </div>
-                                <div class="mt-5 text-center">
-                                    <input type="submit" value="Lưu thông tin" class="btn btn-primary btn-lg px-5">
-                                </div>
-                                <div class="mt-5 text-center"><a href="index.jsp" class="btn btn-primary">Trở về trang chủ</a></div>
+                                            <input class="form-check-input" type="radio" id="male" name="gender"value="male" 
+                                                   <c:if test="${requestScope.users.gender == 1}">checked</c:if> required>
+                                                   <label class="form-check-label" for="male">Nam</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="female" name="gender"value="female" 
+                                                <c:if test="${requestScope.users.gender == 0}">checked</c:if> required>
+                                                <label class="form-check-label" for="female">Nữ</label>
+                                            </div>
+                                    </div>       
+                                    <div class="col-md-12"><label class="labels">Ngày sinh</label><input type="date" class="form-control" placeholder="enter dob" id="dob" name="dob" value="${requestScope.users.dob}" required></div>
+                                <div class="col-md-12"><label class="labels">Số điện thoại</label><input type="text" class="form-control" placeholder="enter phone" name="phone" value="${requestScope.users.phone}" pattern="[0-9]{10}" required></div>        
+                                <div class="col-md-12"><label class="labels">Email</label><input type="email" class="form-control" placeholder="enter email" name="email" value="${requestScope.users.email}" required disabled></div>
+                                <span id="email-exist-message" style="color:red;"></span>
+                            </div>
+                            <div class="mt-5 text-center">
+                                <input type="submit" value="Lưu thông tin" class="btn btn-primary btn-lg px-5">
+                            </div>
                         </form> 
                     </div>
                 </div>
@@ -276,6 +271,5 @@
             }
         }
     </script>
-
 </body>
 </html>

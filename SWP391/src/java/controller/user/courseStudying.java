@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.user;
 
 import java.io.IOException;
@@ -17,67 +16,83 @@ import java.util.Vector;
 import entity.Course;
 import model.DAOCourse;
 import entity.Category;
+import entity.User;
 import model.DAOCategory;
 
-@WebServlet(name="courseStudying", urlPatterns={"/courseStudying"})
+@WebServlet(name = "courseStudying", urlPatterns = {"/courseStudying"})
 public class courseStudying extends HttpServlet {
-   
-    private static final int ITEMS_PER_PAGE = 6;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        
+            throws ServletException, IOException {
+
 //        String user_id = request.getParameter("user_id");
 //        HttpSession session = request.getSession();
 //        String user_id = (String) session.getAttribute("user_id");
-        String user_id = "1";
+//        String user_id = "1";
+//
+//        if (user_id == null || user_id.isEmpty()) {
+//            response.sendRedirect("login");
+//            return;
+//        }
+        User user = (User) request.getSession().getAttribute("user");
 
-        if (user_id == null || user_id.isEmpty()) {
-            response.sendRedirect("login.html");
+        if (user == null) {
+            response.sendRedirect("login");
             return;
         }
-        
+
+        String user_id = String.valueOf(user.getUser_id());
+
         DAOCourse daoCourse = new DAOCourse();
         DAOCategory daoCategory = new DAOCategory();
-        
+
         Vector<Course> courses;
         Vector<Category> categories = daoCategory.getAllCategories();
-        
-        String courseName = request.getParameter("courseName");
-        String categoryName = request.getParameter("categoryName");
-        String pageStr = request.getParameter("page");
-        int page = (pageStr == null || pageStr.isEmpty()) ? 1 : Integer.parseInt(pageStr);
-        int offset = (page - 1) * ITEMS_PER_PAGE;
-        
-        
-         if (courseName != null && !courseName.isEmpty()) {
-            // Lọc theo tên khóa học nếu có
-            courses = daoCourse.searchStudyingCoursesByName(user_id, courseName, offset, ITEMS_PER_PAGE);
-        } else if (categoryName != null && !categoryName.isEmpty()) {
-            // Lọc theo danh mục nếu có
-            courses = daoCourse.getStudyingCoursesByCategory(user_id, categoryName, offset, ITEMS_PER_PAGE);
-        } else {
-            // Lấy tất cả các khóa học đã đăng ký nếu không có lọc
-            courses = daoCourse.getStudyingCourses(user_id, offset, ITEMS_PER_PAGE);
-        }
-         
-        int totalCourses = daoCourse.countUserEnrollCourses(user_id);
-        int totalPages = (int) Math.ceil((double) totalCourses / ITEMS_PER_PAGE); 
-         
-        request.setAttribute("categories", categories);
-        request.setAttribute("courses", courses);
-        request.setAttribute("totalPages", totalPages);
-        request.setAttribute("currentPage", page);
-        request.getRequestDispatcher("course-studying.jsp").forward(request, response);
-        
-    } 
 
-    
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        
+        String courseName = request.getParameter("courseName");
+        String[] categoryNames = request.getParameterValues("categoryName");
+
+        int page = 1;
+        int pageSize = 6;
+        if (request.getParameter("page") != null) {
+            page = Integer.parseInt(request.getParameter("page"));
+        }
+        if (request.getParameter("pageSize") != null) {
+            pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        }
+
+        if (courseName != null && !courseName.isEmpty()) {
+            courses = daoCourse.searchStudyingCoursesByName(user_id, courseName);
+        } else if (categoryNames != null && categoryNames.length > 0) {
+            courses = daoCourse.filterStudyingCoursesByCategories(user_id, categoryNames);
+        } else {
+            courses = daoCourse.getStudyingCourses(user_id);
+        }
+
+        int totalCourses = courses.size();
+        int totalPages = (int) Math.ceil((double) totalCourses / pageSize);
+        int fromIndex = (page - 1) * pageSize;
+        int toIndex = Math.min(fromIndex + pageSize, totalCourses);
+        Vector<Course> pageCourses = new Vector<>(courses.subList(fromIndex, toIndex));
+
+        request.setAttribute("categories", categories);
+        request.setAttribute("courses", pageCourses);
+        request.setAttribute("courseName", courseName);
+        request.setAttribute("categoryNames", categoryNames);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("pageSize", pageSize);
+        String queryString = request.getQueryString();
+        request.setAttribute("queryString", queryString != null ? queryString.replaceAll("&?page=\\d*", "").replaceAll("&?pageSize=\\d*", "") : "");
+        request.getRequestDispatcher("course-studying.jsp").forward(request, response);
+
     }
 
-    
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+    }
+
 }
