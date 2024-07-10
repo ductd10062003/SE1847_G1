@@ -1,12 +1,11 @@
 <%-- 
-    Document   : mentor-dashboard
-    Created on : May 23, 2024, 7:38:52 PM
+    Document   : add-course
+    Created on : May 25, 2024, 4:42:10 PM
     Author     : ductd
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -16,8 +15,15 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Dashboard - SB Admin</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <link href="../view-mentor/css/styles.css" rel="stylesheet" type="text/css"/>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap Select CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" rel="stylesheet">
+        <!-- Custom CSS -->
+
 
     </head>
     <body class="sb-nav-fixed">
@@ -27,15 +33,19 @@
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
-            <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-
-            </div>
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group" style="display: none">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#!">Xem thông tin</a></li>
+                        <!--<li><a class="dropdown-item" href="#!">Activity Log</a></li>-->
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="#!">Đăng xuất</a></li>
                     </ul>
@@ -107,133 +117,87 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
+                        <h1 class="mt-4">Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
                         <div class="row">
-                            <div class="col-3">
-                                <h1 class="mt-4">Thêm câu hỏi</h1>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-primary text-white mb-4">
+                                    <div class="card-body">Primary Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-9 d-flex align-items-end pb-3">
-                                <div>
-                                    <input type="file" name="file" accept=".xlsx" id="fileExcel" />
-                                    <button type="submit" onclick="loadExcel()" >Tải lên</button>         
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-warning text-white mb-4" style="visibility: hidden">
+                                    <div class="card-body">Warning Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-success text-white mb-4">
+                                    <div class="card-body">Success Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-danger text-white mb-4" style="visibility: hidden">
+                                    <div class="card-body">Danger Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-area me-1"></i>
+                                        Area Chart Example
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="myAreaChart" width="100" height="40"></canvas>
+                                        <div>abc</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        Bar Chart Example
+                                    </div>
+                                    <div class="card-body"><canvas id="myBarChart" width="100" height="40"></canvas></div>
                                 </div>
                             </div>
                         </div>
 
-                        <div>
-                            <div class="row">
-                                <div class="col-3 overflow-x">
-                                    <div class="card">
-                                        <div class="card-header">Thể loại</div>
-                                        <div class="card-body">
-                                            <div class="input-group mb-3">
-                                                <button
-                                                    class="btn btn-outline-secondary"
-                                                    type="button"
-                                                    id="button-addon1"
-                                                    >
-                                                    Tìm kiếm
-                                                </button>
-                                                <input
-                                                    type="text"
-                                                    class="form-control"
-                                                    placeholder=""
-                                                    aria-label="Example text with button addon"
-                                                    aria-describedby="button-addon1"
-                                                    oninput="searchCategory(this)"
-                                                    />
-                                            </div>
-                                            <!-- form check radio -->
-
-                                            <form action="add-flashcard" method="POST" id="formSubmit">
-                                                <div id="list_categories">
-                                                    <c:forEach items="${requestScope.categories}" var="category">
-                                                        <div class="form-check">
-                                                            <input
-                                                                required
-                                                                class="form-check-input"
-                                                                type="radio"
-                                                                name="category"
-                                                                id="category"
-                                                                value="${category.category_id}"                                                               
-                                                                />
-                                                            <label
-                                                                class="form-check-label"
-                                                                for="category"
-                                                                >
-                                                                ${category.category_name}
-                                                            </label>
-                                                        </div>
-                                                    </c:forEach>
-                                                </div>
-                                                <input type="hidden" name="data_flashcards" id="data_flashcards"/>
-                                                <input type="hidden" name="category_id" id="data_category_id"/>
-                                                <input type="hidden" name="service" value="createFlashCard" />
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-9">
-                                    <div class="card mb-4" id="list_flashcards">
-                                        <c:if test="${requestScope.listFlashCard != null}">
-                                            <c:forEach items="${requestScope.listFlashCard}" var="flashcard">
-                                                <div class="card-body row">
-                                                    <div class="col-5">
-                                                        <input                                                   
-                                                            type="text"
-                                                            placeholder="Thuật ngữ"
-                                                            class="w-100 fs-5 question"
-                                                            value="${fn:replace(flashcard.question, "@@err@@", "")}"
-                                                            />
-                                                    </div>
-                                                    <div class="col-5">
-                                                        <input
-                                                            type="text"
-                                                            placeholder="Định nghĩa"
-                                                            class="w-100 fs-5 answer"  
-                                                            value="${flashcard.answer}"
-                                                            />
-                                                    </div>
-                                                    <div class="col-2 text-end">
-                                                        <button type="button" class="btn btn-outline-secondary" onclick="deleteFL(this)">Xóa</button>
-                                                    </div>
-                                                    <div style="color: red; font-style: italic; font-size: 18px">${fn:contains(flashcard.question, "@@err@@") == true ? "Trùng câu hỏi" : ""}</div>
-                                                </div>
-                                            </c:forEach>
-                                        </c:if>
-                                    </div>
-                                    <div id="err" style="color: red; font-style: italic; font-size: 18px">${success}</div>
-                                    <div class="d-grid gap-2 mb-3">
-                                        <button class="btn btn-success" type="button" onclick="addRowFlashCard('', '')">Thêm thẻ</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="text-end mt-3">
-                                <button class="btn btn-primary" type="button" name="s" value="s" onclick="sendResquest()">
-                                    Tạo câu hỏi
-                                </button>
-                            </div>
-                        </div>
-
-                        <div style="height: 100vh"></div>
                     </div>
                 </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+
             </div>
         </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap Select JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
         <script>
+            $(document).ready(function () {
+                $('.selectpicker').selectpicker();
+            });
             window.addEventListener('DOMContentLoaded', event => {
 
                 // Toggle the side navigation
@@ -252,7 +216,29 @@
 
             });
         </script>
-        
 
+
+        <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.map"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script>
+            let myAreaChart = document.getElementById('myAreaChart').getContext('2d');
+            let a = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            let b = ['aaa', 'bbbb', 'cccc'];
+            let _myAreaChart = new Chart(myAreaChart, {
+                type: 'line',
+                data: {
+                    labels: b,
+                    datasets: [{
+                            label: 'abc',
+                            data: a,
+                            backgroundColor: 'blue',
+
+                        }]
+                },
+                options: {
+                    legend: {display: false}
+                }
+            });
+        </script>
     </body>
 </html>
