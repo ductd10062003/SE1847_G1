@@ -51,15 +51,12 @@
         <div class="container">
             <h2>Manage mentors</h2>
 
-<%--            Show error if error string exist in session--%>
-            <%if(session.getAttribute("error") != null){%>
+            <%-- Show error if error string exists in session --%>
+            <% if(session.getAttribute("error") != null) { %>
             <div class="alert alert-danger" role="alert">
-                <%=session.getAttribute("error")%>
+                <%= session.getAttribute("error") %>
             </div>
-            <%
-            }
-            session.removeAttribute("error");
-            %>
+            <% } session.removeAttribute("error"); %>
 
             <form action="${pageContext.request.contextPath}/admin-mentor-manage/manage-mentor" method="post" class="mb-4">
                 <div class="row">
@@ -72,42 +69,36 @@
                     </div>
                 </div>
             </form>
-            <%for(User mentor : (ArrayList<User>) session.getAttribute("mentor-list")){%>
-            <div class="row">
-                <!-- Mentor 1 -->
-                <div class="col-md-6 form-group">
-                    <label for="<%=mentor.getUser_id()%>_name">Name</label>
-                    <input type="text" id="<%=mentor.getUser_id()%>_name" class="form-control form-control-lg" value="<%=mentor.getName()%>" disabled>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="<%=mentor.getUser_id()%>_email">Email</label>
-                    <input type="email" id="<%=mentor.getUser_id()%>_email" class="form-control form-control-lg" value="<%=mentor.getEmail()%>" disabled>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="<%=mentor.getUser_id()%>_phone">Phone</label>
-                    <input type="text" id="<%=mentor.getUser_id()%>_phone" class="form-control form-control-lg" value="<%=mentor.getPhone()%>" disabled>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="<%=mentor.getUser_id()%>_status">Status</label>
-                    <input type="text" id="<%=mentor.getUser_id()%>_status" class="form-control form-control-lg" value="Active" disabled>
-                </div>
-                <%if(mentor.getActive() == 1){%>
-                <div class="col-md-6 form-group">
-                    <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-mentor?action=deactivate&id=<%=mentor.getUser_id()%>">
-                        <button class="btn btn-danger btn-lg px-5">Deactivate</button>
-                    </a>
-                </div>
-                <%}else{%>
-                <div class="col-md-6 form-group">
-                    <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-mentor?action=activate&id=<%=mentor.getUser_id()%>">
-                        <button class="btn btn-primary btn-lg px-5">Activate</button>
-                    </a>
-                </div>
-                <%}%>
-            </div>
-            <%}%>
 
-            <!-- Add more mentors here as needed -->
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% for(User mentor : (ArrayList<User>) session.getAttribute("mentor-list")) { %>
+                <tr>
+                    <td><%= mentor.getName() %></td>
+                    <td><%= mentor.getEmail() %></td>
+                    <td><%= mentor.getPhone() %></td>
+                    <td><%= mentor.getActive() == 1 ? "Active" : "Inactive" %></td>
+                    <td>
+                        <% if(mentor.getActive() == 1) { %>
+                        <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-mentor?action=deactivate&id=<%= mentor.getUser_id() %>" class="btn btn-danger">Deactivate</a>
+                        <% } else { %>
+                        <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-mentor?action=activate&id=<%= mentor.getUser_id() %>" class="btn btn-primary">Activate</a>
+                        <% } %>
+                    </td>
+                </tr>
+                <% } %>
+                </tbody>
+            </table>
+
         </div>
     </div>
 
