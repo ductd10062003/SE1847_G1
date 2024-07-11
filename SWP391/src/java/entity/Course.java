@@ -1,6 +1,7 @@
 package entity;
 
 public class Course {
+
     private int user_id;
     private int course_id;
     private String course_name, description, created_at, update_at;
@@ -9,26 +10,27 @@ public class Course {
     private int role;
     private int gender;
     public String dob, phone;
-    
+    public String category_name;
+
     public Course() {
     }
-    
+
     public Course(String course_name, String description) {
         this.course_name = course_name;
         this.description = description;
     }
-    
-    public Course(String course_name,int course_id, String description) {
+
+    public Course(String course_name, int course_id, String description) {
         this.course_name = course_name;
         this.course_id = course_id;
         this.description = description;
     }
-    
+
     public Course(String name) {
         this.name = name;
     }
 
-    public Course(String name, int user_id, int role, int gender, String dob, String phone, String email, String course_name,int course_id, String description) {
+    public Course(String name, int user_id, int role, int gender, String dob, String phone, String email, String course_name, int course_id, String description) {
         this.name = name;
         this.user_id = user_id;
         this.role = role;
@@ -52,7 +54,7 @@ public class Course {
         this.category_id = category_id;
     }
 
-    public Course(String course_name,String description, String created_at, String update_at, int active, int created_by, int category_id) {
+    public Course(String course_name, String description, String created_at, String update_at, int active, int created_by, int category_id) {
         this.course_name = course_name;
         this.description = description;
         this.created_at = created_at;
@@ -60,6 +62,23 @@ public class Course {
         this.active = active;
         this.created_by = created_by;
         this.category_id = category_id;
+    }
+    
+    public Course(String course_name, String description, String created_at, String update_at,int category_id, String category_name) {
+        this.course_name = course_name;
+        this.description = description;
+        this.created_at = created_at;
+        this.update_at = update_at;
+        this.category_id = category_id;
+        this.category_name = category_name;
+    }
+
+    public String getCategory_name() {
+        return category_name;
+    }
+
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
     }
 
     public int getUser_id() {
@@ -117,7 +136,7 @@ public class Course {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    
+
     public int getCourse_id() {
         return course_id;
     }

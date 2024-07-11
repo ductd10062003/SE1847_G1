@@ -11,6 +11,27 @@ import java.util.Vector;
 
 public class DAOUser extends DBConnect {
 
+    public ArrayList<User> getUserByCourseId(int course_id) {
+        ArrayList<User> course = new ArrayList<>();
+        String sql = "  select r.user_id,r.name,r.gender,r.role,r.active,r.phone,r.email\n"
+                + "  from [User] r inner join User_Enroll_Course u\n"
+                + "  on r.user_id = u.user_id\n"
+                + "  inner join Course c \n"
+                + "  on c.course_id = u.course_id\n"
+                + "  where c.course_id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setInt(1, course_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                course.add(new User(rs.getInt(1),rs.getString(2), rs.getInt(3),rs.getInt(4),rs.getInt(5),rs.getString(6), rs.getString(7)));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return course;
+    }
+
     //getUserByEmail
     public User getUserByEmail(String email) {
         User user = null;

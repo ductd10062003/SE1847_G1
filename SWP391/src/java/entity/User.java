@@ -17,6 +17,16 @@ public class User {
         this.name = name;
     } 
     
+    public User(int user_id, String name,int role, int active, int gender,String phone, String email) {
+        this.user_id = user_id;
+        this.name = name;
+        this.role = role;
+        this.active = active;
+        this.gender = gender;
+        this.phone = phone;
+        this.email = email;       
+    }
+    
     public User(String name,int user_id,int role, int count) {
         this.name = name;
         this.user_id = user_id;
