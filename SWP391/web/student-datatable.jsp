@@ -1,54 +1,26 @@
-<%-- 
-    Document   : student-datatable
-    Created on : 11 Jul 2024, 19:23:30
-    Author     : DAT
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
--->
 <html>
     <head>
         <title>Academics &mdash; Website by Colorlib</title>
         <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <link
-            href="https://fonts.googleapis.com/css?family=Muli:300,400,700,900"
-            rel="stylesheet"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <link href="https://fonts.googleapis.com/css?family=Muli:300,400,700,900" rel="stylesheet"/>
         <link rel="stylesheet" href="fonts/icomoon/style.css" />
-
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/jquery-ui.css" />
         <link rel="stylesheet" href="css/owl.carousel.min.css" />
         <link rel="stylesheet" href="css/owl.theme.default.min.css" />
-        <link rel="stylesheet" href="css/owl.theme.default.min.css" />
-
         <link rel="stylesheet" href="css/jquery.fancybox.min.css" />
-
         <link rel="stylesheet" href="css/bootstrap-datepicker.css" />
-
         <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css" />
-
         <link rel="stylesheet" href="css/aos.css" />
-        <link
-            href="css/jquery.mb.YTPlayer.min.css"
-            media="all"
-            rel="stylesheet"
-            type="text/css"/>
+        <link href="css/jquery.mb.YTPlayer.min.css" media="all" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="css/style.css">  
-
         <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
-        <!-- DataTables CSS -->
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-        <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <!-- DataTables JS -->
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
         <script>
             function getOnclick() {
@@ -59,11 +31,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </head>
     <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
         <jsp:include page="layout/header.jsp" />
-
-        <div
-            class="site-section ftco-subscribe-1 site-blocks-cover pb-4"
-            style="background-image: url('images/bg_1.jpg')"
-            >
+        <div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('images/bg_1.jpg')">
             <div class="container">
                 <div class="row align-items-end">
                     <div class="col-lg-7">
@@ -72,11 +40,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </div>
         </div>
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
         <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
-
         <div class="container">
             <form id="f1" action="topRanking" method="POST">
                 <div class="wrapper">
@@ -90,6 +56,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 <th>Tình Trạng</th>
                                 <th>Số điện thoại</th>
                                 <th>Email</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -98,10 +65,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     <td class="count">${loop.index + 1}</td>
                                     <td class="name">${list.name}</td>
                                     <td class="gender">${list.gender == 1 ? 'Nam' : 'Nữ'}</td>  
-                                    <td class="gender">${list.role == 2 ? 'Giáo viên' : 'Học sinh'}</td>  
+                                    <td class="role">${list.role == 2 ? 'Giáo viên' : 'Học sinh'}</td>  
                                     <td class="active">${list.active == 1 ? 'Không hoạt động' : 'Hoạt động'}</td> 
                                     <td class="phone">${list.phone}</td> 
                                     <td class="email">${list.email}</td> 
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${list.active == 1}">
+                                                <a href="${pageContext.request.contextPath}/studentDatatable?action=deactivate&course_id=${list.user_id}" class="btn btn-danger">Deactivate</a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="${pageContext.request.contextPath}/studentDatatable?action=activate&course_id=${list.user_id}" class="btn btn-primary">Activate</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
                                 </tr>        
                             </c:forEach>
                         </tbody>
@@ -109,13 +86,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </form>
         </div>
-
         <script>
             $(document).ready(function () {
                 $('#example').DataTable();
             });
         </script>
-
         <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
             <div class="container">
                 <div class="row">
@@ -127,19 +102,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
                         <span class="icon flaticon-school-material"></span>
                         <h3>Academics Principle</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea?
-                            Dolore, amet reprehenderit.</p>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea? Dolore, amet reprehenderit.</p>
                     </div>
                     <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
                         <span class="icon flaticon-library"></span>
                         <h3>Key of Success</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea?
-                            Dolore, amet reprehenderit.</p>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea? Dolore, amet reprehenderit.</p>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="footer">
             <div class="container">
                 <div class="row">
@@ -181,21 +153,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         </ul>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-12">
                         <div class="copyright">
                             <p>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                                 Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <script src="js/jquery-migrate-3.0.1.min.js"></script>
         <script src="js/jquery-ui.js"></script>
         <script src="js/popper.min.js"></script>
@@ -210,6 +178,5 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <script src="js/jquery.sticky.js"></script>
         <script src="js/jquery.mb.YTPlayer.min.js"></script>
         <script src="js/main.js"></script>
-
     </body>
 </html>
