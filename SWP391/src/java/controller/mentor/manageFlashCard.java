@@ -39,7 +39,7 @@ public class manageFlashCard extends HttpServlet {
             String endDate = request.getParameter("endDate");
 
             int page = 1;
-            int pageSize = 8;
+            int pageSize = 6;
             if (request.getParameter("page") != null) {
                 page = Integer.parseInt(request.getParameter("page"));
             }

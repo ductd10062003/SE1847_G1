@@ -363,7 +363,8 @@
                                                 <td>${flashcard.update_at}</td>
                                                 <td><span class="status ${flashcard.active == 1 ? 'text-success' : 'text-danger'}">&bull;</span> ${flashcard.active == 1 ? 'Kích hoạt' : 'Vô hiệu'}</td>
                                                 <td>${flashcard.category_id}</td>
-                                                <td>${flashcard.image}</td>
+                                                <td><img src="${flashcard.image}" class="img-fluid" width="50" height="50" onclick="showImage('${flashcard.image}')">
+                                                </td>
                                                 <td>
                                                     <a href="manageFlashCard?action=edit&id=${flashcard.flashcard_id}" class="settings" title="Settings" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
                                                 </td>
@@ -436,16 +437,31 @@
             }
         </script>
 
+        <script>
+            function showImage(imageUrl) {
+                // Create a modal or use a Bootstrap modal for displaying the enlarged image
+                var modalBody = '<img src="' + imageUrl + '" class="img-fluid">';
+                $('#imageModal .modal-body').html(modalBody);
+                $('#imageModal').modal('show');
+            }
+        </script>
+        <!-- Bootstrap Modal -->
+        <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="imageModalLabel">Ảnh phóng to</h5>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img id="enlargedImg" class="img-fluid" src="" alt="Enlarged Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
     </body>
 </html>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+
