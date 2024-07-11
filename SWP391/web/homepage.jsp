@@ -73,7 +73,7 @@
 
             <div class="site-section">
                 <div class="container">
-                                        <h2 class="section-title-underline mb-3">Các tác giả tiêu biểu</h2>
+                    <h2 class="section-title-underline mb-3">Các tác giả tiêu biểu</h2>
                     <div class="row">
                         <div class="col-12">
                             <div class="owl-slide-3 owl-carousel">

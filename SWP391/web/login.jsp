@@ -2,7 +2,7 @@
 
 
 <html lang="en">
-
+    <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <head>
     <title>Academics &mdash; Website by Colorlib</title>
     <meta charset="utf-8">
@@ -53,8 +53,7 @@
         <div class="container">
             <div class="row align-items-end justify-content-center text-center">
                 <div class="col-lg-7">
-                    <h2 class="mb-0">Login</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+                    <h2 class="mb-0">Đăng nhập</h2>                   
                 </div>
             </div>
         </div>
@@ -63,9 +62,9 @@
 
     <div class="custom-breadcrumns border-bottom">
         <div class="container">
-            <a href="index.jsp">Home</a>
+            <a href="index.jsp">Trang chủ</a>
             <span class="mx-3 icon-keyboard_arrow_right"></span>
-            <span class="current">Login</span>
+            <span class="current">Đăng nhập</span>
         </div>
     </div>
 
@@ -86,21 +85,21 @@
                     <div class="col-md-5">
                         <div class="row">
                             <div class="col-md-12 form-group">
-                                <label for="username">Username</label>
+                                <label for="username">Tên đăng nhập</label>
                                 <input type="text" id="username" name="username" class="form-control form-control-lg" value="<%= request.getSession().getAttribute("username") != null ? (String) request.getSession().getAttribute("username") : "" %>" required>
                             </div>
                             <div class="col-md-12 form-group">
-                                <label for="password">Password</label>
+                                <label for="password">Mật khẩu</label>
                                 <input type="password" id="password" name="password" class="form-control form-control-lg" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <input type="submit" value="Log In" class="btn btn-primary btn-lg px-5">
+                                <input type="submit" value="Đăng nhập" class="btn btn-primary btn-lg px-5">
                             </div>
                             <%--                   An hyperlink which leads to forgot password page--%>
                             <div class="col-6">
-                                <a href="forgot-password">Forgot Password?</a>
+                                <a href="forgot-password">Quên mật khẩu?</a>
                             </div>
                         </div>
 

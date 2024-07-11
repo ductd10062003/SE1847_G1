@@ -1,6 +1,6 @@
 <%-- 
-    Document   : datatable
-    Created on : 8 Jul 2024, 14:04:59
+    Document   : student-datatable
+    Created on : 11 Jul 2024, 19:23:30
     Author     : DAT
 --%>
 
@@ -78,37 +78,30 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
 
         <div class="container">
-            <header>
-                <h1 style="text-align: center">Top Ranking</h1>
-            </header>
             <form id="f1" action="topRanking" method="POST">
                 <div class="wrapper">
                     <table id="example" class="table table-striped" style="width:100%">
-                        <select name="type" id="type" onchange="getOnclick()"> 
-                            <option value="0">Tổng hợp</option>
-                            <c:forEach items="${requestScope.type}" var="type" varStatus="loop" >
-                                <option 
-                                    <c:if test="${requestScope.selected==type.typeOfPractice_id}">
-                                        selected
-                                    </c:if>
-                                    value="${loop.index + 1}">${type.typeOfPractice_name}</option>      
-                            </c:forEach>                                                 
-                        </select>
                         <thead>
                             <tr>
                                 <th>Xếp Hạng</th>
                                 <th>Tên</th>
-                                <th>Điểm</th>
-                                <th>Thời gian</th>
+                                <th>Giới tính</th>
+                                <th>Vai trò</th>
+                                <th>Tình Trạng</th>
+                                <th>Số điện thoại</th>
+                                <th>Email</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach items="${requestScope.ranking}" var="ranking" varStatus="loop" >
+                            <c:forEach items="${requestScope.list}" var="list" varStatus="loop" >
                                 <tr>     
                                     <td class="count">${loop.index + 1}</td>
-                                    <td class="name">${ranking.name}</td>
-                                    <td class="result">${ranking.result}</td>   
-                                    <td class="time">${ranking.time}</td> 
+                                    <td class="name">${list.name}</td>
+                                    <td class="gender">${list.gender == 1 ? 'Nam' : 'Nữ'}</td>  
+                                    <td class="gender">${list.role == 2 ? 'Giáo viên' : 'Học sinh'}</td>  
+                                    <td class="active">${list.active == 1 ? 'Không hoạt động' : 'Hoạt động'}</td> 
+                                    <td class="phone">${list.phone}</td> 
+                                    <td class="email">${list.email}</td> 
                                 </tr>        
                             </c:forEach>
                         </tbody>
@@ -220,4 +213,3 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
     </body>
 </html>
-

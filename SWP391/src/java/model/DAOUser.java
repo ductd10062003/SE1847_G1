@@ -11,6 +11,27 @@ import java.util.Vector;
 
 public class DAOUser extends DBConnect {
 
+    public ArrayList<User> getUserByCourseId(int course_id) {
+        ArrayList<User> course = new ArrayList<>();
+        String sql = "  select r.user_id,r.name,r.gender,r.role,r.active,r.phone,r.email\n"
+                + "  from [User] r inner join User_Enroll_Course u\n"
+                + "  on r.user_id = u.user_id\n"
+                + "  inner join Course c \n"
+                + "  on c.course_id = u.course_id\n"
+                + "  where c.course_id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setInt(1, course_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                course.add(new User(rs.getInt(1),rs.getString(2), rs.getInt(3),rs.getInt(4),rs.getInt(5),rs.getString(6), rs.getString(7)));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return course;
+    }
+
     //getUserByEmail
     public User getUserByEmail(String email) {
         User user = null;
@@ -154,7 +175,23 @@ public class DAOUser extends DBConnect {
         }
     }
 
-    public void updateUser(User user) {
+    public boolean updateUserActiveInfo(User user) {
+        String sql = "UPDATE [User]\n"
+                + "SET active = ?\n"
+                + "WHERE user_id = ?;";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, user.getActive());
+            ps.setInt(2, user.getUser_id());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateUser(User user) {
         String sql = "update [user] set [password] = ? where user_id = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -164,7 +201,9 @@ public class DAOUser extends DBConnect {
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     public void updateProfile(int user_id, String name, int gender, String dob, String phone, String email) {
@@ -183,7 +222,57 @@ public class DAOUser extends DBConnect {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println(new DAOUser().getUserByEmail("user1@gmail.com"));
+    public Object searchMentor(String keyword) {
+        ArrayList<User> user = new ArrayList<>();
+        String sql = "SELECT * \n"
+                + "FROM [User] \n"
+                + "WHERE (name LIKE ?\n"
+                + "   OR email LIKE ?\n"
+                + "   OR phone LIKE ?)\n"
+                + "AND [User].role = 2;";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setString(1, "%" + keyword + "%");
+            ps.setString(2, "%" + keyword + "%");
+            ps.setString(3, "%" + keyword + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                user.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11)));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return user;
     }
+
+    public ArrayList<User> getAllMentors() {
+        ArrayList<User> user = new ArrayList<>();
+        String sql = "SELECT * \n"
+                + "FROM [User] \n"
+                + "WHERE [User].role = 2;";
+        return getUser(user, sql);
+    }
+
+    private ArrayList<User> getUser(ArrayList<User> user, String sql) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                user.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11)));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return user;
+    }
+
+    public static void main(String[] args) {
+        User user = new DAOUser().getUserByID(21);
+        user.setActive(0);
+        new DAOUser().updateUserActiveInfo(user);
+        user = new DAOUser().getUserByID(21);
+        System.out.println(user.getActive());
+    }
+
 }

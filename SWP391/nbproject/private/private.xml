@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SWP391/Iter2/SE1847_G1/SWP391/web/admin/dashboard.jsp</file>
-            <file>file:/D:/SWP391/Iter2/SE1847_G1/SWP391/src/java/controller/admin/dashboard.java</file>
-            <file>file:/D:/SWP391/Iter2/SE1847_G1/SWP391/src/java/model/DAOUserHavePremium.java</file>
-            <file>file:/D:/SWP391/Iter2/SE1847_G1/SWP391/src/java/model/DAOUserEnrollCourse.java</file>
-            <file>file:/D:/SWP391/Iter2/SE1847_G1/SWP391/src/java/model/DAOUser.java</file>
+            <file>file:/D:/SWP391/SE1847_G1/SWP391/web/ConfirmChangedPassword.jsp</file>
+            <file>file:/D:/SWP391/SE1847_G1/SWP391/web/BrowseDiscussion.jsp</file>
+            <file>file:/D:/SWP391/SE1847_G1/SWP391/web/ChangePassword.jsp</file>
+            <file>file:/D:/SWP391/SE1847_G1/SWP391/web/ConfirmVerificationCode.jsp</file>
+            <file>file:/D:/SWP391/SE1847_G1/SWP391/web/ConfirmRegister.jsp</file>
         </group>
     </open-files>
 </project-private>

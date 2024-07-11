@@ -1,17 +1,14 @@
 <%-- 
-    Document   : datatable
-    Created on : 8 Jul 2024, 14:04:59
+    Document   : view-course
+    Created on : 11 Jul 2024, 10:37:34
     Author     : DAT
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
--->
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <title>Academics &mdash; Website by Colorlib</title>
         <meta charset="utf-8" />
@@ -41,21 +38,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             media="all"
             rel="stylesheet"
             type="text/css"/>
-        <link rel="stylesheet" href="css/style.css">  
-
-        <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
-        <!-- DataTables CSS -->
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-        <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <!-- DataTables JS -->
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-        <script>
-            function getOnclick() {
-                let form = document.getElementById("f1");
-                form.submit();
-            }
-        </script> 
+        <link rel="stylesheet" href="css/style.css">   
     </head>
     <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
         <jsp:include page="layout/header.jsp" />
@@ -73,55 +56,36 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             </div>
         </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
-        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+        <div class="site-section">
+            <div class="container">
+                <a href="mentor/dashboard" class="btn btn-primary">Quay lại</a>
+                <p></p>
+                <p></p>
+                <div class="row">
+                    <c:forEach items="${requestScope.course}" var="course">
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="course-1-item">
+                                <figure class="thumnail">
+                                    <div class="category"><h3>${course.course_name}</h3></div>  
+                                </figure>
+                                <div class="course-1-content pb-4">
+                                    <h2>${course.description}</h2>
+                                    <p><a href="studentDatatable?course_id=${course.course_id}" class="btn btn-primary rounded-0 px-4">Xem chi tiết</a></p>                               
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>    
+                    <div class="text-center" style="display: inline-block; margin-right:auto; width: 100%">
+                        <c:forEach var="i" begin="1" end="${numPages}">
+                            <a href="mentorProfile?page=${i}&name=${param.name}" class="btn btn-outline-dark ${i == page ? 'active' : ''}">
+                                ${i}
+                            </a>
+                        </c:forEach>
+                    </div>
 
-        <div class="container">
-            <header>
-                <h1 style="text-align: center">Top Ranking</h1>
-            </header>
-            <form id="f1" action="topRanking" method="POST">
-                <div class="wrapper">
-                    <table id="example" class="table table-striped" style="width:100%">
-                        <select name="type" id="type" onchange="getOnclick()"> 
-                            <option value="0">Tổng hợp</option>
-                            <c:forEach items="${requestScope.type}" var="type" varStatus="loop" >
-                                <option 
-                                    <c:if test="${requestScope.selected==type.typeOfPractice_id}">
-                                        selected
-                                    </c:if>
-                                    value="${loop.index + 1}">${type.typeOfPractice_name}</option>      
-                            </c:forEach>                                                 
-                        </select>
-                        <thead>
-                            <tr>
-                                <th>Xếp Hạng</th>
-                                <th>Tên</th>
-                                <th>Điểm</th>
-                                <th>Thời gian</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${requestScope.ranking}" var="ranking" varStatus="loop" >
-                                <tr>     
-                                    <td class="count">${loop.index + 1}</td>
-                                    <td class="name">${ranking.name}</td>
-                                    <td class="result">${ranking.result}</td>   
-                                    <td class="time">${ranking.time}</td> 
-                                </tr>        
-                            </c:forEach>
-                        </tbody>
-                    </table>
                 </div>
-            </form>
-        </div>
-
-        <script>
-            $(document).ready(function () {
-                $('#example').DataTable();
-            });
-        </script>
+            </div>
+        </div>                           
 
         <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
             <div class="container">
@@ -146,6 +110,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </div>
         </div>
+
 
         <div class="footer">
             <div class="container">
@@ -202,7 +167,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </div>
         </div>
+        <!-- .site-wrap -->
 
+        <!-- loader -->
+        <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#51be78"/></svg></div>
+
+        <script src="js/jquery-3.3.1.min.js"></script>
         <script src="js/jquery-migrate-3.0.1.min.js"></script>
         <script src="js/jquery-ui.js"></script>
         <script src="js/popper.min.js"></script>
@@ -217,6 +187,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <script src="js/jquery.sticky.js"></script>
         <script src="js/jquery.mb.YTPlayer.min.js"></script>
         <script src="js/main.js"></script>
-
     </body>
+</body>
 </html>
+
+

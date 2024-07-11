@@ -1,17 +1,18 @@
 <%-- 
-    Document   : datatable
-    Created on : 8 Jul 2024, 14:04:59
+    Document   : edit-course
+    Created on : 11 Jul 2024, 00:10:44
+    Author     : DAT
+--%><%-- 
+    Document   : view-course
+    Created on : 11 Jul 2024, 10:37:34
     Author     : DAT
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
--->
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <title>Academics &mdash; Website by Colorlib</title>
         <meta charset="utf-8" />
@@ -41,21 +42,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             media="all"
             rel="stylesheet"
             type="text/css"/>
-        <link rel="stylesheet" href="css/style.css">  
-
-        <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
-        <!-- DataTables CSS -->
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-        <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <!-- DataTables JS -->
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-        <script>
-            function getOnclick() {
-                let form = document.getElementById("f1");
-                form.submit();
-            }
-        </script> 
+        <link rel="stylesheet" href="css/style.css">   
     </head>
     <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
         <jsp:include page="layout/header.jsp" />
@@ -73,55 +60,47 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             </div>
         </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
-        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
-
-        <div class="container">
-            <header>
-                <h1 style="text-align: center">Top Ranking</h1>
-            </header>
-            <form id="f1" action="topRanking" method="POST">
-                <div class="wrapper">
-                    <table id="example" class="table table-striped" style="width:100%">
-                        <select name="type" id="type" onchange="getOnclick()"> 
-                            <option value="0">Tổng hợp</option>
-                            <c:forEach items="${requestScope.type}" var="type" varStatus="loop" >
-                                <option 
-                                    <c:if test="${requestScope.selected==type.typeOfPractice_id}">
-                                        selected
-                                    </c:if>
-                                    value="${loop.index + 1}">${type.typeOfPractice_name}</option>      
-                            </c:forEach>                                                 
-                        </select>
-                        <thead>
-                            <tr>
-                                <th>Xếp Hạng</th>
-                                <th>Tên</th>
-                                <th>Điểm</th>
-                                <th>Thời gian</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${requestScope.ranking}" var="ranking" varStatus="loop" >
-                                <tr>     
-                                    <td class="count">${loop.index + 1}</td>
-                                    <td class="name">${ranking.name}</td>
-                                    <td class="result">${ranking.result}</td>   
-                                    <td class="time">${ranking.time}</td> 
-                                </tr>        
-                            </c:forEach>
-                        </tbody>
-                    </table>
+        <div class="site-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-transparent border-0">
+                                <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Thông tin cá nhân</h3>
+                            </div>
+                            <div class="card-body pt-0">
+                                <table class="table table-bordered">
+                                    <div class="col-md-12"><label class="labels">Số điện thoại</label><input type="text" class="form-control" placeholder="enter phone" name="phone" value="${requestScope.users.phone}" pattern="[0-9]{10}" required></div>        
+                                
+                                    <tr>
+                                        <th width="30%">Tên khóa học</th>
+                                        <td width="2%">:</td>
+                                        <td>${requestScope.course.course_name}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%">Chủ đề</th>
+                                        <td width="2%">:</td>
+                                        <td>${requestScope.course.category_name}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%">Mô tả</th>
+                                        <td width="2%">:</td>
+                                        <td>${requestScope.course.description}</td>
+                                    </tr>
+                                    <c:forEach items="${requestScope.list}" var="list">
+                                    <tr>
+                                        <th width="30%">Câu hỏi : ${list.question}</th>
+                                        <td width="2%">:</td>    
+                                        <th width="30%">Trả lời : ${list.answer}</th>
+                                    </tr>
+                                    </c:forEach>
+                                </table>
+                            </div>
+                        </div>
+                    </div>    
                 </div>
-            </form>
-        </div>
-
-        <script>
-            $(document).ready(function () {
-                $('#example').DataTable();
-            });
-        </script>
+            </div>
+        </div>                           
 
         <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
             <div class="container">
@@ -146,6 +125,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </div>
         </div>
+
 
         <div class="footer">
             <div class="container">
@@ -202,7 +182,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </div>
         </div>
+        <!-- .site-wrap -->
 
+        <!-- loader -->
+        <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#51be78"/></svg></div>
+
+        <script src="js/jquery-3.3.1.min.js"></script>
         <script src="js/jquery-migrate-3.0.1.min.js"></script>
         <script src="js/jquery-ui.js"></script>
         <script src="js/popper.min.js"></script>
@@ -217,6 +202,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <script src="js/jquery.sticky.js"></script>
         <script src="js/jquery.mb.YTPlayer.min.js"></script>
         <script src="js/main.js"></script>
-
     </body>
+</body>
 </html>
+
+

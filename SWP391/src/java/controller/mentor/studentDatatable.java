@@ -1,27 +1,10 @@
-package controller.user;
-
-import entity.Category;
-import entity.Course;
-import java.io.IOException;
-import java.io.PrintWriter;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-import model.DAOCategory;
-import model.DAOCourse;
-import model.DAOUser;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-import entity.Category;
-import entity.Course;
+package controller.mentor;
+
+import entity.FlashCard;
 import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,12 +13,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import model.DAOUser;
 
 /**
  *
  * @author DAT
  */
-public class homePage extends HttpServlet {
+public class studentDatatable extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,10 +38,10 @@ public class homePage extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet homePage</title>");
+            out.println("<title>Servlet studentDatatable</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet homePage at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet studentDatatable at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -75,15 +59,13 @@ public class homePage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAOCourse daoCourse = new DAOCourse();
         DAOUser daoUser = new DAOUser();
-        ArrayList<Course> list = daoCourse.getTop6NewestCourse();
-
-        ArrayList<User> user = daoUser.getTop6Mentor();
+        String courseId_raw = request.getParameter("course_id");
+        int courseId = Integer.parseInt(courseId_raw);
         
-        request.setAttribute("list", list);        
-        request.setAttribute("user", user);
-        request.getRequestDispatcher("homepage.jsp").forward(request, response);
+        ArrayList<User> list = daoUser.getUserByCourseId(courseId);
+        request.setAttribute("list", list);
+        request.getRequestDispatcher("/student-datatable.jsp").forward(request, response);
     }
 
     /**

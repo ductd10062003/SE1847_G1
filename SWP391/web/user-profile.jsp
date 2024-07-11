@@ -68,12 +68,6 @@
                                 <p class="mb-0"><strong class="pr-1">ID người dùng:</strong>${sessionScope.user.user_id}</p>
                             </div>
                         </div>
-                        <a href="updateProfile" class="btn btn-primary">Thay đổi thông tin</a>    
-                        <a href="login" class="btn btn-primary">Đăng xuất</a>
-                        <form action="forgot-password" method="post">
-                            <input type="hidden" name="email" value="${sessionScope.user.email}">
-                            <button type="submit" class="btn btn-primary mt-3">Đổi mật khẩu</button>
-                        </form>
                     </div>
                     <div class="col-lg-8">
                         <div class="card shadow-sm">

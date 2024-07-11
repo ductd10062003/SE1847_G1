@@ -52,8 +52,9 @@
         <div class="container">
             <div class="row align-items-end justify-content-center text-center">
                 <div class="col-lg-7">
-                    <h2 class="mb-0">Posts</h2>
-                    <p>Read our latest posts below.</p>
+                    <h2 class="mb-0">Thảo luận</h2>
+                    <p>Nơi giải đáp những thắc mắc của bạn</p>
+                    
                 </div>
             </div>
         </div>
@@ -61,9 +62,9 @@
 
     <div class="custom-breadcrumns border-bottom">
         <div class="container">
-            <a href="index.jsp">Home</a>
+            <a href="index.jsp">Trang chủ</a>
             <span class="mx-3 icon-keyboard_arrow_right"></span>
-            <span class="current">Posts</span>
+            <span class="current">Thảo luận</span>
         </div>
     </div>
 
@@ -75,7 +76,7 @@
                     <p>24,193,657 questions</p>-->
                 </div>
                 <div class="col-md-4 text-md-right">
-                    <button class="btn btn-primary">Ask Question</button>
+                    <button class="btn btn-primary">Tạo câu hỏi</button>
                 </div>
             </div>
 
@@ -83,10 +84,10 @@
                 <div class="row mb-3">
                     <div class="col-12">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Search by keyword"
+                            <input type="text" class="form-control" placeholder="Tìm bằng từ khóa"
                                    aria-label="Search for questions" aria-describedby="button-search" name="keyword">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-primary" type="submit" id="button-search">Search
+                                <button class="btn btn-outline-primary" type="submit" id="button-search">Tìm kiếm
                                 </button>
                             </div>
                         </div>
@@ -95,7 +96,7 @@
 
                 <div class="row mb-3">
                     <div class="col-12">
-                        <h5>Categories</h5>
+                        <h5>Các thể loại</h5>
                     </div>
                     <% for (DiscussionCategory category : (List<DiscussionCategory>) session.getAttribute("categories")) { %>
                     <div class="col-3">
@@ -118,7 +119,7 @@
                     <div class="question-summary border p-3 mb-2">
                         <div class="row">
                             <div class="col-md-1 text-center">
-                                <div><%= new DAODiscussion().getCommentCount(discussion.getDiscussion_id()) %> answers
+                                <div><%= new DAODiscussion().getCommentCount(discussion.getDiscussion_id()) %> đã trả lời
                                 </div>
                             </div>
                             <div class="col-md-11">
@@ -128,8 +129,8 @@
                                 <div>
                                     <span class="badge badge-primary"><%= new DAODiscussionCategory().getCategoryNameByID(discussion.getCategory_id()) %></span>
                                 </div>
-                                <small class="text-muted">asked <%= Util.calculateDaysPassed(discussion.getCreate_at()) %>
-                                    days ago by <b><%= new DAOUser().getUserByID(discussion.getUser_id()).getName() %></b></small>
+                                <small class="text-muted">đã trả lời <%= Util.calculateDaysPassed(discussion.getCreate_at()) %>
+                                    ngày trước bởi <b><%= new DAOUser().getUserByID(discussion.getUser_id()).getName() %></b></small>
                             </div>
                         </div>
                     </div>

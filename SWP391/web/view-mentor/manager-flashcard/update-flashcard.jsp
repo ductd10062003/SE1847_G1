@@ -311,10 +311,27 @@
                                             </c:forEach>
                                         </select>
                                     </div>
-                                    <!--                                    <div class="form-group">
-                                                                            <label>Hình ảnh</label>
-                                                                            <input type="text" name="image" class="form-control" value="${flashcard.image}" required>
-                                                                        </div>-->
+                                    <!--                                                                        <div class="form-group">
+                                                                                                                <label>Hình ảnh</label>
+                                                                                                                <input type="text" name="image" class="form-control" value="${flashcard.image}" required>
+                                                                                                            </div>-->
+
+                                    <div class="form-group">
+                                        <label>Hình ảnh ban đầu</label>
+                                        <div id="originalImageContainer">
+                                            <img id="originalImage" src="${flashcard.image}" alt="Original Image" style="max-width: 20%; display: ${flashcard.image ? 'block' : 'none'};">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Hình ảnh thay đổi</label>
+                                        <!-- Thay đổi input để cho phép upload file -->
+                                        <input type="file" name="imageFile" id="imageFile" class="form-control-file">
+                                        <!-- Hiển thị hình ảnh sau khi upload -->
+                                        <img id="previewImage" src="#" alt="Preview Image" style="max-width: 10%; display: none;">
+                                        <!-- Input ẩn để lưu base64 string -->
+                                        <input type="hidden" name="image" id="imageBase64" value="">
+                                    </div>
+
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">Thay đổi</button>
                                     </div>
@@ -346,22 +363,73 @@
             });
         </script>
         <script>
-            $(document).ready(function () {
-                // Validate form inputs
-                $('form').on('submit', function (e) {
-                    var isValid = true;
-                    $('input[type="text"], textarea').each(function () {
-                        if ($.trim($(this).val()) === '') {
-                            alert('Các trường không được để trống hoặc chỉ chứa khoảng trắng.');
-                            isValid = false;
-                            return false;
-                        }
-                    });
-                    if (!isValid) {
-                        e.preventDefault();
-                    }
-                });
+    $(document).ready(function () {
+        // Validate form inputs
+        $('form').on('submit', function (e) {
+            var isValid = true;
+            // Kiểm tra xem đã chọn file hình ảnh hay chưa
+            if ($('#imageFile').get(0).files.length === 0) {
+                alert('Vui lòng chọn file hình ảnh.');
+                isValid = false;
+            }
+            // Kiểm tra các trường text và textarea khác
+            $('input[type="text"], textarea').each(function () {
+                if ($.trim($(this).val()) === '') {
+                    alert('Các trường không được để trống hoặc chỉ chứa khoảng trắng.');
+                    isValid = false;
+                    return false;
+                }
+            });
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+
+        <script>
+            // Xử lý khi người dùng chọn file hình ảnh
+            document.getElementById('imageFile').addEventListener('change', function (event) {
+                var file = event.target.files[0];
+
+                // Kiểm tra nếu không phải là file hình ảnh
+                if (!file.type.startsWith('image/')) {
+                    alert('Vui lòng chỉ chọn file hình ảnh.');
+                    document.getElementById('imageFile').value = ''; // Xóa lựa chọn file
+                    return;
+                }
+
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // Hiển thị hình ảnh đã chọn
+                    document.getElementById('previewImage').src = e.target.result;
+                    document.getElementById('previewImage').style.display = 'block';
+
+                    // Chuyển đổi file thành base64 string và định dạng data URI
+                    var base64String = e.target.result.split(',')[1];
+                    var formattedBase64 = 'data:' + file.type + ';base64,' + base64String;
+                    document.getElementById('imageBase64').value = formattedBase64; // Lưu base64 string vào input ẩn
+                };
+
+                reader.readAsDataURL(file);
             });
         </script>
+        <script>
+            // JavaScript code to display original image from base64 string
+            window.addEventListener('DOMContentLoaded', function () {
+                var originalImage = document.getElementById('originalImage');
+                var originalImageContainer = document.getElementById('originalImageContainer');
+                var imageBase64 = '${flashcard.image}'; // Replace with your actual base64 string
+
+                if (imageBase64) {
+                    originalImage.src = imageBase64;
+                    originalImage.style.display = 'block';
+                } else {
+                    originalImageContainer.style.display = 'none';
+                }
+            });
+        </script>
+
     </body>
 </html>
