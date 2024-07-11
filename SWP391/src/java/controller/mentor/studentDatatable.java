@@ -22,6 +22,9 @@ import model.DAOUser;
  */
 public class studentDatatable extends HttpServlet {
 
+    private String contextPath;
+    private String servletContextPath;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -57,25 +60,37 @@ public class studentDatatable extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private String contextPath;
-    private String servletContextPath;
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAOUser daoUser = new DAOUser();
-        String courseId_raw = request.getParameter("course_id");
-        int courseId = Integer.parseInt(courseId_raw);
+        contextPath = "student-datatable.jsp";
+        servletContextPath = "studentDatatable";
+        String action = request.getParameter("action");
+       
+        System.out.println("action: " + action);
+        System.out.println(request.getParameter("user_id"));
+        if (action != null) {
+            redirectAction(request, response);
+        } else {
+            DAOUser daoUser = new DAOUser();
+            String courseId_raw = request.getParameter("course_id");
+            int courseId = Integer.parseInt(courseId_raw);
 
-        ArrayList<User> list = daoUser.getUserByCourseId(courseId);
-        request.setAttribute("list", list);
-        request.getRequestDispatcher("/student-datatable.jsp").forward(request, response);
+            ArrayList<User> list = daoUser.getUserByCourseId(courseId);
+
+            for (User user : list) {
+                System.out.println("user:" + user.getName() + "\t status: " + user.getActive());
+            }
+            request.setAttribute("list", list);
+            request.getRequestDispatcher("/student-datatable.jsp").forward(request, response);
+        }
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        contextPath = "";
-        servletContextPath = req.getContextPath() + "manage-mentor.jsp";
+        contextPath = "student-datatable.jsp";
+        servletContextPath = "/studentDatatable";
 
         redirectAction(req, resp);
     }
@@ -86,6 +101,8 @@ public class studentDatatable extends HttpServlet {
         if (action == null) {
             return;
         }
+
+        System.out.println("Action: " + action);
 
         switch (action) {
             case "activate":
@@ -110,7 +127,8 @@ public class studentDatatable extends HttpServlet {
     }
 
     private void deactivateMentor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String id = req.getParameter("id");
+        String id = req.getParameter("user_id");
+        String course_id = req.getParameter("course_id");
         User mentor = new DAOUser().getUserByID(Integer.parseInt(id));
         if (mentor == null || mentor.getActive() != 1) {
             printError(req, resp, "Mentor not found");
@@ -118,15 +136,18 @@ public class studentDatatable extends HttpServlet {
         }
         mentor.setActive(0);
         if (new DAOUser().updateUserActiveInfo(mentor)) {
-            resp.sendRedirect(servletContextPath);
+            resp.sendRedirect(servletContextPath + "?course_id=" + course_id);
         } else {
             printError(req, resp, "Error deactivating mentor");
         }
     }
 
     private void activateMentor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String id = req.getParameter("id");
+        String id = req.getParameter("user_id");
+        String course_id = req.getParameter("course_id");
+
         User mentor = new DAOUser().getUserByID(Integer.parseInt(id));
+
         if (mentor == null || mentor.getActive() != 0) {
             printError(req, resp, "Mentor not found");
             return;
@@ -134,7 +155,8 @@ public class studentDatatable extends HttpServlet {
         mentor.setActive(1);
 
         if (new DAOUser().updateUserActiveInfo(mentor)) {
-            resp.sendRedirect(servletContextPath);
+            System.out.println("Mentor activated: " + servletContextPath + "?course_id=" + course_id);
+            resp.sendRedirect(servletContextPath + "?course_id=" + course_id);
         } else {
             printError(req, resp, "Error activating mentor");
         }

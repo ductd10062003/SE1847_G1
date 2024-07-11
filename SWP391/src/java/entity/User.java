@@ -17,14 +17,15 @@ public class User {
         this.name = name;
     } 
     
-    public User(int user_id, String name,int role, int active, int gender,String phone, String email) {
+    public User(int user_id, String name,int role, int active, int gender,String phone, String email,int course_id) {
         this.user_id = user_id;
         this.name = name;
         this.role = role;
         this.active = active;
         this.gender = gender;
         this.phone = phone;
-        this.email = email;       
+        this.email = email;    
+        this.course_id = course_id;   
     }
     
     public User(String name,int user_id,int role, int count) {

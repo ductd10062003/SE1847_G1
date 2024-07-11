@@ -22,12 +22,6 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-        <script>
-            function getOnclick() {
-                let form = document.getElementById("f1");
-                form.submit();
-            }
-        </script> 
     </head>
     <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
         <jsp:include page="layout/header.jsp" />
@@ -44,7 +38,7 @@
         <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
         <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
         <div class="container">
-            <form id="f1" action="topRanking" method="POST">
+            <form action="studentDatabase" method="POST">
                 <div class="wrapper">
                     <table id="example" class="table table-striped" style="width:100%">
                         <thead>
@@ -71,13 +65,24 @@
                                     <td class="email">${list.email}</td> 
                                     <td>
                                         <c:choose>
-                                            <c:when test="${list.active == 1}">
-                                                <a href="${pageContext.request.contextPath}/studentDatatable?action=deactivate&course_id=${list.user_id}" class="btn btn-danger">Deactivate</a>
+                                            <c:when test="${list.active == 0}">
+                                                <form action="studentDatatable" method="GET">
+                                                    <input type="hidden" name="action" value="activate">
+                                                    <input type="hidden" name="user_id" value="${list.user_id}">
+                                                    <input type="hidden" name="course_id" value="${list.course_id}">
+                                                    <button type="submit" class="btn btn-primary">Activate</button>
+                                                </form>
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="${pageContext.request.contextPath}/studentDatatable?action=activate&course_id=${list.user_id}" class="btn btn-primary">Activate</a>
+                                                <form action="studentDatatable" method="GET">
+                                                    <input type="hidden" name="action" value="deactivate">
+                                                    <input type="hidden" name="user_id" value="${list.user_id}">
+                                                    <input type="hidden" name="course_id" value="${list.course_id}">
+                                                    <button type="submit" class="btn btn-danger">Deactivate</button>
+                                                </form>
                                             </c:otherwise>
                                         </c:choose>
+
                                     </td>
                                 </tr>        
                             </c:forEach>
