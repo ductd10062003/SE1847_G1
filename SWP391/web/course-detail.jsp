@@ -3,7 +3,7 @@
     Created on : May 21, 2024, 9:37:42 AM
     Author     : ductd
 --%>
-
+<%@ page import="java.net.URLEncoder" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -110,7 +110,9 @@
                                     <div style="font-style: italic">
                                         Chủ để: ${requestScope.category.category_name}
                                 </div>
-                                Tạo bởi: <a href="mentorProfile?name=${requestScope.mentor.name}" class="small mr-3">${requestScope.mentor.name}</a>
+                                <div>
+                                    Tạo bởi: <a href="mentorProfile?name=${URLEncoder.encode(requestScope.mentor.name, 'UTF-8')}" class="small mr-3">${requestScope.mentor.name}</a>
+                                </div>
                                 <div class="mt-3">
                                     <div>
                                         <c:forEach items="${requestScope.typeOfPractices}" var="TOP">

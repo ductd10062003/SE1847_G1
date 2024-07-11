@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.List;
 import model.DAOCategory;
 import model.DAOCourse;
 
@@ -67,75 +68,91 @@ public class viewCourse extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        String search = request.getParameter("course_name");
+        String searchById = request.getParameter("category_id");
 
-        HttpSession session = request.getSession();
+        List<Course> courses = null;
+        List<Category> categories = null;
 
-        String search = (String) session.getAttribute("course_name");
-        String searchById = (String) session.getAttribute("category_id");
-        ArrayList<Course> courses;
-        ArrayList<Category> categories = daoCategory.getAllCategories2();
-
-        if (search != null && searchById == null) {
-            courses = daoCourse.getCourseByName2(search);
-        } else if (search == null && searchById != null) {
-            courses = daoCourse.getCouseByCategoryID(searchById);
-        } else if (search != null && searchById != null) {
-            courses = daoCourse.getCouseByCategoryIDandName(searchById, search);
-        } else {
-            courses = daoCourse.getAllCourses2();
+        try {
+            categories = daoCategory.getAllCategories2();
+            // Retrieve all categories
+            if ("0".equals(searchById)) {
+                if (search != null && !search.isEmpty()) {
+                    // Retrieve courses based on search course_name
+                    courses = daoCourse.getCourseByName2(search);
+                } else {
+                    // Retrieve all courses when no search parameter provided
+                    courses = daoCourse.getAllCourses2();
+                }
+            } else if (search != null && !search.isEmpty() && (searchById == null || searchById.isEmpty())) {
+                // Retrieve courses based on search course_name
+                courses = daoCourse.getCourseByName2(search);
+            } else if (searchById != null && !searchById.isEmpty() && (search == null || search.isEmpty())) {
+                // Retrieve courses based on select category_id
+                courses = daoCourse.getCouseByCategoryID(searchById);
+            } else if (search != null && !search.isEmpty() && searchById != null && !searchById.isEmpty()) {
+                // Retrieve courses based on search course_name and select category_id
+                courses = daoCourse.getCouseByCategoryIDandName(searchById, search);
+            } else {
+                // If no search parameters are provided, retrieve all courses
+                courses = daoCourse.getAllCourses2();
+            }
+            request.setAttribute("course", courses);
+            request.setAttribute("category", categories);
+            // Set attributes in request for rendering in JSP           
+            paging(request, (ArrayList<Course>) courses);
+            // Set up pagination (assuming this method exists and is correctly implemented)          
+            request.getRequestDispatcher("/courses.jsp").forward(request, response);
+            // Forward to courses.jsp for rendering          
+        } catch (Exception e) {
+            // Handle any exceptions that occur
+            e.printStackTrace();
+            request.setAttribute("error", "An error occurred while processing your request.");
+            // For debugging purposes; replace with appropriate error handling
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            // Optionally, forward to an error page or set an error message attribute
         }
-
-        request.setAttribute("course", courses);
-        request.setAttribute("category", categories);
-
-        paging(request, courses);
-        request.getRequestDispatcher("/courses.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        // Retrieve search parameters from the form
         String search = request.getParameter("course_name");
         String searchById = request.getParameter("category_id");
-        // Tạo session
+        // Initialize session
         HttpSession session = request.getSession();
-
-        // Lưu tên người dùng vào 
+        // Store search parameters in session
         session.setAttribute("course_name", search);
         session.setAttribute("category_id", searchById);
+        // Retrieve all categories
+        List<Category> categories = daoCategory.getAllCategories2();
+        // Initialize courses list
+        List<Course> courses = null;
+        // Handle different cases based on search parameters
         if ("0".equals(searchById)) {
-            ArrayList<Course> listcourse = daoCourse.getAllCourses2();
-            ArrayList<Category> category = daoCategory.getAllCategories2();
-            request.setAttribute("course", listcourse);
-            request.setAttribute("selected", searchById);
-            request.setAttribute("category", category);
-            paging(request, listcourse);
-            session.setAttribute("selected", searchById);
-            request.getRequestDispatcher("/courses.jsp").forward(request, response);
+            // Retrieve all courses when category_id is "0"
+            courses = daoCourse.getAllCourses2();
         } else if (search != null && searchById == null) {
+            // Retrieve courses by name if only course_name is provided
             String selected = (String) session.getAttribute("selected");
-            ArrayList<Course> listcourse = null;
             if ("0".equals(selected) || selected == null) {
-                listcourse = daoCourse.getCourseByName2(search);
+                courses = daoCourse.getCourseByName2(search);
             } else {
-                listcourse = daoCourse.getCouseByCategoryIDandName(selected, search);
+                courses = daoCourse.getCouseByCategoryIDandName(selected, search);
             }
-            ArrayList<Category> category = daoCategory.getAllCategories2();
-            request.setAttribute("course", listcourse);
-            request.setAttribute("selected", selected);
-            request.setAttribute("category", category);
-            paging(request, listcourse);
-            request.getRequestDispatcher("/courses.jsp").forward(request, response);
         } else if (search == null && searchById != null) {
-            ArrayList<Course> listcourse = daoCourse.getCouseByCategoryID(searchById);
-            ArrayList<Category> category = daoCategory.getAllCategories2();
-            request.setAttribute("course", listcourse);
-            request.setAttribute("selected", searchById);
-            request.setAttribute("category", category);
-            paging(request, listcourse);
-            session.setAttribute("selected", searchById);
-            request.getRequestDispatcher("/courses.jsp").forward(request, response);
+            // Retrieve courses by category_id if only category_id is provided
+            courses = daoCourse.getCouseByCategoryID(searchById);
         }
+        // Set attributes in request for rendering in JSP
+        request.setAttribute("course", courses);
+        request.setAttribute("category", categories);
+        // Set up pagination (assuming this method exists and is correctly implemented)
+        paging(request, (ArrayList<Course>) courses);
+        // Forward to courses.jsp for rendering
+        request.getRequestDispatcher("/courses.jsp").forward(request, response);
     }
 }

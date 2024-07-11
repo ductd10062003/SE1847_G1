@@ -1,12 +1,16 @@
 <%-- 
-    Document   : topRanking
-    Created on : 24 Jun 2024, 00:29:57
+    Document   : datatable
+    Created on : 8 Jul 2024, 14:04:59
     Author     : DAT
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
 <html>
     <head>
         <title>Academics &mdash; Website by Colorlib</title>
@@ -37,15 +41,21 @@
             media="all"
             rel="stylesheet"
             type="text/css"/>
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/topRanking.css">
+        <link rel="stylesheet" href="css/style.css">  
 
+        <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
+        <!-- DataTables CSS -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- DataTables JS -->
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
         <script>
-            function getOnclick(){
+            function getOnclick() {
                 let form = document.getElementById("f1");
                 form.submit();
             }
-        </script>
+        </script> 
     </head>
     <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
         <jsp:include page="layout/header.jsp" />
@@ -63,13 +73,17 @@
             </div>
         </div>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+
         <div class="container">
             <header>
-                <h1>Top Ranking</h1>
+                <h1 style="text-align: center">Top Ranking</h1>
             </header>
             <form id="f1" action="topRanking" method="POST">
                 <div class="wrapper">
-                    <table>
+                    <table id="example" class="table table-striped" style="width:100%">
                         <select name="type" id="type" onchange="getOnclick()"> 
                             <option value="0">Tổng hợp</option>
                             <c:forEach items="${requestScope.type}" var="type" varStatus="loop" >
@@ -103,6 +117,12 @@
             </form>
         </div>
 
+        <script>
+            $(document).ready(function () {
+                $('#example').DataTable();
+            });
+        </script>
+
         <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
             <div class="container">
                 <div class="row">
@@ -126,7 +146,6 @@
                 </div>
             </div>
         </div>
-
 
         <div class="footer">
             <div class="container">
@@ -183,12 +202,7 @@
                 </div>
             </div>
         </div>
-        <!-- .site-wrap -->
 
-        <!-- loader -->
-        <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#51be78"/></svg></div>
-
-        <script src="js/jquery-3.3.1.min.js"></script>
         <script src="js/jquery-migrate-3.0.1.min.js"></script>
         <script src="js/jquery-ui.js"></script>
         <script src="js/popper.min.js"></script>
