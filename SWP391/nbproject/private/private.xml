@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/AllSemesters/A8.5-Summer%202024/swp391/SE1847_G1/SWP391/src/java/model/DAOUser.java</file>
-            <file>file:/D:/AllSemesters/A8.5-Summer%202024/swp391/SE1847_G1/SWP391/src/java/controller/user/homePage.java</file>
-            <file>file:/D:/AllSemesters/A8.5-Summer%202024/swp391/SE1847_G1/SWP391/web/homePage.jsp</file>
-            <file>file:/D:/AllSemesters/A8.5-Summer%202024/swp391/SE1847_G1/SWP391/src/java/entity/Course.java</file>
-            <file>file:/D:/AllSemesters/A8.5-Summer%202024/swp391/SE1847_G1/SWP391/src/java/entity/User.java</file>
+            <file>file:/D:/SWP391/Iter2/SE1847_G1/SWP391/web/admin/dashboard.jsp</file>
+            <file>file:/D:/SWP391/Iter2/SE1847_G1/SWP391/src/java/controller/admin/dashboard.java</file>
+            <file>file:/D:/SWP391/Iter2/SE1847_G1/SWP391/src/java/model/DAOUserHavePremium.java</file>
+            <file>file:/D:/SWP391/Iter2/SE1847_G1/SWP391/src/java/model/DAOUserEnrollCourse.java</file>
+            <file>file:/D:/SWP391/Iter2/SE1847_G1/SWP391/src/java/model/DAOUser.java</file>
         </group>
     </open-files>
 </project-private>

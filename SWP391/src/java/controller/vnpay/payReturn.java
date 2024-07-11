@@ -71,7 +71,7 @@ public class payReturn extends HttpServlet {
                 int user_id = Integer.parseInt(part[0]);
                 
                 Premium premium = daoPremium.getPremiumById(Integer.parseInt(premium_id));
-                UserHavePremium uhp = daoUserHavePremium.getUserHavePremiumByUserId(user_id);
+                UserHavePremium uhp = daoUserHavePremium.getUserHavePremiumByUserIdEnd(user_id);
                 
                 if (uhp == null) {
                     LocalDate now = LocalDate.now();
@@ -83,18 +83,14 @@ public class payReturn extends HttpServlet {
                     
                     LocalDate create_at = LocalDate.parse(uhp.getCreate_at());
                     LocalDate end_at = LocalDate.parse(uhp.getEnd_at());
-                    LocalDate now = LocalDate.now();
-                    boolean sameMonthAndYear = create_at.getMonth() == now.getMonth() && create_at.getYear() == now.getYear();
-                    if(sameMonthAndYear){
-                        actual_price += uhp.getActual_price();
-                    }           
+                    LocalDate now = LocalDate.now();           
                     if(now.isBefore(end_at)){
                         end_at = end_at.plusDays(premium.getDayActive());
                     }
                     else{
                         end_at = now.plusDays(premium.getDayActive());
                     }
-                    daoUserHavePremium.updateUserHavePremium(user_id, end_at.toString(), actual_price);
+                    daoUserHavePremium.createUserHavePremium(user_id, Integer.parseInt(premium_id), end_at.toString(), actual_price);
                 }
                 
                 for(UserPractice up : dAOUserPractice.getUserPracticeByUserId(user_id)){

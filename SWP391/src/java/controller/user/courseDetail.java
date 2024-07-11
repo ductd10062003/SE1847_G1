@@ -120,8 +120,8 @@ public class courseDetail extends HttpServlet {
         if (daoUserEnrollCourse.getUserEnrollCourse(user.getUser_id(), courseId) == null) {
             daoUserEnrollCourse.createUserEnrollCourse(user.getUser_id(), courseId);
             int times = 3;
-            if (daoUserHavePremium.getUserHavePremiumByUserId(user.getUser_id()) != null) {
-                UserHavePremium uhp = daoUserHavePremium.getUserHavePremiumByUserId(user.getUser_id());
+            if (daoUserHavePremium.getUserHavePremiumByUserIdEnd(user.getUser_id()) != null) {
+                UserHavePremium uhp = daoUserHavePremium.getUserHavePremiumByUserIdEnd(user.getUser_id());
                 LocalDate now = LocalDate.now();
                 LocalDate end_at = LocalDate.parse(uhp.getEnd_at());
                 if (now.isBefore(end_at)) {
@@ -186,17 +186,22 @@ public class courseDetail extends HttpServlet {
         DAOUserPractice daoUserPractice = new DAOUserPractice();
         DAOUserHavePremium daoUserHavePremium = new DAOUserHavePremium();
 
-        UserHavePremium uhp = daoUserHavePremium.getUserHavePremiumByUserId(user.getUser_id());
-        if (uhp != null) {
+        UserPractice up = daoUserPractice.getUserPracticeByUserIdAndCourseIdAndTOPId2(user.getUser_id(), courseId, TOP_id);
+        int times = up.getTimes();
+
+        UserHavePremium uhp = daoUserHavePremium.getUserHavePremiumByUserIdEnd(user.getUser_id());
+
+        if (uhp != null && times == -1) {
             LocalDate now = LocalDate.now();
             LocalDate end_at = LocalDate.parse(uhp.getEnd_at());
             if (now.isAfter(end_at)) {
-                daoUserPractice.updateTimes(user.getUser_id(), courseId, TOP_id, 0);
+                daoUserPractice.updateTimes(user.getUser_id(), courseId, TOP_id, 3);
             }
         }
-
-        UserPractice up = daoUserPractice.getUserPracticeByUserIdAndCourseIdAndTOPId2(user.getUser_id(), courseId, TOP_id);
-        int times = up.getTimes();
+        
+        up = daoUserPractice.getUserPracticeByUserIdAndCourseIdAndTOPId2(user.getUser_id(), courseId, TOP_id);
+        times = up.getTimes();
+        
 
         if (times != 0) {
             int up_id = up.getUserPractice_id();

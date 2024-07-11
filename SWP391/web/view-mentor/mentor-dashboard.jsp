@@ -124,7 +124,7 @@
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">Primary Card</div>
+                                    <div class="card-body">Số người tham gia lớp học</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -159,27 +159,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xl-6">
+                        <div >
+                            <div>
                                 <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-area me-1"></i>
-                                        Area Chart Example
+                                    <div class="card-header row">
+                                        <div class="col-9">
+                                            <i class="fas fa-chart-area me-1"></i>
+                                            Số học sinh tham gia lớp học theo tháng
+                                        </div>
+                                        <div class="col-3">
+                                            <input type="month" id="date1" name="date" onchange="changeDate1()">
+                                        </div>
                                     </div>
                                     <div class="card-body">
                                         <canvas id="myAreaChart" width="100" height="40"></canvas>
-                                        <div>abc</div>
                                     </div>
 
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        Bar Chart Example
-                                    </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100" height="40"></canvas></div>
                                 </div>
                             </div>
                         </div>
@@ -195,50 +190,114 @@
         <!-- Bootstrap Select JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
         <script>
-            $(document).ready(function () {
-                $('.selectpicker').selectpicker();
-            });
-            window.addEventListener('DOMContentLoaded', event => {
+                                                $(document).ready(function () {
+                                                    $('.selectpicker').selectpicker();
+                                                });
+                                                window.addEventListener('DOMContentLoaded', event => {
 
-                // Toggle the side navigation
-                const sidebarToggle = document.body.querySelector('#sidebarToggle');
-                if (sidebarToggle) {
-                    // Uncomment Below to persist sidebar toggle between refreshes
-                    // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
-                    //     document.body.classList.toggle('sb-sidenav-toggled');
-                    // }
-                    sidebarToggle.addEventListener('click', event => {
-                        event.preventDefault();
-                        document.body.classList.toggle('sb-sidenav-toggled');
-                        localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
-                    });
-                }
+                                                    // Toggle the side navigation
+                                                    const sidebarToggle = document.body.querySelector('#sidebarToggle');
+                                                    if (sidebarToggle) {
+                                                        // Uncomment Below to persist sidebar toggle between refreshes
+                                                        // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+                                                        //     document.body.classList.toggle('sb-sidenav-toggled');
+                                                        // }
+                                                        sidebarToggle.addEventListener('click', event => {
+                                                            event.preventDefault();
+                                                            document.body.classList.toggle('sb-sidenav-toggled');
+                                                            localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                                                        });
+                                                    }
 
-            });
+                                                });
         </script>
 
 
         <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.map"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.map"></script>
         <script>
-            let myAreaChart = document.getElementById('myAreaChart').getContext('2d');
-            let a = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-            let b = ['aaa', 'bbbb', 'cccc'];
-            let _myAreaChart = new Chart(myAreaChart, {
-                type: 'line',
-                data: {
-                    labels: b,
-                    datasets: [{
-                            label: 'abc',
-                            data: a,
-                            backgroundColor: 'blue',
+                                                let dataForDays = [];
+                                                let days = [];
+                                                window.onload = async function () {
+                                                    // Get the current date
+                                                    let now = new Date();
+                                                    let month = now.getMonth() + 1;
+                                                    let year = now.getFullYear();
+                                                    days = await getAllDatesInMonth(year, month - 1);
+                                                    getDataforday();                                                   
+                                                    if (month < 10) {
+                                                        month = '0' + month;
+                                                    }
+                                                    let currentMonth = year + '-' + month;
+                                                    document.getElementById('date1').value = currentMonth;                                                   
+                                                };
+                                                
+                                                
 
-                        }]
-                },
-                options: {
-                    legend: {display: false}
-                }
-            });
+                                                function getAllDatesInMonth(year, month) {
+                                                    let date = new Date(year, month, 1);
+                                                    let dates = [];
+                                                    while (date.getMonth() === month) {
+                                                        let _date = new Date(date);
+                                                        let day_X = +_date.getDate() < 10 ? ('0' + _date.getDate()) : _date.getDate();
+                                                        let month_X = +(_date.getMonth() + 1) < 10 ? ('0' + (_date.getMonth() + 1)) : (_date.getMonth() + 1);
+                                                        let __date = _date.getFullYear() + '-' + month_X + '-' + day_X;
+                                                        dates.push(__date);
+                                                        date.setDate(date.getDate() + 1);
+                                                    }
+
+                                                    return dates;
+                                                }
+
+                                                function getDataforday() {
+                                                    $.ajax({
+                                                        url: 'dashboard',
+                                                        type: 'post',
+                                                        data: {
+                                                            service: 'getDayForData',
+                                                            days: days
+                                                        },
+                                                        success: function (data) {
+                                                            let x = JSON.parse(data);
+                                                            dataForDays = [];
+                                                            for(let i = 0; i < x.length; i++){
+                                                                dataForDays.push(x[i]);
+                                                            }
+                                                            chart1();
+                                                        }
+                                                    });
+                                                }
+
+
+                                                function chart1() {
+                                                    let myAreaChart = document.getElementById('myAreaChart').getContext('2d');
+                                                    let _myAreaChart = new Chart(myAreaChart, {
+                                                        type: 'line',
+                                                        data: {
+                                                            labels: days,
+                                                            datasets: [{
+                                                                    label: 'Số học sinh',
+                                                                    data: dataForDays,
+                                                                    backgroundColor: 'blue'
+
+                                                                }]
+                                                        },
+                                                        options: {
+                                                            legend: {display: false}
+                                                        }
+                                                    });
+                                                }
+
+                                                function changeDate1() {
+                                                    let value = document.getElementById('date1').value;
+                                                    let parts = value.split('-');
+                                                    let year = +parts[0];
+                                                    let month = +parts[1];
+                                                    days = getAllDatesInMonth(year, month - 1);
+                                                    getDataforday();
+                                                }
+
         </script>
     </body>
 </html>

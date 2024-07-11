@@ -46,7 +46,7 @@ public class pay extends HttpServlet {
             request.setAttribute("err", 1);
         }
         else{
-            UserHavePremium uhp = daoUserHavePremium.getUserHavePremiumByUserId(user.getUser_id());
+            UserHavePremium uhp = daoUserHavePremium.getUserHavePremiumByUserIdEnd(user.getUser_id());
             if(uhp == null){
                 request.setAttribute("end_date", null);
             }

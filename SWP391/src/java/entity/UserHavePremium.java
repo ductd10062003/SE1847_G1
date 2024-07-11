@@ -19,6 +19,10 @@ public class UserHavePremium {
 
     public UserHavePremium() {
     }
+    
+    public UserHavePremium(float price) {
+        this.actual_price = price;
+    }
 
     public UserHavePremium(int UHP_id, int user_id, int premium_id, String create_at, String end_at, float actual_price) {
         this.UHP_id = UHP_id;
