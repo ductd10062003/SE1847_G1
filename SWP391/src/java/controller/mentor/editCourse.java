@@ -5,12 +5,24 @@
 
 package controller.mentor;
 
+import entity.Course;
+import entity.FlashCard;
+import entity.Quiz;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Vector;
+import model.DAOCategory;
+import model.DAOCourse;
+import model.DAOFlashCard;
+import model.DAOQuiz;
+import model.DAOResultDetail;
+import model.DAOTypeOfPractice;
+import model.DAOUser;
 
 /**
  *
@@ -53,7 +65,17 @@ public class editCourse extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("view-mentor/manager-course/edit-course.jsp").forward(request, response);
+        String courseId_raw = request.getParameter("course_id");
+        int courseId = Integer.parseInt(courseId_raw);
+        
+        DAOCourse daoCourse = new DAOCourse();
+        DAOCategory daoCategory = new DAOCategory();
+        DAOFlashCard daoFlashCard = new DAOFlashCard();
+        Course course = daoCourse.getCourseByCourseID(courseId);
+        ArrayList<FlashCard> list = daoFlashCard.getQuizzByCouseID(courseId);   
+        request.setAttribute("course", course);     
+        request.setAttribute("list", list);     
+        request.getRequestDispatcher("edit-course.jsp").forward(request, response);
     } 
 
     /** 

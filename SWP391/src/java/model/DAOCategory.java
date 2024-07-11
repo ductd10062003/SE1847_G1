@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 public class DAOCategory extends DBConnect {
 
+    
     public ArrayList<Category> getAllCategories2() {
         String sql = "select * from [category]";
         ArrayList<Category> category = new ArrayList();

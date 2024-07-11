@@ -46,7 +46,11 @@
     </servlet>
     <servlet>
         <servlet-name>viewCourse</servlet-name>
-        <servlet-class>controller.mentor.viewCourse</servlet-class>
+        <servlet-class>controller.mentor.viewMentorCourse</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>studentDatatable</servlet-name>
+        <servlet-class>controller.mentor.studentDatatable</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>testCategory</servlet-name>
@@ -94,6 +98,10 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>viewCourse</servlet-name>
-        <url-pattern>/mentor/view-course</url-pattern>
+        <url-pattern>/viewMentorCourse</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>studentDatatable</servlet-name>
+        <url-pattern>/studentDatatable</url-pattern>
     </servlet-mapping>
 </web-app>

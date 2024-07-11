@@ -90,7 +90,7 @@
                                 Chỉnh sửa câu hỏi
                             </a>
                             <div class="sb-sidenav-menu-heading">Quản lý khóa học</div>
-                            <a class="nav-link" href="charts.html">
+                            <a class="nav-link" href="../viewcourse">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
                                 Xem tất cả
                             </a>
@@ -98,7 +98,7 @@
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-plus"></i></div>
                                 Thêm khóa học
                             </a>
-                            <a class="nav-link" href="../mentor/view-course">
+                            <a class="nav-link" href="../viewMentorCourse">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-pen-to-square"></i></div>
                                 Chỉnh sửa khóa học
                             </a>
@@ -107,7 +107,7 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Charts
                             </a>
-                            <a class="nav-link" href="tables.html">
+                            <a class="nav-link" href="../viewMentorCourse">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Tables
                             </a>

@@ -20,7 +20,7 @@ import model.DAOUser;
  *
  * @author DAT
  */
-public class viewCourse extends HttpServlet {
+public class viewMentorCourse extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -86,7 +86,7 @@ public class viewCourse extends HttpServlet {
         request.setAttribute("course", course);
         request.setAttribute("users", list);
         paging(request, course);
-        request.getRequestDispatcher("../view-mentor/manager-course/view-course.jsp").forward(request, response);
+        request.getRequestDispatcher("view-course.jsp").forward(request, response);
     }
 
     /**

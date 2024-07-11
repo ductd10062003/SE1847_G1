@@ -5,6 +5,17 @@ public class FlashCard {
     private String question, answer, create_at, update_at;
     private int active, category_id;
     public String image;
+    private int quiz_id;
+    
+    
+    public FlashCard(int quiz_id, int flashcard_id, String question, String answer, String create_at, String update_at) {
+        this.quiz_id = quiz_id;
+        this.flashcard_id = flashcard_id;
+        this.question = question;
+        this.answer = answer;
+        this.create_at = create_at;
+        this.update_at = update_at;
+    }
 
     public FlashCard(int flashcard_id, String question, String answer, String create_at, String update_at, int active, int category_id, String image) {
         this.flashcard_id = flashcard_id;
@@ -47,6 +58,14 @@ public class FlashCard {
     }
     
     public FlashCard() {
+    }
+
+    public int getQuiz_id() {
+        return quiz_id;
+    }
+
+    public void setQuiz_id(int quiz_id) {
+        this.quiz_id = quiz_id;
     }
 
     public int getFlashcard_id() {
