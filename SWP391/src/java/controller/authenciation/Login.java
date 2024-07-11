@@ -66,20 +66,27 @@ public class Login extends HttpServlet {
             User user = new DAOUser().getUserByUsername(username);
             if (user != null) {
                 if (PasswordEncryptor.validatePassword(password, user.getPassword())) {
+
+                    if(user.getActive() == 0){
+                        request.getSession().setAttribute("error", "User is not active");
+                        response.sendRedirect("login");
+                        return;
+                    }
+
                     request.getSession().setAttribute("user", user);
                     switch (user.getRole()) {
                         case 1:
-                            response.sendRedirect("ThisIsAdmin.jsp");
+                            response.sendRedirect("admin/dashboard");
                             break;
                         case 2:
                             response.sendRedirect("view-mentor/mentor-dashboard.jsp");
                             break;
                         case 3:
-                            response.sendRedirect("homePage");
+                            response.sendRedirect("index.jsp");
                             break;
                         default:
                             request.getSession().setAttribute("error", "Role is not defined");
-                            request.getRequestDispatcher("login").forward(request, response);
+                            response.sendRedirect("login");
                     }
                 } else {
                     request.getSession().setAttribute("error", "Password is incorrect");

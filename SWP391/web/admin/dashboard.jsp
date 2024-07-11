@@ -70,6 +70,14 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin-mentor-manage/manage-mentor">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Quản lý giáo viên
+                            </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin-mentor-manage/register-mentor">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Thêm giáo viên
+                            </a>
                             <div class="sb-sidenav-menu-heading">Quản lý thể loại</div>
                             <a class="nav-link" href="charts.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>

@@ -40,7 +40,6 @@ public class register extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirm-password");
-        int role = Integer.parseInt(request.getParameter("role"));
 //        get the date of birth, phone, gender
         String dob = request.getParameter("dob");
         String phone = request.getParameter("phone");
@@ -49,7 +48,7 @@ public class register extends HttpServlet {
 
 //                    if the username and email are not existed, create a new user and set the user to the session, then redirect to home page
         //User(int user_id, String name, String email, String password, int role, int active, String create_at, int gender, String dob, String phone, String image)
-        User user = new User(0, username, email, password, role, 1, java.time.LocalDate.now().toString(), gender, dob, phone, "");
+        User user = new User(0, username, email, password, 3, 1, java.time.LocalDate.now().toString(), gender, dob, phone, "");
 
         String OTP = PasswordEncryptor.generateSalt().substring(0, 6);
 
