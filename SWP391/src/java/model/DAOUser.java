@@ -65,6 +65,23 @@ public class DAOUser extends DBConnect {
         return vector;
     }
 
+    public int getAllStudents() {
+        int n = -1;
+        String sql = "select count(DISTINCT [user_id]) as student\n"
+                + "from [User]\n"
+                + "where [role] = 3";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                n = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            return -1;
+        }
+        return n;
+    }
+
     public User getUserByID(int user_id) {
         User user = new User();
         String sql = "select * from [user] where user_id = ?";
