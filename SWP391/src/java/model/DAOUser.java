@@ -13,7 +13,7 @@ public class DAOUser extends DBConnect {
 
     public ArrayList<User> getUserByCourseId(int course_id) {
         ArrayList<User> course = new ArrayList<>();
-        String sql = "  select r.user_id,r.name,r.gender,r.role,r.active,r.phone,r.email\n"
+        String sql = "  select r.user_id,r.name,r.role,r.active,r.gender,r.phone,r.email,u.course_id\n"
                 + "  from [User] r inner join User_Enroll_Course u\n"
                 + "  on r.user_id = u.user_id\n"
                 + "  inner join Course c \n"
@@ -24,7 +24,7 @@ public class DAOUser extends DBConnect {
             ps.setInt(1, course_id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                course.add(new User(rs.getInt(1),rs.getString(2), rs.getInt(3),rs.getInt(4),rs.getInt(5),rs.getString(6), rs.getString(7)));
+                course.add(new User(rs.getInt(1),rs.getString(2), rs.getInt(3),rs.getInt(4),rs.getInt(5),rs.getString(6), rs.getString(7),rs.getInt(8)));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -185,7 +185,7 @@ public class DAOUser extends DBConnect {
             ps.setInt(2, user.getUser_id());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         }
         return true;
@@ -268,11 +268,12 @@ public class DAOUser extends DBConnect {
     }
 
     public static void main(String[] args) {
-        User user = new DAOUser().getUserByID(21);
+        User user = new DAOUser().getUserByID(30);
         user.setActive(0);
-        new DAOUser().updateUserActiveInfo(user);
-        user = new DAOUser().getUserByID(21);
+        boolean status = new DAOUser().updateUserActiveInfo(user);
+        user = new DAOUser().getUserByID(30);
         System.out.println(user.getActive());
+        System.out.println(status);
     }
 
 }
