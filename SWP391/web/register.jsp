@@ -159,23 +159,6 @@
                             </div>
                         </div>
                         <%--                        a radio button for choosing role. Button value 2 for teacher, button value 3 for Student--%>
-                        <div class="col-md-12 form-group">
-                            <label>Role</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="teacher" name="role" value="2"
-                                       required>
-                                <label class="form-check-label" for="teacher">
-                                    Teacher
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="student" name="role" value="3"
-                                       required>
-                                <label class="form-check-label" for="student">
-                                    Student
-                                </label>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col-12">
                                 <input type="submit" value="Register" class="btn btn-primary btn-lg px-5">
@@ -304,11 +287,16 @@
 
 <%--Validate dob so that the registerer is at least 10 years old--%>
 <script>
-    var dob = document.getElementById("dob");
-    var today = new Date();
-    var tenYearsAgo = new Date(today.getFullYear() - 10, today.getMonth(), today.getDate());
-    dob.max = tenYearsAgo.toISOString().split('T')[0];
+    document.addEventListener("DOMContentLoaded", function() {
+        var dob = document.getElementById("dob");
+        var today = new Date();
+        var tenYearsAgo = new Date(today.getFullYear() - 10, today.getMonth(), today.getDate());
+        var hundredYearsAgo = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
 
+        // Set the maximum and minimum date values for the date input
+        dob.max = tenYearsAgo.toISOString().split('T')[0];
+        dob.min = hundredYearsAgo.toISOString().split('T')[0];
+    });
 </script>
 
 <%--Validate username--%>
