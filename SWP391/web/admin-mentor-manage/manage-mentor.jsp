@@ -20,6 +20,32 @@
     <link rel="stylesheet" href="../css/aos.css">
     <link href="../css/jquery.mb.YTPlayer.min.css" media="all" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .btn-action {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-action .btn {
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -70,7 +96,7 @@
                 </div>
             </form>
 
-            <table class="table table-bordered">
+            <table class="table">
                 <thead>
                 <tr>
                     <th>Name</th>
@@ -87,7 +113,7 @@
                     <td><%= mentor.getEmail() %></td>
                     <td><%= mentor.getPhone() %></td>
                     <td><%= mentor.getActive() == 1 ? "Active" : "Inactive" %></td>
-                    <td>
+                    <td class="btn-action">
                         <% if(mentor.getActive() == 1) { %>
                         <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-mentor?action=deactivate&id=<%= mentor.getUser_id() %>" class="btn btn-danger">Deactivate</a>
                         <% } else { %>
@@ -107,8 +133,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <p class="mb-4"><img src="../images/logo.png" alt="Image" class="img-fluid"></p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto
-                        iure.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto iure.</p>
                     <p><a href="#">Learn More</a></p>
                 </div>
                 <div class="col-lg-3">
@@ -151,9 +176,7 @@
                         <p>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                            All rights reserved | This template is made with <i class="icon-heart"
-                                                                                aria-hidden="true"></i> by <a
-                                href="https://colorlib.com" target="_blank">Colorlib</a>
+                            All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </p>
                     </div>
@@ -168,8 +191,7 @@
 <div id="loader" class="show fullscreen">
     <svg class="circular" width="48px" height="48px">
         <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
-        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-                stroke="#51be78"/>
+        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#51be78"/>
     </svg>
 </div>
 
