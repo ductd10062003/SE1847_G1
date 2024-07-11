@@ -68,7 +68,16 @@ public class DAOUser extends DBConnect {
                 + "WHERE u.role = 2\n"
                 + "GROUP BY u.user_id, u.name, u.role\n"
                 + "ORDER BY total_courses DESC;";
-        return getUser(user, sql);
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                user.add(new User(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4)));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return user;
     }
 
     public User getUserByCourseID(int course_id) {
@@ -128,10 +137,10 @@ public class DAOUser extends DBConnect {
         }
     }
 
-    public boolean updateUserActiveInfo(User user){
-        String sql = "UPDATE [User]\n" +
-                "SET active = ?\n" +
-                "WHERE user_id = ?;";
+    public boolean updateUserActiveInfo(User user) {
+        String sql = "UPDATE [User]\n"
+                + "SET active = ?\n"
+                + "WHERE user_id = ?;";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, user.getActive());
@@ -177,12 +186,12 @@ public class DAOUser extends DBConnect {
 
     public Object searchMentor(String keyword) {
         ArrayList<User> user = new ArrayList<>();
-        String sql = "SELECT * \n" +
-                "FROM [User] \n" +
-                "WHERE (name LIKE ?\n" +
-                "   OR email LIKE ?\n" +
-                "   OR phone LIKE ?)\n" +
-                "AND [User].role = 2;";
+        String sql = "SELECT * \n"
+                + "FROM [User] \n"
+                + "WHERE (name LIKE ?\n"
+                + "   OR email LIKE ?\n"
+                + "   OR phone LIKE ?)\n"
+                + "AND [User].role = 2;";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -199,12 +208,11 @@ public class DAOUser extends DBConnect {
         return user;
     }
 
-
     public ArrayList<User> getAllMentors() {
         ArrayList<User> user = new ArrayList<>();
-        String sql = "SELECT * \n" +
-                "FROM [User] \n" +
-                "WHERE [User].role = 2;";
+        String sql = "SELECT * \n"
+                + "FROM [User] \n"
+                + "WHERE [User].role = 2;";
         return getUser(user, sql);
     }
 
