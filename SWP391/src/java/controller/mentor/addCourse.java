@@ -34,10 +34,10 @@ public class addCourse extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User user = (User) request.getSession(true).getAttribute("user");
-//        if(user == null || user.getRole() != 2){
-//            response.sendRedirect("../login");
-//            return;
-//        }
+        if(user == null || user.getRole() != 2){
+            response.sendRedirect("../login");
+            return;
+        }
 
         DAOCategory daoCategory = new DAOCategory();
 
@@ -96,7 +96,7 @@ public class addCourse extends HttpServlet {
 
     private void create(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        User user = (User) request.getSession(true).getAttribute("user");
+        User user = (User) request.getSession(true).getAttribute("user");
         String courseName = request.getParameter("courseName");
         String des = request.getParameter("description");
         String[] flashcards = request.getParameterValues("flashcards[]");
@@ -109,9 +109,9 @@ public class addCourse extends HttpServlet {
             return;
         }
         
-        Course course = new Course(courseName, des, java.time.LocalDate.now().toString(), java.time.LocalDate.now().toString(), 1, 22, categoryID);
+        Course course = new Course(courseName, des, java.time.LocalDate.now().toString(), java.time.LocalDate.now().toString(), 1, user.getUser_id(), categoryID);
         daoCourse.createCourse(course);
-        int id = daoCourse.lastedCourseCreatedBy(22);
+        int id = daoCourse.lastedCourseCreatedBy(user.getUser_id());
         Vector<Integer> vector = new Vector<>();
 
         for (String i : flashcards) {

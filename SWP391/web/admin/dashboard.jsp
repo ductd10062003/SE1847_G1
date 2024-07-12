@@ -29,7 +29,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.html">MEMORYCALL</a>
+            <a class="navbar-brand ps-3" href="dashboard">MEMORYCALL</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -44,10 +44,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Xem thông tin</a></li>
-                        <!--<li><a class="dropdown-item" href="#!">Activity Log</a></li>-->
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Đăng xuất</a></li>
+                        <li><a class="dropdown-item" href="../login">Đăng xuất</a></li>
                     </ul>
                 </li>
             </ul>
@@ -70,66 +68,19 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Thêm giáo viên
                             </a>
-                            <div class="sb-sidenav-menu-heading">Quản lý thể loại</div>
-                            <a class="nav-link" href="charts.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts
-                            </a>
-                            <a class="nav-link" href="tables.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables
-                            </a>
-                            <div class="sb-sidenav-menu-heading">Quản lý câu hỏi</div>
-                            <a class="nav-link" href="#">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
-                                Xem tất cả
-                            </a>
-                            <a class="nav-link" href="add-flashcard">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-plus"></i></div>
-                                Thêm câu hỏi
-                            </a>
-                            <a class="nav-link" href="tables.html">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-pen-to-square"></i></div>
-                                Chỉnh sửa câu hỏi
-                            </a>
-                            <div class="sb-sidenav-menu-heading">Quản lý khóa học</div>
-                            <a class="nav-link" href="charts.html">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
-                                Xem tất cả
-                            </a>
-                            <a class="nav-link" href="add-course">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-plus"></i></div>
-                                Thêm khóa học
-                            </a>
-                            <a class="nav-link" href="tables.html">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-pen-to-square"></i></div>
-                                Chỉnh sửa khóa học
-                            </a>
-                            <div class="sb-sidenav-menu-heading">Quản lý học sinh</div>
-                            <a class="nav-link" href="charts.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts
-                            </a>
-                            <a class="nav-link" href="tables.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables
-                            </a>
+
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        MEMTOR
+                        ADMIN
                     </div>
                 </nav>
             </div>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Dashboard</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Dashboard</li>
-                        </ol>
-                        <div class="row">
+                        <div class="row" style="display: none">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Số người tham gia lớp học</div>

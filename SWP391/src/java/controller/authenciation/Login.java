@@ -79,7 +79,7 @@ public class Login extends HttpServlet {
                             response.sendRedirect("admin/dashboard");
                             break;
                         case 2:
-                            response.sendRedirect("view-mentor/mentor-dashboard.jsp");
+                            response.sendRedirect("mentor/dashboard");
                             break;
                         case 3:
                             response.sendRedirect("index.jsp");

@@ -63,31 +63,23 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="dashboard">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
-                            <div class="sb-sidenav-menu-heading">Quản lý thể loại</div>
-                            <a class="nav-link" href="charts.html">
+                            <div class="sb-sidenav-menu-heading">Quản lý danh mục</div>
+                            <a class="nav-link" href="manage-category">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts
-                            </a>
-                            <a class="nav-link" href="tables.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables
+                                Xem tất cả
                             </a>
                             <div class="sb-sidenav-menu-heading">Quản lý câu hỏi</div>
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="manageFlashCard">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
                                 Xem tất cả
                             </a>
                             <a class="nav-link" href="add-flashcard">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-plus"></i></div>
                                 Thêm câu hỏi
-                            </a>
-                            <a class="nav-link" href="tables.html">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-pen-to-square"></i></div>
-                                Chỉnh sửa câu hỏi
                             </a>
                             <div class="sb-sidenav-menu-heading">Quản lý khóa học</div>
                             <a class="nav-link" href="../viewcourse">
@@ -122,11 +114,8 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Dashboard</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Dashboard</li>
-                        </ol>
-                        <div class="row">
+                        <h1 class="mt-6" style="visibility: hidden">Dashboard</h1>
+                        <div class="row" style="display: none">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Số người tham gia lớp học</div>
