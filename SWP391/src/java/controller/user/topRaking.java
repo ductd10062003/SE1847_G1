@@ -79,7 +79,7 @@ public class topRaking extends HttpServlet {
         Vector<TypeOfPractice> listC = daoTypeOfPractice.getAllTypeOfPractices();
         request.setAttribute("type", listC);
         request.setAttribute("selected", value);
-        request.getRequestDispatcher("/datatable.jsp").forward(request, response);
+        request.getRequestDispatcher("/topRanking.jsp").forward(request, response);
     }
 
     /**
