@@ -52,10 +52,6 @@
         <servlet-name>studentDatatable</servlet-name>
         <servlet-class>controller.mentor.studentDatatable</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>manageCourse</servlet-name>
-        <servlet-class>controller.mentor.manageCourse</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>testCategory</servlet-name>
         <url-pattern>/testCategory</url-pattern>
@@ -107,9 +103,5 @@
     <servlet-mapping>
         <servlet-name>studentDatatable</servlet-name>
         <url-pattern>/studentDatatable</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>manageCourse</servlet-name>
-        <url-pattern>/mentor/manageCourse</url-pattern>
     </servlet-mapping>
 </web-app>
