@@ -14,6 +14,17 @@ public class Course {
 
     public Course() {
     }
+    
+    public Course(int course_id, String course_name,String category_name,int category_id, String description, String created_at, String update_at, int active) {
+        this.course_id = course_id;
+        this.course_name = course_name;
+        this.category_name = category_name;
+        this.category_id = category_id;
+        this.description = description;
+        this.created_at = created_at;
+        this.update_at = update_at;
+        this.active = active;
+    }
 
     public Course(String course_name, String description) {
         this.course_name = course_name;

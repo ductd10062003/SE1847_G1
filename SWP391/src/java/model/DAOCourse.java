@@ -10,6 +10,26 @@ import java.util.ArrayList;
 
 public class DAOCourse extends DBConnect {
 
+    public ArrayList<Course> getCouseByUserId(int user_id) {
+        ArrayList<Course> course = new ArrayList<>();
+        String sql = "  select c.course_id,c.course_name,ca.category_name,ca.category_id,c.description,c.create_at,c.update_at,c.active\n"
+                + "  from Course c inner join [User] u \n"
+                + "  on c.created_by = u.user_id \n"
+                + "  inner join Category ca on c.category_id = ca.category_id\n"
+                + "  where u.user_id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setInt(1, user_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                course.add(new Course(rs.getInt(1),rs.getString(2),rs.getString(3), rs.getInt(4), rs.getString(5),rs.getString(6),rs.getString(7),rs.getInt(8)));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return course;
+    }
+
     public ArrayList<Course> getListByCourse(ArrayList<Course> list, int start, int end) {
         ArrayList<Course> arr = new ArrayList<>();
         for (int i = start; i < end; i++) {

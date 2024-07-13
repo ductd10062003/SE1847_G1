@@ -273,7 +273,7 @@
                                 <div class="table-title">
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h2>Quản lí <b>thẻ nhớ</b></h2>
+                                            <h2>Quản lí khóa học</h2>
                                         </div>
                                     </div>
 
@@ -335,30 +335,27 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Câu hỏi</th>
-                                            <th>Đáp án</th>
+                                            <th>Khóa học</th>
+                                            <th>Danh mục</th>                                           
+                                            <th>Mô tả</th>
                                             <th>Ngày tạo</th>
                                             <th>Ngày sửa</th>
                                             <th>Trạng thái</th>
-                                            <th>ID Danh mục</th>
-                                            <th>Hình ảnh</th>
                                             <th>Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach var="flashcard" items="${flashcards}">
+                                        <c:forEach var="course" items="${requestScope.course}">
                                             <tr>
-                                                <td>${flashcard.flashcard_id}</td>
-                                                <td>${flashcard.question}</td>
-                                                <td>${flashcard.answer}</td>
-                                                <td>${flashcard.create_at}</td>
-                                                <td>${flashcard.update_at}</td>
-                                                <td><span class="status ${flashcard.active == 1 ? 'text-success' : 'text-danger'}">&bull;</span> ${flashcard.active == 1 ? 'Kích hoạt' : 'Vô hiệu'}</td>
-                                                <td>${flashcard.category_id}</td>
-                                                <td><img src="${flashcard.image}" class="img-fluid" width="50" height="50" onclick="showImage('${flashcard.image}')">
-                                                </td>
+                                                <td>${course.course_id}</td>
+                                                <td>${course.course_name}</td>
+                                                <td>${course.category_name}</td>
+                                                <td>${course.description}</td>
+                                                <td>${course.created_at}</td>
+                                                <td>${course.update_at}</td>
+                                                <td><span class="status ${course.active == 1 ? 'text-success' : 'text-danger'}">&bull;</span> ${course.active == 1 ? 'Kích hoạt' : 'Vô hiệu'}</td>                                        
                                                 <td>
-                                                    <a href="manageFlashCard?action=edit&id=${flashcard.flashcard_id}" class="settings" title="Settings" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                                                    <a href="editCourse?course_id=${course.course_id}" class="settings" title="Settings" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
                                                 </td>
                                             </tr>
                                         </c:forEach>
