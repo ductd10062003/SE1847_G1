@@ -105,8 +105,7 @@ public class editCourse extends HttpServlet {
 
         for (int i = 0; i < questions.length; i++) {
             daoFlashcard.updateFlashCard(questions[i], answers[i],imgs[i],flashcard_ids[i]);
-        }
-        
+        }  
         daoCourse.updateCourse(course_name,description,course_id);
         request.getRequestDispatcher("../view-mentor/mentor-dashboard.jsp").forward(request, response);
     }

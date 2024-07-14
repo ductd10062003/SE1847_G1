@@ -82,7 +82,7 @@
                                 Thêm câu hỏi
                             </a>
                             <div class="sb-sidenav-menu-heading">Quản lý khóa học</div>
-                            <a class="nav-link" href="viewCourse">
+                            <a class="nav-link" href="manageCourse">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
                                 Xem tất cả
                             </a>

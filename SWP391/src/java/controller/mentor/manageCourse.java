@@ -19,7 +19,7 @@ import model.DAOCourse;
  *
  * @author DAT
  */
-public class viewCourse extends HttpServlet {
+public class manageCourse extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

@@ -115,7 +115,7 @@
                                 Thêm câu hỏi
                             </a>
                             <div class="sb-sidenav-menu-heading">Quản lý khóa học</div>
-                            <a class="nav-link" href="viewCourse">
+                            <a class="nav-link" href="manageCourse">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
                                 Xem tất cả
                             </a>
@@ -167,7 +167,7 @@
                             </div>
                             <input type="hidden" name="course_id" class="form-control" value="${requestScope.course.course_id}">
                             <div class="form-group">
-                                Tên danh mục học: <input type="text" name="category_name" class="form-control" value="${requestScope.course.category_name}" disabled="">
+                                Tên danh mục: <input type="text" name="category_name" class="form-control" value="${requestScope.course.category_name}" disabled="">
                             </div>
                             <div class="form-group">
                             Mô tả khóa học: <input type="text" name="description" class="form-control" value="${requestScope.course.description}">
