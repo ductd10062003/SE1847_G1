@@ -75,8 +75,9 @@ public class Course {
         this.category_id = category_id;
     }
     
-    public Course(String course_name, String description, String created_at, String update_at,int category_id, String category_name) {
+    public Course(String course_name,int course_id, String description, String created_at, String update_at,int category_id, String category_name) {
         this.course_name = course_name;
+        this.course_id = course_id;
         this.description = description;
         this.created_at = created_at;
         this.update_at = update_at;

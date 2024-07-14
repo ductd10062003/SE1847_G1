@@ -10,6 +10,22 @@ import java.util.ArrayList;
 
 public class DAOCourse extends DBConnect {
 
+    public int updateCourse(String course_name, String description,int course_id) {
+        String sql = "  UPDATE [Course]\n"
+                + "  Set course_name = ?, description = ?\n"
+                + "  where course_id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, course_name);
+            ps.setString(2, description);          
+            ps.setInt(3, course_id);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public ArrayList<Course> getCouseByUserId(int user_id) {
         ArrayList<Course> course = new ArrayList<>();
         String sql = "  select c.course_id,c.course_name,ca.category_name,ca.category_id,c.description,c.create_at,c.update_at,c.active\n"
@@ -22,7 +38,7 @@ public class DAOCourse extends DBConnect {
             ps.setInt(1, user_id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                course.add(new Course(rs.getInt(1),rs.getString(2),rs.getString(3), rs.getInt(4), rs.getString(5),rs.getString(6),rs.getString(7),rs.getInt(8)));
+                course.add(new Course(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8)));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -175,7 +191,7 @@ public class DAOCourse extends DBConnect {
 
     public Course getCourseByCourseID(int course_id) {
         Course course = new Course();
-        String sql = "select c.course_name,c.description,c.create_at,c.update_at,c2.category_id,c2.category_name\n"
+        String sql = "select c.course_name,c.course_id,c.description,c.create_at,c.update_at,c2.category_id,c2.category_name\n"
                 + "  from [course] c inner join Category c2 \n"
                 + "  on c.category_id = c2.category_id \n"
                 + "  where course_id = ?";
@@ -184,7 +200,7 @@ public class DAOCourse extends DBConnect {
             ps.setInt(1, course_id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                course = new Course(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6));
+                course = new Course(rs.getString(1),rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7));
             }
         } catch (Exception e) {
             return null;

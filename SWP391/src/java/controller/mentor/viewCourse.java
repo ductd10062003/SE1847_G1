@@ -61,10 +61,8 @@ public class viewCourse extends HttpServlet {
             throws ServletException, IOException {        
         DAOCourse daoCourse = new DAOCourse();  
         User user = new User();
-//        user = (User) request.getSession().getAttribute("user");             
-//        ArrayList<Course> course = daoCourse.getCouseByUserId(user.getUser_id());
-        
-        ArrayList<Course> course = daoCourse.getCouseByUserId(33);
+        user = (User) request.getSession().getAttribute("user");             
+        ArrayList<Course> course = daoCourse.getCouseByUserId(user.getUser_id());
         request.setAttribute("course", course);
         
         request.getRequestDispatcher("../view-mentor/manager-course/view-course.jsp").forward(request, response);

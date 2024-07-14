@@ -79,7 +79,7 @@
                                     <tr>
                                         <th width="30%">Vai trò</th>
                                         <td width="2%">:</td>
-                                        <td>${requestScope.users.role == 2 ? 'Giáo viên' : 'Học sinh'}</td>
+                                        <td>${requestScope.users.role == 1 ? 'Giáo viên' : 'Học sinh'}</td>
                                     </tr>
                                     <tr>
                                         <th width="30%">Tên người dùng</th>

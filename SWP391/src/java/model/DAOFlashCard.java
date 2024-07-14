@@ -11,6 +11,23 @@ import java.util.Vector;
 
 public class DAOFlashCard extends DBConnect {
 
+    public int updateFlashCard(String question, String answer, String image,String flashcard_id) {
+        String sql = "    UPDATE flashcard \n"
+                + "  Set question = ?, answer = ? , image = ?\n"
+                + "  where flashcard_id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, question);
+            ps.setString(2, answer);
+            ps.setString(3, image);
+            ps.setString(4, flashcard_id);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public ArrayList<FlashCard> getQuizzByCouseID(int course_id) {
         ArrayList<FlashCard> course = new ArrayList<>();
         String sql = "  select q.quiz_id,f.flashcard_id,f.question,f.answer,f.create_at,f.update_at\n"
@@ -24,14 +41,14 @@ public class DAOFlashCard extends DBConnect {
             ps.setInt(1, course_id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                course.add(new FlashCard(rs.getInt(1),rs.getInt(2), rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6)));
+                course.add(new FlashCard(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return course;
     }
-    
+
     public Vector<FlashCard> getAllFlashCards() {
         String sql = "select * from flashcard";
         Vector<FlashCard> vector = new Vector<>();
@@ -46,8 +63,8 @@ public class DAOFlashCard extends DBConnect {
         }
         return vector;
     }
-    
-        public Vector<FlashCard> getAllFlashCardsByCategoryId(int categoryId) {
+
+    public Vector<FlashCard> getAllFlashCardsByCategoryId(int categoryId) {
         String sql = "select * from flashcard where category_id = ?";
         Vector<FlashCard> vector = new Vector<>();
         try {
@@ -130,7 +147,6 @@ public class DAOFlashCard extends DBConnect {
         return vector;
     }
 
-
     public FlashCard getFlashCardByQuestionNameAndCategory(String question, int categoryId) {
         FlashCard fc = null;
         try {
@@ -147,7 +163,6 @@ public class DAOFlashCard extends DBConnect {
 
         return fc;
     }
-
 
     public Vector<FlashCard> getFlashCardByRandomNumber(int random, int categoryId, String notIn) {
         String sql = "";
@@ -329,8 +344,7 @@ public class DAOFlashCard extends DBConnect {
         }
         return flashcards;
     }
-    
-    
+
     public int updateFlashcard(FlashCard flashcard) {
         String sql = "UPDATE [flashcard] SET question=?, answer=?, update_at=?, active=?, Category_id=?, image=? WHERE flashcard_id=?";
         try {
@@ -348,7 +362,7 @@ public class DAOFlashCard extends DBConnect {
             return 0;
         }
     }
-    
+
     public FlashCard getFlashCardByID2(int flashcard_id) {
         String sql = "select * from [flashcard] where flashcard_id = ?";
         FlashCard flashcard = new FlashCard();
@@ -364,7 +378,6 @@ public class DAOFlashCard extends DBConnect {
         }
         return flashcard;
     }
-    
 
     public static void main(String[] args) {
         for (FlashCard i : new DAOFlashCard().getFlashCardByRandomNumber(100, 2, "(0)")) {

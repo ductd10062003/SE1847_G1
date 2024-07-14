@@ -65,6 +65,7 @@ public class editCourse extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String courseId_raw = request.getParameter("course_id");
         int courseId = Integer.parseInt(courseId_raw);
         
@@ -75,7 +76,7 @@ public class editCourse extends HttpServlet {
         ArrayList<FlashCard> list = daoFlashCard.getQuizzByCouseID(courseId);   
         request.setAttribute("course", course);     
         request.setAttribute("list", list);     
-        request.getRequestDispatcher("edit-course.jsp").forward(request, response);
+        request.getRequestDispatcher("../view-mentor/manager-course/edit-course.jsp").forward(request, response);
     } 
 
     /** 
@@ -88,7 +89,26 @@ public class editCourse extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
+        DAOCourse daoCourse = new DAOCourse();
+        String course_name = request.getParameter("course_name");
+        String category_name = request.getParameter("category_name");
+        String description = request.getParameter("description");        
+        int course_id = Integer.parseInt(request.getParameter("course_id"));
+        
+        String[] questions = request.getParameterValues("question");
+        String[] answers = request.getParameterValues("answer");
+        String[] imgs = request.getParameterValues("img");
+        String[] flashcard_ids = request.getParameterValues("flashcard_id");
+        
+        DAOFlashCard daoFlashcard = new DAOFlashCard();
+
+        for (int i = 0; i < questions.length; i++) {
+            daoFlashcard.updateFlashCard(questions[i], answers[i],imgs[i],flashcard_ids[i]);
+        }
+        
+        daoCourse.updateCourse(course_name,description,course_id);
+        request.getRequestDispatcher("../view-mentor/mentor-dashboard.jsp").forward(request, response);
     }
 
     /** 

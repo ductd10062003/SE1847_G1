@@ -7,6 +7,11 @@ public class FlashCard {
     public String image;
     private int quiz_id;
     
+    public FlashCard(String question, String answer, String image) {
+        this.question = question;
+        this.answer = answer;
+        this.image = image;
+    }
     
     public FlashCard(int quiz_id, int flashcard_id, String question, String answer, String create_at, String update_at) {
         this.quiz_id = quiz_id;
