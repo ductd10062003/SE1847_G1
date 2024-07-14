@@ -20,7 +20,7 @@ import model.DAOUser;
  *
  * @author DAT
  */
-public class studentDatatable extends HttpServlet {
+public class editStudent extends HttpServlet {
 
     private String contextPath;
     private String servletContextPath;
@@ -63,8 +63,8 @@ public class studentDatatable extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        contextPath = "student-datatable.jsp";
-        servletContextPath = "studentDatatable";
+        contextPath = "manager-student/edit-student.jsp";
+        servletContextPath = "editStudent";
         String action = request.getParameter("action");
        
         System.out.println("action: " + action);
@@ -82,15 +82,15 @@ public class studentDatatable extends HttpServlet {
                 System.out.println("user:" + user.getName() + "\t status: " + user.getActive());
             }
             request.setAttribute("list", list);
-            request.getRequestDispatcher("/student-datatable.jsp").forward(request, response);
+            request.getRequestDispatcher("../view-mentor/manager-student/edit-student.jsp").forward(request, response);
         }
 
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        contextPath = "student-datatable.jsp";
-        servletContextPath = "/studentDatatable";
+        contextPath = "manager-student/edit-student.jsp";
+        servletContextPath = "/editStudent";
 
         redirectAction(req, resp);
     }
