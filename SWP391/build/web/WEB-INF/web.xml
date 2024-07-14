@@ -45,12 +45,16 @@
         <servlet-class>controller.mentor.editCourse</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>studentDatatable</servlet-name>
-        <servlet-class>controller.mentor.studentDatatable</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>manageCourse</servlet-name>
         <servlet-class>controller.mentor.manageCourse</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>manageStudent</servlet-name>
+        <servlet-class>controller.mentor.manageStudent</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>editStudent</servlet-name>
+        <servlet-class>controller.mentor.editStudent</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>testCategory</servlet-name>
@@ -97,11 +101,15 @@
         <url-pattern>/mentor/editCourse</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>studentDatatable</servlet-name>
-        <url-pattern>/studentDatatable</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>manageCourse</servlet-name>
         <url-pattern>/mentor/manageCourse</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>manageStudent</servlet-name>
+        <url-pattern>/mentor/manageStudent</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editStudent</servlet-name>
+        <url-pattern>/mentor/editStudent</url-pattern>
     </servlet-mapping>
 </web-app>
