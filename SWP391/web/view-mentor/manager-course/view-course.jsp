@@ -188,6 +188,15 @@
                 $('[data-toggle="tooltip"]').tooltip();
             });
         </script>
+
+        <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
+        <!-- DataTables CSS -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- DataTables JS -->
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -281,62 +290,13 @@
                                             <h2>Quản lí khóa học</h2>
                                         </div>
                                     </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-6 col-md-6">
-                                            <form class="form-inline mb-2" method="get" action="manageFlashCard" onsubmit="return validateForm()">
-                                                <div class="input-group">
-                                                    <select class="form-control" id="filterBy" name="filterBy">
-                                                        <option value="createdDate" ${filterBy == 'createdDate' ? 'selected' : ''}>Ngày tạo:</option>
-                                                        <option value="lastEditedDate" ${filterBy == 'lastEditedDate' ? 'selected' : ''}>Ngày sửa:</option>
-                                                    </select>
-                                                </div>
-                                                <div class="input-group ml-md-2">
-                                                    <input type="date" class="form-control" id="startDate" name="startDate" value="${startDate}">
-                                                </div>
-                                                <span class="input-group-text">đến</span>
-                                                <div class="input-group ml-md-2">
-                                                    <input type="date" class="form-control" id="endDate" name="endDate" value="${endDate}">
-                                                </div>
-                                                <div class="input-group ml-md-2">
-                                                    <button type="submit" class="btn btn-primary">Lọc</button>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                        <div class="col-sm-6">
-                                            <form class="form-inline" action="manageFlashCard" method="get">
-
-
-                                                <div class="input-group">
-                                                    <input type="text" name="keyword" class="form-control" placeholder="Tìm kiếm" value="${keyword}">
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
-                                                    </div>
-                                                </div>
-
-                                                <div class="dropdown ml-2">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Sắp xếp theo
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="sortDropdown">
-                                                        <a class="dropdown-item" href="?sort=newest_created">Ngày tạo mới nhất</a>
-                                                        <a class="dropdown-item" href="?sort=oldest_created">Ngày tạo cũ nhất</a>
-                                                        <a class="dropdown-item" href="?sort=newest_edited">Ngày sửa mới nhất</a>
-                                                        <a class="dropdown-item" href="?sort=oldest_edited">Ngày sửa cũ nhất</a>
-                                                    </div>
-                                                </div>
-
-
-                                            </form>
-
-                                        </div>
-
-                                    </div>       
-
-
                                 </div>
-                                <table class="table table-striped table-hover">
+
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+                                <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+                                <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+
+                                <table id="example" class="table table-striped table-hover">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -345,7 +305,6 @@
                                             <th>Mô tả</th>
                                             <th>Ngày tạo</th>
                                             <th>Ngày sửa</th>
-                                            <th>Trạng thái</th>
                                             <th>Hành động</th>
                                         </tr>
                                     </thead>
@@ -358,7 +317,6 @@
                                                 <td>${course.description}</td>
                                                 <td>${course.created_at}</td>
                                                 <td>${course.update_at}</td>
-                                                <td><span class="status ${course.active == 1 ? 'text-success' : 'text-danger'}">&bull;</span> ${course.active == 1 ? 'Kích hoạt' : 'Vô hiệu'}</td>                                        
                                                 <td>
                                                     <a href="editCourse?course_id=${course.course_id}" class="settings" title="Settings" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
                                                 </td>
@@ -367,28 +325,11 @@
                                     </tbody>
                                 </table>
 
-                                <!-- Pagination -->
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination">
-                                        <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                                            <a class="page-link" href="?${queryString}&page=${currentPage - 1}&pageSize=${pageSize}" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </a>
-                                        </li>
-                                        <c:forEach var="i" begin="1" end="${totalPages}">
-                                            <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                <a class="page-link" href="?${queryString}&page=${i}&pageSize=${pageSize}">${i}</a>
-                                            </li>
-                                        </c:forEach>
-                                        <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-                                            <a class="page-link" href="?${queryString}&page=${currentPage + 1}&pageSize=${pageSize}" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-
-
+                                <script>
+            $(document).ready(function () {
+                $('#example').DataTable();
+            });
+                                </script>
 
                             </div>
                         </div>

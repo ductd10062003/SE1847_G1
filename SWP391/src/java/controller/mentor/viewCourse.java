@@ -64,7 +64,6 @@ public class viewCourse extends HttpServlet {
         user = (User) request.getSession().getAttribute("user");             
         ArrayList<Course> course = daoCourse.getCouseByUserId(user.getUser_id());
         request.setAttribute("course", course);
-        
         request.getRequestDispatcher("../view-mentor/manager-course/view-course.jsp").forward(request, response);
     }
 

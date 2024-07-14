@@ -185,22 +185,16 @@
                                             <input type="file" id="file0" name="file">
                                         </label>
                                     </div>
-                                    <div class="col-4 d-flex align-items-center word">
+                                    <div class="col-5 d-flex align-items-center word">
                                         <input type="text" placeholder="Thuật ngữ" name="question" value="${list.question}" sclass="form-control border-primary">
                                     </div>
-                                    <div class="col-4 d-flex align-items-center word">
+                                    <div class="col-5 d-flex align-items-center word">
                                         <input type="text" class="form-control border-primary" placeholder="Định nghĩa" name="answer" value="${list.answer}">
-                                    </div>
-                                    <div class="col-2 d-flex align-items-center">
-                                        <button type="button" class="btn btn-secondary" onclick="deleteFlashCardItem(this)">Xóa</button>
                                     </div>
                                 </div>  
                             </c:forEach>
                         </div>
                         <div class="w-100 row mt-2">
-                            <div class="col text-center">
-                                <button type="button" class="btn btn-success" onclick="createUploadForm('', '')">Thêm thẻ</button>
-                            </div>
                             <div class="col text-center">
                                 <input class="btn btn-primary"type="submit" value="Xác nhận">
                             </div>
