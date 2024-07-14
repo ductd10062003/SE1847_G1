@@ -263,13 +263,9 @@
                                 Thêm khóa học
                             </a>
                             <div class="sb-sidenav-menu-heading">Quản lý học sinh</div>
-                            <a class="nav-link" href="charts.html">
+                            <a class="nav-link" href="manageStudent">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts
-                            </a>
-                            <a class="nav-link" href="../viewMentorCourse">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables
+                                Xem tất cả
                             </a>
                         </div>
                     </div>
