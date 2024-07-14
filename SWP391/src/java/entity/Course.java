@@ -14,8 +14,16 @@ public class Course {
 
     public Course() {
     }
-    
-    public Course(int course_id, String course_name,String category_name,int category_id, String description, String created_at, String update_at, int active) {
+
+    public Course(String course_name, String description,String update_at, int course_id) {
+        this.course_name = course_name;
+        this.description = description;
+        this.update_at = update_at;
+        this.course_id = course_id;
+        
+    }
+
+    public Course(int course_id, String course_name, String category_name, int category_id, String description, String created_at, String update_at, int active) {
         this.course_id = course_id;
         this.course_name = course_name;
         this.category_name = category_name;
@@ -74,8 +82,8 @@ public class Course {
         this.created_by = created_by;
         this.category_id = category_id;
     }
-    
-    public Course(String course_name,int course_id, String description, String created_at, String update_at,int category_id, String category_name) {
+
+    public Course(String course_name, int course_id, String description, String created_at, String update_at, int category_id, String category_name) {
         this.course_name = course_name;
         this.course_id = course_id;
         this.description = description;

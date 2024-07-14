@@ -11,6 +11,26 @@ import java.util.Vector;
 
 public class DAOFlashCard extends DBConnect {
 
+    public boolean checkDuplicate(String question, String answer, String image, String flashcard_id) {
+        String sql = "SELECT COUNT(*) AS count FROM flashcard WHERE question = ? AND answer = ? AND image = ? AND flashcard_id <> ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, question);
+            ps.setString(2, answer);
+            ps.setString(3, image);
+            ps.setString(4, flashcard_id); // Đảm bảo loại trừ flashcard hiện tại trong trường hợp cập nhật
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt("count");
+                return count > 0; // Trả về true nếu có bản ghi trùng lặp, ngược lại trả về false
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Mặc định trả về false nếu có lỗi xảy ra
+    }
+    
     public int updateFlashCard(String question, String answer, String image,String flashcard_id) {
         String sql = "    UPDATE flashcard \n"
                 + "  Set question = ?, answer = ? , image = ?\n"

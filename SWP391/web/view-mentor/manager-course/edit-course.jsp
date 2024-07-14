@@ -159,35 +159,65 @@
                     <form action="editCourse" method="post">
                         <div class="p-2 card m-2 overflow-auto d-flex align-items-center" id="flashcards" style="height: 70vh; width: 98%">
                             <div class="form-group">
-                            Tên khóa học: <input type="text" name="course_name" class="form-control" value="${requestScope.course.course_name}">
+                                Tên khóa học: <input type="text" name="course_name" class="form-control" value="${requestScope.course.course_name}">
                             </div>
                             <input type="hidden" name="course_id" class="form-control" value="${requestScope.course.course_id}">
                             <div class="form-group">
-                                Tên danh mục: <input type="text" name="category_name" class="form-control" value="${requestScope.course.category_name}" disabled="">
+                                Tên danh mục: <input type="text" name="category_name" class="form-control" value="${requestScope.course.category_name}" disabled>
                             </div>
                             <div class="form-group">
-                            Mô tả khóa học: <input type="text" name="description" class="form-control" value="${requestScope.course.description}">
+                                Mô tả khóa học: <input type="text" name="description" class="form-control" value="${requestScope.course.description}">
                             </div>                           
+                            <!-- Hiển thị thông báo lỗi nếu có -->
+                            <% if (request.getAttribute("duplicateError") != null) { %>
+                            <div class="alert alert-danger">
+                                <%= request.getAttribute("duplicateError") %>
+                            </div>
+                            <% } %>
 
-                            <c:forEach items="${requestScope.list}" var="list">
-                                <input type="hidden" name="flashcard_id" value="${list.flashcard_id}">                                       
-                                
-                                <div class="upload-form row mt-2 flashcard" id="uploadForm0" style="width: 90%;">
+                            <!-- Hiển thị thông báo thành công nếu có -->
+                            <% if (request.getAttribute("updateSuccess") != null) { %>
+                            <div class="alert alert-success">
+                                <%= request.getAttribute("updateSuccess") %>
+                            </div>
+                            <% } %>
+
+                            <% if (request.getAttribute("_duplicateError") != null) { %>
+                            <div class="alert alert-danger">
+                                <%= request.getAttribute("_duplicateError") %>
+                            </div>
+                            <% } %>
+
+                            <!-- Hiển thị thông báo thành công nếu có -->
+                            <% if (request.getAttribute("_updateSuccess") != null) { %>
+                            <div class="alert alert-success">
+                                <%= request.getAttribute("_updateSuccess") %>
+                            </div>
+                            <% } %>
+
+                            <c:forEach items="${requestScope.list}" var="flashcard">
+                                <input type="hidden" name="flashcard_id" value="${flashcard.flashcard_id}">
+
+                                <div class="upload-form row mt-2 flashcard" id="flashcard_${flashcard.flashcard_id}" style="width: 90%;">
                                     <input type="hidden" class="imgsrc" name="img">
                                     <div class="col-2">
-                                        <label class="upload-area m-0" for="file0" onchange="uploadImg(this, event)">
+                                        <label class="upload-area m-0" for="file${flashcard.flashcard_id}" onchange="uploadImg(this, event)">
                                             <p>Ảnh</p>
                                             <img src="" alt="alt" class="m-0 p-0" style="width: 75px; height: 75px; display: none;">
-                                            <input type="file" id="file0" name="file">
+                                            <input type="file" id="file${flashcard.flashcard_id}" name="file">
                                         </label>
                                     </div>
-                                    <div class="col-5 d-flex align-items-center word">
-                                        <input type="text" placeholder="Thuật ngữ" name="question" value="${list.question}" sclass="form-control border-primary">
+                                    <div class="col-4 d-flex align-items-center word">
+                                        <input type="text" placeholder="Thuật ngữ" name="question" value="${flashcard.question}" class="form-control border-primary" disabled>
                                     </div>
-                                    <div class="col-5 d-flex align-items-center word">
-                                        <input type="text" class="form-control border-primary" placeholder="Định nghĩa" name="answer" value="${list.answer}">
+                                    <div class="col-4 d-flex align-items-center word">
+                                        <input type="text" class="form-control border-primary" placeholder="Định nghĩa" name="answer" value="${flashcard.answer}" disabled>
                                     </div>
-                                </div>  
+                                    <div class="col-2 d-flex align-items-center word">
+                                        <button type="button" class="btn btn-sm btn-info" onclick="enableEdit('flashcard_${flashcard.flashcard_id}')">Sửa</button>
+                                    </div>
+                                </div>
+                                <!-- Hiển thị thông báo lỗi nếu có -->
                             </c:forEach>
                         </div>
                         <div class="w-100 row mt-2">
@@ -196,332 +226,342 @@
                             </div>
                         </div>
                     </form>
-                        
+
                 </main>
             </div>
         </div>
+        <script>
+            function enableEdit(flashcardId) {
+                var flashcardDiv = document.getElementById(flashcardId);
+                var inputs = flashcardDiv.getElementsByTagName("input");
+
+                for (var i = 0; i < inputs.length; i++) {
+                    inputs[i].disabled = false;
+                }
+            }
+        </script>                    
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <!-- Bootstrap JS -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
         <!-- Bootstrap Select JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
         <script>
-                                $(document).ready(function () {
-                                    $('.selectpicker').selectpicker();
-                                });
-                                window.addEventListener('DOMContentLoaded', event => {
+            $(document).ready(function () {
+                $('.selectpicker').selectpicker();
+            });
+            window.addEventListener('DOMContentLoaded', event => {
 
-                                    // Toggle the side navigation
-                                    const sidebarToggle = document.body.querySelector('#sidebarToggle');
-                                    if (sidebarToggle) {
-                                        // Uncomment Below to persist sidebar toggle between refreshes
-                                        // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
-                                        //     document.body.classList.toggle('sb-sidenav-toggled');
-                                        // }
-                                        sidebarToggle.addEventListener('click', event => {
-                                            event.preventDefault();
-                                            document.body.classList.toggle('sb-sidenav-toggled');
-                                            localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
-                                        });
-                                    }
+                // Toggle the side navigation
+                const sidebarToggle = document.body.querySelector('#sidebarToggle');
+                if (sidebarToggle) {
+                    // Uncomment Below to persist sidebar toggle between refreshes
+                    // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+                    //     document.body.classList.toggle('sb-sidenav-toggled');
+                    // }
+                    sidebarToggle.addEventListener('click', event => {
+                        event.preventDefault();
+                        document.body.classList.toggle('sb-sidenav-toggled');
+                        localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                    });
+                }
 
-                                });
+            });
         </script>
 
         <script src="https://unpkg.com/read-excel-file@5.x/bundle/read-excel-file.min.js"></script>
         <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.map"></script>
         <script>
-                                const ERR_CODE = '@@err@@';
-                                let numberOfFlashcard = 0;
+            const ERR_CODE = '@@err@@';
+            let numberOfFlashcard = 0;
 
-                                function deleteFlashCardItem(element) {
-                                    numberOfFlashcard--;
-                                    let uploadForm = element.parentNode.parentNode;
-                                    uploadForm.remove();
+            function deleteFlashCardItem(element) {
+                numberOfFlashcard--;
+                let uploadForm = element.parentNode.parentNode;
+                uploadForm.remove();
+            }
+
+            let inputId = 0;
+            function createUploadForm(question, answer) {
+                numberOfFlashcard++;
+                // Create the main div
+                const uploadForm = document.createElement('div');
+                uploadForm.className = 'upload-form row mt-2 flashcard';
+                uploadForm.style.width = '90%';
+                uploadForm.id = 'uploadForm' + inputId;
+
+                // Create the ifrst column div
+                const col1 = document.createElement('div');
+                col1.className = 'col-2';
+
+                const label = document.createElement('label');
+                label.className = 'upload-area m-0';
+                label.setAttribute('for', 'file' + inputId);
+                label.setAttribute('onchange', 'uploadImg(this, event)');
+
+                const p = document.createElement('p');
+                p.textContent = 'Ảnh';
+
+                const img = document.createElement('img');
+                img.src = '';
+                img.alt = 'alt';
+                img.className = 'm-0 p-0';
+                img.style.width = '75px';
+                img.style.height = '75px';
+                img.style.display = 'none';
+
+                const inputFile = document.createElement('input');
+                inputFile.type = 'file';
+                inputFile.id = ('file' + inputId);
+                inputFile.name = 'file';
+
+                label.appendChild(p);
+                label.appendChild(img);
+                label.appendChild(inputFile);
+                col1.appendChild(label);
+
+                // Create the second column div
+                const col2 = document.createElement('div');
+                col2.className = 'col-4 d-flex align-items-center word';
+
+                const inputWord1 = document.createElement('input');
+                inputWord1.type = 'text';
+                inputWord1.placeholder = 'Thuật ngữ';
+                inputWord1.name = 'question';
+                let is_valid = 'border-primary';
+                if (question.includes(ERR_CODE)) {
+                    question = question.substring(0, question.length - ERR_CODE.length);
+                    is_valid = 'is-invalid';
+                }
+                inputWord1.className = 'form-control ' + is_valid;
+                inputWord1.value = question;
+                col2.appendChild(inputWord1);
+
+                // Create the third column div
+                const col3 = document.createElement('div');
+                col3.className = 'col-4 d-flex align-items-center word';
+
+                const inputWord2 = document.createElement('input');
+                inputWord2.type = 'text';
+                inputWord2.className = 'form-control border-primary';
+                inputWord2.placeholder = 'Định nghĩa';
+                inputWord2.value = answer;
+                inputWord2.name = 'answer';
+                col3.appendChild(inputWord2);
+
+                const inputImgSrc = document.createElement('input');
+                inputImgSrc.type = 'hidden';
+                inputImgSrc.className = 'imgsrc';
+                inputImgSrc.name = 'img';
+                uploadForm.appendChild(inputImgSrc);
+
+                // Create the fourth column div
+                const col4 = document.createElement('div');
+                col4.className = 'col-2 d-flex align-items-center';
+
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'btn btn-secondary';
+                button.textContent = 'Xóa';
+                button.setAttribute('onclick', 'deleteFlashCardItem(this)');
+                col4.appendChild(button);
+
+                // Append all columns to the main div
+                uploadForm.appendChild(col1);
+                uploadForm.appendChild(col2);
+                uploadForm.appendChild(col3);
+                uploadForm.appendChild(col4);
+
+                inputId++;
+                // Append the upload form div to the body or any other container
+                document.getElementById('flashcards').appendChild(uploadForm);
+                return uploadForm;
+            }
+
+            function checkEmptyFlashCard() {
+                let empty = 1;
+                let flashcards = document.getElementById('flashcards');
+                let flashcard = flashcards.querySelectorAll('.flashcard');
+                for (let i = 0; i < flashcard.length; i++) {
+                    let inputs = flashcard[i].querySelectorAll('.word input');
+                    for (let j = 0; j < inputs.length; j++) {
+                        if (inputs[j].value.trim().length === 0) {
+                            inputs[j].classList.remove('border-primary');
+                            inputs[j].classList.add('is-invalid');
+                            empty = 0;
+                        }
+                    }
+                }
+                if (empty === 0) {
+                    document.getElementById('err').innerText = 'Bạn chưa điền đủ thông tin';
+                }
+                return empty;
+            }
+
+            function confirm() {
+                if (checkEmptyFlashCard() === 0) {
+                    return;
+                }
+
+                let category = document.getElementById('category').value;
+                if (category.trim().length === 0) {
+                    document.getElementById('err').innerText = 'Bạn chưa chọn thể loại';
+                    return;
+                }
+                if (numberOfFlashcard === 0) {
+                    document.getElementById('err').innerText = 'Bạn chưa tạo thẻ';
+                    return;
+                }
+                let categoryId = document.getElementById('category').value;
+
+                if (checkDuplicate() !== 0) {
+                    return;
+                }
+
+                submit(getQuestionValues(), getAnswerValues(), getImgSrc(), categoryId);
+            }
+
+            function submit(questions, answers, img, categoryId) {
+                $.ajax({
+                    url: 'add-flashcard',
+                    type: 'post',
+                    data: {
+                        question: questions,
+                        answer: answers,
+                        img: img,
+                        categoryId: categoryId
+                    },
+                    success: function (data) {
+                        if (data === '00') {
+                            document.getElementById('flashcards').innerHTML = '';
+                            window.alert("Thành công");
+                        } else {
+                            numberOfFlashcard = 0;
+                            let err = JSON.parse(data);
+                            document.getElementById('err').innerText = 'Thẻ đã tồn tại.';
+                            document.getElementById('flashcards').innerHTML = '';
+                            for (let i = 0; i < err.length; i++) {
+                                let form = createUploadForm(err[i].question, err[i].answer);
+                                if (err[i].image.trim().length > 0) {
+                                    form.querySelector('img').src = err[i].image;
+                                    form.querySelector('label p').style.display = 'none';
+                                    form.querySelector('img').style.display = 'block';
                                 }
+                            }
+                        }
+                    }
+                });
+            }
 
-                                let inputId = 0;
-                                function createUploadForm(question, answer) {
-                                    numberOfFlashcard++;
-                                    // Create the main div
-                                    const uploadForm = document.createElement('div');
-                                    uploadForm.className = 'upload-form row mt-2 flashcard';
-                                    uploadForm.style.width = '90%';
-                                    uploadForm.id = 'uploadForm' + inputId;
+            function changeCategory() {
+                document.getElementById('err').innerText = '';
+            }
 
-                                    // Create the ifrst column div
-                                    const col1 = document.createElement('div');
-                                    col1.className = 'col-2';
+            function getQuestionValues() {
+                let main = document.getElementById('flashcards');
+                let inputs = main.querySelectorAll('input[name="question"]');
+                let values = [];
+                for (let i = 0; i < inputs.length; i++) {
+                    values.push(inputs[i].value);
+                }
+                return values;
+            }
 
-                                    const label = document.createElement('label');
-                                    label.className = 'upload-area m-0';
-                                    label.setAttribute('for', 'file' + inputId);
-                                    label.setAttribute('onchange', 'uploadImg(this, event)');
-
-                                    const p = document.createElement('p');
-                                    p.textContent = 'Ảnh';
-
-                                    const img = document.createElement('img');
-                                    img.src = '';
-                                    img.alt = 'alt';
-                                    img.className = 'm-0 p-0';
-                                    img.style.width = '75px';
-                                    img.style.height = '75px';
-                                    img.style.display = 'none';
-
-                                    const inputFile = document.createElement('input');
-                                    inputFile.type = 'file';
-                                    inputFile.id = ('file' + inputId);
-                                    inputFile.name = 'file';
-
-                                    label.appendChild(p);
-                                    label.appendChild(img);
-                                    label.appendChild(inputFile);
-                                    col1.appendChild(label);
-
-                                    // Create the second column div
-                                    const col2 = document.createElement('div');
-                                    col2.className = 'col-4 d-flex align-items-center word';
-
-                                    const inputWord1 = document.createElement('input');
-                                    inputWord1.type = 'text';
-                                    inputWord1.placeholder = 'Thuật ngữ';
-                                    inputWord1.name = 'question';
-                                    let is_valid = 'border-primary';
-                                    if (question.includes(ERR_CODE)) {
-                                        question = question.substring(0, question.length - ERR_CODE.length);
-                                        is_valid = 'is-invalid';
-                                    }
-                                    inputWord1.className = 'form-control ' + is_valid;
-                                    inputWord1.value = question;
-                                    col2.appendChild(inputWord1);
-
-                                    // Create the third column div
-                                    const col3 = document.createElement('div');
-                                    col3.className = 'col-4 d-flex align-items-center word';
-
-                                    const inputWord2 = document.createElement('input');
-                                    inputWord2.type = 'text';
-                                    inputWord2.className = 'form-control border-primary';
-                                    inputWord2.placeholder = 'Định nghĩa';
-                                    inputWord2.value = answer;
-                                    inputWord2.name = 'answer';
-                                    col3.appendChild(inputWord2);
-
-                                    const inputImgSrc = document.createElement('input');
-                                    inputImgSrc.type = 'hidden';
-                                    inputImgSrc.className = 'imgsrc';
-                                    inputImgSrc.name = 'img';
-                                    uploadForm.appendChild(inputImgSrc);
-
-                                    // Create the fourth column div
-                                    const col4 = document.createElement('div');
-                                    col4.className = 'col-2 d-flex align-items-center';
-
-                                    const button = document.createElement('button');
-                                    button.type = 'button';
-                                    button.className = 'btn btn-secondary';
-                                    button.textContent = 'Xóa';
-                                    button.setAttribute('onclick', 'deleteFlashCardItem(this)');
-                                    col4.appendChild(button);
-
-                                    // Append all columns to the main div
-                                    uploadForm.appendChild(col1);
-                                    uploadForm.appendChild(col2);
-                                    uploadForm.appendChild(col3);
-                                    uploadForm.appendChild(col4);
-
-                                    inputId++;
-                                    // Append the upload form div to the body or any other container
-                                    document.getElementById('flashcards').appendChild(uploadForm);
-                                    return uploadForm;
-                                }
-
-                                function checkEmptyFlashCard() {
-                                    let empty = 1;
-                                    let flashcards = document.getElementById('flashcards');
-                                    let flashcard = flashcards.querySelectorAll('.flashcard');
-                                    for (let i = 0; i < flashcard.length; i++) {
-                                        let inputs = flashcard[i].querySelectorAll('.word input');
-                                        for (let j = 0; j < inputs.length; j++) {
-                                            if (inputs[j].value.trim().length === 0) {
-                                                inputs[j].classList.remove('border-primary');
-                                                inputs[j].classList.add('is-invalid');
-                                                empty = 0;
-                                            }
-                                        }
-                                    }
-                                    if (empty === 0) {
-                                        document.getElementById('err').innerText = 'Bạn chưa điền đủ thông tin';
-                                    }
-                                    return empty;
-                                }
-
-                                function confirm() {
-                                    if (checkEmptyFlashCard() === 0) {
-                                        return;
-                                    }
-
-                                    let category = document.getElementById('category').value;
-                                    if (category.trim().length === 0) {
-                                        document.getElementById('err').innerText = 'Bạn chưa chọn thể loại';
-                                        return;
-                                    }
-                                    if (numberOfFlashcard === 0) {
-                                        document.getElementById('err').innerText = 'Bạn chưa tạo thẻ';
-                                        return;
-                                    }
-                                    let categoryId = document.getElementById('category').value;
-
-                                    if (checkDuplicate() !== 0) {
-                                        return;
-                                    }
-
-                                    submit(getQuestionValues(), getAnswerValues(), getImgSrc(), categoryId);
-                                }
-
-                                function submit(questions, answers, img, categoryId) {
-                                    $.ajax({
-                                        url: 'add-flashcard',
-                                        type: 'post',
-                                        data: {
-                                            question: questions,
-                                            answer: answers,
-                                            img: img,
-                                            categoryId: categoryId
-                                        },
-                                        success: function (data) {
-                                            if (data === '00') {
-                                                document.getElementById('flashcards').innerHTML = '';
-                                                window.alert("Thành công");
-                                            } else {
-                                                numberOfFlashcard = 0;
-                                                let err = JSON.parse(data);
-                                                document.getElementById('err').innerText = 'Thẻ đã tồn tại.';
-                                                document.getElementById('flashcards').innerHTML = '';
-                                                for (let i = 0; i < err.length; i++) {
-                                                    let form = createUploadForm(err[i].question, err[i].answer);
-                                                    if (err[i].image.trim().length > 0) {
-                                                        form.querySelector('img').src = err[i].image;
-                                                        form.querySelector('label p').style.display = 'none';
-                                                        form.querySelector('img').style.display = 'block';
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    });
-                                }
-
-                                function changeCategory() {
-                                    document.getElementById('err').innerText = '';
-                                }
-
-                                function getQuestionValues() {
-                                    let main = document.getElementById('flashcards');
-                                    let inputs = main.querySelectorAll('input[name="question"]');
-                                    let values = [];
-                                    for (let i = 0; i < inputs.length; i++) {
-                                        values.push(inputs[i].value);
-                                    }
-                                    return values;
-                                }
-
-                                function getAnswerValues() {
-                                    let main = document.getElementById('flashcards');
-                                    let inputs = main.querySelectorAll('input[name="answer"]');
-                                    let values = [];
-                                    for (let i = 0; i < inputs.length; i++) {
-                                        values.push(inputs[i].value);
-                                    }
-                                    return values;
-                                }
-                                function getImgSrc() {
-                                    let main = document.getElementById('flashcards');
-                                    let inputs = main.querySelectorAll('input[name="img"]');
-                                    let values = [];
-                                    for (let i = 0; i < inputs.length; i++) {
-                                        values.push(inputs[i].value);
-                                    }
-                                    return values;
-                                }
+            function getAnswerValues() {
+                let main = document.getElementById('flashcards');
+                let inputs = main.querySelectorAll('input[name="answer"]');
+                let values = [];
+                for (let i = 0; i < inputs.length; i++) {
+                    values.push(inputs[i].value);
+                }
+                return values;
+            }
+            function getImgSrc() {
+                let main = document.getElementById('flashcards');
+                let inputs = main.querySelectorAll('input[name="img"]');
+                let values = [];
+                for (let i = 0; i < inputs.length; i++) {
+                    values.push(inputs[i].value);
+                }
+                return values;
+            }
 
 
-                                function uploadImg(label, event) {
-                                    const file = event.target.files[0];
-                                    const img = label.querySelector('img');
-                                    const p = label.querySelector('p');
-                                    ;
-                                    if (file && file.type.match('image.*')) {
-                                        const reader = new FileReader();
+            function uploadImg(label, event) {
+                const file = event.target.files[0];
+                const img = label.querySelector('img');
+                const p = label.querySelector('p');
+                ;
+                if (file && file.type.match('image.*')) {
+                    const reader = new FileReader();
 
-                                        reader.onload = function (e) {
-                                            img.src = e.target.result;
-                                            img.style.display = 'block';
-                                            p.style.display = 'none';
-                                            img.parentNode.parentNode.parentNode.querySelector('.imgsrc').value = e.target.result;
-                                        };
+                    reader.onload = function (e) {
+                        img.src = e.target.result;
+                        img.style.display = 'block';
+                        p.style.display = 'none';
+                        img.parentNode.parentNode.parentNode.querySelector('.imgsrc').value = e.target.result;
+                    };
 
-                                        reader.readAsDataURL(file);
-                                    }
-                                }
+                    reader.readAsDataURL(file);
+                }
+            }
 
-                                function checkDuplicate() {
-                                    let questionInputs = [];
-                                    let duplicates = [];
-                                    let form = document.getElementById('flashcards');
-                                    let formElement = form.querySelectorAll('.flashcard');
-                                    for (let i = 0; i < formElement.length; i++) {
-                                        let question = formElement[i].querySelector('input[name="question"]');
-                                        let questionValue = question.value;
-                                        if (questionInputs.indexOf(questionValue.trim().toLowerCase()) >= 0) {
-                                            let id = formElement[i].id;
-                                            duplicates.push(+id.substring(10, id.length));
-                                            document.getElementById('err').innerText = 'Thẻ bị trùng, kiểm tra lại!!!';
-                                            question.classList.remove('border-primary');
-                                            question.classList.add('is-invalid');
-                                        } else {
-                                            questionInputs.push(questionValue.trim().toLowerCase());
-                                        }
-                                    }
-                                    if (duplicates.length === 0) {
-                                        document.getElementById('err').innerText = '';
-                                        for (let i = 0; i < formElement.length; i++) {
-                                            let question = formElement[i].querySelector('input[name="question"]');
-                                            question.classList.add('border-primary');
-                                            question.classList.remove('is-invalid');
-                                        }
-                                    }
-                                    return duplicates.length;
-                                }
+            function checkDuplicate() {
+                let questionInputs = [];
+                let duplicates = [];
+                let form = document.getElementById('flashcards');
+                let formElement = form.querySelectorAll('.flashcard');
+                for (let i = 0; i < formElement.length; i++) {
+                    let question = formElement[i].querySelector('input[name="question"]');
+                    let questionValue = question.value;
+                    if (questionInputs.indexOf(questionValue.trim().toLowerCase()) >= 0) {
+                        let id = formElement[i].id;
+                        duplicates.push(+id.substring(10, id.length));
+                        document.getElementById('err').innerText = 'Thẻ bị trùng, kiểm tra lại!!!';
+                        question.classList.remove('border-primary');
+                        question.classList.add('is-invalid');
+                    } else {
+                        questionInputs.push(questionValue.trim().toLowerCase());
+                    }
+                }
+                if (duplicates.length === 0) {
+                    document.getElementById('err').innerText = '';
+                    for (let i = 0; i < formElement.length; i++) {
+                        let question = formElement[i].querySelector('input[name="question"]');
+                        question.classList.add('border-primary');
+                        question.classList.remove('is-invalid');
+                    }
+                }
+                return duplicates.length;
+            }
 
-                                async function loadExcel() {
-                                    let formatFile = true;
-                                    let input = document.getElementById('fileExcel');
-                                    try {
-                                        await readXlsxFile(input.files[0]).then((rows) => {
-                                            rows.forEach((cell) => {
-                                                cell[0].toLowerCase();
-                                                cell[1].toLowerCase();
-                                            });
-                                        }).catch((error) => {
-                                            formatFile = false;
-                                            document.getElementById('err').innerText = 'Sai format file';
-                                        });
-                                    } catch (error) {
-                                        formatFile = false;
-                                        document.getElementById('err').innerText = 'Sai format file';
-                                    }
+            async function loadExcel() {
+                let formatFile = true;
+                let input = document.getElementById('fileExcel');
+                try {
+                    await readXlsxFile(input.files[0]).then((rows) => {
+                        rows.forEach((cell) => {
+                            cell[0].toLowerCase();
+                            cell[1].toLowerCase();
+                        });
+                    }).catch((error) => {
+                        formatFile = false;
+                        document.getElementById('err').innerText = 'Sai format file';
+                    });
+                } catch (error) {
+                    formatFile = false;
+                    document.getElementById('err').innerText = 'Sai format file';
+                }
 
-                                    if (formatFile) {
-                                        readXlsxFile(input.files[0]).then((rows) => {
-                                            rows.forEach((cell) => {
-                                                createUploadForm(cell[0], cell[1]);
-                                            });
-                                        });
-                                    }
+                if (formatFile) {
+                    readXlsxFile(input.files[0]).then((rows) => {
+                        rows.forEach((cell) => {
+                            createUploadForm(cell[0], cell[1]);
+                        });
+                    });
+                }
 
 
-                                }
+            }
         </script>
     </body>
 </html>

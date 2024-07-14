@@ -10,15 +10,16 @@ import java.util.ArrayList;
 
 public class DAOCourse extends DBConnect {
 
-    public int updateCourse(String course_name, String description,int course_id) {
+    public int updateCourse(String course_name, String description,String update_at,int course_id) {
         String sql = "  UPDATE [Course]\n"
-                + "  Set course_name = ?, description = ?\n"
+                + "  Set course_name = ?, description = ?, update_at = ?\n"
                 + "  where course_id = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, course_name);
-            ps.setString(2, description);          
-            ps.setInt(3, course_id);
+            ps.setString(2, description);
+            ps.setString(3, update_at);          
+            ps.setInt(4, course_id);
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
