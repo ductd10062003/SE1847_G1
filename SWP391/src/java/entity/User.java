@@ -1,6 +1,7 @@
 package entity;
 
 public class User {
+
     private int user_id;
     private String name, email, password;
     private int role, active;
@@ -9,26 +10,33 @@ public class User {
     public String dob, phone, image;
     private String course_name, description;
     private int course_id, count;
-            
+
     public User() {
     }
-    
+
     public User(String name) {
         this.name = name;
-    } 
-    
-    public User(int user_id, String name,int role, int active, int gender,String phone, String email,int course_id) {
+    }
+
+    public User(int gender, String dob, String phone,int user_id) {
+        this.gender = gender;
+        this.dob = dob;
+        this.phone = phone;
+        this.user_id = user_id;
+    }
+
+    public User(int user_id, String name, int role, int active, int gender, String phone, String email, int course_id) {
         this.user_id = user_id;
         this.name = name;
         this.role = role;
         this.active = active;
         this.gender = gender;
         this.phone = phone;
-        this.email = email;    
-        this.course_id = course_id;   
+        this.email = email;
+        this.course_id = course_id;
     }
-    
-    public User(String name,int user_id,int role, int count) {
+
+    public User(String name, int user_id, int role, int count) {
         this.name = name;
         this.user_id = user_id;
         this.role = role;
