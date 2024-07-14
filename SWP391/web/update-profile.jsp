@@ -199,30 +199,67 @@
 
     <%--Validate phone number using this regex: /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g--%>
     <script>
-                                    var phone = document.getElementById("phone");
-                                    phone.addEventListener("input", function () {
-                                        var phoneRegex = /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g;
-                                        if (!phoneRegex.test(phone.value)) {
-                                            phone.setCustomValidity("Invalid phone number!");
-                                        } else {
-                                            phone.setCustomValidity("");
-                                        }
-                                    });
+                                var phone = document.getElementById("phone");
+                                phone.addEventListener("input", function () {
+                                    var phoneRegex = /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g;
+                                    if (!phoneRegex.test(phone.value)) {
+                                        phone.setCustomValidity("Invalid phone number!");
+                                    } else {
+                                        phone.setCustomValidity("");
+                                    }
+                                });
     </script>
+
+    <%--validate email by calline a servlet named email validation--%>
+    <script>
+
+    </script>
+
+
+
+    <%--Validate username by calling a servlet named username validation--%>
+    <script>
+
+    </script>
+
+
 
     <%--Validate dob so that the registerer is at least 10 years old--%>
     <script>
-        var dob = document.getElementById("dob");
-        var today = new Date();
-        var tenYearsAgo = new Date(today.getFullYear() - 10, today.getMonth(), today.getDate());
-        dob.max = tenYearsAgo.toISOString().split('T')[0];
+        document.addEventListener("DOMContentLoaded", function () {
+            var dob = document.getElementById("dob");
+            var today = new Date();
+            var tenYearsAgo = new Date(today.getFullYear() - 10, today.getMonth(), today.getDate());
+            var hundredYearsAgo = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
 
+            // Set the maximum and minimum date values for the date input
+            dob.max = tenYearsAgo.toISOString().split('T')[0];
+            dob.min = hundredYearsAgo.toISOString().split('T')[0];
+        });
+    </script>
+
+    <%--Validate username--%>
+    <script>
+        var username = document.getElementById("username");
+        username.addEventListener("input", function () {
+            var usernameRegex = /^[a-zA-Z\d_ ]{6,32}$/g;
+            if (!usernameRegex.test(username.value)) {
+                username.setCustomValidity("Username must be from 6-32 characters and contain only letters, numbers, spaces and underscores!");
+            } else {
+                username.setCustomValidity("");
+            }
+        });
     </script>
 
     <script>
         function validate() {
             let username = document.getElementById("username").value;
             let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            let confirmPassword = document.getElementById("confirm-password").value;
+            let message = document.getElementById("password-match-message");
+            let email_message = document.getElementById("email-exist-message");
+            let username_message = document.getElementById("username-exist-message");
 
             function checkUsername() {
                 return new Promise((resolve, reject) => {
@@ -269,7 +306,35 @@
                     xhrEmail.send();
                 });
             }
+
+            function checkPassword() {
+                return new Promise((resolve) => {
+                    if (password !== confirmPassword) {
+                        message.textContent = "Passwords do not match!";
+                        resolve(false);
+                    } else {
+                        message.textContent = "";
+                        resolve(true);
+                    }
+                });
+            }
+
+            return Promise.all([checkUsername(), checkEmail(), checkPassword()]).then(results => {
+                return results.every(result => result);
+            }).catch(error => {
+                console.error(error);
+                return false;
+            });
         }
+
+        document.querySelector("form").addEventListener("submit", function (event) {
+            event.preventDefault();
+            validate().then(isValid => {
+                if (isValid) {
+                    this.submit();
+                }
+            });
+        });
     </script>
 </body>
 </html>
