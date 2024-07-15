@@ -274,25 +274,21 @@
                                     </div>
 
                                     <div class="row">
+                                        
+
                                         <div class="col-sm-6 col-md-6">
-                                            <form class="form-inline mb-2" method="get" action="manageFlashCard" onsubmit="return validateForm()">
+                                            <form class="form-inline mb-2" action="manageFlashCard" method="get">
                                                 <div class="input-group">
-                                                    <select class="form-control" id="filterBy" name="filterBy">
-                                                        <option value="createdDate" ${filterBy == 'createdDate' ? 'selected' : ''}>Ngày tạo:</option>
-                                                        <option value="lastEditedDate" ${filterBy == 'lastEditedDate' ? 'selected' : ''}>Ngày sửa:</option>
+                                                    <select class="form-control" id="categoryId" name="categoryId">
+                                                        <option value="">Tất cả danh mục</option>
+                                                        <c:forEach var="category" items="${categories}">
+                                                            <option value="${category.category_id}" ${param.categoryId == category.category_id ? 'selected' : ''}>${category.category_name}</option>
+                                                        </c:forEach>
                                                     </select>
                                                 </div>
-                                                <div class="input-group ml-md-2">
-                                                    <input type="date" class="form-control" id="startDate" name="startDate" value="${startDate}">
-                                                </div>
-                                                <span class="input-group-text">đến</span>
-                                                <div class="input-group ml-md-2">
-                                                    <input type="date" class="form-control" id="endDate" name="endDate" value="${endDate}">
-                                                </div>
-                                                <div class="input-group ml-md-2">
-                                                    <button type="submit" class="btn btn-primary">Lọc</button>
-                                                </div>
+                                                <button type="submit" class="btn btn-primary ml-2">Lọc</button>
                                             </form>
+
                                         </div>
 
                                         <div class="col-sm-6">
@@ -350,7 +346,13 @@
                                                 <td>${flashcard.create_at}</td>
                                                 <td>${flashcard.update_at}</td>
                                                 <td><span class="status ${flashcard.active == 1 ? 'text-success' : 'text-danger'}">&bull;</span> ${flashcard.active == 1 ? 'Kích hoạt' : 'Vô hiệu'}</td>
-                                                <td>${flashcard.category_id}</td>
+                                                <td>
+                                                    <c:forEach var="category" items="${categories}">
+                                                        <c:if test="${category.category_id eq flashcard.category_id}">
+                                                            ${category.category_name}
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </td>
                                                 <td><img src="${flashcard.image}" class="img-fluid" width="50" height="50" onclick="showImage('${flashcard.image}')">
                                                 </td>
                                                 <td>
