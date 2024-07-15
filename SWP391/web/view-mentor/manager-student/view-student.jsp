@@ -283,7 +283,7 @@
                                 <div class="table-title">
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h2>Quản lí khóa học</h2>
+                                            <h2>Quản lí học sinh</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -302,7 +302,6 @@
                                             <th>Tình Trạng</th>
                                             <th>Số điện thoại</th>
                                             <th>Email</th>
-                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <c:forEach items="${requestScope.list}" var="list" varStatus="loop" >
@@ -314,27 +313,6 @@
                                             <td class="active">${list.active == 1 ? 'Không hoạt động' : 'Hoạt động'}</td> 
                                             <td class="phone">${list.phone}</td> 
                                             <td class="email">${list.email}</td> 
-                                            <td>
-                                                <c:choose>
-                                                    <c:when test="${list.active == 0}">
-                                                        <form action="editStudent" method="GET">
-                                                            <input type="hidden" name="action" value="activate">
-                                                            <input type="hidden" name="user_id" value="${list.user_id}">
-                                                            <input type="hidden" name="course_id" value="${list.course_id}">
-                                                            <button type="submit" class="btn btn-primary">Activate</button>
-                                                        </form>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <form action="editStudent" method="GET">
-                                                            <input type="hidden" name="action" value="deactivate">
-                                                            <input type="hidden" name="user_id" value="${list.user_id}">
-                                                            <input type="hidden" name="course_id" value="${list.course_id}">
-                                                            <button type="submit" class="btn btn-danger">Deactivate</button>
-                                                        </form>
-                                                    </c:otherwise>
-                                                </c:choose>
-
-                                            </td>
                                         </tr>        
                                     </c:forEach>
                                 </table>

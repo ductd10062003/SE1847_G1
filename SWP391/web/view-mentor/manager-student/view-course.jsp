@@ -283,7 +283,7 @@
                                 <div class="table-title">
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <h2>Quản lí khóa học</h2>
+                                            <h2>Quản lí học sinh</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -314,7 +314,7 @@
                                                 <td>${course.created_at}</td>
                                                 <td>${course.update_at}</td>
                                                 <td>
-                                                    <a href="editStudent?course_id=${course.course_id}" class="settings" title="Settings" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                                                    <a href="viewStudent?course_id=${course.course_id}" class="view" title="view" title="Edit" >Xem chi tiết</a>
                                                 </td>
                                             </tr>
                                         </c:forEach>
