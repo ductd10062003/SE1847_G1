@@ -660,6 +660,55 @@ public class DAOCourse extends DBConnect {
         return 0;
     }
 
+    public Vector<Course> searchEnrolledCoursesByNameAndCategories(String userId, String courseName, String[] categoryNames) {
+        Vector<Course> courses = new Vector<>();
+        StringBuilder sql = new StringBuilder("SELECT c.* FROM User_Enroll_Course uec ")
+                .append("JOIN Course c ON uec.course_id = c.course_id ")
+                .append("JOIN Category cat ON c.category_id = cat.category_id ")
+                .append("WHERE uec.user_id = ? AND c.course_name LIKE ? AND status=1 ");
+
+        if (categoryNames != null && categoryNames.length > 0) {
+            sql.append("AND cat.category_name IN (");
+            for (int i = 0; i < categoryNames.length; i++) {
+                sql.append("?");
+                if (i < categoryNames.length - 1) {
+                    sql.append(", ");
+                }
+            }
+            sql.append(") ");
+        }
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql.toString());
+            ps.setString(1, userId);
+            ps.setString(2, "%" + courseName + "%");
+
+            if (categoryNames != null && categoryNames.length > 0) {
+                for (int i = 0; i < categoryNames.length; i++) {
+                    ps.setString(3 + i, categoryNames[i]);
+                }
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Course course = new Course(
+                        rs.getInt("course_id"),
+                        rs.getString("course_name"),
+                        rs.getString("description"),
+                        rs.getString("create_at"),
+                        rs.getString("update_at"),
+                        rs.getInt("active"),
+                        rs.getInt("created_by"),
+                        rs.getInt("category_id")
+                );
+                courses.add(course);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return courses;
+    }
+
     public static void main(String[] args) {
 //        LocalDate today = LocalDate.now();
 //        Course course = new Course("test1", "no information", today.toString(), today.toString(), 1, 22, 1);
