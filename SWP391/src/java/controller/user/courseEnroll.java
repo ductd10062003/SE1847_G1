@@ -67,7 +67,9 @@ public class courseEnroll extends HttpServlet {
             pageSize = Integer.parseInt(request.getParameter("pageSize"));
         }
 
-        if (courseName != null && !courseName.isEmpty()) {
+        if (courseName != null && !courseName.isEmpty() && categoryNames != null && categoryNames.length > 0) {
+            courses = daoCourse.searchEnrolledCoursesByNameAndCategories(user_id, courseName, categoryNames);
+        } else if (courseName != null && !courseName.isEmpty()) {
             courses = daoCourse.searchEnrolledCoursesByName(user_id, courseName);
         } else if (categoryNames != null && categoryNames.length > 0) {
             courses = daoCourse.getEnrolledCoursesByCategories(user_id, categoryNames);
@@ -97,6 +99,7 @@ public class courseEnroll extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        doGet(request, response);
 
     }
 
