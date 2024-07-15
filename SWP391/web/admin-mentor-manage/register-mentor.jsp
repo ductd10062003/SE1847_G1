@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <head>
     <title>Academics &mdash; Website by Colorlib</title>
@@ -34,8 +35,7 @@
         <div class="container">
             <div class="row align-items-end justify-content-center text-center">
                 <div class="col-lg-7">
-                    <h2 class="mb-0">Register</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+                    <h2 class="mb-0">Đăng ký giáo viên</h2>
                 </div>
             </div>
         </div>
@@ -43,9 +43,9 @@
 
     <div class="custom-breadcrumns border-bottom">
         <div class="container">
-            <a href="../index.jsp">Home</a>
+            <a href="../index.jsp">Trang chủ</a>
             <span class="mx-3 icon-keyboard_arrow_right"></span>
-            <span class="current">Register</span>
+            <span class="current">Đăng ký giáo viên</span>
         </div>
     </div>
 
@@ -56,7 +56,7 @@
                     <div class="col-md-5">
                         <div class="row">
                             <div class="col-md-12 form-group">
-                                <label for="username">Username</label>
+                                <label for="username">Tên tài khoản</label>
                                 <input type="text" id="username" name="username" class="form-control form-control-lg"
                                        required>
                                 <span id="username-exist-message" style="color:red;"></span>
@@ -68,38 +68,38 @@
                                 <span id="email-exist-message" style="color:red;"></span>
                             </div>
                             <div class="col-md-12 form-group">
-                                <label for="phone">Phone</label>
+                                <label for="phone">Số điện thoại</label>
                                 <input type="text" id="phone" name="phone" class="form-control form-control-lg"
                                        pattern="[0-9]{10}" required>
                             </div>
                             <div class="col-md-12 form-group">
-                                <label>Gender</label>
+                                <label>Giới tính</label>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" id="male" name="gender" value="male"
                                            required>
                                     <label class="form-check-label" for="male">
-                                        Male
+                                        Nam
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" id="female" name="gender"
                                            value="female" required>
                                     <label class="form-check-label" for="female">
-                                        Female
+                                        Nữ
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-12 form-group">
-                                <label for="dob">Date of Birth</label>
+                                <label for="dob">Ngày tháng năm sinh</label>
                                 <input type="date" id="dob" name="dob" class="form-control form-control-lg" required>
                             </div>
                             <div class="col-md-12 form-group">
-                                <label for="password">Password (6-32, at least 1 special character)</label>
+                                <label for="password">Mật khẩu(Ít nhất 6-32 ký tự và 1 ký tự đặc biệt)</label>
                                 <input type="password" id="password" name="password"
                                        class="form-control form-control-lg" required>
                             </div>
                             <div class="col-md-12 form-group">
-                                <label for="confirm-password">Re-type Password</label>
+                                <label for="confirm-password">Nhập lại mật khẩu</label>
                                 <input type="password" id="confirm-password" name="confirm-password"
                                        class="form-control form-control-lg" required>
                                 <span id="password-match-message" style="color:red;"></span>
@@ -108,7 +108,7 @@
                         <%--                        a radio button for choosing role. Button value 2 for teacher, button value 3 for Student--%>
                         <div class="row">
                             <div class="col-12">
-                                <input type="submit" value="Register" class="btn btn-primary btn-lg px-5">
+                                <input type="submit" value="Đăng ký" class="btn btn-primary btn-lg px-5">
                             </div>
                         </div>
                     </div>

@@ -81,7 +81,7 @@ public class GmailVerificationHandler {
     }
 
     public static void main(String[] args) {
-        GmailVerificationHandler.sendCreateAccountVerificationCode("san282002@gmail.com", "123456");
+        GmailVerificationHandler.sendCreateAccountVerificationCode("cuonglmhe130386@fpt.edu.vn", "123456");
     }
 
 
