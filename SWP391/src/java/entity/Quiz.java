@@ -9,6 +9,10 @@ public class Quiz {
         this.quiz_id = quiz_id;
     }
 
+        public Quiz(int flashcard_id) {
+        this.flashcard_id = flashcard_id;
+    }
+    
     public Quiz() {
     }
 

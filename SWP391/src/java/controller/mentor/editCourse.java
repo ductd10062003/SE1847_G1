@@ -96,13 +96,43 @@ public class editCourse extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
+        DAOQuiz daoQuiz = new DAOQuiz();
+
+        String action = request.getParameter("action");
+
+        if (action != null) {
+            boolean isDuplicateFlashCard = false;
+
+            String flashcard_id = request.getParameter("flashcard_id");
+            System.out.println(flashcard_id);
+
+            int flashcard_id2 = Integer.parseInt(flashcard_id);
+            switch (action) {
+                case "delete":
+                    daoQuiz.deleteQuizByFlashcardId(flashcard_id2);
+                    request.setAttribute("notification", "Xóa câu hỏi thành công.");
+                    break;
+                default:
+                    System.out.println("Error");
+            }
+
+            // Đẩy dữ liệu và điều hướng về JSP để hiển thị thông báo
+            doGet(request, response);
+            return;
+        }
+
         // Lấy các tham số từ form
         String course_name = request.getParameter("course_name");
         String description = request.getParameter("description");
         int course_id = Integer.parseInt(request.getParameter("course_id"));
 
+        System.out.println("coursename " + course_name);
+        System.out.println("description " + description);
+        System.out.println("course_id " + course_id);
+
         // Kiểm tra trùng lặp theo course_name
         DAOCourse daoCourse = new DAOCourse();
+
         ArrayList<Course> courses = daoCourse.getAllCourses2();
         DAOFlashCard daoFlashCard = new DAOFlashCard();
         Vector<FlashCard> flashcards = daoFlashCard.getAllFlashCards();
@@ -122,7 +152,7 @@ public class editCourse extends HttpServlet {
             request.setAttribute("duplicateError", "Tên khóa học đã tồn tại. Vui lòng chọn tên khóa học khác.");
         } else {
             // Nếu không có trùng lặp, tiến hành cập nhật khóa học
-            int updateCourseResult = daoCourse.updateCourse(course_name, description,formattedDateTime, course_id);
+            int updateCourseResult = daoCourse.updateCourse(course_name, description, formattedDateTime, course_id);
             if (updateCourseResult > 0) {
                 // Cập nhật khóa học thành công, thiết lập attribute thông báo thành công
                 request.setAttribute("updateSuccess", "Cập nhật khóa học thành công.");
@@ -131,54 +161,7 @@ public class editCourse extends HttpServlet {
                 request.setAttribute("updateError", "Đã xảy ra lỗi khi cập nhật khóa học.");
             }
         }
-
-        // Lấy thông tin các flashcard từ form
-        boolean isDuplicateFlashCard = false;
-        String question = request.getParameter("question");
-        String answer = request.getParameter("answer");
-        String img = request.getParameter("img");
-        String flashcard_id = request.getParameter("flashcard_id");
-
-        for (FlashCard list : flashcards) {
-            if (list.getQuestion().equals(question) && list.getAnswer().equals(answer)) {
-                isDuplicateFlashCard = true;
-                break;
-            }
-            if (list.getQuestion().equals(question) && list.getAnswer() != answer) {
-                isDuplicateFlashCard = true;
-                break;
-            }
-            if (list.getQuestion() != question && list.getAnswer().equals(answer)) {
-                isDuplicateFlashCard = true;
-                break;
-            }
-        }
-        if (isDuplicateFlashCard) {
-            // Nếu có trùng lặp, thiết lập attribute để hiển thị thông báo trên JSP
-            request.setAttribute("_duplicateError", "Câu hỏi đã tồn tại. Vui lòng điền khác.");
-        } else {
-            // Nếu không có trùng lặp, tiến hành cập nhật khóa học
-            int updateFlashCard = daoFlashCard.updateFlashCard(question, answer, img, flashcard_id);
-            if (updateFlashCard > 0) {
-                // Cập nhật khóa học thành công, thiết lập attribute thông báo thành công
-                request.setAttribute("_updateSuccess", "Cập nhật câu hỏi thành công.");
-            } else {
-                // Xử lý lỗi cập nhật khóa học (nếu cần)
-                request.setAttribute("_updateError", "Đã xảy ra lỗi khi cập nhật câu hỏi.");
-            }
-        }
-        // Đẩy dữ liệu và điều hướng về JSP để hiển thị thông báo
         doGet(request, response);
+        // Lấy thông tin các flashcard từ form
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

@@ -155,108 +155,136 @@
                 </nav>
             </div>
             <div id="layoutSidenav_content">
-                <main >
-                    <div class="w-100 text-center">
-                        <h2>Chỉnh sửa khóa học</h2>
+
+                <div class="w-100 text-center">
+                    <h2>Chỉnh sửa khóa học</h2>
+                </div>
+
+                <div class="w-100 row mt-2 p-0">
+                    <div class="col-4 text-center">
                     </div>
+                    <div class="col-4 d-flex align-items-end justify-content-center">
+                        <p class="text-danger p-0 m-0" id="err"></p>
+                    </div>
+                    <div class="col-4 text-center row">
+                        <div class="col-9">
 
-                    <div class="w-100 row mt-2 p-0">
-                        <div class="col-4 text-center">
                         </div>
-                        <div class="col-4 d-flex align-items-end justify-content-center">
-                            <p class="text-danger p-0 m-0" id="err"></p>
-                        </div>
-                        <div class="col-4 text-center row">
-                            <div class="col-9">
-
-                            </div>
-                            <div class="col-3">
-                            </div>
+                        <div class="col-3">
                         </div>
                     </div>
-                    <form name="editCourseForm" action="editCourse" method="post" onsubmit="return validateForm()">
-                        <div class="p-2 card m-2 overflow-auto d-flex align-items-center" id="flashcards" style="height: 70vh; width: 98%">
-                            <div class="form-group">
-                                Tên khóa học: <input type="text" name="course_name" class="form-control" value="${requestScope.course.course_name}">
-                            </div>
-                            <input type="hidden" name="course_id" class="form-control" value="${requestScope.course.course_id}">
-                            <div class="form-group">
-                                Tên danh mục: <input type="text" name="category_name" class="form-control" value="${requestScope.course.category_name}" disabled>
-                            </div>
-                            <div class="form-group">
-                                Mô tả khóa học: <input type="text" name="description" class="form-control" value="${requestScope.course.description}">
-                            </div> 
+                </div>
+                <form id="delete-form" action="editCourse" method="POST">
+                    <input type="hidden" name="action" id="action">
+                    <input type="hidden" name="flashcard_id" id="flashcard_id_input">
+                    <input type="hidden" name="course_id" value="${requestScope.course.course_id}" >
+                </form>
 
-                            <!-- Hiển thị thông báo lỗi nếu có -->
-                            <% if (request.getAttribute("validationError") != null) { %>
-                            <div class="alert alert-danger">
-                                <%= request.getAttribute("validationError") %>
-                            </div>
-                            <% } %>
+                <form name="editCourseForm" action="editCourse" method="post" onsubmit="return validateForm()">
+                    <div class="p-2 card m-2 overflow-auto d-flex align-items-center" id="flashcards" style="height: 70vh; width: 98%">
+                        <div class="form-group">
+                            Tên khóa học: <input type="text" name="course_name" class="form-control" value="${requestScope.course.course_name}">
+                        </div>
+                        <input type="hidden" name="course_id" class="form-control" value="${requestScope.course.course_id}">
+                        <div class="form-group">
+                            Tên danh mục: <input type="text" name="category_name" class="form-control" value="${requestScope.course.category_name}" disabled>
+                        </div>
+                        <div class="form-group">
+                            Mô tả khóa học: <input type="text" name="description" class="form-control" value="${requestScope.course.description}">
+                        </div> 
+                        <% if (request.getAttribute("notification") != null) { %>
+                        <div class="alert alert-success">
+                            <%= request.getAttribute("notification") %>
+                        </div>
+                        <% } %>
+                        <!-- Hiển thị thông báo lỗi nếu có -->
+                        <% if (request.getAttribute("validationError") != null) { %>
+                        <div class="alert alert-danger">
+                            <%= request.getAttribute("validationError") %>
+                        </div>
+                        <% } %>
 
-                            <!-- Hiển thị thông báo lỗi nếu có -->
-                            <% if (request.getAttribute("duplicateError") != null) { %>
-                            <div class="alert alert-danger">
-                                <%= request.getAttribute("duplicateError") %>
-                            </div>
-                            <% } %>
+                        <!-- Hiển thị thông báo lỗi nếu có -->
+                        <% if (request.getAttribute("duplicateError") != null) { %>
+                        <div class="alert alert-danger">
+                            <%= request.getAttribute("duplicateError") %>
+                        </div>
+                        <% } %>
 
-                            <!-- Hiển thị thông báo thành công nếu có -->
-                            <% if (request.getAttribute("updateSuccess") != null) { %>
-                            <div class="alert alert-success">
-                                <%= request.getAttribute("updateSuccess") %>
-                            </div>
-                            <% } %>
+                        <!-- Hiển thị thông báo thành công nếu có -->
+                        <% if (request.getAttribute("updateSuccess") != null) { %>
+                        <div class="alert alert-success">
+                            <%= request.getAttribute("updateSuccess") %>
+                        </div>
+                        <% } %>
 
-                            <% if (request.getAttribute("_duplicateError") != null) { %>
-                            <div class="alert alert-danger">
-                                <%= request.getAttribute("_duplicateError") %>
-                            </div>
-                            <% } %>
+                        <% if (request.getAttribute("_duplicateError") != null) { %>
+                        <div class="alert alert-danger">
+                            <%= request.getAttribute("_duplicateError") %>
+                        </div>
+                        <% } %>
 
-                            <!-- Hiển thị thông báo thành công nếu có -->
-                            <% if (request.getAttribute("_updateSuccess") != null) { %>
-                            <div class="alert alert-success">
-                                <%= request.getAttribute("_updateSuccess") %>
-                            </div>
-                            <% } %>
+                        <!-- Hiển thị thông báo thành công nếu có -->
+                        <% if (request.getAttribute("_updateSuccess") != null) { %>
+                        <div class="alert alert-success">
+                            <%= request.getAttribute("_updateSuccess") %>
+                        </div>
+                        <% } %>
 
-                            <c:forEach items="${requestScope.list}" var="flashcard">
-                                <input type="hidden" name="flashcard_id" value="${flashcard.flashcard_id}">
+                        <c:forEach items="${requestScope.list}" var="flashcard">
+                            <input type="hidden" name="flashcard_id" value="${flashcard.flashcard_id}">
 
-                                <div class="upload-form row mt-2 flashcard" id="flashcard_${flashcard.flashcard_id}" style="width: 90%;">
-                                    <input type="hidden" class="imgsrc" name="img">
-                                    <div class="col-2">
-                                        <label class="upload-area m-0" for="file${flashcard.flashcard_id}" onchange="uploadImg(this, event)">
-                                            <p>Ảnh</p>
-                                            <img src="" alt="alt" class="m-0 p-0" style="width: 75px; height: 75px; display: none;">
-                                            <input type="file" id="file${flashcard.flashcard_id}" name="file">
-                                        </label>
-                                    </div>
-                                    <div class="col-4 d-flex align-items-center word">
-                                        <input type="text" placeholder="Thuật ngữ" name="question" value="${flashcard.question}" class="form-control border-primary" disabled>
-                                    </div>
-                                    <div class="col-4 d-flex align-items-center word">
-                                        <input type="text" class="form-control border-primary" placeholder="Định nghĩa" name="answer" value="${flashcard.answer}" disabled>
-                                    </div>
-                                    <div class="col-2 d-flex align-items-center word">
-                                        <button type="button" class="btn btn-sm btn-info" onclick="enableEdit('flashcard_${flashcard.flashcard_id}')">Sửa</button>
-                                    </div>
+                            <div class="upload-form row mt-2 flashcard" id="flashcard_${flashcard.flashcard_id}" style="width: 90%;">
+                                <input type="hidden" class="imgsrc" name="img">
+                                <div class="col-2">
+                                    <label class="upload-area m-0" for="file${flashcard.flashcard_id}" onchange="uploadImg(this, event)">
+                                        <p>Ảnh</p>
+                                        <img src="" alt="alt" class="m-0 p-0" style="width: 75px; height: 75px; display: none;">
+                                        <input type="file" id="file${flashcard.flashcard_id}" name="file">
+                                    </label>
                                 </div>
-                                <!-- Hiển thị thông báo lỗi nếu có -->
-                            </c:forEach>
-                        </div>
-                        <div class="w-100 row mt-2">
-                            <div class="col text-center">
-                                <input class="btn btn-primary"type="submit" value="Xác nhận">
+                                <div class="col-4 d-flex align-items-center word">
+                                    <input type="text" placeholder="Thuật ngữ" name="question" value="${flashcard.question}" class="form-control border-primary" disabled>
+                                </div>
+                                <div class="col-4 d-flex align-items-center word">
+                                    <input type="text" class="form-control border-primary" placeholder="Định nghĩa" name="answer" value="${flashcard.answer}" disabled>
+                                </div>
+                                <div id="" class="col-2 d-flex align-items-center word">
+                                    <button id="delete-btn" class="btn btn-danger" value="${flashcard.flashcard_id}">Xóa</button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                            <!-- Hiển thị thông báo lỗi nếu có -->
+                        </c:forEach>
 
-                </main>
+                    </div>
+                    <div class="w-100 row mt-2">
+                        <div class="col text-center">
+                            <input class="btn btn-primary" type="submit" value="Xác nhận">
+                        </div>
+                    </div>
+                </form>
+
+
+
             </div>
         </div>
         <script>
+            document.getElementById('delete-btn').addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Example: Assuming flashcard ID is retrieved from somewhere (adjust as per your actual scenario)
+                let flashcardID = document.getElementById('delete-btn').value; // Replace with actual logic to get flashcard ID
+
+                // Set the value of flashcard_id and action inputs before submitting the form
+                document.getElementById('flashcard_id_input').value = flashcardID; // Set flashcard_id input value
+                document.getElementById('action').value = "delete"; // Set action input value
+
+                // Submit the form
+                document.getElementById('delete-form').submit();
+            });
+
+
+
             function enableEdit(flashcardId) {
                 var flashcardDiv = document.getElementById(flashcardId);
                 var inputs = flashcardDiv.getElementsByTagName("input");
