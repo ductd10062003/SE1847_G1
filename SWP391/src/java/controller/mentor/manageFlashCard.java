@@ -37,6 +37,11 @@ public class manageFlashCard extends HttpServlet {
             String filterBy = request.getParameter("filterBy");
             String startDate = request.getParameter("startDate");
             String endDate = request.getParameter("endDate");
+            Integer categoryId = null; 
+
+            if (request.getParameter("categoryId") != null && !request.getParameter("categoryId").isEmpty()) {
+                categoryId = Integer.parseInt(request.getParameter("categoryId"));
+            }
 
             int page = 1;
             int pageSize = 6;
@@ -48,6 +53,7 @@ public class manageFlashCard extends HttpServlet {
             }
 
             Vector<FlashCard> flashcards;
+            Vector<Category> categories = daoCategory.getAllCategories();
             if (sortType != null && !sortType.isEmpty()) {
                 switch (sortType) {
                     case "newest_created":
@@ -68,8 +74,8 @@ public class manageFlashCard extends HttpServlet {
                 }
             } else if (keyword != null && !keyword.isEmpty()) {
                 flashcards = daoFlashcard.getFlashCardsByQuestion(keyword);
-            } else if (filterBy != null && !filterBy.isEmpty()) {
-                flashcards = daoFlashcard.getFlashCardsByDateRange(startDate, endDate, filterBy);
+            } else if (categoryId != null) {
+                flashcards = daoFlashcard.getAllFlashCardsByCategoryId(categoryId);
             } else {
                 flashcards = daoFlashcard.getAllFlashCards();
             }
@@ -88,6 +94,7 @@ public class manageFlashCard extends HttpServlet {
             request.setAttribute("currentPage", page);
             request.setAttribute("totalPages", totalPages);
             request.setAttribute("pageSize", pageSize);
+            request.setAttribute("categories", categories);
             String queryString = request.getQueryString();
             request.setAttribute("queryString", queryString != null ? queryString.replaceAll("&?page=\\d*", "").replaceAll("&?pageSize=\\d*", "") : "");
 
