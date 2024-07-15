@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <<<<<<< HEAD
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <head>
     <title>Mentors List</title>
     <meta charset="utf-8">
