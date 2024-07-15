@@ -57,7 +57,25 @@
                 color: #666;
             }
         </style>
+        <script>
+            function validateForm() {
+                var courseName = document.forms["editCourseForm"]["course_name"].value;
+                var description = document.forms["editCourseForm"]["description"].value;
 
+                if (courseName.trim() === "" || description.trim() === "") {
+                    var errorMessage = "";
+                    if (courseName.trim() === "") {
+                        errorMessage += "Tên khóa học không được để trống. ";
+                    }
+                    if (description.trim() === "") {
+                        errorMessage += "Mô tả khóa học không được để trống.";
+                    }
+                    alert(errorMessage);
+                    return false;
+                }
+                return true;
+            }
+        </script>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -156,7 +174,7 @@
                             </div>
                         </div>
                     </div>
-                    <form action="editCourse" method="post">
+                    <form name="editCourseForm" action="editCourse" method="post" onsubmit="return validateForm()">
                         <div class="p-2 card m-2 overflow-auto d-flex align-items-center" id="flashcards" style="height: 70vh; width: 98%">
                             <div class="form-group">
                                 Tên khóa học: <input type="text" name="course_name" class="form-control" value="${requestScope.course.course_name}">
@@ -167,7 +185,15 @@
                             </div>
                             <div class="form-group">
                                 Mô tả khóa học: <input type="text" name="description" class="form-control" value="${requestScope.course.description}">
-                            </div>                           
+                            </div> 
+
+                            <!-- Hiển thị thông báo lỗi nếu có -->
+                            <% if (request.getAttribute("validationError") != null) { %>
+                            <div class="alert alert-danger">
+                                <%= request.getAttribute("validationError") %>
+                            </div>
+                            <% } %>
+
                             <!-- Hiển thị thông báo lỗi nếu có -->
                             <% if (request.getAttribute("duplicateError") != null) { %>
                             <div class="alert alert-danger">
