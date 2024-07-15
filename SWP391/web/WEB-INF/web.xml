@@ -53,8 +53,8 @@
         <servlet-class>controller.mentor.manageStudent</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>editStudent</servlet-name>
-        <servlet-class>controller.mentor.editStudent</servlet-class>
+        <servlet-name>viewStudent</servlet-name>
+        <servlet-class>controller.mentor.viewStudent</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>testCategory</servlet-name>
@@ -109,7 +109,7 @@
         <url-pattern>/mentor/manageStudent</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>editStudent</servlet-name>
-        <url-pattern>/mentor/editStudent</url-pattern>
+        <servlet-name>viewStudent</servlet-name>
+        <url-pattern>/mentor/viewStudent</url-pattern>
     </servlet-mapping>
 </web-app>
