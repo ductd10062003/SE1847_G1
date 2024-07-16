@@ -68,7 +68,6 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="../login">Đăng xuất</a></li>
->>>>>>> 88aec233afd3b552a35d61aa7b0fd2167eaeb29f
                     </ul>
                 </li>
             </ul>
