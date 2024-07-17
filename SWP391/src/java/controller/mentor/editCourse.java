@@ -99,18 +99,45 @@ public class editCourse extends HttpServlet {
         DAOQuiz daoQuiz = new DAOQuiz();
 
         String action = request.getParameter("action");
-
+        System.out.println(action);
         if (action != null) {
             boolean isDuplicateFlashCard = false;
 
+            String course_id = request.getParameter("course_id");
             String flashcard_id = request.getParameter("flashcard_id");
+            String category_id = request.getParameter("category_id");
             System.out.println(flashcard_id);
 
+            int course_id2 = Integer.parseInt(course_id);
+            System.out.println(course_id2);
             int flashcard_id2 = Integer.parseInt(flashcard_id);
+            System.out.println(flashcard_id2);
+            int category_id2 = Integer.parseInt(category_id);
+            System.out.println(category_id2);
             switch (action) {
+                case "add":
+                    boolean addSuccess = daoQuiz.addRandomQuizInCourse(course_id2, category_id2);
+
+                    // Kiểm tra kết quả
+                    if (addSuccess) {
+                        // Thành công
+                        request.setAttribute("notification1", "Thêm câu hỏi thành công.");
+                    } else {
+                        // Thất bại
+                        request.setAttribute("notification1", "Thêm câu hỏi không thành công.");
+                    }
+                    break;
                 case "delete":
-                    daoQuiz.deleteQuizByFlashcardId(flashcard_id2);
-                    request.setAttribute("notification", "Xóa câu hỏi thành công.");
+                    boolean deleteSuccess = daoQuiz.deleteQuizByFlashcardId(course_id2, flashcard_id2);
+
+                    // Kiểm tra kết quả
+                    if (deleteSuccess) {
+                        // Thành công
+                        request.setAttribute("notification2", "Xóa câu hỏi thành công.");
+                    } else {
+                        // Thất bại
+                        request.setAttribute("notification2", "Xóa câu hỏi không thành công.");
+                    }
                     break;
                 default:
                     System.out.println("Error");

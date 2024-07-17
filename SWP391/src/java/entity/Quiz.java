@@ -2,15 +2,29 @@ package entity;
 
 public class Quiz {
     private int course_id, flashcard_id, quiz_id;
+    private int category_id;
 
     public Quiz(int course_id, int flashcard_id, int quiz_id) {
         this.course_id = course_id;
         this.flashcard_id = flashcard_id;
         this.quiz_id = quiz_id;
     }
-
-        public Quiz(int flashcard_id) {
+    
+    public Quiz(int course_id, int flashcard_id) {
+        this.course_id = course_id;
         this.flashcard_id = flashcard_id;
+    }
+
+    public Quiz(int flashcard_id) {
+        this.flashcard_id = flashcard_id;
+    }
+
+    public int getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
     }
     
     public Quiz() {

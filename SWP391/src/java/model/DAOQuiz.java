@@ -9,10 +9,36 @@ import org.jsoup.Connection;
 
 public class DAOQuiz extends DBConnect {
 
-    public boolean deleteQuizByFlashcardId(int flashcardId) {
-        String sql = "DELETE FROM quiz WHERE flashcard_id = ?";
+    public boolean addRandomQuizInCourse(int course_id, int category_id) {
+        String sql = "INSERT INTO Quiz (course_id, flashcard_id)\n"
+                + "SELECT ?, flashcard_id\n"
+                + "FROM flashcard\n"
+                + "WHERE category_id = ?\n"
+                + "AND flashcard_id NOT IN (\n"
+                + "SELECT flashcard_id\n"
+                + "FROM Quiz\n"
+                + "WHERE course_id = ?)\n"
+                + "ORDER BY NEWID()\n"
+                + "OFFSET 0 ROWS\n"
+                + "FETCH NEXT 1 ROWS ONLY;";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, course_id);
+            ps.setInt(2, category_id);
+            ps.setInt(3, course_id);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteQuizByFlashcardId(int course_id, int flashcardId) {
+        String sql = "DELETE FROM quiz WHERE course_id = ? and flashcard_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, flashcardId);
+            ps.setInt(1, course_id);
+            ps.setInt(2, flashcardId);
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
         } catch (Exception e) {

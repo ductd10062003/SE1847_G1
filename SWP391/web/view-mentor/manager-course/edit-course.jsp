@@ -177,7 +177,15 @@
                 <form id="delete-form" action="editCourse" method="POST">
                     <input type="hidden" name="action" id="action">
                     <input type="hidden" name="flashcard_id" id="flashcard_id_input">
-                    <input type="hidden" name="course_id" value="${requestScope.course.course_id}" >
+                    <input type="hidden" name="course_id" value="${requestScope.course.course_id}">
+                    <input type="hidden" name="category_id" value="${requestScope.course.category_id}">
+                </form>
+                
+                <form id="add-form" action="editCourse" method="POST">
+                    <input type="hidden" name="action" id="action">
+                    <input type="hidden" name="flashcard_id" id="flashcard_id_input">
+                    <input type="hidden" name="course_id" value="${requestScope.course.course_id}">
+                    <input type="hidden" name="category_id" value="${requestScope.course.category_id}">
                 </form>
 
                 <form name="editCourseForm" action="editCourse" method="post" onsubmit="return validateForm()">
@@ -192,9 +200,14 @@
                         <div class="form-group">
                             Mô tả khóa học: <input type="text" name="description" class="form-control" value="${requestScope.course.description}">
                         </div> 
-                        <% if (request.getAttribute("notification") != null) { %>
+                        <% if (request.getAttribute("notification1") != null) { %>
                         <div class="alert alert-success">
-                            <%= request.getAttribute("notification") %>
+                            <%= request.getAttribute("notification1") %>
+                        </div>
+                        <% } %>
+                        <% if (request.getAttribute("notification2") != null) { %>
+                        <div class="alert alert-success">
+                            <%= request.getAttribute("notification2") %>
                         </div>
                         <% } %>
                         <!-- Hiển thị thông báo lỗi nếu có -->
@@ -258,16 +271,34 @@
 
                     </div>
                     <div class="w-100 row mt-2">
+                        <div id="" class="col text-center">
+                            <!-- Sử dụng nút "Thêm" với ID để xử lý bằng JavaScript -->
+                            <button id="add-btn" class="btn btn-danger" value="${requestScope.course.course_id}">Thêm</button>
+                        </div>
                         <div class="col text-center">
                             <input class="btn btn-primary" type="submit" value="Xác nhận">
                         </div>
                     </div>
                 </form>
-
-
-
             </div>
         </div>
+
+        <script>
+            // JavaScript để xử lý khi nút "Thêm" được nhấn
+            document.getElementById('add-btn').addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Example: Assuming flashcard ID is retrieved from somewhere (adjust as per your actual scenario)
+                let flashcardID = document.getElementById('add-btn').value; // Replace with actual logic to get flashcard ID
+
+                // Set the value of flashcard_id and action inputs before submitting the form
+                document.getElementById('flashcard_id_input').value = flashcardID; // Set flashcard_id input value
+                document.getElementById('action').value = "add"; // Set action input value
+
+                // Submit the form
+                document.getElementById('delete-form').submit();
+            });
+        </script>
         <script>
             document.getElementById('delete-btn').addEventListener('click', function (event) {
                 event.preventDefault(); // Prevent default form submission
