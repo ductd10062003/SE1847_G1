@@ -115,12 +115,12 @@ public class filter implements Filter {
         
         User user =(User)httpReq.getSession(true).getAttribute("user");
         
-        if (uri.contains("admin")) {
+        if (uri.contains("/admin/")) {
             if(user == null || user.getRole() != 1){
                 httpRes.sendRedirect("../login");
             }
         }
-        if (uri.contains("mentor")) {
+        if (uri.contains("/mentor/")) {
             if(user == null || user.getRole() != 2){
                 httpRes.sendRedirect("../login");
             }
