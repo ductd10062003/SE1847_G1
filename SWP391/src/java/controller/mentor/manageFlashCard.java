@@ -37,7 +37,7 @@ public class manageFlashCard extends HttpServlet {
             String filterBy = request.getParameter("filterBy");
             String startDate = request.getParameter("startDate");
             String endDate = request.getParameter("endDate");
-            Integer categoryId = null; 
+            Integer categoryId = null;
 
             if (request.getParameter("categoryId") != null && !request.getParameter("categoryId").isEmpty()) {
                 categoryId = Integer.parseInt(request.getParameter("categoryId"));
@@ -106,6 +106,7 @@ public class manageFlashCard extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DAOFlashCard daoFlashcard = new DAOFlashCard();
+        DAOCategory daoCategory = new DAOCategory();
         String action = request.getParameter("action");
         if ("update".equals(action)) {
             int flashcardId = Integer.parseInt(request.getParameter("flashcard_id"));
@@ -117,9 +118,19 @@ public class manageFlashCard extends HttpServlet {
             int categoryID = Integer.parseInt(request.getParameter("category_id"));
             String image = request.getParameter("image");
 
-            FlashCard flashcard = new FlashCard(flashcardId, question, answer, null, dateLastEdited, active, categoryID, image);
-            daoFlashcard.updateFlashcard(flashcard);
-            response.sendRedirect("manageFlashCard");
+            if (daoFlashcard.flashcardNameExists(question, flashcardId)) {
+                FlashCard flashcard = daoFlashcard.getFlashCardByID2(flashcardId);
+                Vector<Category> categories = daoCategory.getAllCategories();
+                request.setAttribute("errorMessage", "Tên câu hỏi đã tồn tại");
+                request.setAttribute("flashcard", flashcard);
+                request.setAttribute("categories", categories);
+                request.getRequestDispatcher("../view-mentor/manager-flashcard/update-flashcard.jsp").forward(request, response);
+            } else {
+                FlashCard flashcard = new FlashCard(flashcardId, question, answer, null, dateLastEdited, active, categoryID, image);
+                daoFlashcard.updateFlashcard(flashcard);
+                response.sendRedirect("manageFlashCard");
+            }
+
         } else {
             doGet(request, response);
         }

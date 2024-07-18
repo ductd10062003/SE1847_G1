@@ -398,6 +398,21 @@ public class DAOFlashCard extends DBConnect {
         }
         return flashcard;
     }
+    
+    public boolean flashcardNameExists(String question, int flashcardId) {
+        String sql = "SELECT COUNT(*) FROM flashcard WHERE question = ? AND flashcard_id != ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, question);
+            ps.setInt(2, flashcardId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         for (FlashCard i : new DAOFlashCard().getFlashCardByRandomNumber(100, 2, "(0)")) {

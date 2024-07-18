@@ -271,6 +271,11 @@
                                 <form action="manageFlashCard" method="post">
                                     <input type="hidden" name="action" value="update">
                                     <input type="hidden" name="flashcard_id" value="${flashcard.flashcard_id}">
+                                    <c:if test="${not empty errorMessage}">
+                                        <div class="alert alert-danger" role="alert">
+                                            ${errorMessage}
+                                        </div>
+                                    </c:if>
                                     <div class="form-group">
                                         <label>Câu hỏi</label>
                                         <input type="text" name="question" class="form-control" value="${flashcard.question}" required>
