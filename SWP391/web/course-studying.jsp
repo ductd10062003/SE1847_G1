@@ -50,7 +50,7 @@
 
             <div class="site-section">
                 <div class="container">
-                    <a href="index.jsp">Trang chủ</a>
+                    <a href="homePage">Trang chủ</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
                     <a href="viewcourse">Khóa học</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>

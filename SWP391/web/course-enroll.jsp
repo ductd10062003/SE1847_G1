@@ -42,7 +42,7 @@
 
             <div class="site-section">
                 <div class="container">
-                    <a href="index.html">Home</a>
+                    <a href="homePage">Home</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
                     <a href="viewcourse">Courses</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>

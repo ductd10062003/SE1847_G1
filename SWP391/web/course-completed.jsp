@@ -50,14 +50,14 @@
 
             <div class="site-section">
                 <div class="container">
-                                        <a href="index.jsp">Trang chủ</a>
+                    <a href="homePage">Trang chủ</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
                     <a href="viewcourse">Khóa học</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
                     <a href="courseEnroll">Các khóa học đã đăng kí</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
                     <span class="current">Các khóa học đã hoàn thành</span><br><br>
-                    
+
                     <a href="courseEnroll" class="btn btn-primary">Các khóa học đã đăng kí</a>
                     <a href="courseStudying" class="btn btn-primary">Các khóa học đang học</a>
 
