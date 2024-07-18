@@ -62,7 +62,9 @@ public class courseCompleted extends HttpServlet {
             pageSize = Integer.parseInt(request.getParameter("pageSize"));
         }
 
-        if (courseName != null && !courseName.isEmpty()) {
+        if (courseName != null && !courseName.isEmpty() && categoryNames != null && categoryNames.length > 0) {
+            courses = daoCourse.searchCompletedCoursesByNameAndCategories(user_id, courseName, categoryNames);
+        }else if (courseName != null && !courseName.isEmpty()) {
             courses = daoCourse.searchCompletedCoursesByName(user_id, courseName);
         } else if (categoryNames != null && categoryNames.length > 0) {
             courses = daoCourse.filterCompletedCoursesByCategories(user_id, categoryNames);
