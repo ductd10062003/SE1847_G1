@@ -65,7 +65,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
         <div class="site-section">
             <div class="container">
-                <a href="index.html">Trang chủ</a>
+                <a href="index.jsp">Trang chủ</a>
                 <span class="mx-3 icon-keyboard_arrow_right"></span>
                 <a class="current">Xếp Hạng</a><br><br>
                 <form id="f1" action="topRanking" method="POST">

@@ -58,7 +58,7 @@
 
             <div class="site-section">
                 <div class="container">
-                    <a href="index.html">Trang chủ</a>
+                    <a href="index.jsp">Trang chủ</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
                     <span class="current">Nâng cấp</span>    
                     <div>
