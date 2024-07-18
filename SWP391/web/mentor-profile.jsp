@@ -57,23 +57,15 @@
                                         <img class="profile_img" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="student dp">
                                         <h3>${requestScope.users.name}</h3>                           
                                     </div>
-                                    <div class="card-body">
-                                        <p class="mb-0"><strong class="pr-1">ID người dùng:</strong>${requestScope.users.user_id}</p>
-                                    </div>
                                 </div>                       
                             </div>
                             <div class="col-lg-8">
                                 <div class="card shadow-sm">
                                     <div class="card-header bg-transparent border-0">
-                                        <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Thông tin cá nhân</h3>
+                                        <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Thông tin giáo viên</h3>
                                     </div>
                                     <div class="card-body pt-0">
                                         <table class="table table-bordered">
-                                            <tr>
-                                                <th width="30%">Vai trò</th>
-                                                <td width="2%">:</td>
-                                                <td>${requestScope.users.role == 2 ? 'Giáo viên' : 'Học sinh'}</td>
-                                            </tr>
                                             <tr>
                                                 <th width="30%">Tên người dùng</th>
                                                 <td width="2%">:</td>
@@ -83,11 +75,6 @@
                                                 <th width="30%">Giới tính</th>
                                                 <td width="2%">:</td>
                                                 <td>${requestScope.users.gender == 1 ? 'Nam' : 'Nữ'}</td>
-                                            </tr>
-                                            <tr>
-                                                <th width="30%">Ngày sinh</th>
-                                                <td width="2%">:</td>
-                                                <td>${requestScope.users.dob}</td>
                                             </tr>
                                             <tr>
                                                 <th width="30%">Số điện thoại</th>
