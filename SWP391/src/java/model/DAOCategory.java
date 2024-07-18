@@ -9,7 +9,6 @@ import java.sql.SQLException;
 
 public class DAOCategory extends DBConnect {
 
-    
     public ArrayList<Category> getAllCategories2() {
         String sql = "select * from [category]";
         ArrayList<Category> category = new ArrayList();
@@ -177,33 +176,33 @@ public class DAOCategory extends DBConnect {
     }
 
     public Vector<Category> getCategoriesByDateRange(String startDate, String endDate, String filterBy) {
-    Vector<Category> categories = new Vector<>();
-    String sql = "";
+        Vector<Category> categories = new Vector<>();
+        String sql = "";
 
-    if ("createdDate".equals(filterBy)) {
-        sql = "SELECT * FROM Category WHERE create_at BETWEEN ? AND ?";
-    } else if ("lastEditedDate".equals(filterBy)) {
-        sql = "SELECT * FROM Category WHERE update_at BETWEEN ? AND ?";
-    }
-
-    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setString(1, startDate);
-        stmt.setString(2, endDate);
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-            Category category = new Category();
-            category.setCategory_id(rs.getInt("category_id"));
-            category.setCategory_name(rs.getString("category_name"));
-            category.setDate_created(rs.getString("create_at"));
-            category.setDate_last_edited(rs.getString("update_at"));
-            category.setActive(rs.getInt("active"));
-            categories.add(category);
+        if ("createdDate".equals(filterBy)) {
+            sql = "SELECT * FROM Category WHERE create_at BETWEEN ? AND ?";
+        } else if ("lastEditedDate".equals(filterBy)) {
+            sql = "SELECT * FROM Category WHERE update_at BETWEEN ? AND ?";
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, startDate);
+            stmt.setString(2, endDate);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Category category = new Category();
+                category.setCategory_id(rs.getInt("category_id"));
+                category.setCategory_name(rs.getString("category_name"));
+                category.setDate_created(rs.getString("create_at"));
+                category.setDate_last_edited(rs.getString("update_at"));
+                category.setActive(rs.getInt("active"));
+                categories.add(category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categories;
     }
-    return categories;
-}
 
     public boolean categoryExists(String categoryName) {
         String sql = "SELECT COUNT(*) FROM Category WHERE category_name = ?";
@@ -218,7 +217,22 @@ public class DAOCategory extends DBConnect {
         }
         return false;
     }
-    
+
+    public boolean categoryNameExists(String categoryName, int categoryId) {
+        String sql = "SELECT COUNT(*) FROM Category WHERE category_name = ? AND category_id != ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, categoryName);
+            ps.setInt(2, categoryId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         for (Category i : new DAOCategory().getCategoriesByDateRange("2024-07-01", "2024-07-03", "createdDate")) {
             System.out.println(i);

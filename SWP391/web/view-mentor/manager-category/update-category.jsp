@@ -271,6 +271,11 @@
                                 <form action="manage-category" method="post">
                                     <input type="hidden" name="action" value="update">
                                     <input type="hidden" name="category_id" value="${category.category_id}">
+                                    <c:if test="${not empty errorMessage}">
+                                        <div class="alert alert-danger" role="alert">
+                                            ${errorMessage}
+                                        </div>
+                                    </c:if>
                                     <div class="form-group">
                                         <label>Tên danh mục</label>
                                         <input type="text" name="category_name" class="form-control" value="${category.category_name}" required>

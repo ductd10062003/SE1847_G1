@@ -104,9 +104,16 @@ public class manageCategory extends HttpServlet {
             String dateLastEdited = dtf.format(LocalDateTime.now());
             int active = Integer.parseInt(request.getParameter("active"));
 
-            Category category = new Category(categoryId, categoryName, null, dateLastEdited, active);
-            daoCategory.updateCategory(category);
-            response.sendRedirect("manage-category");
+            if (daoCategory.categoryNameExists(categoryName, categoryId)) {
+                Category category = daoCategory.getCategoryByID(categoryId);
+                request.setAttribute("errorMessage", "Tên danh mục đã tồn tại");
+                request.setAttribute("category", category);
+                request.getRequestDispatcher("../view-mentor/manager-category/update-category.jsp").forward(request, response);
+            } else {
+                Category category = new Category(categoryId, categoryName, null, dateLastEdited, active);
+                daoCategory.updateCategory(category);
+                response.sendRedirect("manage-category");
+            }
         } else if ("add".equals(action)) {
             String categoryName = request.getParameter("category_name");
             if (daoCategory.categoryExists(categoryName)) {
