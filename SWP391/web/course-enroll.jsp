@@ -40,30 +40,15 @@
 
             <%@include file="layout/header.jsp" %>
 
-            <div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('images/bg_1.jpg')">
-                <div class="container">
-                    <div class="row align-items-end">
-                        <div class="col-lg-7">
-                            <h2 class="mb-0">Courses</h2>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="custom-breadcrumns border-bottom">
+            <div class="site-section">
                 <div class="container">
                     <a href="index.html">Home</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
                     <a href="viewcourse">Courses</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
-                    <span class="current">Các khóa học đã đăng kí</span>
-                </div>
-            </div>
-
-            <div class="site-section">
-                <div class="container">
+                    <span class="current">Các khóa học đã đăng kí</span><br><br>
                     <a href="courseStudying" class="btn btn-primary">Các khóa học đang học</a>
+
                     <a href="courseCompleted" class="btn btn-primary">Các khóa học đã hoàn thành</a>
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h2>Các khóa học đã đăng kí</h2>

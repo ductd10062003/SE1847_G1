@@ -60,88 +60,76 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
         <jsp:include page="layout/header.jsp" />
 
-        <div
-            class="site-section ftco-subscribe-1 site-blocks-cover pb-4"
-            style="background-image: url('images/bg_1.jpg')"
-            >
-            <div class="container">
-                <div class="row align-items-end">
-                    <div class="col-lg-7">
-                        <h2 class="mb-0">Từng bước nhỏ, dẫn đến thành công lớn!</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
         <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
-
-        <div class="container">
-            <header>
-                <h1 style="text-align: center">Top Ranking</h1>
-            </header>
-            <form id="f1" action="topRanking" method="POST">
-                <div class="wrapper">
-                    <table id="example" class="table table-striped" style="width:100%">
-                        <select name="type" id="type" onchange="getOnclick()"> 
-                            <option value="0">Tổng hợp</option>
-                            <c:forEach items="${requestScope.type}" var="type" varStatus="loop" >
-                                <option 
-                                    <c:if test="${requestScope.selected==type.typeOfPractice_id}">
-                                        selected
-                                    </c:if>
-                                    value="${loop.index + 1}">${type.typeOfPractice_name}</option>      
-                            </c:forEach>                                                 
-                        </select>
-                        <thead>
-                            <tr>
-                                <th>Xếp Hạng</th>
-                                <th>Tên</th>
-                                <th>Điểm</th>
-                                <th>Thời gian</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${requestScope.ranking}" var="ranking" varStatus="loop" >
-                                <tr>     
-                                    <td class="count">${loop.index + 1}</td>
-                                    <td class="name">${ranking.name}</td>
-                                    <td class="result">${ranking.result}</td>   
-                                    <td class="time">${ranking.time}</td> 
-                                </tr>        
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </form>
-        </div>
-
-        <script>
-            $(document).ready(function () {
-                $('#example').DataTable();
-            });
-        </script>
-
-        <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
+        <div class="site-section">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <span class="icon flaticon-mortarboard"></span>
-                        <h3>Our Philosphy</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea? Dolore, amet reprehenderit.</p>
+                <a href="index.html">Trang chủ</a>
+                <span class="mx-3 icon-keyboard_arrow_right"></span>
+                <a class="current">Xếp Hạng</a><br><br>
+                <form id="f1" action="topRanking" method="POST">
+                    <div class="wrapper">
+                        <table id="example" class="table table-striped" style="width:100%">
+                            <select name="type" id="type" onchange="getOnclick()"> 
+                                <option value="0">Tổng hợp</option>
+                                <c:forEach items="${requestScope.type}" var="type" varStatus="loop" >
+                                    <option 
+                                        <c:if test="${requestScope.selected==type.typeOfPractice_id}">
+                                            selected
+                                        </c:if>
+                                        value="${loop.index + 1}">${type.typeOfPractice_name}</option>      
+                                </c:forEach>                                                 
+                            </select>
+                            <thead>
+                                <tr>
+                                    <th>Xếp Hạng</th>
+                                    <th>Tên</th>
+                                    <th>Điểm</th>
+                                    <th>Thời gian</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${requestScope.ranking}" var="ranking" varStatus="loop" >
+                                    <tr>     
+                                        <td class="count">${loop.index + 1}</td>
+                                        <td class="name">${ranking.name}</td>
+                                        <td class="result">${ranking.result}</td>   
+                                        <td class="time">${ranking.time}</td> 
+                                    </tr>        
+                                </c:forEach>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <span class="icon flaticon-school-material"></span>
-                        <h3>Academics Principle</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea?
-                            Dolore, amet reprehenderit.</p>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <span class="icon flaticon-library"></span>
-                        <h3>Key of Success</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea?
-                            Dolore, amet reprehenderit.</p>
+                </form>
+            </div>
+
+            <script>
+                $(document).ready(function () {
+                    $('#example').DataTable();
+                });
+            </script>
+
+            <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                            <span class="icon flaticon-mortarboard"></span>
+                            <h3>Our Philosphy</h3>
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea? Dolore, amet reprehenderit.</p>
+                        </div>
+                        <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                            <span class="icon flaticon-school-material"></span>
+                            <h3>Academics Principle</h3>
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea?
+                                Dolore, amet reprehenderit.</p>
+                        </div>
+                        <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                            <span class="icon flaticon-library"></span>
+                            <h3>Key of Success</h3>
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea?
+                                Dolore, amet reprehenderit.</p>
+                        </div>
                     </div>
                 </div>
             </div>

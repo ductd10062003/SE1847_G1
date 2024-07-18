@@ -53,43 +53,14 @@
 
     <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
         <div class="site-wrap">
-            <div class="site-mobile-menu site-navbar-target">
-                <div class="site-mobile-menu-header">
-                    <div class="site-mobile-menu-close mt-3">
-                        <span class="icon-close2 js-menu-toggle"></span>
-                    </div>
-                </div>
-                <div class="site-mobile-menu-body"></div>
-            </div>
 
             <%@include file="../layout/header.jsp" %>
 
-            <div
-                class="site-section ftco-subscribe-1 site-blocks-cover pb-4"
-                style="background-image: url('images/bg_1.jpg')"
-                >
-                <div class="container">
-                    <div class="row align-items-end">
-                        <div class="col-lg-7">
-                            <h2 class="mb-0">How To Create Mobile Apps Using Ionic</h2>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="custom-breadcrumns border-bottom">
-                <div class="container">
-                    <a href="index.html">Home</a>
-                    <span class="mx-3 icon-keyboard_arrow_right"></span>
-                    <a href="courses.html">Courses</a>
-                    <span class="mx-3 icon-keyboard_arrow_right"></span>
-                    <span class="current">Courses</span>
-                </div>
-            </div>
-
             <div class="site-section">
                 <div class="container">
+                    <a href="index.html">Trang chủ</a>
+                    <span class="mx-3 icon-keyboard_arrow_right"></span>
+                    <span class="current">Nâng cấp</span>    
                     <div>
                         <div class="w-100">
                             <!-- Pricing 2 - Bootstrap Brain Component -->
