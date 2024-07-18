@@ -62,11 +62,11 @@
                             </a>
                             <a class="nav-link" href="${pageContext.request.contextPath}/admin-mentor-manage/manage-mentor">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Quản lý giáo viên
+                                Quản lý nhân viên
                             </a>
                             <a class="nav-link" href="${pageContext.request.contextPath}/admin-mentor-manage/register-mentor">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Thêm giáo viên
+                                Thêm nhân viên
                             </a>
 
                         </div>

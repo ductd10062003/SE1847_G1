@@ -25,39 +25,13 @@
 
         <div class="site-wrap">
 
-            <div class="site-mobile-menu site-navbar-target">
-                <div class="site-mobile-menu-header">
-                    <div class="site-mobile-menu-close mt-3">
-                        <span class="icon-close2 js-menu-toggle"></span>
-                    </div>
-                </div>
-                <div class="site-mobile-menu-body"></div>
-            </div>
-
-
             <jsp:include page="layout/header.jsp" />
 
-
-            <div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('images/bg_1.jpg')">
-                <div class="container">
-                    <div class="row align-items-end justify-content-center text-center">
-                        <div class="col-lg-7">
-                            <h2 class="mb-0">Đăng ký</h2>                   
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="custom-breadcrumns border-bottom">
+            <div class="site-section">
                 <div class="container">
                     <a href="index.jsp">Trang chủ</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
                     <span class="current">Đăng ký</span>
-                </div>
-            </div>
-
-            <div class="site-section">
-                <div class="container">
                     <form action="register" method="post" onsubmit="return validate()">
                         <div class="row justify-content-center">
                             <div class="col-md-5">
