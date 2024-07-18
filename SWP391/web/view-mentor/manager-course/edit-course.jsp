@@ -180,7 +180,7 @@
                     <input type="hidden" name="course_id" value="${requestScope.course.course_id}">
                     <input type="hidden" name="category_id" value="${requestScope.course.category_id}">
                 </form>
-                
+
                 <form id="add-form" action="editCourse" method="POST">
                     <input type="hidden" name="action" id="action">
                     <input type="hidden" name="flashcard_id" id="flashcard_id_input">
@@ -210,34 +210,26 @@
                             <%= request.getAttribute("notification2") %>
                         </div>
                         <% } %>
-                        <!-- Hiển thị thông báo lỗi nếu có -->
                         <% if (request.getAttribute("validationError") != null) { %>
                         <div class="alert alert-danger">
                             <%= request.getAttribute("validationError") %>
                         </div>
                         <% } %>
-
-                        <!-- Hiển thị thông báo lỗi nếu có -->
                         <% if (request.getAttribute("duplicateError") != null) { %>
                         <div class="alert alert-danger">
                             <%= request.getAttribute("duplicateError") %>
                         </div>
                         <% } %>
-
-                        <!-- Hiển thị thông báo thành công nếu có -->
                         <% if (request.getAttribute("updateSuccess") != null) { %>
                         <div class="alert alert-success">
                             <%= request.getAttribute("updateSuccess") %>
                         </div>
                         <% } %>
-
                         <% if (request.getAttribute("_duplicateError") != null) { %>
                         <div class="alert alert-danger">
                             <%= request.getAttribute("_duplicateError") %>
                         </div>
                         <% } %>
-
-                        <!-- Hiển thị thông báo thành công nếu có -->
                         <% if (request.getAttribute("_updateSuccess") != null) { %>
                         <div class="alert alert-success">
                             <%= request.getAttribute("_updateSuccess") %>
@@ -246,7 +238,6 @@
 
                         <c:forEach items="${requestScope.list}" var="flashcard">
                             <input type="hidden" name="flashcard_id" value="${flashcard.flashcard_id}">
-
                             <div class="upload-form row mt-2 flashcard" id="flashcard_${flashcard.flashcard_id}" style="width: 90%;">
                                 <input type="hidden" class="imgsrc" name="img">
                                 <div class="col-2">
@@ -263,16 +254,13 @@
                                     <input type="text" class="form-control border-primary" placeholder="Định nghĩa" name="answer" value="${flashcard.answer}" disabled>
                                 </div>
                                 <div id="" class="col-2 d-flex align-items-center word">
-                                    <button id="delete-btn" class="btn btn-danger" value="${flashcard.flashcard_id}">Xóa</button>
+                                    <button class="delete-btn btn btn-danger" value="${flashcard.flashcard_id}">Xóa</button>
                                 </div>
                             </div>
-                            <!-- Hiển thị thông báo lỗi nếu có -->
                         </c:forEach>
-
                     </div>
                     <div class="w-100 row mt-2">
                         <div id="" class="col text-center">
-                            <!-- Sử dụng nút "Thêm" với ID để xử lý bằng JavaScript -->
                             <button id="add-btn" class="btn btn-danger" value="${requestScope.course.course_id}">Thêm</button>
                         </div>
                         <div class="col text-center">
@@ -300,30 +288,21 @@
             });
         </script>
         <script>
-            document.getElementById('delete-btn').addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent default form submission
+            document.getElementById('flashcards').addEventListener('click', function (event) {
+                if (event.target && event.target.classList.contains('delete-btn')) {
+                    event.preventDefault(); // Prevent default form submission
 
-                // Example: Assuming flashcard ID is retrieved from somewhere (adjust as per your actual scenario)
-                let flashcardID = document.getElementById('delete-btn').value; // Replace with actual logic to get flashcard ID
+                    // Get the flashcard ID from the clicked button's value
+                    let flashcardID = event.target.value;
 
-                // Set the value of flashcard_id and action inputs before submitting the form
-                document.getElementById('flashcard_id_input').value = flashcardID; // Set flashcard_id input value
-                document.getElementById('action').value = "delete"; // Set action input value
+                    // Set the value of flashcard_id and action inputs before submitting the form
+                    document.getElementById('flashcard_id_input').value = flashcardID;
+                    document.getElementById('action').value = "delete";
 
-                // Submit the form
-                document.getElementById('delete-form').submit();
-            });
-
-
-
-            function enableEdit(flashcardId) {
-                var flashcardDiv = document.getElementById(flashcardId);
-                var inputs = flashcardDiv.getElementsByTagName("input");
-
-                for (var i = 0; i < inputs.length; i++) {
-                    inputs[i].disabled = false;
+                    // Submit the form
+                    document.getElementById('delete-form').submit();
                 }
-            }
+            });
         </script>                    
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <!-- Bootstrap JS -->
