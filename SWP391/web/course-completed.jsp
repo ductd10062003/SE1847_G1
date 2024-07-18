@@ -81,6 +81,9 @@
                         <form action="courseCompleted" method="GET" class="form-inline">
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Nhập tên khóa học" name="courseName" value="${courseName}">
+                                <c:forEach items="${categoryNames}" var="selectedCategory">
+                                    <input type="hidden" name="categoryName" value="${selectedCategory}">
+                                </c:forEach>
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="submit">Tìm kiếm</button>
                                 </div>
@@ -94,6 +97,7 @@
                                 <div class="col-md-3">
                                     <h3>Danh mục</h3>
                                     <form action="courseCompleted" method="GET">
+                                        <input type="hidden" name="courseName" value="${courseName}">
                                         <c:forEach items="${categories}" var="category">
                                             <div class="form-check">
                                                 <c:set var="isChecked" value="false" />

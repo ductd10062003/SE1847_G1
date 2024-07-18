@@ -62,7 +62,9 @@ public class courseStudying extends HttpServlet {
             pageSize = Integer.parseInt(request.getParameter("pageSize"));
         }
 
-        if (courseName != null && !courseName.isEmpty()) {
+        if (courseName != null && !courseName.isEmpty() && categoryNames != null && categoryNames.length > 0) {
+            courses = daoCourse.searchStudyingCoursesByNameAndCategories(user_id, courseName, categoryNames);
+        }else if (courseName != null && !courseName.isEmpty()) {
             courses = daoCourse.searchStudyingCoursesByName(user_id, courseName);
         } else if (categoryNames != null && categoryNames.length > 0) {
             courses = daoCourse.filterStudyingCoursesByCategories(user_id, categoryNames);
