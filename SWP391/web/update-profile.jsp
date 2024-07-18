@@ -44,53 +44,45 @@
     <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
         <jsp:include page="layout/header.jsp" />
 
-        <div
-            class="site-section ftco-subscribe-1 site-blocks-cover pb-4"
-            style="background-image: url('images/bg_1.jpg')"
-            >
+        <div class="site-section">
             <div class="container">
-                <div class="row align-items-end">
-                    <div class="col-lg-7">
-                        <h2 class="mb-0">Từng bước nhỏ, dẫn đến thành công lớn!</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="container rounded bg-white mt-5 mb-5">
-            <div class="row">
-                <div class="col-md-3 border-right">
-                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"><span class="font-weight-bold"></span></div>
-                </div>
-                <div class="col-md-5 border-right">
-                    <div class="p-3 py-5">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="text-right">Thông tin người dùng</h4>
+                    <a href="homePage">Trang chủ</a>
+                    <span class="mx-3 icon-keyboard_arrow_right"></span>
+                    <span class="current">Thay đổi thông tin</span><br><br>
+                    <div class="row">
+                        <div class="col-md-3 border-right">
+                            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"><span class="font-weight-bold"></span></div>
                         </div>
-                        <form action ="updateProfile" method="Post" onsubmit="return validate()">
-                            <div class="row mt-3">
-                                <div class="col-md-12"><label class="labels">Tên người dùng</label><input type="text" class="form-control" placeholder="enter name" name="name" value="${requestScope.users.name}"disabled></div>
-                                <div class="col-md-12"><label class="labels"><label>Giới tính</label>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" id="male" name="gender"value="male" 
-                                                   <c:if test="${requestScope.users.gender == 1}">checked</c:if> required>
-                                                   <label class="form-check-label" for="male">Nam</label>
-                                            </div>
+                        <div class="col-md-5 border-right">
+                            <div class="p-3 py-5">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 class="text-right">Thông tin người dùng</h4>
+                                </div>
+                                <form action ="updateProfile" method="Post" onsubmit="return validate()">
+                                    <div class="row mt-3">
+                                        <div class="col-md-12"><label class="labels">Tên người dùng</label><input type="text" class="form-control" placeholder="enter name" name="name" value="${requestScope.users.name}"disabled></div>
+                                    <div class="col-md-12"><label class="labels"><label>Giới tính</label>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" id="female" name="gender"value="female" 
-                                                <c:if test="${requestScope.users.gender == 0}">checked</c:if> required>
-                                                <label class="form-check-label" for="female">Nữ</label>
-                                            </div>
-                                    </div>       
-                                    <div class="col-md-12"><label class="labels">Ngày sinh</label><input type="date" class="form-control" placeholder="enter dob" id="dob" name="dob" value="${requestScope.users.dob}" required></div>
-                                <div class="col-md-12"><label class="labels">Số điện thoại</label><input type="text" class="form-control" placeholder="enter phone" name="phone" value="${requestScope.users.phone}" pattern="[0-9]{10}" required></div>        
-                                <div class="col-md-12"><label class="labels">Email</label><input type="email" class="form-control" placeholder="enter email" name="email" value="${requestScope.users.email}" required disabled></div>
-                                <span id="email-exist-message" style="color:red;"></span>
-                            </div>
-                            <div class="mt-5 text-center">
-                                <input type="submit" value="Lưu thông tin" class="btn btn-primary btn-lg px-5">
-                            </div>
-                        </form> 
+                                                <input class="form-check-input" type="radio" id="male" name="gender"value="male" 
+                                                       <c:if test="${requestScope.users.gender == 1}">checked</c:if> required>
+                                                       <label class="form-check-label" for="male">Nam</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" id="female" name="gender"value="female" 
+                                                    <c:if test="${requestScope.users.gender == 0}">checked</c:if> required>
+                                                    <label class="form-check-label" for="female">Nữ</label>
+                                                </div>
+                                        </div>       
+                                        <div class="col-md-12"><label class="labels">Ngày sinh</label><input type="date" class="form-control" placeholder="enter dob" id="dob" name="dob" value="${requestScope.users.dob}" required></div>
+                                    <div class="col-md-12"><label class="labels">Số điện thoại</label><input type="text" class="form-control" placeholder="enter phone" name="phone" value="${requestScope.users.phone}" pattern="[0-9]{10}" required></div>        
+                                    <div class="col-md-12"><label class="labels">Email</label><input type="email" class="form-control" placeholder="enter email" name="email" value="${requestScope.users.email}" required disabled></div>
+                                    <span id="email-exist-message" style="color:red;"></span>
+                                </div>
+                                <div class="mt-5 text-center">
+                                    <input type="submit" value="Lưu thông tin" class="btn btn-primary btn-lg px-5">
+                                </div>
+                            </form> 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -199,15 +191,15 @@
 
     <%--Validate phone number using this regex: /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g--%>
     <script>
-                                var phone = document.getElementById("phone");
-                                phone.addEventListener("input", function () {
-                                    var phoneRegex = /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g;
-                                    if (!phoneRegex.test(phone.value)) {
-                                        phone.setCustomValidity("Invalid phone number!");
-                                    } else {
-                                        phone.setCustomValidity("");
-                                    }
-                                });
+                                    var phone = document.getElementById("phone");
+                                    phone.addEventListener("input", function () {
+                                        var phoneRegex = /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g;
+                                        if (!phoneRegex.test(phone.value)) {
+                                            phone.setCustomValidity("Invalid phone number!");
+                                        } else {
+                                            phone.setCustomValidity("");
+                                        }
+                                    });
     </script>
 
     <%--validate email by calline a servlet named email validation--%>
