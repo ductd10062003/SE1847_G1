@@ -3,9 +3,9 @@
     Created on : 14 Jun 2024, 09:05:35
     Author     : DAT
 --%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -85,7 +85,12 @@
                                             <tr>
                                                 <th width="30%">Ngày sinh</th>
                                                 <td width="2%">:</td>
-                                                <td>${requestScope.users.dob}</td>
+                                                <td>
+                                                    <c:if test="${not empty requestScope.users.dob}">
+                                                        <fmt:parseDate var="parsedDate" value="${requestScope.users.dob}" pattern="yyyy-MM-dd" />
+                                                        <fmt:formatDate value="${parsedDate}" pattern="dd-MM-yyyy" />
+                                                    </c:if>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <th width="30%">Số điện thoại</th>
