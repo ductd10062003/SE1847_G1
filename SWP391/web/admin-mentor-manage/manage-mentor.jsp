@@ -84,11 +84,11 @@
                             </a>
                             <a class="nav-link" href="${pageContext.request.contextPath}/admin-mentor-manage/manage-mentor">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Quản lý giáo viên
+                                Quản lý nhân viên
                             </a>
                             <a class="nav-link" href="${pageContext.request.contextPath}/admin-mentor-manage/register-mentor">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Thêm giáo viên
+                                Thêm nhân viên
                             </a>
 
                         </div>
@@ -102,7 +102,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container">
-                        <h2>Manage mentors</h2>
+                        <h2>Quản lý nhân viên</h2>
 
                         <%-- Show error if error string exists in session --%>
                         <% if(session.getAttribute("error") != null) { %>
