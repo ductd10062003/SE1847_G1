@@ -205,6 +205,19 @@ public class DAOCategory extends DBConnect {
     return categories;
 }
 
+    public boolean categoryExists(String categoryName) {
+        String sql = "SELECT COUNT(*) FROM Category WHERE category_name = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, categoryName);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     
     public static void main(String[] args) {
         for (Category i : new DAOCategory().getCategoriesByDateRange("2024-07-01", "2024-07-03", "createdDate")) {

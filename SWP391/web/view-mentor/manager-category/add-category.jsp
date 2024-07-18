@@ -272,10 +272,15 @@
                                 </div>
                                 <form action="manage-category" method="post" onsubmit="return validateCategoryName()">
                                     <input type="hidden" name="action" value="add">
+                                    <c:if test="${not empty errorMessage}">
+                                        <div class="alert alert-danger" role="alert">
+                                            ${errorMessage}
+                                        </div>
+                                    </c:if>
 
                                     <div class="form-group">
                                         <label>Tên danh mục</label>
-                                        <input type="text" name="category_name" class="form-control" required>
+                                        <input type="text" name="category_name" class="form-control" required value="${categoryName}">
                                         <div id="error-message" class="error-message">Tên danh mục không được toàn dấu cách.</div>
                                     </div>
 

@@ -109,19 +109,25 @@ public class manageCategory extends HttpServlet {
             response.sendRedirect("manage-category");
         } else if ("add".equals(action)) {
             String categoryName = request.getParameter("category_name");
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String dateCreated = dtf.format(LocalDateTime.now());
-            String dateLastEdidted = dtf.format(LocalDateTime.now());
-            int active = Integer.parseInt(request.getParameter("active"));
+            if (daoCategory.categoryExists(categoryName)) {
+                request.setAttribute("errorMessage", "Tên danh mục đã tồn tại");
+                request.setAttribute("categoryName", categoryName);
+                request.getRequestDispatcher("../view-mentor/manager-category/add-category.jsp").forward(request, response);
+            } else {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                String dateCreated = dtf.format(LocalDateTime.now());
+                String dateLastEdited = dtf.format(LocalDateTime.now());
+                int active = Integer.parseInt(request.getParameter("active"));
 
-            Category newCategory = new Category();
-            newCategory.setCategory_name(categoryName);
-            newCategory.setDate_created(dateCreated);
-            newCategory.setDate_last_edited(dateLastEdidted);
-            newCategory.setActive(active);
+                Category newCategory = new Category();
+                newCategory.setCategory_name(categoryName);
+                newCategory.setDate_created(dateCreated);
+                newCategory.setDate_last_edited(dateLastEdited);
+                newCategory.setActive(active);
 
-            daoCategory.addCategory(newCategory);
-            response.sendRedirect("manage-category");
+                daoCategory.addCategory(newCategory);
+                response.sendRedirect("manage-category");
+            }
         } else {
             doGet(request, response);
         }
