@@ -24,6 +24,20 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" rel="stylesheet">
         <!-- Custom CSS -->
         <style>
+            .form-group {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            .form-group label {
+                margin-right: 10px;
+                width: 110px; /* Adjust the width as needed */
+            }
+            .form-group input, .form-group textarea {
+                flex: 1;
+            }
+        </style>
+        <style>
             .dropdown-menu .inner {
                 max-height: 200px; /* Adjust the height as needed */
                 overflow-y: auto;
@@ -56,26 +70,7 @@
                 font-size: 14px;
                 color: #666;
             }
-        </style>
-        <script>
-            function validateForm() {
-                var courseName = document.forms["editCourseForm"]["course_name"].value;
-                var description = document.forms["editCourseForm"]["description"].value;
-
-                if (courseName.trim() === "" || description.trim() === "") {
-                    var errorMessage = "";
-                    if (courseName.trim() === "") {
-                        errorMessage += "Tên khóa học không được để trống. ";
-                    }
-                    if (description.trim() === "") {
-                        errorMessage += "Mô tả khóa học không được để trống.";
-                    }
-                    alert(errorMessage);
-                    return false;
-                }
-                return true;
-            }
-        </script>
+        </style>    
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -157,21 +152,15 @@
             <div id="layoutSidenav_content">
 
                 <div class="w-100 text-center">
-                    <h2>Chỉnh sửa khóa học</h2>
+                    <h2></h2>
                 </div>
 
                 <div class="w-100 row mt-2 p-0">
                     <div class="col-4 text-center">
+                        <h2></h2>
                     </div>
-                    <div class="col-4 d-flex align-items-end justify-content-center">
-                        <p class="text-danger p-0 m-0" id="err"></p>
-                    </div>
-                    <div class="col-4 text-center row">
-                        <div class="col-9">
-
-                        </div>
-                        <div class="col-3">
-                        </div>
+                    <div class="col-4 d-flex align-items-end justify-content-center">                       
+                        <h2>Chỉnh sửa khóa học</h2>
                     </div>
                 </div>
                 <form id="delete-form" action="editCourse" method="POST">
@@ -188,17 +177,20 @@
                     <input type="hidden" name="category_id" value="${requestScope.course.category_id}">
                 </form>
 
-                <form name="editCourseForm" action="editCourse" method="post" onsubmit="return validateForm()">
+                <form name="editCourseForm" action="editCourse" method="post">
                     <div class="p-2 card m-2 overflow-auto d-flex align-items-center" id="flashcards" style="height: 70vh; width: 98%">
                         <div class="form-group">
-                            Tên khóa học: <input type="text" name="course_name" class="form-control" value="${requestScope.course.course_name}">
+                            <label for="course_name">Tên khóa học :</label>
+                            <input type="text" id="course_name" name="course_name" class="form-control" value="${requestScope.course.course_name}">
                         </div>
                         <input type="hidden" name="course_id" class="form-control" value="${requestScope.course.course_id}">
                         <div class="form-group">
-                            Tên danh mục: <input type="text" name="category_name" class="form-control" value="${requestScope.course.category_name}" disabled>
+                            <label for="course_name">Tên danh mục :</label>
+                            <input type="text" name="category_name" class="form-control" value="${requestScope.course.category_name}" disabled>
                         </div>
                         <div class="form-group">
-                            Mô tả khóa học: <input type="text" name="description" class="form-control" value="${requestScope.course.description}">
+                            <label for="course_name">Mô tả :</label>
+                            <input type="text" name="description" class="form-control" value="${requestScope.course.description}">
                         </div> 
                         <% if (request.getAttribute("notification1") != null) { %>
                         <div class="alert alert-success">
