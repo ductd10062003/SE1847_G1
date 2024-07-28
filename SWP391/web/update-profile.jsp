@@ -46,21 +46,21 @@
 
         <div class="site-section">
             <div class="container">
-                    <a href="homePage">Trang chủ</a>
-                    <span class="mx-3 icon-keyboard_arrow_right"></span>
-                    <span class="current">Thay đổi thông tin</span><br><br>
-                    <div class="row">
-                        <div class="col-md-3 border-right">
-                            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"><span class="font-weight-bold"></span></div>
-                        </div>
-                        <div class="col-md-5 border-right">
-                            <div class="p-3 py-5">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h4 class="text-right">Thông tin người dùng</h4>
-                                </div>
-                                <form action ="updateProfile" method="Post" onsubmit="return validate()">
-                                    <div class="row mt-3">
-                                        <div class="col-md-12"><label class="labels">Tên người dùng</label><input type="text" class="form-control" placeholder="enter name" name="name" value="${requestScope.users.name}"disabled></div>
+                <a href="homePage">Trang chủ</a>
+                <span class="mx-3 icon-keyboard_arrow_right"></span>
+                <span class="current">Thay đổi thông tin</span><br><br>
+                <div class="row">
+                    <div class="col-md-3 border-right">
+                        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"><span class="font-weight-bold"></span></div>
+                    </div>
+                    <div class="col-md-5 border-right">
+                        <div class="p-3 py-5">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="text-right">Thông tin người dùng</h4>
+                            </div>
+                            <form action ="updateProfile" method="Post" onsubmit="return validate()">
+                                <div class="row mt-3">
+                                    <div class="col-md-12"><label class="labels">Tên người dùng</label><input type="text" class="form-control" placeholder="enter name" name="name" value="${requestScope.users.name}"disabled></div>
                                     <div class="col-md-12"><label class="labels"><label>Giới tính</label>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" id="male" name="gender"value="male" 
@@ -88,85 +88,12 @@
             </div>
         </div>
         <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <span class="icon flaticon-mortarboard"></span>
-                        <h3>Our Philosphy</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea? Dolore, amet reprehenderit.</p>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <span class="icon flaticon-school-material"></span>
-                        <h3>Academics Principle</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea?
-                            Dolore, amet reprehenderit.</p>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <span class="icon flaticon-library"></span>
-                        <h3>Key of Success</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea?
-                            Dolore, amet reprehenderit.</p>
-                    </div>
-                </div>
-            </div>
+
         </div>
 
 
-        <div class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <p class="mb-4"><img src="images/logo.png" alt="Image" class="img-fluid"></p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto iure.</p>  
-                        <p><a href="#">Learn More</a></p>
-                    </div>
-                    <div class="col-lg-3">
-                        <h3 class="footer-heading"><span>Our Campus</span></h3>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Acedemic</a></li>
-                            <li><a href="#">News</a></li>
-                            <li><a href="#">Our Interns</a></li>
-                            <li><a href="#">Our Leadership</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">Human Resources</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-3">
-                        <h3 class="footer-heading"><span>Our Courses</span></h3>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Math</a></li>
-                            <li><a href="#">Science &amp; Engineering</a></li>
-                            <li><a href="#">Arts &amp; Humanities</a></li>
-                            <li><a href="#">Economics &amp; Finance</a></li>
-                            <li><a href="#">Business Administration</a></li>
-                            <li><a href="#">Computer Science</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-3">
-                        <h3 class="footer-heading"><span>Contact</span></h3>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Support Community</a></li>
-                            <li><a href="#">Press</a></li>
-                            <li><a href="#">Share Your Story</a></li>
-                            <li><a href="#">Our Supporters</a></li>
-                        </ul>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="copyright">
-                            <p>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
     <!-- .site-wrap -->
 

@@ -56,7 +56,7 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/dashboard">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
@@ -68,7 +68,10 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Thêm nhân viên
                             </a>
-
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/manage-premium">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Quản lý gói
+                            </a>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
@@ -162,26 +165,26 @@
         <!-- Bootstrap Select JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
         <script>
-                                            $(document).ready(function () {
-                                                $('.selectpicker').selectpicker();
-                                            });
-                                            window.addEventListener('DOMContentLoaded', event => {
+                                                $(document).ready(function () {
+                                                    $('.selectpicker').selectpicker();
+                                                });
+                                                window.addEventListener('DOMContentLoaded', event => {
 
-                                                // Toggle the side navigation
-                                                const sidebarToggle = document.body.querySelector('#sidebarToggle');
-                                                if (sidebarToggle) {
-                                                    // Uncomment Below to persist sidebar toggle between refreshes
-                                                    // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
-                                                    //     document.body.classList.toggle('sb-sidenav-toggled');
-                                                    // }
-                                                    sidebarToggle.addEventListener('click', event => {
-                                                        event.preventDefault();
-                                                        document.body.classList.toggle('sb-sidenav-toggled');
-                                                        localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
-                                                    });
-                                                }
+                                                    // Toggle the side navigation
+                                                    const sidebarToggle = document.body.querySelector('#sidebarToggle');
+                                                    if (sidebarToggle) {
+                                                        // Uncomment Below to persist sidebar toggle between refreshes
+                                                        // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+                                                        //     document.body.classList.toggle('sb-sidenav-toggled');
+                                                        // }
+                                                        sidebarToggle.addEventListener('click', event => {
+                                                            event.preventDefault();
+                                                            document.body.classList.toggle('sb-sidenav-toggled');
+                                                            localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                                                        });
+                                                    }
 
-                                            });
+                                                });
         </script>
 
 
@@ -189,104 +192,104 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.map"></script>
         <script>
-                                            let dataForDays = [];
-                                            let days = [];
-                                            window.onload = async function () {
-                                                // Get the current date
-                                                let now = new Date();
-                                                let month = now.getMonth() + 1;
-                                                let year = now.getFullYear();
-                                                days = await getAllDatesInMonth(year, month - 1);
-                                                getDataforday();
-                                                if (month < 10) {
-                                                    month = '0' + month;
+                                                let dataForDays = [];
+                                                let days = [];
+                                                window.onload = async function () {
+                                                    // Get the current date
+                                                    let now = new Date();
+                                                    let month = now.getMonth() + 1;
+                                                    let year = now.getFullYear();
+                                                    days = await getAllDatesInMonth(year, month - 1);
+                                                    getDataforday();
+                                                    if (month < 10) {
+                                                        month = '0' + month;
+                                                    }
+                                                    let currentMonth = year + '-' + month;
+                                                    document.getElementById('date1').value = currentMonth;
+                                                    chart2();
+                                                };
+
+
+
+                                                function getAllDatesInMonth(year, month) {
+                                                    let date = new Date(year, month, 1);
+                                                    let dates = [];
+                                                    while (date.getMonth() === month) {
+                                                        let _date = new Date(date);
+                                                        let day_X = +_date.getDate() < 10 ? ('0' + _date.getDate()) : _date.getDate();
+                                                        let month_X = +(_date.getMonth() + 1) < 10 ? ('0' + (_date.getMonth() + 1)) : (_date.getMonth() + 1);
+                                                        let __date = _date.getFullYear() + '-' + month_X + '-' + day_X;
+                                                        dates.push(__date);
+                                                        date.setDate(date.getDate() + 1);
+                                                    }
+
+                                                    return dates;
                                                 }
-                                                let currentMonth = year + '-' + month;
-                                                document.getElementById('date1').value = currentMonth;
-                                                chart2();
-                                            };
 
-
-
-                                            function getAllDatesInMonth(year, month) {
-                                                let date = new Date(year, month, 1);
-                                                let dates = [];
-                                                while (date.getMonth() === month) {
-                                                    let _date = new Date(date);
-                                                    let day_X = +_date.getDate() < 10 ? ('0' + _date.getDate()) : _date.getDate();
-                                                    let month_X = +(_date.getMonth() + 1) < 10 ? ('0' + (_date.getMonth() + 1)) : (_date.getMonth() + 1);
-                                                    let __date = _date.getFullYear() + '-' + month_X + '-' + day_X;
-                                                    dates.push(__date);
-                                                    date.setDate(date.getDate() + 1);
-                                                }
-
-                                                return dates;
-                                            }
-
-                                            function getDataforday() {
-                                                $.ajax({
-                                                    url: 'dashboard',
-                                                    type: 'post',
-                                                    data: {
-                                                        service: 'getDayForData',
-                                                        days: days
-                                                    },
-                                                    success: function (data) {
-                                                        let x = JSON.parse(data);
-                                                        dataForDays = [];
-                                                        for (let i = 0; i < x.length; i++) {
-                                                            dataForDays.push(x[i]);
+                                                function getDataforday() {
+                                                    $.ajax({
+                                                        url: 'dashboard',
+                                                        type: 'post',
+                                                        data: {
+                                                            service: 'getDayForData',
+                                                            days: days
+                                                        },
+                                                        success: function (data) {
+                                                            let x = JSON.parse(data);
+                                                            dataForDays = [];
+                                                            for (let i = 0; i < x.length; i++) {
+                                                                dataForDays.push(x[i]);
+                                                            }
+                                                            chart1();
                                                         }
-                                                        chart1();
-                                                    }
-                                                });
-                                            }                                            
+                                                    });
+                                                }
 
-                                            function chart1() {
-                                                let myAreaChart = document.getElementById('myAreaChart').getContext('2d');
-                                                let _myAreaChart = new Chart(myAreaChart, {
-                                                    type: 'line',
-                                                    data: {
-                                                        labels: days,
-                                                        datasets: [{
-                                                                label: 'Doanh thu',
-                                                                data: dataForDays,
-                                                                backgroundColor: 'blue'
+                                                function chart1() {
+                                                    let myAreaChart = document.getElementById('myAreaChart').getContext('2d');
+                                                    let _myAreaChart = new Chart(myAreaChart, {
+                                                        type: 'line',
+                                                        data: {
+                                                            labels: days,
+                                                            datasets: [{
+                                                                    label: 'Doanh thu',
+                                                                    data: dataForDays,
+                                                                    backgroundColor: 'blue'
 
-                                                            }]
-                                                    },
-                                                    options: {
-                                                        legend: {display: false}
-                                                    }
-                                                });
-                                            }
+                                                                }]
+                                                        },
+                                                        options: {
+                                                            legend: {display: false}
+                                                        }
+                                                    });
+                                                }
 
-                                            function changeDate1() {
-                                                let value = document.getElementById('date1').value;
-                                                let parts = value.split('-');
-                                                let year = +parts[0];
-                                                let month = +parts[1];
-                                                days = getAllDatesInMonth(year, month - 1);
-                                                getDataforday();
-                                            }
-                                            
-                                            function chart2() {
-                                                let myAreaChart = document.getElementById('myDoughnutChart').getContext('2d');
-                                                let _myAreaChart = new Chart(myAreaChart, {
-                                                    type: 'doughnut',
-                                                    data: {
-                                                        labels: ['Chưa từng nâng cấp', 'Đã từng nâng cấp'],
-                                                        datasets: [{
-                                                                data: [+'${requestScope.noPre}',+'${requestScope.havePre}'],
-                                                                backgroundColor:['green','blue']
+                                                function changeDate1() {
+                                                    let value = document.getElementById('date1').value;
+                                                    let parts = value.split('-');
+                                                    let year = +parts[0];
+                                                    let month = +parts[1];
+                                                    days = getAllDatesInMonth(year, month - 1);
+                                                    getDataforday();
+                                                }
 
-                                                            }]
-                                                    },
-                                                    options: {
-                                                        
-                                                    }
-                                                });
-                                            }
+                                                function chart2() {
+                                                    let myAreaChart = document.getElementById('myDoughnutChart').getContext('2d');
+                                                    let _myAreaChart = new Chart(myAreaChart, {
+                                                        type: 'doughnut',
+                                                        data: {
+                                                            labels: ['Chưa từng nâng cấp', 'Đã từng nâng cấp'],
+                                                            datasets: [{
+                                                                    data: [+'${requestScope.noPre}', +'${requestScope.havePre}'],
+                                                                    backgroundColor: ['green', 'blue']
+
+                                                                }]
+                                                        },
+                                                        options: {
+
+                                                        }
+                                                    });
+                                                }
 
         </script>
     </body>

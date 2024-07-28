@@ -9,13 +9,14 @@ import java.time.LocalDate;
 public class DAOUserEnrollCourse extends DBConnect {
 
     public int createUserEnrollCourse(int user_id, int course_id) {
-        String sql = "insert into User_Enroll_Course(user_id,course_id,status)"
-                + "values(?,?,1)";
+        String sql = "insert into User_Enroll_Course(user_id,course_id,status,create_at)"
+                + "values(?,?,1,?)";
         int n = 0;
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, user_id);
             ps.setInt(2, course_id);
+            ps.setString(3, java.time.LocalDate.now().toString());
             n = ps.executeUpdate();
         } catch (Exception e) {
             return n;
@@ -38,6 +39,27 @@ public class DAOUserEnrollCourse extends DBConnect {
             return null;
         }
         return urc;
+    }
+    
+    public Vector<UserEnrollCourse> getUserEnrollCourseInMonth(String date, int staffID) {
+        Vector<UserEnrollCourse> v = new Vector<>();
+        String sql = "SELECT COUNT(*) AS _count\n"
+                + "FROM User_Enroll_Course AS uec\n"
+                + "JOIN Course AS c ON uec.course_id = c.course_id\n"
+                + "WHERE uec.create_at = ?\n"
+                + "	AND uec.[status] = 1 and c.created_by = ?;";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, date);
+            ps.setInt(2, staffID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                v.add(new UserEnrollCourse(rs.getInt(1)));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return v;
     }
 
     public Vector<UserEnrollCourse> getUserEnrollCourseInMonth(String date) {

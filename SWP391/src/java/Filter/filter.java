@@ -111,9 +111,23 @@ public class filter implements Filter {
         HttpServletResponse httpRes = (HttpServletResponse) response;
         HttpServletRequest httpReq = (HttpServletRequest) request;
 
-        String uri = httpReq.getServletPath();
+        String uri = httpReq.getRequestURI();
         
         User user =(User)httpReq.getSession(true).getAttribute("user");
+        
+        if(user != null && user.getRole() == 2){
+            if(!uri.contains("/mentor/") && !uri.contains("css") && !uri.contains("js") && !uri.contains("login")){
+                httpRes.sendRedirect("/SWP391/mentor/dashboard");
+                return;
+            }            
+        }
+        
+        if(user != null && user.getRole() == 1){
+            if(!uri.contains("/admin/") && !uri.contains("admin-mentor-manage") && !uri.contains("login") && !uri.contains("css") && !uri.contains("js")){
+                httpRes.sendRedirect("/SWP391/admin/dashboard");
+                return;
+            }            
+        }
         
         if (uri.contains("/admin/")) {
             if(user == null || user.getRole() != 1){

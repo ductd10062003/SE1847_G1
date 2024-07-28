@@ -1,6 +1,7 @@
 package controller.mentor;
 
 import com.google.gson.Gson;
+import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -22,11 +23,11 @@ public class mentorDashBoard extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        User user = (User) request.getSession(true).getAttribute("user");
         LocalDate now = LocalDate.now();
         Gson gson = new Gson();
 
-        request.setAttribute("dataForDays", gson.toJson(new DAOUserEnrollCourse().getUserEnrollCourseInMonth(now.toString())));
+        request.setAttribute("dataForDays", gson.toJson(new DAOUserEnrollCourse().getUserEnrollCourseInMonth(now.toString(), user.getUser_id())));
         request.getRequestDispatcher("../view-mentor/mentor-dashboard.jsp").forward(request, response);
     }
 
@@ -45,10 +46,11 @@ public class mentorDashBoard extends HttpServlet {
 
     private void getDayForData(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        User user = (User) request.getSession(true).getAttribute("user");
         String[] days = request.getParameterValues("days[]");
         Vector<Integer> data = new Vector<>();
-        for(int i = 0; i < days.length; i++){
-            int a = new DAOUserEnrollCourse().getUserEnrollCourseInMonth(days[i]).get(0).getStatus();
+        for (int i = 0; i < days.length; i++) {
+            int a = new DAOUserEnrollCourse().getUserEnrollCourseInMonth(days[i], user.getUser_id()).get(0).getStatus();
             data.add(a);
         }
         response.getWriter().print(new Gson().toJson(data));

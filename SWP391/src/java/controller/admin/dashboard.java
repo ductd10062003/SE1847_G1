@@ -5,6 +5,7 @@
 package controller.admin;
 
 import com.google.gson.Gson;
+import entity.User;
 import entity.UserHavePremium;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,13 +34,13 @@ public class dashboard extends HttpServlet {
         Gson gson = new Gson();
         DAOUser daoUser = new DAOUser();
         DAOUserHavePremium daoUHP = new DAOUserHavePremium();
-        
+        User user = (User) request.getSession(true).getAttribute("user");
         
         int havePre = daoUHP.getAllStudentsHavePre();
         int allStudent = daoUser.getAllStudents();
         request.setAttribute("noPre", allStudent - havePre);
         request.setAttribute("havePre", havePre);
-        request.setAttribute("dataForDays", gson.toJson(new DAOUserEnrollCourse().getUserEnrollCourseInMonth(now.toString())));
+        request.setAttribute("dataForDays", gson.toJson(new DAOUserEnrollCourse().getUserEnrollCourseInMonth(now.toString(), user.getUser_id())));
         request.getRequestDispatcher("../admin/dashboard.jsp").forward(request, response);
     }
 

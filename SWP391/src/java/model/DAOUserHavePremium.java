@@ -32,9 +32,8 @@ public class DAOUserHavePremium extends DBConnect {
 
     public int getAllStudentsHavePre() {
         int n = -1;
-        String sql = "select count(DISTINCT [user_id]) as student\n"
-                + "from [User_Have_Premium]\n"
-                + "group by [user_id]";
+        String sql = "SELECT COUNT(DISTINCT [user_id]) AS student_count\n"
+                + "FROM [User_Have_Premium];";
         try {
             PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = ps.executeQuery();
