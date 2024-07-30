@@ -283,13 +283,37 @@ public class DAOUser extends DBConnect {
         return user;
     }
 
-    public static void main(String[] args) {
-        User user = new DAOUser().getUserByID(30);
-        user.setActive(0);
-        boolean status = new DAOUser().updateUserActiveInfo(user);
-        user = new DAOUser().getUserByID(30);
-        System.out.println(user.getActive());
-        System.out.println(status);
+    public ArrayList<User> getStudents() {
+        ArrayList<User> user = new ArrayList<>();
+        String sql = "SELECT * \n"
+                + "FROM [User] \n"
+                + "WHERE [User].role = 3 OR [User].role = 4;";
+        return getUser(user, sql);
     }
+
+    public Object searchStudent(String keyword) {
+        ArrayList<User> user = new ArrayList<>();
+        String sql = "SELECT * FROM [User] " +
+                "WHERE (name LIKE ? OR email LIKE ? OR phone LIKE ?) " +
+                "AND ([User].role = 3 OR [User].role = 4);";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setString(1, "%" + keyword + "%");
+            ps.setString(2, "%" + keyword + "%");
+            ps.setString(3, "%" + keyword + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                user.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9), rs.getString(10), rs.getString(11)));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return user;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new DAOUser().searchStudent("20"));
+    }
+
 
 }

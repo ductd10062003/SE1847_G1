@@ -46,20 +46,28 @@ public class GmailVerificationHandler {
      * @throws Exception if the email cannot be sent
      */
     public void sendEmail(String subject, String message, String recipient) throws Exception {
-        try {
-            Properties pr = setupMailProperties();
+        Thread thread = new Thread(() -> {
+            try {
+                try {
+                    Properties pr = setupMailProperties();
 
-            Message mess = new MimeMessage(createSession(pr));
-            mess.setHeader("Content-type", "text/html; charset=UTF-8");
-            mess.setFrom(new InternetAddress(FROM_EMAIL));
-            mess.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient, false));
-            mess.setSubject(subject);
-            mess.setText(message);
-            Transport.send(mess);
+                    Message mess = new MimeMessage(createSession(pr));
+                    mess.setHeader("Content-type", "text/html; charset=UTF-8");
+                    mess.setFrom(new InternetAddress(FROM_EMAIL));
+                    mess.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient, false));
+                    mess.setSubject(subject);
+                    mess.setText(message);
+                    Transport.send(mess);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        thread.start();
     }
 
     public static void sendCreateAccountVerificationCode(String recipient, String verificationCode) {
@@ -74,7 +82,7 @@ public class GmailVerificationHandler {
     public static void sendResetPasswordVerificationCode(String recipient, String verificationCode) {
         String msg = RESET_PASSWORD_VERIFICATION_MESSAGE + verificationCode;
         try {
-            new GmailVerificationHandler().sendEmail(RESET_PASSWORD_SUBJECT,msg, recipient);
+            new GmailVerificationHandler().sendEmail(RESET_PASSWORD_SUBJECT, msg, recipient);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

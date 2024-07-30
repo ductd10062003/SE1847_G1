@@ -13,17 +13,11 @@ import java.io.IOException;
 @WebServlet(name = "manage-mentor", urlPatterns = {"/admin-mentor-manage/manage-mentor"})
 public class ManageMentor extends HttpServlet {
 
-    private  String contextPath;
-    private String servletContextPath;
+    private static final String CONTEXT_PATH = "manage-mentor.jsp";
+    private static final String SERVLET_CONTEXT_PATH = "/admin-mentor-manage/manage-mentor";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        contextPath = "manage-mentor.jsp";
-        servletContextPath = req.getContextPath() + "/admin-mentor-manage/manage-mentor";
-
-
-
-
         User user = (User) req.getSession().getAttribute("user");
         if(user == null || user.getRole() != 1){
             resp.sendRedirect("login");
@@ -35,17 +29,13 @@ public class ManageMentor extends HttpServlet {
         if(req.getParameter("action") != null)
             redirectAction(req, resp);
         else
-            req.getRequestDispatcher(contextPath).forward(req, resp);
+            req.getRequestDispatcher(CONTEXT_PATH).forward(req, resp);
     }
 
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        contextPath = "manage-mentor.jsp";
-        servletContextPath = req.getContextPath() + "/admin-mentor-manage/manage-mentor";
-
         redirectAction(req, resp);
-
     }
 
     private void redirectAction(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -73,7 +63,7 @@ public class ManageMentor extends HttpServlet {
     private void printError(HttpServletRequest req, HttpServletResponse resp, String message) throws IOException {
         try {
             req.setAttribute("error", message);
-            req.getRequestDispatcher(contextPath).forward(req, resp);
+            req.getRequestDispatcher(CONTEXT_PATH).forward(req, resp);
         } catch (ServletException | IOException e) {
             log(e.getMessage());
         }
@@ -88,7 +78,7 @@ public class ManageMentor extends HttpServlet {
         }
         mentor.setActive(0);
         if(new DAOUser().updateUserActiveInfo(mentor)){
-            resp.sendRedirect(servletContextPath);
+            resp.sendRedirect(SERVLET_CONTEXT_PATH);
         } else {
             printError(req, resp, "Error deactivating mentor");
         }
@@ -104,7 +94,7 @@ public class ManageMentor extends HttpServlet {
         mentor.setActive(1);
 
         if(new DAOUser().updateUserActiveInfo(mentor)){
-            resp.sendRedirect(servletContextPath);
+            resp.sendRedirect(SERVLET_CONTEXT_PATH);
         } else {
             printError(req, resp, "Error activating mentor");
         }
@@ -119,7 +109,7 @@ public class ManageMentor extends HttpServlet {
         }
         req.getSession().setAttribute("mentor-list", new DAOUser().searchMentor(keyword));
         try {
-            req.getRequestDispatcher(contextPath).forward(req, resp);
+            req.getRequestDispatcher(CONTEXT_PATH).forward(req, resp);
         } catch (ServletException | IOException e) {
             printError(req, resp, "Error searching mentor");
         }
