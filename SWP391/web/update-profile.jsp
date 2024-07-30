@@ -56,25 +56,46 @@
                     <div class="col-md-5 border-right">
                         <div class="p-3 py-5">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="text-right">Thông tin người dùng</h4>
+                                <h4 class="text-right">Thông tin tài khoản</h4>
                             </div>
+                            <% if (request.getAttribute("duplicateError") != null) { %>
+                            <div class="alert alert-danger">
+                                <%= request.getAttribute("duplicateError") %>
+                            </div>
+                            <% } %>
+                            <% if (request.getAttribute("updateSuccess") != null) { %>
+                            <div class="alert alert-success">
+                                <%= request.getAttribute("updateSuccess") %>
+                            </div>
+                            <% } %>
                             <form action ="updateProfile" method="Post" onsubmit="return validate()">
                                 <div class="row mt-3">
-                                    <div class="col-md-12"><label class="labels">Tên người dùng</label><input type="text" class="form-control" placeholder="enter name" name="name" value="${requestScope.users.name}"disabled></div>
-                                    <div class="col-md-12"><label class="labels"><label>Giới tính</label>
+                                    <input type="hidden" name="role" class="form-control" value="${requestScope.users.role}">
+                                    <input type="hidden" name="user_id" class="form-control" value="${requestScope.users.user_id}">
+                                    <c:forEach items="${requestScope.names}" var="names">
+                                        <input type="hidden" name="names" class="form-control" value="${names.name}">
+                                    </c:forEach>
+
+                                    <div class="col-md-12">
+                                        <label class="labels">Tên tài khoản</label>
+                                        <input type="hidden" name="currentUsername" class="form-control" value="${requestScope.users.name}">
+                                        <input type="text" class="form-control" placeholder="enter name" id="username" name="username" value="${requestScope.users.name}" required>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="labels">Giới tính</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" id="male" name="gender"value="male" 
+                                                   <c:if test="${requestScope.users.gender == 1}">checked</c:if> required>
+                                                   <label class="form-check-label" for="male">Nam</label>
+                                            </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" id="male" name="gender"value="male" 
-                                                       <c:if test="${requestScope.users.gender == 1}">checked</c:if> required>
-                                                       <label class="form-check-label" for="male">Nam</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" id="female" name="gender"value="female" 
-                                                    <c:if test="${requestScope.users.gender == 0}">checked</c:if> required>
-                                                    <label class="form-check-label" for="female">Nữ</label>
-                                                </div>
+                                                <input class="form-check-input" type="radio" id="female" name="gender"value="female" 
+                                                <c:if test="${requestScope.users.gender == 0}">checked</c:if> required>
+                                                <label class="form-check-label" for="female">Nữ</label>
+                                            </div>
                                         </div>       
                                         <div class="col-md-12"><label class="labels">Ngày sinh</label><input type="date" class="form-control" placeholder="enter dob" id="dob" name="dob" value="${requestScope.users.dob}" required></div>
-                                    <div class="col-md-12"><label class="labels">Số điện thoại</label><input type="text" class="form-control" placeholder="enter phone" name="phone" value="${requestScope.users.phone}" pattern="[0-9]{10}" required></div>        
+                                    <div class="col-md-12"><label class="labels">Số điện thoại</label><input type="text" class="form-control" placeholder="enter phone" id="phone" name="phone" value="${requestScope.users.phone}" pattern="[0-9]{10}" required></div>        
                                     <div class="col-md-12"><label class="labels">Email</label><input type="email" class="form-control" placeholder="enter email" name="email" value="${requestScope.users.email}" required disabled></div>
                                     <span id="email-exist-message" style="color:red;"></span>
                                 </div>
@@ -116,17 +137,26 @@
     <script src="js/jquery.mb.YTPlayer.min.js"></script>
     <script src="js/main.js"></script>
 
+    <script>
+                                function showImage(imageUrl) {
+                                    // Create a modal or use a Bootstrap modal for displaying the enlarged image
+                                    var modalBody = '<img src="' + imageUrl + '" class="img-fluid">';
+                                    $('#imageModal .modal-body').html(modalBody);
+                                    $('#imageModal').modal('show');
+                                }
+    </script>
+
     <%--Validate phone number using this regex: /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g--%>
     <script>
-                                    var phone = document.getElementById("phone");
-                                    phone.addEventListener("input", function () {
-                                        var phoneRegex = /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g;
-                                        if (!phoneRegex.test(phone.value)) {
-                                            phone.setCustomValidity("Invalid phone number!");
-                                        } else {
-                                            phone.setCustomValidity("");
-                                        }
-                                    });
+        var phone = document.getElementById("phone");
+        phone.addEventListener("input", function () {
+            var phoneRegex = /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g;
+            if (!phoneRegex.test(phone.value)) {
+                phone.setCustomValidity("Số điện thoại phải có 10 số");
+            } else {
+                phone.setCustomValidity("");
+            }
+        });
     </script>
 
     <%--validate email by calline a servlet named email validation--%>
@@ -159,11 +189,12 @@
 
     <%--Validate username--%>
     <script>
+
         var username = document.getElementById("username");
         username.addEventListener("input", function () {
-            var usernameRegex = /^[a-zA-Z\d_ ]{6,32}$/g;
+            var usernameRegex = /^[a-zA-Z\d]{6,32}$/g;
             if (!usernameRegex.test(username.value)) {
-                username.setCustomValidity("Username must be from 6-32 characters and contain only letters, numbers, spaces and underscores!");
+                username.setCustomValidity("Tên tài khoản phải từ 6-32 chữ cái, có thể bao gồm viết hoa");
             } else {
                 username.setCustomValidity("");
             }
@@ -180,29 +211,6 @@
             let email_message = document.getElementById("email-exist-message");
             let username_message = document.getElementById("username-exist-message");
 
-            function checkUsername() {
-                return new Promise((resolve, reject) => {
-                    let xhrUsername = new XMLHttpRequest();
-                    xhrUsername.open("GET", "username-validation?username=" + encodeURIComponent(username), true);
-                    xhrUsername.onreadystatechange = function () {
-                        if (xhrUsername.readyState === 4) {
-                            if (xhrUsername.status === 200) {
-                                if (xhrUsername.responseText.trim() === "true") {
-                                    username_message.textContent = "Username already exists!";
-                                    resolve(false);
-                                } else {
-                                    username_message.textContent = "";
-                                    resolve(true);
-                                }
-                            } else {
-                                reject("Username validation failed");
-                            }
-                        }
-                    };
-                    xhrUsername.send();
-                });
-            }
-
             function checkEmail() {
                 return new Promise((resolve, reject) => {
                     let xhrEmail = new XMLHttpRequest();
@@ -211,7 +219,7 @@
                         if (xhrEmail.readyState === 4) {
                             if (xhrEmail.status === 200) {
                                 if (xhrEmail.responseText.trim() === "true") {
-                                    email_message.textContent = "Email already exists!";
+                                    email_message.textContent = "Email đã tồn tại";
                                     resolve(false);
                                 } else {
                                     email_message.textContent = "";
@@ -240,10 +248,12 @@
 
             return Promise.all([checkUsername(), checkEmail(), checkPassword()]).then(results => {
                 return results.every(result => result);
-            }).catch(error => {
+            }
+            ).catch(error => {
                 console.error(error);
                 return false;
-            });
+            }
+            );
         }
 
         document.querySelector("form").addEventListener("submit", function (event) {

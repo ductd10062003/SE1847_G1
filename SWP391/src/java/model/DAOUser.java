@@ -11,6 +11,22 @@ import java.util.Vector;
 
 public class DAOUser extends DBConnect {
 
+    public ArrayList<String> getExistingUsernames() {
+        ArrayList<String> usernames = new ArrayList<>();
+        String sql = "SELECT name FROM [user]";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                usernames.add(rs.getString("name"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Xử lý lỗi hoặc trả về danh sách rỗng
+        }
+        return usernames;
+    }
+
     public ArrayList<User> getUserByCourseId(int course_id) {
         ArrayList<User> course = new ArrayList<>();
         String sql = "  select r.user_id,r.name,r.role,r.active,r.gender,r.phone,r.email,u.course_id\n"
@@ -24,7 +40,7 @@ public class DAOUser extends DBConnect {
             ps.setInt(1, course_id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                course.add(new User(rs.getInt(1),rs.getString(2), rs.getInt(3),rs.getInt(4),rs.getInt(5),rs.getString(6), rs.getString(7),rs.getInt(8)));
+                course.add(new User(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8)));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -206,17 +222,19 @@ public class DAOUser extends DBConnect {
         return true;
     }
 
-    public void updateProfile(int gender, String dob, String phone,int user_id) {
-        String sql = "UPDATE [User] SET gender=?,dob=?,phone =? WHERE USER_ID = ?";
+    public int updateProfile(String name, int gender, String dob, String phone, int user_id) {
+        String sql = "UPDATE [User] SET name=?,gender=?,dob=?,phone =? WHERE USER_ID = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, gender);
-            ps.setString(2, dob);
-            ps.setString(3, phone);
-            ps.setInt(4, user_id);
-            ps.executeUpdate();
+            ps.setString(1, name);
+            ps.setInt(2, gender);
+            ps.setString(3, dob);
+            ps.setString(4, phone);
+            ps.setInt(5, user_id);
+            return ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
+            return 0;
         }
     }
 

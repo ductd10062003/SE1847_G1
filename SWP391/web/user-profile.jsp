@@ -47,7 +47,7 @@
                     <div class="container">
                         <a href="homePage">Trang chủ</a>
                         <span class="mx-3 icon-keyboard_arrow_right"></span>
-                        <span class="current">Thông tin người dùng</span><br><br>    
+                        <span class="current">Thông tin tài khoản</span><br><br>    
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="card shadow-sm">
@@ -56,14 +56,14 @@
                                         <h3>${requestScope.users.name}</h3>                           
                                     </div>
                                     <div class="card-body">
-                                        <p class="mb-0"><strong class="pr-1">ID người dùng:</strong>${sessionScope.user.user_id}</p>
+                                        <p class="mb-0"><strong class="pr-1">ID tài khoản:</strong>${sessionScope.user.user_id}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-8">
                                 <div class="card shadow-sm">
                                     <div class="card-header bg-transparent border-0">
-                                        <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Thông tin cá nhân</h3>
+                                        <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Thông tin tài khoản</h3>
                                     </div>
                                     <div class="card-body pt-0">
                                         <table class="table table-bordered">
@@ -73,7 +73,7 @@
                                                 <td>${requestScope.users.role == 1 ? 'Giáo viên' : 'Học sinh'}</td>
                                             </tr>
                                             <tr>
-                                                <th width="30%">Tên người dùng</th>
+                                                <th width="30%">Tên tài khoản</th>
                                                 <td width="2%">:</td>
                                                 <td>${requestScope.users.name}</td>
                                             </tr>

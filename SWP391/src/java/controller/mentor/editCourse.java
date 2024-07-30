@@ -172,7 +172,7 @@ public class editCourse extends HttpServlet {
         }
 
         if (isDuplicateCourse) {
-            request.setAttribute("duplicateError", "Tên khóa học đã tồn tại. Vui lòng chọn tên khóa học khác.");
+            request.setAttribute("duplicateError", "Tên khóa học đã tồn tại. Vui lòng nhập tên khóa học khác.");
         } else {
             int updateCourseResult = daoCourse.updateCourse(course_name, description, formattedDateTime, course_id);
             if (updateCourseResult > 0) {

@@ -18,7 +18,8 @@ public class User {
         this.name = name;
     }
 
-    public User(int gender, String dob, String phone,int user_id) {
+    public User(String name,int gender, String dob, String phone,int user_id) {
+        this.name = name;
         this.gender = gender;
         this.dob = dob;
         this.phone = phone;
