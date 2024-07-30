@@ -117,6 +117,7 @@
                             <button type="button" class="btn btn-success" 
                                     onclick="checkLogin('${sessionScope.user}',${requestScope.course.course_id})"
                                     id="joinClass"
+                                    style="display: none"
                                     >
                                 <c:if test="${requestScope.enroll == null || requestScope.enroll == '0'}" >Tham gia</c:if>
                                 <c:if test="${requestScope.enroll != null && requestScope.enroll == '1'}" >Hủy tham gia</c:if>
@@ -398,7 +399,7 @@
                                         switch (joinClass) {
                                             case 'Tham gia':
                                                 let err = document.querySelector('#err');
-                                                err.querySelector('span').innerHTML = "Bạn chưa tham gia lớp học";
+                                                err.querySelector('span').innerHTML = "Bạn chưa đăng nhập";
                                                 err.style.display = 'block';
                                                 return false;
                                             case 'Hủy tham gia':

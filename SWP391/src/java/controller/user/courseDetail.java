@@ -44,10 +44,15 @@ public class courseDetail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        //test user
+        HttpSession session = request.getSession(true);
+        User user = (User) session.getAttribute("user");
+        
         // get course_id
         String courseId_raw = request.getParameter("course_id");
         int courseId = Integer.parseInt(courseId_raw);
-
+        
         //DAO
         DAOUser daoUser = new DAOUser();
         DAOCourse daoCourse = new DAOCourse();
@@ -55,7 +60,11 @@ public class courseDetail extends HttpServlet {
         DAOTypeOfPractice daoT_O_P = new DAOTypeOfPractice();
         DAOQuiz daoQuiz = new DAOQuiz();
         DAOFlashCard daoFlashCard = new DAOFlashCard();
-
+        
+        if(user != null){
+            enroll(request, response);
+        }
+        
         //Entity
         User mentor = daoUser.getUserByCourseID(courseId);
         Course course = daoCourse.getCourseByID(courseId);
@@ -67,11 +76,7 @@ public class courseDetail extends HttpServlet {
         //JSON
         Gson gson = new Gson();
 
-        //test user
-        HttpSession session = request.getSession(true);
-        //DAOUser daoUser = new DAOUser();
-        //session.setAttribute("user", daoUser.getUserByID(2));
-        User user = (User) session.getAttribute("user");
+        
         //set attribute
         if (user != null) {
             UserEnrollCourse uec = daoUserEnrollCourse.getUserEnrollCourse(user.getUser_id(), courseId);
