@@ -60,63 +60,107 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
         <jsp:include page="layout/header.jsp" />
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
-        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
-        <div class="site-section">
-            <div class="container">
-                <a href="index.jsp">Trang chủ</a>
-                <span class="mx-3 icon-keyboard_arrow_right"></span>
-                <a class="current">Xếp Hạng</a><br><br>
-                <form id="f1" action="topRanking" method="POST">
-                    <div class="wrapper">
-                        <table id="example" class="table table-striped" style="width:100%">
-                            <select name="type" id="type" onchange="getOnclick()"> 
-                                <option value="0">Tổng hợp</option>
-                                <c:forEach items="${requestScope.type}" var="type" varStatus="loop" >
-                                    <option 
-                                        <c:if test="${requestScope.selected==type.typeOfPractice_id}">
-                                            selected
-                                        </c:if>
-                                        value="${loop.index + 1}">${type.typeOfPractice_name}</option>      
-                                </c:forEach>                                                 
-                            </select>
-                            <thead>
-                                <tr>
-                                    <th>Xếp Hạng</th>
-                                    <th>Tên</th>
-                                    <th>Điểm</th>
-                                    <th>Thời gian</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${requestScope.ranking}" var="ranking" varStatus="loop" >
-                                    <tr>     
-                                        <td class="count">${loop.index + 1}</td>
-                                        <td class="name">${ranking.name}</td>
-                                        <td class="result">${ranking.result}</td>   
-                                        <td class="time">${ranking.time}</td> 
-                                    </tr>        
-                                </c:forEach>
-                            </tbody>
-                        </table>
+        <div class="site-wrap">
+            <div class="site-mobile-menu site-navbar-target">
+                <div class="site-mobile-menu-header">
+                    <div class="site-mobile-menu-close mt-3">
+                        <span class="icon-close2 js-menu-toggle"></span>
                     </div>
-                </form>
+                </div>
+                <div class="site-mobile-menu-body"></div>
             </div>
+            <div class="site-section">
+                <div class="container">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+                    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+                    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+                    <a href="index.jsp">Trang chủ</a>
+                    <span class="mx-3 icon-keyboard_arrow_right"></span>
+                    <a class="current">Xếp Hạng</a><br><br>
+                    <div class="container">
+                        <div class="wrapper">
+                            <form id="f1" action="topRanking" method="POST">
+                                <table id="example" class="table table-striped" style="width:100%">
+                                    <select name="type" id="type" onchange="getOnclick()"> 
+                                        <option value="0">Tổng hợp</option>
+                                        <c:forEach items="${requestScope.type}" var="type" varStatus="loop" >
+                                            <option 
+                                                <c:if test="${requestScope.selected==type.typeOfPractice_id}">
+                                                    selected
+                                                </c:if>
+                                                value="${loop.index + 1}">${type.typeOfPractice_name}</option>      
+                                        </c:forEach>                                                 
+                                    </select>
+                                    <thead>
+                                        <tr>
+                                            <th>Xếp Hạng</th>
+                                            <th>Tên</th>
+                                            <th>Điểm</th>
+                                            <th>Thời gian</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${requestScope.ranking}" var="ranking" varStatus="loop" >
+                                            <tr>     
+                                                <td class="count">${loop.index + 1}</td>
+                                                <td class="name">${ranking.name}</td>
+                                                <td class="result">${ranking.result}</td>   
+                                                <td class="time">${ranking.time}</td> 
+                                            </tr>        
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row mb-4">
+                            <div class="col-lg-6">
+                            </div>
+                        </div>
+                    </div>                  
 
-            <script>
-                $(document).ready(function () {
-                    $('#example').DataTable();
-                });
-            </script>
+                    <div class="col-3 align-self-center">
+                        <div>                          
+                        </div>
+                    </div>  
+                </div>
 
-<!--            <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
+                <script>
+                    $(document).ready(function () {
+                        $('#example').DataTable();
+                    });
+                </script>
 
-            </div>-->
+
+                <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
+                    <div class="container">
+                        <h3>Trắc nghiệm</h3>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                                <span class="icon flaticon-mortarboard"></span>
+                                <h3>Trắc nghiệm</h3>
+                                <p>Củng cố kiến thức và nâng cao kỹ năng trả lời câu hỏi nhanh chóng
+                                    và chính xác thông qua việc thực hành với các câu hỏi có nhiều lựa chọn.</p>
+                            </div>
+                            <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                                <span class="icon flaticon-school-material"></span>
+                                <h3>Nối thẻ</h3>
+                                <p>Giúp tăng cường trí nhớ và hiểu biết bằng cách kết hợp
+                                    từ khóa hoặc khái niệm với thẻ thông tin liên quan.</p>
+                            </div>
+                            <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                                <span class="icon flaticon-library"></span>
+                                <h3>Điền từ</h3>
+                                <p>Giúp nâng cao kỹ năng ngôn ngữ và khả năng ghi nhớ thông
+                                    qua việc hoàn thành các câu hoặc đoạn văn bằng cách điền từ còn thiếu.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-
-
+        <!-- .site-wrap -->
         <script src="js/jquery-migrate-3.0.1.min.js"></script>
         <script src="js/jquery-ui.js"></script>
         <script src="js/popper.min.js"></script>
