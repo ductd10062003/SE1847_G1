@@ -245,6 +245,7 @@
 
                                     const inputFile = document.createElement('input');
                                     inputFile.type = 'file';
+                                    inputFile.accept = 'image/*';
                                     inputFile.id = ('file' + inputId);
                                     inputFile.name = 'file';
 

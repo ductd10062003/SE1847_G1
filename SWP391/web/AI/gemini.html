@@ -50,7 +50,9 @@
       function enter(event) {
         if (event.key === "Enter" && !event.shiftKey) {
           event.preventDefault(); // Prevents the default newline behavior
-          prompt = document.getElementById("input").value.trim();
+          let inputPrompt = document.getElementById("input").value.trim();
+          if(inputPrompt.length === 0) return;
+          prompt = inputPrompt;
           document.getElementById('input').value = '';
           showMyContent();
           run();
