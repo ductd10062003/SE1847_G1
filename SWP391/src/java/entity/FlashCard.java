@@ -1,18 +1,28 @@
 package entity;
 
 public class FlashCard {
+
     private int flashcard_id;
     private String question, answer, create_at, update_at;
     private int active, category_id;
     public String image;
     private int quiz_id;
-    
+    private int course_id;
+
+    public FlashCard(int flashcard_id, String question, String answer, String create_at, int course_id) {
+        this.flashcard_id = flashcard_id;
+        this.question = question;
+        this.answer = answer;
+        this.create_at = create_at;
+        this.course_id = course_id;
+    }
+
     public FlashCard(String question, String answer, String image) {
         this.question = question;
         this.answer = answer;
         this.image = image;
     }
-    
+
     public FlashCard(int quiz_id, int flashcard_id, String question, String answer, String create_at, String update_at) {
         this.quiz_id = quiz_id;
         this.flashcard_id = flashcard_id;
@@ -51,8 +61,8 @@ public class FlashCard {
         this.active = active;
         this.category_id = category_id;
     }
-    
-        public FlashCard(String question, String answer, int category_id, String image) {
+
+    public FlashCard(String question, String answer, int category_id, String image) {
         this.question = question;
         this.answer = answer;
         this.create_at = create_at;
@@ -61,7 +71,15 @@ public class FlashCard {
         this.category_id = category_id;
         this.image = image;
     }
-    
+
+    public int getCourse_id() {
+        return course_id;
+    }
+
+    public void setCourse_id(int course_id) {
+        this.course_id = course_id;
+    }
+
     public FlashCard() {
     }
 
@@ -141,5 +159,5 @@ public class FlashCard {
     public String toString() {
         return "flashcard_id=" + flashcard_id + "@#split#@question=" + question + "@#split#@answer=" + answer + "@#split#@create_at=" + create_at + "@#split#@update_at=" + update_at + "@#split#@active=" + active + "@#split#@category_id=" + category_id + "@#split#@image=" + image;
     }
-    
+
 }

@@ -51,9 +51,8 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="card shadow-sm">
-                                    <div class="card-header bg-transparent text-center">                               
-                                        <img class="profile_img" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="student dp">
-                                        <h3>${requestScope.users.name}</h3>                           
+                                    <div class="card-header bg-transparent text-center">        
+                                       <img class="profile_img" src="${requestScope.users.image}" alt="student dp">                         
                                     </div>
                                     <div class="card-body">
                                         <p class="mb-0"><strong class="pr-1">ID tài khoản:</strong>${sessionScope.user.user_id}</p>

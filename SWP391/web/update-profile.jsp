@@ -51,7 +51,10 @@
                 <span class="current">Thay đổi thông tin</span><br><br>
                 <div class="row">
                     <div class="col-md-3 border-right">
-                        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"><span class="font-weight-bold"></span></div>
+                        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                            <img class="rounded-circle mt-5" width="150px"  class="img-fluid" width="50" height="50" src="${requestScope.users.image}">
+                            <span class="font-weight-bold"></span>
+                        </div>
                     </div>
                     <div class="col-md-5 border-right">
                         <div class="p-3 py-5">

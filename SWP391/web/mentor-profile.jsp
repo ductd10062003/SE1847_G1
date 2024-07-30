@@ -49,106 +49,61 @@
                     <div class="container">
                         <a href="homePage">Trang chủ</a>
                         <span class="mx-3 icon-keyboard_arrow_right"></span>
-                        <span class="current">Thông tin người dùng</span><br><br>  
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="card shadow-sm">
-                                    <div class="card-header bg-transparent text-center">                               
-                                        <img class="profile_img" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="student dp">
-                                        <h3>${requestScope.users.name}</h3>                           
-                                    </div>
-                                </div>                       
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="card shadow-sm">
-                                    <div class="card-header bg-transparent border-0">
-                                        <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Thông tin giáo viên</h3>
-                                    </div>
-                                    <div class="card-body pt-0">
-                                        <table class="table table-bordered">
-                                            <tr>
-                                                <th width="30%">Tên người dùng</th>
-                                                <td width="2%">:</td>
-                                                <td>${requestScope.users.name}</td>
-                                            </tr>
-                                            <tr>
-                                                <th width="30%">Giới tính</th>
-                                                <td width="2%">:</td>
-                                                <td>${requestScope.users.gender == 1 ? 'Nam' : 'Nữ'}</td>
-                                            </tr>
-                                            <tr>
-                                                <th width="30%">Số điện thoại</th>
-                                                <td width="2%">:</td>
-                                                <td>${requestScope.users.phone}</td>
-                                            </tr>
-                                            <tr>
-                                                <th width="30%">Email</th>
-                                                <td width="2%">:</td>
-                                                <td>${requestScope.users.email}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <span class="current">Khóa học</span><br><br>  
+                        <h2 class="section-title-underline mb-3">Các khóa học tạo bởi : ${requestScope.users.name}</h2>
 
-                <div class="site-section">
-                    <div class="container">
-                        <div class="row">
-                            <c:forEach items="${requestScope.course}" var="course">
-                                <div class="col-lg-4 col-md-6 mb-4">
-                                    <div class="course-1-item">
-                                        <figure class="thumnail">
-                                            <div class="category"><h3>${course.course_name}</h3></div>  
-                                        </figure>
-                                        <div class="course-1-content pb-4">
-                                            <h2>${course.description}</h2>
-                                            <p><a href="course-detail?course_id=${course.course_id}" class="btn btn-primary rounded-0 px-4">Xem chi tiết</a></p>                               
+                        <div class="container">
+                            <div class="row">
+                                <c:forEach items="${requestScope.course}" var="course">
+                                    <div class="col-lg-4 col-md-6 mb-4">
+                                        <div class="course-1-item">
+                                            <figure class="thumnail">
+                                                <div class="category"><h3>${course.course_name}</h3></div>  
+                                            </figure>
+                                            <div class="course-1-content pb-4">
+                                                <h2>${course.description}</h2>
+                                                <p><a href="course-detail?course_id=${course.course_id}" class="btn btn-primary rounded-0 px-4">Xem chi tiết</a></p>                               
+                                            </div>
                                         </div>
                                     </div>
+                                </c:forEach>    
+                                <div class="text-center" style="display: inline-block; margin-right:auto; width: 100%">
+                                    <c:forEach var="i" begin="1" end="${numPages}">
+                                        <a href="mentorProfile?page=${i}&name=${param.name}" class="btn btn-outline-dark ${i == page ? 'active' : ''}">
+                                            ${i}
+                                        </a>
+                                    </c:forEach>
                                 </div>
-                            </c:forEach>    
-                            <div class="text-center" style="display: inline-block; margin-right:auto; width: 100%">
-                                <c:forEach var="i" begin="1" end="${numPages}">
-                                    <a href="mentorProfile?page=${i}&name=${param.name}" class="btn btn-outline-dark ${i == page ? 'active' : ''}">
-                                        ${i}
-                                    </a>
-                                </c:forEach>
                             </div>
-
                         </div>
-                    </div>
-                </div>                           
-
-                <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
-
+                    </div>                           
                 </div>
+            </div>
+        </div>   
 
+        <!-- .site-wrap -->
+        <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
 
+        </div>
+        <!-- loader -->
+        <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#51be78"/></svg></div>
 
-                <!-- .site-wrap -->
-
-                <!-- loader -->
-                <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#51be78"/></svg></div>
-
-                <script src="js/jquery-3.3.1.min.js"></script>
-                <script src="js/jquery-migrate-3.0.1.min.js"></script>
-                <script src="js/jquery-ui.js"></script>
-                <script src="js/popper.min.js"></script>
-                <script src="js/bootstrap.min.js"></script>
-                <script src="js/owl.carousel.min.js"></script>
-                <script src="js/jquery.stellar.min.js"></script>
-                <script src="js/jquery.countdown.min.js"></script>
-                <script src="js/bootstrap-datepicker.min.js"></script>
-                <script src="js/jquery.easing.1.3.js"></script>
-                <script src="js/aos.js"></script>
-                <script src="js/jquery.fancybox.min.js"></script>
-                <script src="js/jquery.sticky.js"></script>
-                <script src="js/jquery.mb.YTPlayer.min.js"></script>
-                <script src="js/main.js"></script>
-                </body>
-                </html>
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/jquery-migrate-3.0.1.min.js"></script>
+        <script src="js/jquery-ui.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/jquery.stellar.min.js"></script>
+        <script src="js/jquery.countdown.min.js"></script>
+        <script src="js/bootstrap-datepicker.min.js"></script>
+        <script src="js/jquery.easing.1.3.js"></script>
+        <script src="js/aos.js"></script>
+        <script src="js/jquery.fancybox.min.js"></script>
+        <script src="js/jquery.sticky.js"></script>
+        <script src="js/jquery.mb.YTPlayer.min.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>
 
 

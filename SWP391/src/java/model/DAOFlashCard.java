@@ -11,6 +11,25 @@ import java.util.Vector;
 
 public class DAOFlashCard extends DBConnect {
 
+    public ArrayList<FlashCard> getTop6NewestFlashCard() {
+        ArrayList<FlashCard> flashcard = new ArrayList<>();
+        String sql = "  SELECT TOP (6)\n"
+                + "  f.flashcard_id,f.question,f.answer,f.create_at,q.course_id\n"
+                + "  FROM flashcard f inner join Quiz q \n"
+                + "  on f.flashcard_id = q.flashcard_id\n"
+                + "  ORDER BY create_at DESC, NEWID();";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                flashcard.add(new FlashCard(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return flashcard;
+    }
+
     public boolean checkDuplicate(String question, String answer, String image, String flashcard_id) {
         String sql = "SELECT COUNT(*) AS count FROM flashcard WHERE question = ? AND answer = ? AND image = ? AND flashcard_id <> ?";
         try {
@@ -30,8 +49,8 @@ public class DAOFlashCard extends DBConnect {
         }
         return false; // Mặc định trả về false nếu có lỗi xảy ra
     }
-    
-    public int updateFlashCard(String question, String answer, String image,String flashcard_id) {
+
+    public int updateFlashCard(String question, String answer, String image, String flashcard_id) {
         String sql = "    UPDATE flashcard \n"
                 + "  Set question = ?, answer = ? , image = ?\n"
                 + "  where flashcard_id = ?";
@@ -398,7 +417,7 @@ public class DAOFlashCard extends DBConnect {
         }
         return flashcard;
     }
-    
+
     public boolean flashcardNameExists(String question, int flashcardId) {
         String sql = "SELECT COUNT(*) FROM flashcard WHERE question = ? AND flashcard_id != ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {

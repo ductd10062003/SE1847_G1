@@ -235,19 +235,12 @@
                 </div>
             </div>
         </div>
-        <div
-            class="section-bg style-1"
-            style="background-image: url('images/hero_1.jpg')"
-            >
-            
-        </div>
-
-        
-    </div>
 
 
     <!-- .site-wrap -->
+        <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
 
+        </div>
     <!-- loader -->
     <div id="loader" class="show fullscreen">
         <svg class="circular" width="48px" height="48px">

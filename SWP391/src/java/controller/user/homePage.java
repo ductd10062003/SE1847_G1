@@ -22,6 +22,7 @@ import model.DAOUser;
  */
 import entity.Category;
 import entity.Course;
+import entity.FlashCard;
 import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,6 +31,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import model.DAOFlashCard;
 
 /**
  *
@@ -76,13 +78,13 @@ public class homePage extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DAOCourse daoCourse = new DAOCourse();
-        DAOUser daoUser = new DAOUser();
+        DAOFlashCard daoFlashCard = new DAOFlashCard();
         ArrayList<Course> list = daoCourse.getTop6NewestCourse();
 
-        ArrayList<User> user = daoUser.getTop6Mentor();
+        ArrayList<FlashCard> flashcard = daoFlashCard.getTop6NewestFlashCard();
         
         request.setAttribute("list", list);        
-        request.setAttribute("user", user);
+        request.setAttribute("flashcard", flashcard);
         request.getRequestDispatcher("homepage.jsp").forward(request, response);
     }
 
