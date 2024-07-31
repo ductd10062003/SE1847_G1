@@ -316,4 +316,19 @@ public class DAOUser extends DBConnect {
     }
 
 
+    public boolean updateUserRole(User user) {
+        String sql = "UPDATE [User]\n"
+                + "SET role = ?\n"
+                + "WHERE user_id = ?;";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, user.getRole());
+            ps.setInt(2, user.getUser_id());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
 }

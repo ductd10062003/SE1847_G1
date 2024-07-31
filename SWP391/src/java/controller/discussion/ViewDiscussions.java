@@ -43,7 +43,7 @@ public class ViewDiscussions extends HttpServlet {
 
 
 
-        req.getRequestDispatcher("BrowseDiscussion.jsp").forward(req, resp);
+        req.getRequestDispatcher("discussion/browse-discussion.jsp").forward(req, resp);
     }
 
     @Override

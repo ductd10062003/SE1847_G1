@@ -30,6 +30,16 @@ public class Discussion {
         this.category_id = category_id;
     }
 
+    public Discussion(String title, String content, String create_at, String update_at, boolean active, int user_id, int category_id) {
+        this.title = title;
+        this.content = content;
+        this.create_at = create_at;
+        this.update_at = update_at;
+        this.active = active;
+        this.user_id = user_id;
+        this.category_id = category_id;
+    }
+
     public Discussion() {
     }
 

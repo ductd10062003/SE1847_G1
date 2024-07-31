@@ -28,7 +28,6 @@ public class ManageStudent extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
 
 
-
         redirectAction(request, resp);
     }
 
@@ -37,20 +36,24 @@ public class ManageStudent extends HttpServlet {
         String action = req.getParameter("action");
 
         if ("promote".equals(action)) {
-            return;
+            if(promoteStudent(req, resp) == 0)
+                return;
         }
         if ("demote".equals(action)) {
-            return;
+            if(demoteStudent(req, resp) == 0)
+                return;
         }
         if ("activate".equals(action)) {
-            return;
+            if (activateStudent(req, resp) == 0)
+                return;
         }
         if ("deactivate".equals(action)) {
-            return;
+            if (deactivateStudent(req, resp) == 0)
+                return;
         }
         if ("search".equals(action)) {
-            searchStudent(req, resp);
-            return;
+            if (searchStudent(req, resp) == 0)
+                return;
         }
 
         ArrayList<User> studentList = new DAOUser().getStudents();
@@ -60,56 +63,112 @@ public class ManageStudent extends HttpServlet {
         req.getRequestDispatcher(CONTEXT_PATH).forward(req, resp);
     }
 
-
-    private void deactivateStudent(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private int demoteStudent(HttpServletRequest req, HttpServletResponse resp) throws  IOException{
         String id = req.getParameter("id");
-        User mentor = new DAOUser().getUserByID(Integer.parseInt(id));
-        if (mentor == null || mentor.getActive() != 1) {
-            printError(req, resp, "Mentor not found");
-            return;
+        User student = new DAOUser().getUserByID(Integer.parseInt(id));
+        if (student == null) {
+            printError(req, resp, "Student not found");
+            return 0;
         }
-        mentor.setActive(0);
-        if (new DAOUser().updateUserActiveInfo(mentor)) {
-            resp.sendRedirect(SERVLET_CONTEXT_PATH);
-        } else {
+        if (student.getRole() != 4) {
+            printError(req, resp, "Internal error. Please try again later");
+            return 0;
+        }
+        student.setRole(3);
+        if (!new DAOUser().updateUserRole(student)) {
+            printError(req, resp, "Error demoting student");
+            return 0;
+        }
+        return 1;
+    }
+
+    private int promoteStudent(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String id = req.getParameter("id");
+        User student = new DAOUser().getUserByID(Integer.parseInt(id));
+        if (student == null) {
+            printError(req, resp, "Student not found");
+            return 0;
+        }
+        if (student.getRole() != 3) {
+            printError(req, resp, "Internal error. Please try again later");
+            return 0;
+        }
+        student.setRole(4);
+        if (!new DAOUser().updateUserRole(student)) {
+            printError(req, resp, "Error promoting student");
+            return 0;
+        }
+        return 1;
+    }
+
+    private int deactivateStudent(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String id = req.getParameter("id");
+        User student = new DAOUser().getUserByID(Integer.parseInt(id));
+        if (student == null) {
+            printError(req, resp, "Mentor not found");
+            return 0;
+        }
+        if (student.getActive() != 1) {
+            printError(req, resp, "Student is already deactivated");
+            return 0;
+        }
+        if (student.getRole() != 3 && student.getRole() != 4) {
+            printError(req, resp, "Invalid student role");
+            return 0;
+        }
+        student.setActive(0);
+        if (!new DAOUser().updateUserActiveInfo(student)) {
             printError(req, resp, "Error deactivating mentor");
+            return 0;
         }
+        return 1;
     }
 
-    private void activateMentor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private int activateStudent(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String id = req.getParameter("id");
-        User mentor = new DAOUser().getUserByID(Integer.parseInt(id));
-        if (mentor == null || mentor.getActive() != 0) {
-            printError(req, resp, "Mentor not found");
-            return;
+        User student = new DAOUser().getUserByID(Integer.parseInt(id));
+        if (student == null) {
+            printError(req, resp, "Student not found");
+            return 0;
         }
-        mentor.setActive(1);
+        if (student.getActive() != 0) {
+            printError(req, resp, "Student is already active");
+            return 0;
+        }
+        if (student.getRole() != 3 && student.getRole() != 4) {
+            printError(req, resp, "Invalid student role");
+            return 0;
+        }
 
-        if (new DAOUser().updateUserActiveInfo(mentor)) {
-            resp.sendRedirect(SERVLET_CONTEXT_PATH);
-        } else {
+        student.setActive(1);
+
+        if (!new DAOUser().updateUserActiveInfo(student)) {
             printError(req, resp, "Error activating mentor");
+            return 0;
         }
 
+        return 1;
     }
 
-    private void searchStudent(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private int searchStudent(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String keyword = req.getParameter("query");
         if (keyword == null) {
             printError(req, resp, "Keyword is required");
-            return;
+            return 0;
         }
         req.getSession().setAttribute("student-list", new DAOUser().searchStudent(keyword));
         try {
             req.getRequestDispatcher(CONTEXT_PATH).forward(req, resp);
         } catch (ServletException | IOException e) {
             printError(req, resp, "Error searching mentor");
+            return 0;
         }
+        return 1;
     }
 
     private void printError(HttpServletRequest req, HttpServletResponse resp, String message) throws IOException {
         try {
-            req.setAttribute("error", message);
+            req.getSession().setAttribute("error", message);
             req.getRequestDispatcher(CONTEXT_PATH).forward(req, resp);
         } catch (ServletException | IOException e) {
             log(e.getMessage());

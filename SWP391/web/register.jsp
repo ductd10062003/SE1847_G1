@@ -98,7 +98,65 @@
                 </div>
             </div>
 
+            <div class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <p class="mb-4"><img src="images/logo.png" alt="Image" class="img-fluid"></p>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto
+                                iure.</p>
+                            <p><a href="#">Learn More</a></p>
+                        </div>
+                        <div class="col-lg-3">
+                            <h3 class="footer-heading"><span>Our Campus</span></h3>
+                            <ul class="list-unstyled">
+                                <li><a href="#">Acedemic</a></li>
+                                <li><a href="#">News</a></li>
+                                <li><a href="#">Our Interns</a></li>
+                                <li><a href="#">Our Leadership</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Human Resources</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-3">
+                            <h3 class="footer-heading"><span>Our Courses</span></h3>
+                            <ul class="list-unstyled">
+                                <li><a href="#">Math</a></li>
+                                <li><a href="#">Science & Engineering</a></li>
+                                <li><a href="#">Arts & Humanities</a></li>
+                                <li><a href="#">Economics & Finance</a></li>
+                                <li><a href="#">Business Administration</a></li>
+                                <li><a href="#">Computer Science</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-3">
+                            <h3 class="footer-heading"><span>Contact</span></h3>
+                            <ul class="list-unstyled">
+                                <li><a href="#">Help Center</a></li>
+                                <li><a href="#">Support Community</a></li>
+                                <li><a href="#">Press</a></li>
+                                <li><a href="#">Share Your Story</a></li>
+                                <li><a href="#">Our Supporters</a></li>
+                            </ul>
+                        </div>
+                    </div>
 
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="copyright">
+                                <p>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                                    All rights reserved | This template is made with <i class="icon-heart"
+                                                                                        aria-hidden="true"></i> by <a
+                                                                                        href="https://colorlib.com" target="_blank">Colorlib</a>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- .site-wrap -->
@@ -128,144 +186,111 @@
         <script src="js/jquery.mb.YTPlayer.min.js"></script>
         <script src="js/main.js"></script>
 
-        <%--Validate phone number using this regex: /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g--%>
         <script>
-                                        var phone = document.getElementById("phone");
-                                        phone.addEventListener("input", function () {
-                                            var phoneRegex = /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g;
-                                            if (!phoneRegex.test(phone.value)) {
-                                                phone.setCustomValidity("Invalid phone number!");
-                                            } else {
-                                                phone.setCustomValidity("");
-                                            }
-                                        });
+            var phone = document.getElementById("phone");
+            phone.addEventListener("input", function () {
+                var phoneRegex = /^(0|\+84|84)?((3[2-9]|5[25689]|7[06-9]|8[0-9]|9[0-46-9]|2[0-9]))([0-9]{7})$/g;
+                if (!phoneRegex.test(phone.value)) {
+                    phone.setCustomValidity("Invalid phone number!");
+                } else {
+                    phone.setCustomValidity("");
+                }
+            });
         </script>
 
-        <%--validate email by calline a servlet named email validation--%>
         <script>
-
-        </script>
-
-
-
-        <%--Validate username by calling a servlet named username validation--%>
-        <script>
-
-        </script>
-
-
-
-        <%--Validate dob so that the registerer is at least 10 years old--%>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
+            document.addEventListener("DOMContentLoaded", function() {
                 var dob = document.getElementById("dob");
                 var today = new Date();
                 var tenYearsAgo = new Date(today.getFullYear() - 10, today.getMonth(), today.getDate());
                 var hundredYearsAgo = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
-
-                // Set the maximum and minimum date values for the date input
                 dob.max = tenYearsAgo.toISOString().split('T')[0];
                 dob.min = hundredYearsAgo.toISOString().split('T')[0];
             });
         </script>
-
-        <%--Validate username--%>
+        <!-- Username validation -->
         <script>
             var username = document.getElementById("username");
             username.addEventListener("input", function () {
-                var usernameRegex = /^[a-zA-Z\d_ ]{6,32}$/g;
+                var usernameRegex = /^(?! )[a-zA-Z\d_ ]{6,32}(?<! )$/;
                 if (!usernameRegex.test(username.value)) {
-                    username.setCustomValidity("Username must be from 6-32 characters and contain only letters, numbers, spaces and underscores!");
+                    username.setCustomValidity("Username must be from 6-32 characters and contain only letters, numbers, spaces, and underscores, and must not start or end with spaces!");
+                    console.log("Regex validation failed");
                 } else {
                     username.setCustomValidity("");
+                    console.log("Regex validation passed");
+
+                    let username_message = document.getElementById("username-exist-message");
+                    let xhrUsername = new XMLHttpRequest();
+                    xhrUsername.open("GET", "${pageContext.request.contextPath}/username-validation?username=" + encodeURIComponent(username.value), true);
+                    xhrUsername.onreadystatechange = function () {
+                        if (xhrUsername.readyState === 4) {
+                            console.log("XHR readyState: ", xhrUsername.readyState);
+                            console.log("XHR status: ", xhrUsername.status);
+                            if (xhrUsername.status === 200) {
+                                console.log("XHR response: ", xhrUsername.responseText.trim());
+                                if (xhrUsername.responseText.trim() === "true") {
+                                    username_message.textContent = "Username already exists!";
+                                    username.setCustomValidity("Username already exists!");
+                                } else {
+                                    username_message.textContent = "";
+                                    username.setCustomValidity("");
+                                }
+                            }
+                        }
+                    };
+                    xhrUsername.send();
+                    console.log("XHR request sent");
                 }
             });
         </script>
-
+        <!-- Email validation -->
         <script>
-            function validate() {
-                let username = document.getElementById("username").value;
-                let email = document.getElementById("email").value;
-                let password = document.getElementById("password").value;
-                let confirmPassword = document.getElementById("confirm-password").value;
-                let message = document.getElementById("password-match-message");
+            var email = document.getElementById("email");
+            email.addEventListener("input", function () {
+
                 let email_message = document.getElementById("email-exist-message");
-                let username_message = document.getElementById("username-exist-message");
-
-                function checkUsername() {
-                    return new Promise((resolve, reject) => {
-                        let xhrUsername = new XMLHttpRequest();
-                        xhrUsername.open("GET", "username-validation?username=" + encodeURIComponent(username), true);
-                        xhrUsername.onreadystatechange = function () {
-                            if (xhrUsername.readyState === 4) {
-                                if (xhrUsername.status === 200) {
-                                    if (xhrUsername.responseText.trim() === "true") {
-                                        username_message.textContent = "Username already exists!";
-                                        resolve(false);
-                                    } else {
-                                        username_message.textContent = "";
-                                        resolve(true);
-                                    }
-                                } else {
-                                    reject("Username validation failed");
-                                }
+                let xhrEmail = new XMLHttpRequest();
+                xhrEmail.open("GET", "${pageContext.request.contextPath}/email-validation?email=" + encodeURIComponent(email.value), true);
+                xhrEmail.onreadystatechange = function () {
+                    if (xhrEmail.readyState === 4) {
+                        if (xhrEmail.status === 200) {
+                            if (xhrEmail.responseText.trim() === "true") {
+                                email_message.textContent = "Email already exists!";
+                                email.setCustomValidity("Email already exists!");
+                            } else {
+                                email_message.textContent = "";
+                                email.setCustomValidity("");
                             }
-                        };
-                        xhrUsername.send();
-                    });
-                }
-
-                function checkEmail() {
-                    return new Promise((resolve, reject) => {
-                        let xhrEmail = new XMLHttpRequest();
-                        xhrEmail.open("GET", "email-validation?email=" + encodeURIComponent(email), true);
-                        xhrEmail.onreadystatechange = function () {
-                            if (xhrEmail.readyState === 4) {
-                                if (xhrEmail.status === 200) {
-                                    if (xhrEmail.responseText.trim() === "true") {
-                                        email_message.textContent = "Email already exists!";
-                                        resolve(false);
-                                    } else {
-                                        email_message.textContent = "";
-                                        resolve(true);
-                                    }
-                                } else {
-                                    reject("Email validation failed");
-                                }
-                            }
-                        };
-                        xhrEmail.send();
-                    });
-                }
-
-                function checkPassword() {
-                    return new Promise((resolve) => {
-                        if (password !== confirmPassword) {
-                            message.textContent = "Passwords do not match!";
-                            resolve(false);
-                        } else {
-                            message.textContent = "";
-                            resolve(true);
                         }
-                    });
-                }
-
-                return Promise.all([checkUsername(), checkEmail(), checkPassword()]).then(results => {
-                    return results.every(result => result);
-                }).catch(error => {
-                    console.error(error);
-                    return false;
-                });
-            }
-
-            document.querySelector("form").addEventListener("submit", function (event) {
-                event.preventDefault();
-                validate().then(isValid => {
-                    if (isValid) {
-                        this.submit();
                     }
-                });
+                };
+                xhrEmail.send();
             });
+        </script>
+        <!-- Password validation -->
+        <script>
+            var password = document.getElementById("password");
+            var confirmPassword = document.getElementById("confirm-password");
+            password.addEventListener("input", validatePassword);
+            confirmPassword.addEventListener("input", validatePassword);
+
+            function validatePassword() {
+                let passwordRegex = /^(?=.*[a-zA-Z\d])[a-zA-Z\d!@#$%^&*]{6,32}$/;
+                if (!passwordRegex.test(password.value)) {
+                    password.setCustomValidity("Password must be from 6-32 characters");
+                } else {
+                    password.setCustomValidity("");
+                    let message = document.getElementById("password-match-message");
+                    if (password.value !== confirmPassword.value) {
+                        message.textContent = "Passwords do not match!";
+                        confirmPassword.setCustomValidity("Passwords do not match!");
+                    } else {
+                        message.textContent = "";
+                        confirmPassword.setCustomValidity("");
+                    }
+                }
+            }
         </script>
 
 

@@ -30,7 +30,7 @@ public class DiscussionDetails extends HttpServlet {
             req.getSession().setAttribute("comments", comments);
             req.getSession().setAttribute("discussion", discussion);
 
-            req.getRequestDispatcher("ViewDiscussion.jsp").forward(req, resp);
+            req.getRequestDispatcher("discussion/view-discussion.jsp").forward(req, resp);
         }
     }
 

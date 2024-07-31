@@ -182,11 +182,11 @@
 <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.map"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.map"></script>
-<!-- Phone number validation -->
+
 <script>
     var phone = document.getElementById("phone");
     phone.addEventListener("input", function () {
-        var phoneRegex = /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g;
+        var phoneRegex = /^(0|\+84|84)?((3[2-9]|5[25689]|7[06-9]|8[0-9]|9[0-46-9]|2[0-9]))([0-9]{7})$/g;
         if (!phoneRegex.test(phone.value)) {
             phone.setCustomValidity("Invalid phone number!");
         } else {
@@ -194,7 +194,7 @@
         }
     });
 </script>
-<!-- DOB validation -->
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var dob = document.getElementById("dob");
@@ -209,36 +209,43 @@
 <script>
     var username = document.getElementById("username");
     username.addEventListener("input", function () {
-        var usernameRegex = /^[a-zA-Z\d_ ]{6,32}$/g;
+        var usernameRegex = /^(?! )[a-zA-Z\d_ ]{6,32}(?<! )$/;
         if (!usernameRegex.test(username.value)) {
-            username.setCustomValidity("Username must be from 6-32 characters and contain only letters, numbers, spaces and underscores!");
+            username.setCustomValidity("Username must be from 6-32 characters and contain only letters, numbers, spaces, and underscores, and must not start or end with spaces!");
+            console.log("Regex validation failed");
         } else {
             username.setCustomValidity("");
-        }
+            console.log("Regex validation passed");
 
-        let username_message = document.getElementById("username-exist-message");
-        let xhrUsername = new XMLHttpRequest();
-        xhrUsername.open("GET", "${pageContext.request.contextPath}/username-validation?username=" + encodeURIComponent(username.value), true);
-        xhrUsername.onreadystatechange = function () {
-            if (xhrUsername.readyState === 4) {
-                if (xhrUsername.status === 200) {
-                    if (xhrUsername.responseText.trim() === "true") {
-                        username_message.textContent = "Username already exists!";
-                        username.setCustomValidity("Username already exists!");
-                    } else {
-                        username_message.textContent = "";
-                        username.setCustomValidity("");
+            let username_message = document.getElementById("username-exist-message");
+            let xhrUsername = new XMLHttpRequest();
+            xhrUsername.open("GET", "${pageContext.request.contextPath}/username-validation?username=" + encodeURIComponent(username.value), true);
+            xhrUsername.onreadystatechange = function () {
+                if (xhrUsername.readyState === 4) {
+                    console.log("XHR readyState: ", xhrUsername.readyState);
+                    console.log("XHR status: ", xhrUsername.status);
+                    if (xhrUsername.status === 200) {
+                        console.log("XHR response: ", xhrUsername.responseText.trim());
+                        if (xhrUsername.responseText.trim() === "true") {
+                            username_message.textContent = "Username already exists!";
+                            username.setCustomValidity("Username already exists!");
+                        } else {
+                            username_message.textContent = "";
+                            username.setCustomValidity("");
+                        }
                     }
                 }
-            }
-        };
-        xhrUsername.send();
+            };
+            xhrUsername.send();
+            console.log("XHR request sent");
+        }
     });
 </script>
 <!-- Email validation -->
 <script>
     var email = document.getElementById("email");
     email.addEventListener("input", function () {
+
         let email_message = document.getElementById("email-exist-message");
         let xhrEmail = new XMLHttpRequest();
         xhrEmail.open("GET", "${pageContext.request.contextPath}/email-validation?email=" + encodeURIComponent(email.value), true);
@@ -266,13 +273,19 @@
     confirmPassword.addEventListener("input", validatePassword);
 
     function validatePassword() {
-        let message = document.getElementById("password-match-message");
-        if (password.value !== confirmPassword.value) {
-            message.textContent = "Passwords do not match!";
-            confirmPassword.setCustomValidity("Passwords do not match!");
+        let passwordRegex = /^(?=.*[a-zA-Z\d])[a-zA-Z\d!@#$%^&*]{6,32}$/;
+        if (!passwordRegex.test(password.value)) {
+            password.setCustomValidity("Password must be from 6-32 characters");
         } else {
-            message.textContent = "";
-            confirmPassword.setCustomValidity("");
+            password.setCustomValidity("");
+            let message = document.getElementById("password-match-message");
+            if (password.value !== confirmPassword.value) {
+                message.textContent = "Passwords do not match!";
+                confirmPassword.setCustomValidity("Passwords do not match!");
+            } else {
+                message.textContent = "";
+                confirmPassword.setCustomValidity("");
+            }
         }
     }
 </script>

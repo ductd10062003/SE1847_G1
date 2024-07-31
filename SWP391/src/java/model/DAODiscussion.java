@@ -296,4 +296,21 @@ public class DAODiscussion extends DBConnect{
         }
         return null;
     }
+
+    public void addDiscussion(Discussion discussion) {
+        String query = "INSERT INTO Discussion(title, content, create_at, update_at, active, user_id, category_id) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, discussion.getTitle());
+            ps.setString(2, discussion.getContent());
+            ps.setString(3, discussion.getCreate_at());
+            ps.setString(4, discussion.getUpdate_at());
+            ps.setBoolean(5, discussion.isActive());
+            ps.setInt(6, discussion.getUser_id());
+            ps.setInt(7, discussion.getCategory_id());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 }

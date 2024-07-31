@@ -92,6 +92,12 @@
                         <i class="fas fa-user fa-fw"></i> <span class="icon-user"></span> ${sessionScope.user.name}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="../userProfile">Thông tin người dùng</a>
+                        <a class="dropdown-item" href="../updateProfile">Thay đổi thông tin</a>
+                        <form action="forgot-password" method="post">
+                            <input type="hidden" name="email" value="${sessionScope.user.email}">
+                            <button type="submit" class="dropdown-item">Đổi mật khẩu</button>
+                        </form>
                         <a class="dropdown-item" href="../login">Đăng xuất</a>           
                     </ul>
                 </li>
