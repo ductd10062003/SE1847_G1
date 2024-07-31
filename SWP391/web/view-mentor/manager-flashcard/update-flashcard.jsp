@@ -283,11 +283,6 @@
                                         <input type="text" name="date_created" class="form-control" value="${flashcard.create_at}" disabled>
                                     </div>
                                     <div class="form-group">
-                                        <label>Trạng thái</label>
-                                        <select name="active" class="form-control" disabled>
-                                            <option value="1" ${flashcard.active == 1 ? 'selected' : ''}>Kích hoạt</option>
-                                            <option value="0" ${flashcard.active == 0 ? 'selected' : ''}>Vô hiệu</option>
-                                        </select>
                                         <input type="hidden" name="active" value="1">
                                     </div>
                                     <div class="form-group">
