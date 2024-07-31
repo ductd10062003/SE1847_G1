@@ -331,7 +331,6 @@
                                             <th>Đáp án</th>
                                             <th>Ngày tạo</th>
                                             <th>Ngày sửa</th>
-                                            <th>Trạng thái</th>
                                             <th>ID Danh mục</th>
                                             <th>Hình ảnh</th>
                                             <th>Hành động</th>
@@ -345,7 +344,6 @@
                                                 <td>${flashcard.answer}</td>
                                                 <td>${flashcard.create_at}</td>
                                                 <td>${flashcard.update_at}</td>
-                                                <td><span class="status ${flashcard.active == 1 ? 'text-success' : 'text-danger'}">&bull;</span> ${flashcard.active == 1 ? 'Kích hoạt' : 'Vô hiệu'}</td>
                                                 <td>
                                                     <c:forEach var="category" items="${categories}">
                                                         <c:if test="${category.category_id eq flashcard.category_id}">

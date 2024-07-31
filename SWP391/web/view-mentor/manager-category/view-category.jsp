@@ -335,7 +335,6 @@
                                             <th>Tên danh mục</th>						
                                             <th>Ngày tạo</th>
                                             <th>Ngày sửa</th>
-                                            <th>Trạng thái</th>
                                             <th>Hành động</th>
                                         </tr>
                                     </thead>
@@ -346,7 +345,6 @@
                                                 <td>${category.category_name}</td>
                                                 <td>${category.date_created}</td>
                                                 <td>${category.date_last_edited}</td>
-                                                <td><span class="status ${category.active == 1 ? 'text-success' : 'text-danger'}">&bull;</span> ${category.active == 1 ? 'Kích hoạt' : 'Vô hiệu'}</td>
                                                 <td>
                                                     <a href="manage-category?action=edit&id=${category.category_id}" class="settings" title="Settings" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
                                                 </td>

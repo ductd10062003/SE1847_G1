@@ -285,10 +285,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Trạng thái</label>
-                                        <select name="active" class="form-control">
-                                            <option value="1">Kích hoạt</option>
-                                        </select>
+                                        <input type="hidden" name="active" value="1">
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">Thêm</button>

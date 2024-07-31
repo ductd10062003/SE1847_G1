@@ -285,11 +285,6 @@
                                         <input type="text" name="date_created" class="form-control" value="${category.date_created}" disabled>
                                     </div>
                                     <div class="form-group">
-                                        <label>Trạng thái</label>
-                                        <select name="active" class="form-control" disabled>
-                                            <option value="1" ${category.active == 1 ? 'selected' : ''}>Kích hoạt</option>
-                                            <option value="0" ${category.active == 0 ? 'selected' : ''}>Vô hiệu</option>
-                                        </select>
                                         <input type="hidden" name="active" value="1">
                                     </div>
 
