@@ -110,10 +110,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 });
             </script>
         </div>
-        
+
         <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
             <div class="site-section">
                 <div class="container">
+                    <div class="row">
+                    </div>
                 </div>
             </div>
         </div>

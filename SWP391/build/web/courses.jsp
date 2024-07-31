@@ -36,40 +36,7 @@
 
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/viewcourse.css">
-        <style>
-            .floating-button {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                z-index: 1000;
-            }
-            .box-chat {
-                position: fixed;
-                bottom: 50px;
-                right: 20px;
-                z-index: 1000;
-            }
 
-            .floating-button .btn {
-                display: inline-block;
-                width: 50px;
-                height: 50px;
-                background-color: #007bff; /* Change the color as needed */
-                color: #fff;
-                text-align: center;
-                line-height: 50px;
-                font-size: 24px;
-                border-radius: 50%;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-                text-decoration: none;
-                transition: background-color 0.3s ease;
-            }
-
-            .floating-button .btn:hover {
-                background-color: #0056b3; /* Change the hover color as needed */
-            }
-
-        </style>
         <script>
             function getOnclick() {
                 let form = document.getElementById("f1");
@@ -230,22 +197,10 @@
                 </div>
             </div>
         </div>
-
-        <div class="box-chat" style="display: none" id="AIGemini">
-            <%@include  file="AI/gemini.html" %>
-        </div>
-
-        <div class="floating-button">
-            <button class="btn" onclick="ClickAI(this)">AI</button>
-        </div>
         <!-- .site-wrap -->
 
-        <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
-
-        </div>
-
-
-
+        <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">         
+        </div>    
 
 
         <!-- loader -->
@@ -267,19 +222,6 @@
         <script src="js/jquery.mb.YTPlayer.min.js"></script>
         <script src="js/main.js"></script>
 
-        <script>
-                                    let open = 0;
-                                    function ClickAI(param) {
-                                        if (open === 0) {
-                                            document.getElementById('AIGemini').style.display = 'block';
-                                            open = 1;
-                                        }
-                                        else{
-                                            document.getElementById('AIGemini').style.display = 'none';
-                                            open = 0;
-                                        }
-                                    }
-        </script>
-
     </body>
+
 </html>
