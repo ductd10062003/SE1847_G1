@@ -49,43 +49,9 @@
         ></script>
 
         <link rel="stylesheet" href="css/style.css" />
-        <style>
-            .floating-button {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                z-index: 1000;
-            }
-            .box-chat {
-                position: fixed;
-                bottom: 50px;
-                right: 20px;
-                z-index: 1000;
-            }
-
-            .floating-button .btn {
-                display: inline-block;
-                width: 50px;
-                height: 50px;
-                background-color: #007bff; /* Change the color as needed */
-                color: #fff;
-                text-align: center;
-                line-height: 50px;
-                font-size: 24px;
-                border-radius: 50%;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-                text-decoration: none;
-                transition: background-color 0.3s ease;
-            }
-
-            .floating-button .btn:hover {
-                background-color: #0056b3; /* Change the hover color as needed */
-            }
-
-        </style>
     </head>
 
-    <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300" onload="init()" >
+    <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300" onload='init(${listFlashCards})' >
 
         <%@include file="layout/header.jsp" %>
 
@@ -117,7 +83,6 @@
                             <button type="button" class="btn btn-success" 
                                     onclick="checkLogin('${sessionScope.user}',${requestScope.course.course_id})"
                                     id="joinClass"
-                                    style="display: none"
                                     >
                                 <c:if test="${requestScope.enroll == null || requestScope.enroll == '0'}" >Tham gia</c:if>
                                 <c:if test="${requestScope.enroll != null && requestScope.enroll == '1'}" >Hủy tham gia</c:if>
@@ -144,8 +109,8 @@
                                     id="flashcard" onclick="flip()"
                                     >  
                                     <div class="row g-0 d-flex justify-content-center align-items-center" style="width: 90%; height: 90%">
-                                        <div class="col-md-4 h-100 pt-5" style="display: none">
-                                            <img src="" class="img-fluid rounded-start " style="display: none" />
+                                        <div class="col-md-4 h-100" style="display: none">
+                                            <img src="" class="img-fluid rounded-start" style="display: none" />
                                         </div>
                                         <div class="col-md-8 h-100">
                                             <div class="card-body h-100 d-flex justify-content-center align-items-center">
@@ -217,15 +182,7 @@
                                     </c:forEach>
                                 </div>
                             </div>
-
-                            <div class="box-chat" style="display: none" id="AIGemini">
-                                <%@include  file="AI/gemini.html" %>
-                            </div>
-
-                            <div class="floating-button">
-                                <button class="btn" onclick="ClickAI(this)">AI</button>
-                            </div>
-
+                            <div style="display: none" id="listFlashCard">${requestScope.listFlashCards}</div>
                             <div class="modal" tabindex="-1">
                             </div>
 
@@ -236,12 +193,115 @@
                 </div>
             </div>
         </div>
+        <div
+            class="section-bg style-1"
+            style="background-image: url('images/hero_1.jpg')"
+            >
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                        <span class="icon flaticon-mortarboard"></span>
+                        <h3>Our Philosphy</h3>
+                        <p>
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                            Reiciendis recusandae, iure repellat quis delectus ea? Dolore,
+                            amet reprehenderit.
+                        </p>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                        <span class="icon flaticon-school-material"></span>
+                        <h3>Academics Principle</h3>
+                        <p>
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                            Reiciendis recusandae, iure repellat quis delectus ea? Dolore,
+                            amet reprehenderit.
+                        </p>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                        <span class="icon flaticon-library"></span>
+                        <h3>Key of Success</h3>
+                        <p>
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                            Reiciendis recusandae, iure repellat quis delectus ea? Dolore,
+                            amet reprehenderit.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <p class="mb-4">
+                            <img src="images/logo.png" alt="Image" class="img-fluid" />
+                        </p>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae
+                            nemo minima qui dolor, iusto iure.
+                        </p>
+                        <p><a href="#">Learn More</a></p>
+                    </div>
+                    <div class="col-lg-3">
+                        <h3 class="footer-heading"><span>Our Campus</span></h3>
+                        <ul class="list-unstyled">
+                            <li><a href="#">Acedemic</a></li>
+                            <li><a href="#">News</a></li>
+                            <li><a href="#">Our Interns</a></li>
+                            <li><a href="#">Our Leadership</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Human Resources</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3">
+                        <h3 class="footer-heading"><span>Our Courses</span></h3>
+                        <ul class="list-unstyled">
+                            <li><a href="#">Math</a></li>
+                            <li><a href="#">Science &amp; Engineering</a></li>
+                            <li><a href="#">Arts &amp; Humanities</a></li>
+                            <li><a href="#">Economics &amp; Finance</a></li>
+                            <li><a href="#">Business Administration</a></li>
+                            <li><a href="#">Computer Science</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3">
+                        <h3 class="footer-heading"><span>Contact</span></h3>
+                        <ul class="list-unstyled">
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Support Community</a></li>
+                            <li><a href="#">Press</a></li>
+                            <li><a href="#">Share Your Story</a></li>
+                            <li><a href="#">Our Supporters</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="copyright">
+                            <p>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;
+                                <script>
+                                    document.write(new Date().getFullYear());
+                                </script>
+                                All rights reserved | This template is made with
+                                <i class="icon-heart" aria-hidden="true"></i> by
+                                <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- .site-wrap -->
-        <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
 
-        </div>
     <!-- loader -->
     <div id="loader" class="show fullscreen">
         <svg class="circular" width="48px" height="48px">
@@ -292,26 +352,14 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-                                    let open = 0;
-                                    function ClickAI(param) {
-                                        if (open === 0) {
-                                            document.getElementById('AIGemini').style.display = 'block';
-                                            open = 1;
-                                        } else {
-                                            document.getElementById('AIGemini').style.display = 'none';
-                                            open = 0;
-                                        }
-                                    }
                                     let data;
-                                    function init() {
-                                        let obj = JSON.parse('${requestScope.listFlashCards}');
+                                    function init(obj) {
                                         data = obj;
                                         display(obj[0], obj[0].question);
                                         document.getElementById('numberOfFlashCard').innerText = data.length;
                                     }
 
                                     function display(obj, value) {
-                                        console.log(obj);
                                         let flashcard = document.getElementById('flashcard');
                                         flashcard.querySelector('p').innerHTML = value;
                                         if (obj.image !== undefined && obj.image !== null && obj.image.trim().length !== 0) {
@@ -399,7 +447,7 @@
                                         switch (joinClass) {
                                             case 'Tham gia':
                                                 let err = document.querySelector('#err');
-                                                err.querySelector('span').innerHTML = "Bạn chưa đăng nhập";
+                                                err.querySelector('span').innerHTML = "Bạn chưa tham gia lớp học";
                                                 err.style.display = 'block';
                                                 return false;
                                             case 'Hủy tham gia':

@@ -81,7 +81,7 @@ public class Login extends HttpServlet {
                         case 2:
                             response.sendRedirect("mentor/dashboard");
                             break;
-                        case 3:
+                        case 3, 4:
                             response.sendRedirect("homePage");
                             break;
                         default:
