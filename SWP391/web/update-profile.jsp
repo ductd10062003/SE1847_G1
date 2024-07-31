@@ -46,21 +46,43 @@
 
         <div class="site-section">
             <div class="container">
-                    <a href="homePage">Trang chủ</a>
-                    <span class="mx-3 icon-keyboard_arrow_right"></span>
-                    <span class="current">Thay đổi thông tin</span><br><br>
-                    <div class="row">
-                        <div class="col-md-3 border-right">
-                            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"><span class="font-weight-bold"></span></div>
-                        </div>
-                        <div class="col-md-5 border-right">
-                            <div class="p-3 py-5">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h4 class="text-right">Thông tin người dùng</h4>
-                                </div>
-                                <form action ="updateProfile" method="Post" onsubmit="return validate()">
-                                    <div class="row mt-3">
-                                        <div class="col-md-12"><label class="labels">Tên người dùng</label><input type="text" class="form-control" placeholder="enter name" name="name" value="${requestScope.users.name}"disabled></div>
+                <a href="homePage">Trang chủ</a>
+                <span class="mx-3 icon-keyboard_arrow_right"></span>
+                <span class="current">Thay đổi thông tin</span><br><br>
+                <div class="row">
+                    <div class="col-md-3 border-right">
+                        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                            <img class="rounded-circle mt-5" width="150px"  class="img-fluid" width="50" height="50" src="${requestScope.users.image}">
+                            <span class="font-weight-bold"></span></div>
+                    </div>
+                    <div class="col-md-5 border-right">
+                        <div class="p-3 py-5">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="text-right">Thông tin tài khoản</h4>
+                            </div>
+                            <% if (request.getAttribute("duplicateError") != null) { %>
+                            <div class="alert alert-danger">
+                                <%= request.getAttribute("duplicateError") %>
+                            </div>
+                            <% } %>
+                            <% if (request.getAttribute("updateSuccess") != null) { %>
+                            <div class="alert alert-success">
+                                <%= request.getAttribute("updateSuccess") %>
+                            </div>
+                            <% } %>
+                            <form action ="updateProfile" method="Post" onsubmit="return validate()">
+                                <div class="row mt-3">
+                                    <input type="hidden" name="role" class="form-control" value="${requestScope.users.role}">
+                                    <input type="hidden" name="user_id" class="form-control" value="${requestScope.users.user_id}">
+                                    <c:forEach items="${requestScope.names}" var="names">
+                                        <input type="hidden" name="names" class="form-control" value="${names.name}">
+                                    </c:forEach>
+
+                                    <div class="col-md-12">
+                                        <label class="labels">Tên tài khoản</label>
+                                        <input type="hidden" name="currentUsername" class="form-control" value="${requestScope.users.name}">
+                                        <input type="text" class="form-control" placeholder="enter name" id="username" name="username" value="${requestScope.users.name}" required>
+                                    </div>
                                     <div class="col-md-12"><label class="labels"><label>Giới tính</label>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" id="male" name="gender"value="male" 
@@ -74,7 +96,7 @@
                                                 </div>
                                         </div>       
                                         <div class="col-md-12"><label class="labels">Ngày sinh</label><input type="date" class="form-control" placeholder="enter dob" id="dob" name="dob" value="${requestScope.users.dob}" required></div>
-                                    <div class="col-md-12"><label class="labels">Số điện thoại</label><input type="text" class="form-control" placeholder="enter phone" name="phone" value="${requestScope.users.phone}" pattern="[0-9]{10}" required></div>        
+                                    <div class="col-md-12"><label class="labels">Số điện thoại</label><input type="text" class="form-control" placeholder="enter phone" id="phone" name="phone" value="${requestScope.users.phone}" pattern="[0-9]{10}" required></div>        
                                     <div class="col-md-12"><label class="labels">Email</label><input type="email" class="form-control" placeholder="enter email" name="email" value="${requestScope.users.email}" required disabled></div>
                                     <span id="email-exist-message" style="color:red;"></span>
                                 </div>
@@ -87,246 +109,159 @@
                 </div>
             </div>
         </div>
+
         <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <span class="icon flaticon-mortarboard"></span>
-                        <h3>Our Philosphy</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea? Dolore, amet reprehenderit.</p>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <span class="icon flaticon-school-material"></span>
-                        <h3>Academics Principle</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea?
-                            Dolore, amet reprehenderit.</p>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <span class="icon flaticon-library"></span>
-                        <h3>Key of Success</h3>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis recusandae, iure repellat quis delectus ea?
-                            Dolore, amet reprehenderit.</p>
-                    </div>
+            <div class="site-section">
+                <div class="container">
                 </div>
             </div>
         </div>
 
+        <!-- .site-wrap -->
 
-        <div class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <p class="mb-4"><img src="images/logo.png" alt="Image" class="img-fluid"></p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto iure.</p>  
-                        <p><a href="#">Learn More</a></p>
-                    </div>
-                    <div class="col-lg-3">
-                        <h3 class="footer-heading"><span>Our Campus</span></h3>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Acedemic</a></li>
-                            <li><a href="#">News</a></li>
-                            <li><a href="#">Our Interns</a></li>
-                            <li><a href="#">Our Leadership</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">Human Resources</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-3">
-                        <h3 class="footer-heading"><span>Our Courses</span></h3>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Math</a></li>
-                            <li><a href="#">Science &amp; Engineering</a></li>
-                            <li><a href="#">Arts &amp; Humanities</a></li>
-                            <li><a href="#">Economics &amp; Finance</a></li>
-                            <li><a href="#">Business Administration</a></li>
-                            <li><a href="#">Computer Science</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-3">
-                        <h3 class="footer-heading"><span>Contact</span></h3>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Support Community</a></li>
-                            <li><a href="#">Press</a></li>
-                            <li><a href="#">Share Your Story</a></li>
-                            <li><a href="#">Our Supporters</a></li>
-                        </ul>
-                    </div>
-                </div>
+        <!-- loader -->
+        <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#51be78"/></svg></div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="copyright">
-                            <p>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- .site-wrap -->
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/jquery-migrate-3.0.1.min.js"></script>
+        <script src="js/jquery-ui.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/jquery.stellar.min.js"></script>
+        <script src="js/jquery.countdown.min.js"></script>
+        <script src="js/bootstrap-datepicker.min.js"></script>
+        <script src="js/jquery.easing.1.3.js"></script>
+        <script src="js/aos.js"></script>
+        <script src="js/jquery.fancybox.min.js"></script>
+        <script src="js/jquery.sticky.js"></script>
+        <script src="js/jquery.mb.YTPlayer.min.js"></script>
+        <script src="js/main.js"></script>
 
-    <!-- loader -->
-    <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#51be78"/></svg></div>
-
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/jquery-migrate-3.0.1.min.js"></script>
-    <script src="js/jquery-ui.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.stellar.min.js"></script>
-    <script src="js/jquery.countdown.min.js"></script>
-    <script src="js/bootstrap-datepicker.min.js"></script>
-    <script src="js/jquery.easing.1.3.js"></script>
-    <script src="js/aos.js"></script>
-    <script src="js/jquery.fancybox.min.js"></script>
-    <script src="js/jquery.sticky.js"></script>
-    <script src="js/jquery.mb.YTPlayer.min.js"></script>
-    <script src="js/main.js"></script>
-
-    <%--Validate phone number using this regex: /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g--%>
-    <script>
-                                    var phone = document.getElementById("phone");
-                                    phone.addEventListener("input", function () {
-                                        var phoneRegex = /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g;
-                                        if (!phoneRegex.test(phone.value)) {
-                                            phone.setCustomValidity("Invalid phone number!");
-                                        } else {
-                                            phone.setCustomValidity("");
-                                        }
-                                    });
-    </script>
-
-    <%--validate email by calline a servlet named email validation--%>
-    <script>
-
-    </script>
-
-
-
-    <%--Validate username by calling a servlet named username validation--%>
-    <script>
-
-    </script>
-
-
-
-    <%--Validate dob so that the registerer is at least 10 years old--%>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var dob = document.getElementById("dob");
-            var today = new Date();
-            var tenYearsAgo = new Date(today.getFullYear() - 10, today.getMonth(), today.getDate());
-            var hundredYearsAgo = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
-
-            // Set the maximum and minimum date values for the date input
-            dob.max = tenYearsAgo.toISOString().split('T')[0];
-            dob.min = hundredYearsAgo.toISOString().split('T')[0];
-        });
-    </script>
-
-    <%--Validate username--%>
-    <script>
-        var username = document.getElementById("username");
-        username.addEventListener("input", function () {
-            var usernameRegex = /^[a-zA-Z\d_ ]{6,32}$/g;
-            if (!usernameRegex.test(username.value)) {
-                username.setCustomValidity("Username must be from 6-32 characters and contain only letters, numbers, spaces and underscores!");
-            } else {
-                username.setCustomValidity("");
-            }
-        });
-    </script>
-
-    <script>
-        function validate() {
-            let username = document.getElementById("username").value;
-            let email = document.getElementById("email").value;
-            let password = document.getElementById("password").value;
-            let confirmPassword = document.getElementById("confirm-password").value;
-            let message = document.getElementById("password-match-message");
-            let email_message = document.getElementById("email-exist-message");
-            let username_message = document.getElementById("username-exist-message");
-
-            function checkUsername() {
-                return new Promise((resolve, reject) => {
-                    let xhrUsername = new XMLHttpRequest();
-                    xhrUsername.open("GET", "username-validation?username=" + encodeURIComponent(username), true);
-                    xhrUsername.onreadystatechange = function () {
-                        if (xhrUsername.readyState === 4) {
-                            if (xhrUsername.status === 200) {
-                                if (xhrUsername.responseText.trim() === "true") {
-                                    username_message.textContent = "Username already exists!";
-                                    resolve(false);
-                                } else {
-                                    username_message.textContent = "";
-                                    resolve(true);
+        <script>
+                                function showImage(imageUrl) {
+                                    // Create a modal or use a Bootstrap modal for displaying the enlarged image
+                                    var modalBody = '<img src="' + imageUrl + '" class="img-fluid">';
+                                    $('#imageModal .modal-body').html(modalBody);
+                                    $('#imageModal').modal('show');
                                 }
-                            } else {
-                                reject("Username validation failed");
-                            }
-                        }
-                    };
-                    xhrUsername.send();
-                });
-            }
+        </script>
 
-            function checkEmail() {
-                return new Promise((resolve, reject) => {
-                    let xhrEmail = new XMLHttpRequest();
-                    xhrEmail.open("GET", "email-validation?email=" + encodeURIComponent(email), true);
-                    xhrEmail.onreadystatechange = function () {
-                        if (xhrEmail.readyState === 4) {
-                            if (xhrEmail.status === 200) {
-                                if (xhrEmail.responseText.trim() === "true") {
-                                    email_message.textContent = "Email already exists!";
-                                    resolve(false);
-                                } else {
-                                    email_message.textContent = "";
-                                    resolve(true);
-                                }
-                            } else {
-                                reject("Email validation failed");
-                            }
-                        }
-                    };
-                    xhrEmail.send();
-                });
-            }
-
-            function checkPassword() {
-                return new Promise((resolve) => {
-                    if (password !== confirmPassword) {
-                        message.textContent = "Passwords do not match!";
-                        resolve(false);
-                    } else {
-                        message.textContent = "";
-                        resolve(true);
-                    }
-                });
-            }
-
-            return Promise.all([checkUsername(), checkEmail(), checkPassword()]).then(results => {
-                return results.every(result => result);
-            }).catch(error => {
-                console.error(error);
-                return false;
-            });
-        }
-
-        document.querySelector("form").addEventListener("submit", function (event) {
-            event.preventDefault();
-            validate().then(isValid => {
-                if (isValid) {
-                    this.submit();
+        <%--Validate phone number using this regex: /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g--%>
+        <script>
+            var phone = document.getElementById("phone");
+            phone.addEventListener("input", function () {
+                var phoneRegex = /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g;
+                if (!phoneRegex.test(phone.value)) {
+                    phone.setCustomValidity("Số điện thoại phải có 10 số");
+                } else {
+                    phone.setCustomValidity("");
                 }
             });
-        });
-    </script>
-</body>
+        </script>
+
+        <%--validate email by calline a servlet named email validation--%>
+        <script>
+
+        </script>
+
+
+
+        <%--Validate username by calling a servlet named username validation--%>
+        <script>
+
+        </script>
+
+
+
+        <%--Validate dob so that the registerer is at least 10 years old--%>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var dob = document.getElementById("dob");
+                var today = new Date();
+                var tenYearsAgo = new Date(today.getFullYear() - 10, today.getMonth(), today.getDate());
+                var hundredYearsAgo = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
+
+                // Set the maximum and minimum date values for the date input
+                dob.max = tenYearsAgo.toISOString().split('T')[0];
+                dob.min = hundredYearsAgo.toISOString().split('T')[0];
+            });
+        </script>
+
+        <%--Validate username--%>
+        <script>
+            var username = document.getElementById("username");
+            username.addEventListener("input", function () {
+                var usernameRegex = /^[a-zA-Z\d]{6,32}$/g;
+                if (!usernameRegex.test(username.value)) {
+                    username.setCustomValidity("Tên tài khoản phải từ 6-32 chữ cái, có thể bao gồm viết hoa");
+                } else {
+                    username.setCustomValidity("");
+                }
+            });
+        </script>
+
+        <script>
+            function validate() {
+                let username = document.getElementById("username").value;
+                let email = document.getElementById("email").value;
+                let password = document.getElementById("password").value;
+                let confirmPassword = document.getElementById("confirm-password").value;
+                let message = document.getElementById("password-match-message");
+                let email_message = document.getElementById("email-exist-message");
+                let username_message = document.getElementById("username-exist-message");
+
+                function checkEmail() {
+                    return new Promise((resolve, reject) => {
+                        let xhrEmail = new XMLHttpRequest();
+                        xhrEmail.open("GET", "email-validation?email=" + encodeURIComponent(email), true);
+                        xhrEmail.onreadystatechange = function () {
+                            if (xhrEmail.readyState === 4) {
+                                if (xhrEmail.status === 200) {
+                                    if (xhrEmail.responseText.trim() === "true") {
+                                        email_message.textContent = "Email đã tồn tại";
+                                        resolve(false);
+                                    } else {
+                                        email_message.textContent = "";
+                                        resolve(true);
+                                    }
+                                } else {
+                                    reject("Email validation failed");
+                                }
+                            }
+                        };
+                        xhrEmail.send();
+                    });
+                }
+
+                function checkPassword() {
+                    return new Promise((resolve) => {
+                        if (password !== confirmPassword) {
+                            message.textContent = "Passwords do not match!";
+                            resolve(false);
+                        } else {
+                            message.textContent = "";
+                            resolve(true);
+                        }
+                    });
+                }
+
+                return Promise.all([checkUsername(), checkEmail(), checkPassword()]).then(results => {
+                    return results.every(result => result);
+                }).catch(error => {
+                    console.error(error);
+                    return false;
+                });
+            }
+
+            document.querySelector("form").addEventListener("submit", function (event) {
+                event.preventDefault();
+                validate().then(isValid => {
+                    if (isValid) {
+                        this.submit();
+                    }
+                });
+            });
+        </script>
+    </body>
 </html>
