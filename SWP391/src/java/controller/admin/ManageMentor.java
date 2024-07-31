@@ -19,101 +19,104 @@ public class ManageMentor extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
-        if(user == null || user.getRole() != 1){
+        if (user == null || user.getRole() != 1) {
             resp.sendRedirect("login");
             return;
         }
-
-        req.getSession().setAttribute("mentor-list", new DAOUser().getAllMentors());
-
-        if(req.getParameter("action") != null)
-            redirectAction(req, resp);
-        else
-            req.getRequestDispatcher(CONTEXT_PATH).forward(req, resp);
+        redirectAction(req, resp);
     }
-
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         redirectAction(req, resp);
     }
 
-    private void redirectAction(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void redirectAction(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String action = req.getParameter("action");
 
-        if(action == null)
-            return;
-
-        switch (action){
-            case "search":
-                searchMentor(req, resp);
-                break;
-            case "activate":
-                activateMentor(req, resp);
-                break;
-            case "deactivate":
-                deactivateMentor(req, resp);
-                break;
-            default:
-                printError(req, resp, "Invalid action");
+        if (action != null) {
+            switch (action) {
+                case "search":
+                    if (searchMentor(req, resp) == 0) return;
+                    break;
+                case "activate":
+                    if (activateMentor(req, resp) == 0) return;
+                    break;
+                case "deactivate":
+                    if (deactivateMentor(req, resp) == 0) return;
+                    break;
+                default:
+                    printError(req, resp, "Invalid action");
+                    return;
+            }
         }
 
+        req.getSession().setAttribute("mentor-list", new DAOUser().getAllMentors());
+        req.getRequestDispatcher(CONTEXT_PATH).forward(req, resp);
     }
 
     private void printError(HttpServletRequest req, HttpServletResponse resp, String message) throws IOException {
         try {
-            req.setAttribute("error", message);
+            req.getSession().setAttribute("error", message);
             req.getRequestDispatcher(CONTEXT_PATH).forward(req, resp);
         } catch (ServletException | IOException e) {
             log(e.getMessage());
         }
     }
 
-    private void deactivateMentor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private int deactivateMentor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String id = req.getParameter("id");
         User mentor = new DAOUser().getUserByID(Integer.parseInt(id));
-        if(mentor == null || mentor.getActive() != 1){
+        if (mentor == null) {
             printError(req, resp, "Mentor not found");
-            return;
+            return 0;
         }
+        if (mentor.getActive() == 0) {
+            printError(req, resp, "Mentor is already inactive");
+            return 0;
+        }
+
         mentor.setActive(0);
-        if(new DAOUser().updateUserActiveInfo(mentor)){
-            resp.sendRedirect(SERVLET_CONTEXT_PATH);
-        } else {
+        if (!new DAOUser().updateUserActiveInfo(mentor)) {
             printError(req, resp, "Error deactivating mentor");
+            return 0;
         }
+        return 1;
     }
 
-    private void activateMentor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private int activateMentor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String id = req.getParameter("id");
         User mentor = new DAOUser().getUserByID(Integer.parseInt(id));
-        if(mentor == null || mentor.getActive() != 0){
+        if (mentor == null) {
             printError(req, resp, "Mentor not found");
-            return;
+            return 0;
         }
+        if (mentor.getActive() == 1) {
+            printError(req, resp, "Mentor is already active");
+            return 0;
+        }
+
         mentor.setActive(1);
-
-        if(new DAOUser().updateUserActiveInfo(mentor)){
-            resp.sendRedirect(SERVLET_CONTEXT_PATH);
-        } else {
+        if (!new DAOUser().updateUserActiveInfo(mentor)) {
             printError(req, resp, "Error activating mentor");
+            return 0;
         }
-
+        return 1;
     }
 
-    private void searchMentor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private int searchMentor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String keyword = req.getParameter("query");
-        if(keyword == null){
+        if (keyword == null) {
             printError(req, resp, "Keyword is required");
-            return;
+            return 0;
         }
         req.getSession().setAttribute("mentor-list", new DAOUser().searchMentor(keyword));
         try {
             req.getRequestDispatcher(CONTEXT_PATH).forward(req, resp);
         } catch (ServletException | IOException e) {
             printError(req, resp, "Error searching mentor");
+            return 0;
         }
+        return 1;
     }
-
-
 }

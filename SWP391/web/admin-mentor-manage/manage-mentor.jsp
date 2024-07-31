@@ -47,6 +47,12 @@
             }
         </style>
 
+        <script type="text/javascript">
+            function confirmAction(message) {
+                return confirm(message);
+            }
+        </script>
+
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -142,9 +148,9 @@
                                     <td><%= mentor.getActive() == 1 ? "Active" : "Inactive" %></td>
                                     <td class="btn-action">
                                         <% if(mentor.getActive() == 1) { %>
-                                        <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-mentor?action=deactivate&id=<%= mentor.getUser_id() %>" class="btn btn-danger">Deactivate</a>
+                                        <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-mentor?action=deactivate&id=<%= mentor.getUser_id() %>" class="btn btn-danger" onclick="return confirmAction('Are you sure you want to activate this mentor?');">Deactivate</a>
                                         <% } else { %>
-                                        <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-mentor?action=activate&id=<%= mentor.getUser_id() %>" class="btn btn-primary">Activate</a>
+                                        <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-mentor?action=activate&id=<%= mentor.getUser_id() %>" class="btn btn-primary" onclick="return confirmAction('Are you sure you want to inactivate this mentor?');">Activate</a>
                                         <% } %>
                                     </td>
                                 </tr>
