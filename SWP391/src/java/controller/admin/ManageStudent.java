@@ -19,8 +19,11 @@ public class ManageStudent extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
-
+        User user = (User) req.getSession().getAttribute("user");
+        if(user == null || user.getRole() != 1){
+            resp.sendRedirect("login");
+            return;
+        }
         redirectAction(req, resp);
     }
 

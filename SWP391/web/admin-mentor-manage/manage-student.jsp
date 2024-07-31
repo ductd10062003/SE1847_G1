@@ -47,6 +47,12 @@
         }
     </style>
 
+    <script type="text/javascript">
+        function confirmAction(message) {
+            return confirm(message);
+        }
+    </script>
+
 </head>
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -147,16 +153,16 @@
                         <td><%= student.getRole() == 3 ? "Learner" : "Expert"%></td>
                         <td >
                             <% if(student.getActive() == 1) { %>
-                            <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-student?action=deactivate&id=<%= student.getUser_id() %>" class="btn btn-danger">Deactivate</a>
+                            <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-student?action=deactivate&id=<%= student.getUser_id() %>" class="btn btn-danger" onclick="return confirmAction('Do you want to activate this student?')">Deactivate</a>
                             <% } else { %>
-                            <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-student?action=activate&id=<%= student.getUser_id() %>" class="btn btn-primary">Activate</a>
+                            <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-student?action=activate&id=<%= student.getUser_id() %>" class="btn btn-primary" onclick="return confirmAction('Do you want to deactivate this student?')">Activate</a>
                             <% } %>
                         </td>
                         <td >
                             <% if(student.getRole() == 3) { %>
-                            <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-student?action=promote&id=<%= student.getUser_id() %>" class="btn btn-primary">Promote</a>
+                            <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-student?action=promote&id=<%= student.getUser_id() %>" class="btn btn-primary" onclick="return confirmAction('Do you want to promote this student to expert?')">Promote</a>
                             <% } else { %>
-                            <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-student?action=demote&id=<%= student.getUser_id() %>" class="btn btn-danger">Demote</a>
+                            <a href="${pageContext.request.contextPath}/admin-mentor-manage/manage-student?action=demote&id=<%= student.getUser_id() %>" class="btn btn-danger" onclick="return confirmAction('Do you want to demote this student to learner?')">Demote</a>
                             <% } %>
                         </td>
                     </tr>
