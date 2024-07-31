@@ -70,7 +70,7 @@ public class viewCourse extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String search = request.getParameter("course_name");
         String searchById = request.getParameter("category_id");
-
+                         
         List<Course> courses = null;
         List<Category> categories = null;
 

@@ -21,7 +21,7 @@ public class DBConnect{
     
     public DBConnect(){
 
-        this("jdbc:sqlserver://localhost:1433;databaseName= swp_v1;encrypt=false", "sa", "123");
+        this("jdbc:sqlserver://localhost:1433;databaseName= swp_v1;encrypt=false", "dat", "dat13112002");
 
     }
 
