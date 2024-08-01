@@ -91,13 +91,12 @@ public class updateProfile extends HttpServlet {
         String name = request.getParameter("username");
         String image = request.getParameter("image");
         String currentUsername = request.getParameter("currentUsername"); // Tên người dùng hiện tại
-
+        System.out.println(image);
         //get the user from the session
         //upadte database
         DAOUser daoUser = new DAOUser();
         // Lấy danh sách tên người dùng đã tồn tại từ cơ sở dữ liệu
         ArrayList<String> existingUsernames = daoUser.getExistingUsernames(); // Ví dụ
-        System.out.println("existingUsernames" + existingUsernames);
 
 // Kiểm tra xem tên người dùng đã tồn tại
         if (existingUsernames.contains(name) && !name.equals(currentUsername)) {
@@ -107,15 +106,16 @@ public class updateProfile extends HttpServlet {
         }
 
 // Nếu tên người dùng không tồn tại, thực hiện cập nhật hồ sơ
-        User user = new User();
-        user.setName(name);
-        user.setGender(gender);
-        user.setDob(dob);
-        user.setPhone(phone);
-        user.setImage(image);
-        System.out.println(image);
-        user = (User) request.getSession().getAttribute("user");
-        int updateProfileResult = daoUser.updateProfile(name, gender, dob, phone,image, user.getUser_id());
+        User user = (User)request.getSession().getAttribute("user");
+        int updateProfileResult;
+        if(image == null || "".equals(image)){
+            updateProfileResult = daoUser.updateProfileNoImage(name, gender, dob, phone, user.getUser_id());
+            System.out.println("updated no image");
+        }
+        else{
+            updateProfileResult = daoUser.updateProfile(name, gender, dob, phone,image, user.getUser_id());
+            System.out.println("updated with image");
+        }
         if (updateProfileResult > 0) {
             request.setAttribute("updateSuccess", "Cập nhật thông tin thành công.");
         } else {

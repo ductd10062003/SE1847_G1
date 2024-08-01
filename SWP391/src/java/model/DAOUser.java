@@ -238,6 +238,23 @@ public class DAOUser extends DBConnect {
             return 0;
         }
     }
+    
+    public int updateProfileNoImage(String name, int gender, String dob, String phone, int user_id) {
+        String sql = "UPDATE [User] SET name=?,gender=?,dob=?,phone =? WHERE USER_ID = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setInt(2, gender);
+            ps.setString(3, dob);
+            ps.setString(4, phone);
+            ps.setInt(5, user_id);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 
     public Object searchMentor(String keyword) {
         ArrayList<User> user = new ArrayList<>();

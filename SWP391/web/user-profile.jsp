@@ -51,8 +51,18 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="card shadow-sm">
-                                    <div class="card-header bg-transparent text-center">     
-                                        <img class="profile_img" src="${requestScope.users.image}">                              
+                                    <div class="card-header bg-transparent text-center"> 
+                                        <c:choose>
+                                            <c:when test="${empty requestScope.users.image}">
+                                                <!-- If image is null or empty, display the default image -->
+                                                <img id="profile-picture" class="rounded-circle mt-5" width="150px" height="150px"  class="img-fluid" width="50" height="50" src="${pageContext.request.contextPath}/images/user.jpg">
+
+                                            </c:when>
+                                            <c:otherwise>
+                                                <!-- If image is not null or empty, display the user image -->
+                                                <img id="profile-picture" class="rounded-circle mt-5" width="150px" height="150px" class="img-fluid" width="50" height="50" src="${requestScope.users.image}">
+                                            </c:otherwise>
+                                        </c:choose>                              
                                     </div>
                                     <div class="card-body">
                                         <p class="mb-0"><strong class="pr-1">ID tài khoản:</strong>${sessionScope.user.user_id}</p>
