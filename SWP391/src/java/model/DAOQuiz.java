@@ -9,7 +9,7 @@ import org.jsoup.Connection;
 
 public class DAOQuiz extends DBConnect {
 
-    public boolean addRandomQuizInCourse(int course_id, int category_id) {
+    public boolean addRandom3FlashcardInCourse(int course_id, int category_id) {
         String sql = "INSERT INTO Quiz (course_id, flashcard_id)\n"
                 + "SELECT ?, flashcard_id\n"
                 + "FROM flashcard\n"
@@ -20,7 +20,7 @@ public class DAOQuiz extends DBConnect {
                 + "WHERE course_id = ?)\n"
                 + "ORDER BY NEWID()\n"
                 + "OFFSET 0 ROWS\n"
-                + "FETCH NEXT 1 ROWS ONLY;";
+                + "FETCH NEXT 3 ROWS ONLY;";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, course_id);

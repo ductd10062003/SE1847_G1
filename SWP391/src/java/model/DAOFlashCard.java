@@ -66,6 +66,27 @@ public class DAOFlashCard extends DBConnect {
             return 0;
         }
     }
+    
+    public ArrayList<FlashCard> getQuizzByCouseID2(int course_id) {
+        ArrayList<FlashCard> course = new ArrayList<>();
+        String sql = "  select q.quiz_id,f.flashcard_id,f.image,f.question,f.answer,f.create_at,f.update_at\n"
+                + "  from Course c inner join Quiz q \n"
+                + "  on c.course_id = q.course_id \n"
+                + "  inner join flashcard f \n"
+                + "  on q.flashcard_id = f.flashcard_id\n"
+                + "  where c.course_id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setInt(1, course_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                course.add(new FlashCard(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return course;
+    }
 
     public ArrayList<FlashCard> getQuizzByCouseID(int course_id) {
         ArrayList<FlashCard> course = new ArrayList<>();

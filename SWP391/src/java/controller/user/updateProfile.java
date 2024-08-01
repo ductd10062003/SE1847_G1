@@ -89,6 +89,7 @@ public class updateProfile extends HttpServlet {
         String dob = request.getParameter("dob");
         String phone = request.getParameter("phone");
         String name = request.getParameter("username");
+        String image = request.getParameter("image");
         String currentUsername = request.getParameter("currentUsername"); // Tên người dùng hiện tại
 
         //get the user from the session
@@ -111,8 +112,10 @@ public class updateProfile extends HttpServlet {
         user.setGender(gender);
         user.setDob(dob);
         user.setPhone(phone);
+        user.setImage(image);
+        System.out.println(image);
         user = (User) request.getSession().getAttribute("user");
-        int updateProfileResult = daoUser.updateProfile(name, gender, dob, phone, user.getUser_id());
+        int updateProfileResult = daoUser.updateProfile(name, gender, dob, phone,image, user.getUser_id());
         if (updateProfileResult > 0) {
             request.setAttribute("updateSuccess", "Cập nhật thông tin thành công.");
         } else {
