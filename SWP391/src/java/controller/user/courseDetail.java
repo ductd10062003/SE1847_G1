@@ -61,9 +61,6 @@ public class courseDetail extends HttpServlet {
         DAOQuiz daoQuiz = new DAOQuiz();
         DAOFlashCard daoFlashCard = new DAOFlashCard();
         
-        if(user != null){
-            enroll(request, response);
-        }
         
         //Entity
         User mentor = daoUser.getUserByCourseID(courseId);

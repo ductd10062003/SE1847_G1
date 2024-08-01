@@ -1,0 +1,91 @@
+
+    <div
+      style="width: 30vw; height: 75vh; background-color: #51be78"
+      class="d-flex justify-content-center p-3"
+    >
+      <div class="w-100">
+        <div class="card fs-3 fw-bold mb-2 text-center">Chat box</div>
+        <div class="card h-75 mb-2 p-3" style="overflow-y: auto;" id="mainScreen">
+        </div>
+        <div style="height: 15%;">
+          <div class="form-floating h-100">
+            <textarea class="form-control h-100" placeholder="Comment ..." id="input"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/generative-ai": "https://esm.run/@google/generative-ai",
+          "markdown-it": "https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/+esm"
+        }
+      }
+    </script>
+    <script type="module">
+      import { GoogleGenerativeAI } from "@google/generative-ai";
+      import markdownIt from "markdown-it";
+      // Fetch your API_KEY
+      const API_KEY = "AIzaSyDvOthpwq4okQMbNPy75mvTT7Amwi6qK2o";
+
+      // Access your API key (see "Set up your API key" above)
+      const genAI = new GoogleGenerativeAI(API_KEY);
+
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+      let prompt = '';
+      const md = markdownIt();
+      async function run() {
+
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+
+        let md_text = md.render(text);
+
+        reply(md_text);
+      }
+
+      function enter(event) {
+        if (event.key === "Enter" && !event.shiftKey) {
+          event.preventDefault(); // Prevents the default newline behavior
+          let inputPrompt = document.getElementById("input").value.trim();
+          if(inputPrompt.length === 0) return;
+          prompt = inputPrompt;
+          document.getElementById('input').value = '';
+          showMyContent();
+          run();
+        };
+      }
+
+      function showMyContent(){        
+        let div = document.createElement('div');
+        div.classList.add('w-100','d-flex', 'justify-content-end');
+
+        let p = document.createElement('p');
+        p.innerHTML = prompt;
+        p.classList.add('card', 'w-75','text-start', 'p-2');
+
+        let screen = document.getElementById('mainScreen');
+        screen.appendChild(div);
+        div.appendChild(p);
+        scroll();
+      }
+
+      function reply(rep){
+        let p = document.createElement('p');
+        p.innerHTML = rep;
+        p.classList.add('card', 'w-75','text-start', 'p-2');
+        document.getElementById('mainScreen').appendChild(p);
+        scroll();
+      }
+
+      function scroll(){
+        let screen = document.getElementById('mainScreen');
+        screen.scrollTop =screen.scrollHeight;
+      }
+
+      document.addEventListener('keydown', enter);
+    </script>
+
