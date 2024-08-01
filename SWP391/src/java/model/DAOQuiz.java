@@ -10,21 +10,24 @@ import org.jsoup.Connection;
 public class DAOQuiz extends DBConnect {
 
     public boolean addRandom3FlashcardInCourse(int course_id, int category_id) {
-        String sql = "INSERT INTO Quiz (course_id, flashcard_id)\n"
+        String sql = "WITH RandomFlashcards AS (\n"
+                + "    SELECT TOP 3 flashcard_id\n"
+                + "    FROM flashcard\n"
+                + "    WHERE category_id = ?\n"
+                + "    AND flashcard_id NOT IN (\n"
+                + "        SELECT flashcard_id\n"
+                + "        FROM Quiz\n"
+                + "        WHERE course_id = ?\n"
+                + "    )\n"
+                + "    ORDER BY NEWID()\n"
+                + ")\n"
+                + "INSERT INTO Quiz (course_id, flashcard_id)\n"
                 + "SELECT ?, flashcard_id\n"
-                + "FROM flashcard\n"
-                + "WHERE category_id = ?\n"
-                + "AND flashcard_id NOT IN (\n"
-                + "SELECT flashcard_id\n"
-                + "FROM Quiz\n"
-                + "WHERE course_id = ?)\n"
-                + "ORDER BY NEWID()\n"
-                + "OFFSET 0 ROWS\n"
-                + "FETCH NEXT 3 ROWS ONLY;";
+                + "FROM RandomFlashcards;";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, course_id);
-            ps.setInt(2, category_id);
+            ps.setInt(1, category_id);
+            ps.setInt(2, course_id);
             ps.setInt(3, course_id);
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
