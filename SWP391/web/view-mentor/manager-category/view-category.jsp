@@ -356,19 +356,46 @@
                                 <!-- Pagination -->
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination">
+                                        <c:set var="displayPages" value="3" />
+                                        <c:set var="startPage" value="${currentPage - displayPages / 2}" />
+                                        <c:set var="endPage" value="${currentPage + displayPages / 2}" />
+
+                                        <c:if test="${startPage < 1}">
+                                            <c:set var="startPage" value="1" />
+                                            <c:set var="endPage" value="${displayPages}" />
+                                        </c:if>
+                                        <c:if test="${endPage > totalPages}">
+                                            <c:set var="endPage" value="${totalPages}" />
+                                            <c:if test="${endPage - displayPages + 1 > 0}">
+                                                <c:set var="startPage" value="${endPage - displayPages + 1}" />
+                                            </c:if>
+                                        </c:if>
+
+                                        <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                            <a class="page-link" href="?${queryString}&page=1&pageSize=${pageSize}" aria-label="First">
+                                                <span aria-hidden="true">&laquo;&laquo;</span>
+                                            </a>
+                                        </li>
                                         <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
                                             <a class="page-link" href="?${queryString}&page=${currentPage - 1}&pageSize=${pageSize}" aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
                                             </a>
                                         </li>
-                                        <c:forEach var="i" begin="1" end="${totalPages}">
+
+                                        <c:forEach var="i" begin="${startPage}" end="${endPage}">
                                             <li class="page-item ${i == currentPage ? 'active' : ''}">
                                                 <a class="page-link" href="?${queryString}&page=${i}&pageSize=${pageSize}">${i}</a>
                                             </li>
                                         </c:forEach>
+
                                         <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
                                             <a class="page-link" href="?${queryString}&page=${currentPage + 1}&pageSize=${pageSize}" aria-label="Next">
                                                 <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                            <a class="page-link" href="?${queryString}&page=${totalPages}&pageSize=${pageSize}" aria-label="Last">
+                                                <span aria-hidden="true">&raquo;&raquo;</span>
                                             </a>
                                         </li>
                                     </ul>
