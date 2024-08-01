@@ -23,6 +23,16 @@ public class FlashCard {
         this.image = image;
     }
 
+    public FlashCard(int quiz_id, int flashcard_id,String image, String question, String answer, String create_at, String update_at) {
+        this.quiz_id = quiz_id;
+        this.flashcard_id = flashcard_id;
+        this.image = image;
+        this.question = question;
+        this.answer = answer;
+        this.create_at = create_at;
+        this.update_at = update_at;
+    }
+
     public FlashCard(int quiz_id, int flashcard_id, String question, String answer, String create_at, String update_at) {
         this.quiz_id = quiz_id;
         this.flashcard_id = flashcard_id;

@@ -77,7 +77,7 @@ public class editCourse extends HttpServlet {
         DAOCategory daoCategory = new DAOCategory();
         DAOFlashCard daoFlashCard = new DAOFlashCard();
         Course course = daoCourse.getCourseByCourseID(courseId);
-        ArrayList<FlashCard> list = daoFlashCard.getQuizzByCouseID(courseId);
+        ArrayList<FlashCard> list = daoFlashCard.getQuizzByCouseID2(courseId);
         request.setAttribute("course", course);
         request.setAttribute("list", list);
         request.getRequestDispatcher("../view-mentor/manager-course/edit-course.jsp").forward(request, response);
@@ -112,7 +112,7 @@ public class editCourse extends HttpServlet {
 
             switch (action) {
                 case "add":
-                    boolean addSuccess = daoQuiz.addRandomQuizInCourse(course_id2, category_id2);
+                    boolean addSuccess = daoQuiz.addRandom3FlashcardInCourse(course_id2, category_id2);
                     if (addSuccess) {
                         request.setAttribute("notification1", "Thêm câu hỏi thành công.");
                     } else {

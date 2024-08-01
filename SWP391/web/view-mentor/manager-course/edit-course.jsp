@@ -233,11 +233,7 @@
                             <div class="upload-form row mt-2 flashcard" id="flashcard_${flashcard.flashcard_id}" style="width: 90%;">
                                 <input type="hidden" class="imgsrc" name="img">
                                 <div class="col-2">
-                                    <label class="upload-area m-0" for="file${flashcard.flashcard_id}" onchange="uploadImg(this, event)">
-                                        <p>Ảnh</p>
-                                        <img src="" alt="alt" class="m-0 p-0" style="width: 75px; height: 75px; display: none;">
-                                        <input type="file" id="file${flashcard.flashcard_id}" name="file">
-                                    </label>
+                                    <img src="${flashcard.image}" class="img-fluid">
                                 </div>
                                 <div class="col-4 d-flex align-items-center word">
                                     <input type="text" placeholder="Thuật ngữ" name="question" value="${flashcard.question}" class="form-control border-primary" disabled>
