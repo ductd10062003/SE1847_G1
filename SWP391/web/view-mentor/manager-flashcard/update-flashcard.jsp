@@ -278,7 +278,7 @@
                                     </c:if>
                                     <div class="form-group">
                                         <label>Câu hỏi</label>
-                                        <input type="text" name="question" class="form-control" value="${flashcard.question}" required>
+                                        <input type="text" name="question" class="form-control" value="${param.question != null ? param.question : flashcard.question}" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Đáp án</label>

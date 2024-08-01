@@ -278,7 +278,7 @@
                                     </c:if>
                                     <div class="form-group">
                                         <label>Tên danh mục</label>
-                                        <input type="text" name="category_name" class="form-control" value="${category.category_name}" required>
+                                        <input type="text" name="category_name" class="form-control" value="${param.category_name != null ? param.category_name : category.category_name}" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Ngày tạo</label>
