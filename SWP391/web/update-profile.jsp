@@ -39,6 +39,13 @@
             type="text/css"/>
 
         <link rel="stylesheet" href="css/style.css" />
+
+        <script type="text/javascript">
+            function confirmUpdate() {
+                return confirm("Bạn có chắc chắn thay đổi thông tin ?");
+            }
+        </script>
+
     </head>
 
     <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -50,25 +57,24 @@
                 <span class="mx-3 icon-keyboard_arrow_right"></span>
                 <span class="current">Thay đổi thông tin</span><br><br>
                 <div class="row">
-                    <div class="col-md-3 border-right">
+                    <div class="col-md-4 border-right">
                         <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-
                             <c:choose>
                                 <c:when test="${empty requestScope.users.image}">
                                     <!-- If image is null or empty, display the default image -->
                                     <img id="profile-picture" class="rounded-circle mt-5" width="150px" height="150px"  class="img-fluid" width="50" height="50" src="${pageContext.request.contextPath}/images/user.jpg">
-                                   
+
                                 </c:when>
                                 <c:otherwise>
                                     <!-- If image is not null or empty, display the user image -->
                                     <img id="profile-picture" class="rounded-circle mt-5" width="150px" height="150px" class="img-fluid" width="50" height="50" src="${requestScope.users.image}">
                                 </c:otherwise>
                             </c:choose>
-                            
+
                         </div>
-                        
+
                         <input type="file" name="imageFile" id="imageFile" class="form-control-file">
-                        
+
                     </div>
                     <div class="col-md-5 border-right">
                         <div class="p-3 py-5">
@@ -85,7 +91,7 @@
                                 <%= request.getAttribute("updateSuccess") %>
                             </div>
                             <% } %>
-                            <form action ="updateProfile" method="Post" onsubmit="return validate()">
+                            <form action ="updateProfile" method="Post" onsubmit="return confirmUpdate();" onsubmit="return validate()">
                                 <input type="hidden" name="image" id="form-image"/>
                                 <div class="row mt-3">
                                     <input type="hidden" name="role" class="form-control" value="${requestScope.users.role}">
@@ -153,36 +159,36 @@
         <script src="js/jquery.sticky.js"></script>
         <script src="js/jquery.mb.YTPlayer.min.js"></script>
         <script src="js/main.js"></script>
-        
+
         <script>
-            // Xử lý khi người dùng chọn file hình ảnh
-            let profilePicture = document.getElementById('profile-picture');
-            
-            document.getElementById('imageFile').addEventListener('change', function (event) {
-                var file = event.target.files[0];
+                                // Xử lý khi người dùng chọn file hình ảnh
+                                let profilePicture = document.getElementById('profile-picture');
 
-                // Kiểm tra nếu không phải là file hình ảnh
-                if (!file.type.startsWith('image/')) {
-                    alert('Vui lòng chỉ chọn file hình ảnh.');
-                    document.getElementById('imageFile').value = ''; // Xóa lựa chọn file
-                    return;
-                }
+                                document.getElementById('imageFile').addEventListener('change', function (event) {
+                                    var file = event.target.files[0];
 
-                var reader = new FileReader();
+                                    // Kiểm tra nếu không phải là file hình ảnh
+                                    if (!file.type.startsWith('image/')) {
+                                        alert('Vui lòng chỉ chọn file hình ảnh.');
+                                        document.getElementById('imageFile').value = ''; // Xóa lựa chọn file
+                                        return;
+                                    }
 
-                reader.onload = function (e) {
-                    // Hiển thị hình ảnh đã chọn
-                    profilePicture.src = e.target.result;
+                                    var reader = new FileReader();
+
+                                    reader.onload = function (e) {
+                                        // Hiển thị hình ảnh đã chọn
+                                        profilePicture.src = e.target.result;
 //                    profilePicture.style.display = 'block';
 
-                    // Chuyển đổi file thành base64 string và định dạng data URI
-                    var base64String = e.target.result.split(',')[1];
-                    var formattedBase64 = 'data:' + file.type + ';base64,' + base64String;
-                    document.getElementById('form-image').value = formattedBase64; // Lưu base64 string vào input ẩn
-                };
+                                        // Chuyển đổi file thành base64 string và định dạng data URI
+                                        var base64String = e.target.result.split(',')[1];
+                                        var formattedBase64 = 'data:' + file.type + ';base64,' + base64String;
+                                        document.getElementById('form-image').value = formattedBase64; // Lưu base64 string vào input ẩn
+                                    };
 
-                reader.readAsDataURL(file);
-            });
+                                    reader.readAsDataURL(file);
+                                });
         </script>
 
         <%--Validate phone number using this regex: /^((\+84|84|0)?((3[2-9]|5[25689]|7[0|6-9]|8[0-9]|9[0-4|6-9]|2[0-9])|(12[0-9]|16[2-9]|18[68]|199)))([0-9]{7})$/g--%>

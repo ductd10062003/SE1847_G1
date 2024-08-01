@@ -70,7 +70,13 @@
                 font-size: 14px;
                 color: #666;
             }
-        </style>    
+        </style>   
+
+        <script type="text/javascript">
+            function confirmAction(message) {
+                return window.confirm(message);
+            }
+        </script>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -177,10 +183,11 @@
                     <input type="hidden" name="category_id" value="${requestScope.course.category_id}">
                 </form>
 
-                <form name="editCourseForm" action="editCourse" method="post">
+                <form onclick="return confirmAction('Are you sure you want to change this course');" name="editCourseForm" action="editCourse" method="post">
                     <div class="p-2 card m-2 overflow-auto d-flex align-items-center" id="flashcards" style="height: 70vh; width: 98%">
                         <div class="form-group">
                             <label for="course_name">Tên khóa học :</label>
+                            <input type="hidden" name="currentCoursename" class="form-control" value="${requestScope.course.course_name}">
                             <input type="text" id="course_name" name="course_name" class="form-control" value="${requestScope.course.course_name}">
                         </div>
                         <input type="hidden" name="course_id" class="form-control" value="${requestScope.course.course_id}">
@@ -242,7 +249,7 @@
                                     <input type="text" class="form-control border-primary" placeholder="Định nghĩa" name="answer" value="${flashcard.answer}" disabled>
                                 </div>
                                 <div id="" class="col-2 d-flex align-items-center word">
-                                    <button class="delete-btn btn btn-danger" value="${flashcard.flashcard_id}">Xóa</button>
+                                    <button  class="delete-btn btn btn-danger" value="${flashcard.flashcard_id}" >Xóa</button>
                                 </div>
                             </div>
                         </c:forEach>
@@ -449,28 +456,6 @@
                 return empty;
             }
 
-            function confirm() {
-                if (checkEmptyFlashCard() === 0) {
-                    return;
-                }
-
-                let category = document.getElementById('category').value;
-                if (category.trim().length === 0) {
-                    document.getElementById('err').innerText = 'Bạn chưa chọn thể loại';
-                    return;
-                }
-                if (numberOfFlashcard === 0) {
-                    document.getElementById('err').innerText = 'Bạn chưa tạo thẻ';
-                    return;
-                }
-                let categoryId = document.getElementById('category').value;
-
-                if (checkDuplicate() !== 0) {
-                    return;
-                }
-
-                submit(getQuestionValues(), getAnswerValues(), getImgSrc(), categoryId);
-            }
 
             function submit(questions, answers, img, categoryId) {
                 $.ajax({

@@ -16,6 +16,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Vector;
 import model.DAOCategory;
 import model.DAOCourse;
@@ -78,6 +80,7 @@ public class editCourse extends HttpServlet {
         DAOFlashCard daoFlashCard = new DAOFlashCard();
         Course course = daoCourse.getCourseByCourseID(courseId);
         ArrayList<FlashCard> list = daoFlashCard.getQuizzByCouseID2(courseId);
+        Collections.reverse(list);
         request.setAttribute("course", course);
         request.setAttribute("list", list);
         request.getRequestDispatcher("../view-mentor/manager-course/edit-course.jsp").forward(request, response);
@@ -105,7 +108,7 @@ public class editCourse extends HttpServlet {
             String course_id = request.getParameter("course_id");
             String flashcard_id = request.getParameter("flashcard_id");
             String category_id = request.getParameter("category_id");
-
+            
             int course_id2 = Integer.parseInt(course_id);
             int flashcard_id2 = Integer.parseInt(flashcard_id);
             int category_id2 = Integer.parseInt(category_id);
@@ -164,8 +167,9 @@ public class editCourse extends HttpServlet {
         LocalDateTime currentDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDateTime = currentDateTime.format(formatter);
+        String currentCoursename = request.getParameter("currentCoursename");
         for (Course course : courses) {
-            if (course.getCourse_name().equals(course_name) && course.getDescription().equals(description)) {
+            if (course.getCourse_name().equals(course_name) && !course_name.equals(currentCoursename)) {
                 isDuplicateCourse = true;
                 break;
             }
