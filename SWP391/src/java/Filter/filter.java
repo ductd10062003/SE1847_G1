@@ -116,7 +116,7 @@ public class filter implements Filter {
         User user =(User)httpReq.getSession(true).getAttribute("user");
         
         if(user != null && user.getRole() == 2){
-            if(!uri.contains("/mentor/") && !uri.contains("css") && !uri.contains("js") && !uri.contains("login")){
+            if(!uri.contains("/mentor/") && !uri.contains("css") && !uri.contains("js") && !uri.contains("login") && !uri.contains("image")){
                 httpRes.sendRedirect("/SWP391/mentor/dashboard");
                 return;
             }            
