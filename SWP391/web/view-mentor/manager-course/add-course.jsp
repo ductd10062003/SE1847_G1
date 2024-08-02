@@ -376,8 +376,12 @@
                                         document.getElementById('err').innerText = 'Bạn chưa tạo thẻ';
                                         return;
                                     }
+                                    if (flashcardsID.length < 6) {
+                                        document.getElementById('err').innerText = 'Sô thẻ phải ít nhất 6 thẻ';
+                                        return;
+                                    }
                                     if (flashcardsID.length % 3 !== 0) {
-                                        document.getElementById('err').innerText = 'Sô thẻ phải chia hết cho 12';
+                                        document.getElementById('err').innerText = 'Sô thẻ phải chia hết cho 3';
                                         return;
                                     }
 
