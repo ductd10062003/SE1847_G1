@@ -178,7 +178,7 @@
                     <input type="hidden" name="category_id" value="${requestScope.course.category_id}">
                 </form>
 
-                <form onclick="return confirmAction('Are you sure you want to change this course');" name="editCourseForm" action="editCourse" method="post">
+                <form onclick="return confirmAction('Bạn có chắc muốn cập nhật ?');" name="editCourseForm" action="editCourse" method="post">
                     <div class="p-2 card m-2 overflow-auto d-flex align-items-center" id="flashcards" style="height: 70vh; width: 98%">
                         <div class="form-group">
                             <label for="course_name">Tên khóa học :</label>
