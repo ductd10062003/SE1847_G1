@@ -79,12 +79,6 @@
                         <i class="fas fa-user fa-fw"></i> <span class="icon-user"></span> ${sessionScope.user.name}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="../userProfile">Thông tin người dùng</a>
-                        <a class="dropdown-item" href="../updateProfile">Thay đổi thông tin</a>
-                        <form action="forgot-password" method="post">
-                            <input type="hidden" name="email" value="${sessionScope.user.email}">
-                            <button type="submit" class="dropdown-item">Đổi mật khẩu</button>
-                        </form>
                         <a class="dropdown-item" href="../login">Đăng xuất</a>           
                     </ul>
                 </li>
@@ -136,8 +130,8 @@
                     </div>
                 </nav>
             </div>
-            <div id="layoutSidenav_content">
-                <main >
+            <div id="layoutSidenav_content" style="position: relative">
+                <main>
                     <div class="w-100 text-center">
                         <h2>Thêm thẻ ghi nhớ</h2>
                     </div>
@@ -176,10 +170,70 @@
                             <button type="button" class="btn btn-primary" onclick="confirm()">Xác nhận</button>
                         </div>
                     </div>
+
                 </main>
+                <div style="display: none; width: 85%; height: 100%; background-color: rgba(0, 0, 0, 0.5); position: absolute" id="popup_err_file">
+                    <div class="d-flex flex-column justify-content-center align-items-center w-100 h-100">
+                        <div class="p-2 card m-2 overflow-auto d-flex align-items-center justify-content-center" style="height: 70vh; width: 80%; background-color: #ffffff">
+                            <p class="fs-4 text-danger">
+                                Sai format file. Bạn hãy thử lại.<br>
+                                Hoặc xem hướng dẫn. <button type="button" class="btn btn-primary" onclick="openErrFile(this)">Tại đây</button>
+                            </p>                                         
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="closeErr(this)">Đóng</button>
+                        </div>
+                    </div>            
+                </div>
+                <div style="display: none; width: 85%; height: 100%; background-color: rgba(0, 0, 0, 0.5); position: absolute" id="exampleFile">
+                    <div class="d-flex flex-column justify-content-center align-items-center w-100 h-100">
+                        <div class="p-2 card m-2 overflow-auto d-flex align-items-center" style="height: 70vh; width: 80%">
+                            <p class="fs-4">
+                                Đâu tiên, tạo 1 trang tính.<br>
+                                Tiếp theo, các cột A sẽ là từ tiếng Anh, các cột B sẽ là định nghĩa.<br>
+                                Lưu ý, chỉ được tạo 1 trang tính.<br>
+                                Xem ví dụ:
+                            </p>
+                            <img src="../images/hd.png" class="img-fluid" alt="...">                        
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="closeErr(this)">Đóng</button>
+                        </div>
+                    </div>            
+                </div>
+
+                <div style="display: none; width: 85%; height: 100%; background-color: rgba(0, 0, 0, 0.5); position: absolute; z-index: 9999" id="confirmDelete">
+                    <div class="d-flex flex-column justify-content-center align-items-center w-100 h-100">
+                        <div class="p-2 card m-2 overflow-auto d-flex align-items-center justify-content-center" style="height: 40vh; width: 40%">
+                            <p class="fs-4 text-danger">
+                                Bạn có muốn xóa thẻ hiện tại!
+                            </p>
+
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="closeErr(this)">Đóng</button>&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-primary" onclick="confirmDelete()">Xác nhận</button>
+                        </div>
+                    </div>            
+                </div>
+
+                <div style="display: none; width: 85%; height: 100%; background-color: rgba(0, 0, 0, 0.5); position: absolute" id="errDuplicate">
+                    <div class="d-flex flex-column justify-content-center align-items-center w-100 h-100">
+                        <div class="p-2 card m-2 overflow-auto d-flex align-items-center" style="height: 70vh; width: 80%" id="errTemplate">
+
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="closeErr(this)">Xác nhận</button>&nbsp;&nbsp;
+<!--                            <button type="button" class="btn btn-primary" onclick="closeErr(this)">Xóa tất cả</button>-->
+                        </div>
+                    </div>            
+                </div>
+
 
             </div>
         </div>
+
+
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <!-- Bootstrap JS -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
@@ -214,10 +268,31 @@
                                 const ERR_CODE = '@@err@@';
                                 let numberOfFlashcard = 0;
 
-                                function deleteFlashCardItem(element) {
+                                function openErrFile(p) {
+                                    p.parentNode.parentNode.parentNode.parentNode.style.display = 'none';
+                                    document.getElementById('exampleFile').style.display = 'block';
+                                }
+
+                                function closeErr(p) {
+                                    p.parentNode.parentNode.parentNode.style.display = 'none';
+                                }
+
+                                function confirmDelete() {
                                     numberOfFlashcard--;
-                                    let uploadForm = element.parentNode.parentNode;
-                                    uploadForm.remove();
+                                    let uploadForm = currentElement.parentNode.parentNode;
+                                    let _id = uploadForm.id.replace(/\D/g, '');
+                                    let delElement1 = document.getElementById('uploadForm' + _id);
+                                    let delElement2 = document.getElementById('new' + _id);
+                                    currentElement = null;
+                                    delElement1.remove();
+                                    if (delElement2 !== null)
+                                        delElement2.remove();
+                                    document.getElementById('confirmDelete').style.display = 'none';
+                                }
+                                let currentElement;
+                                function deleteFlashCardItem(element) {
+                                    document.getElementById('confirmDelete').style.display = 'block';
+                                    currentElement = element;
                                 }
 
                                 let inputId = 0;
@@ -251,6 +326,7 @@
 
                                     const inputFile = document.createElement('input');
                                     inputFile.type = 'file';
+                                    inputFile.accept = 'image/*';
                                     inputFile.id = ('file' + inputId);
                                     inputFile.name = 'file';
 
@@ -274,6 +350,7 @@
                                     }
                                     inputWord1.className = 'form-control ' + is_valid;
                                     inputWord1.value = question;
+                                    inputWord1.setAttribute('oninput', 'changeInputQ(this)');
                                     col2.appendChild(inputWord1);
 
                                     // Create the third column div
@@ -286,6 +363,7 @@
                                     inputWord2.placeholder = 'Định nghĩa';
                                     inputWord2.value = answer;
                                     inputWord2.name = 'answer';
+                                    inputWord2.setAttribute('oninput', 'changeInputA(this)');
                                     col3.appendChild(inputWord2);
 
                                     const inputImgSrc = document.createElement('input');
@@ -315,6 +393,28 @@
                                     // Append the upload form div to the body or any other container
                                     document.getElementById('flashcards').appendChild(uploadForm);
                                     return uploadForm;
+                                }
+
+                                function changeInputQ(input) {
+                                    let id = input.parentNode.parentNode.id.replace(/\D/g, '');
+                                    let i1 = document.getElementById('uploadForm' + id);
+                                    let input1 = i1.querySelector('[name="question"]');
+                                    input1.value = input.value;
+                                    input1.classList.remove('is-invalid');
+                                    input1.classList.add('border-primary');
+                                    input.classList.remove('is-invalid');
+                                    input.classList.add('border-primary');
+                                }
+
+                                function changeInputA(input) {
+                                    let id = input.parentNode.parentNode.id.replace(/\D/g, '');
+                                    let i1 = document.getElementById('uploadForm' + id);
+                                    let input1 = i1.querySelector('[name="answer"]');
+                                    input1.value = input.value;
+                                    input1.classList.remove('is-invalid');
+                                    input1.classList.add('border-primary');
+                                    input.classList.remove('is-invalid');
+                                    input.classList.add('border-primary');
                                 }
 
                                 function checkEmptyFlashCard() {
@@ -354,6 +454,22 @@
                                     let categoryId = document.getElementById('category').value;
 
                                     if (checkDuplicate() !== 0) {
+                                        let fl = document.getElementById('flashcards');
+                                        let errElement = fl.querySelectorAll('[class*="invalid"]');
+                                        let errpopup = document.getElementById('errDuplicate');
+                                        errpopup.style.display = 'block';
+                                        let errTemp = document.getElementById('errTemplate');
+                                        errTemp.innerHTML = `<p class="fs-4 text-danger">Thẻ đang bị trùng</p>`;
+                                        for (let i = 0; i < errElement.length; i++) {
+                                            let clonedElement = errElement[i].parentNode.parentNode.cloneNode(true);
+                                            let cloneImg = clonedElement.querySelector('[name="file"]');
+                                            console.log(cloneImg);
+                                            cloneImg.id = 'newImg'+cloneImg.id.replace(/\D/g, '');
+                                            let _id = clonedElement.id;
+                                            let newID = _id.replace(/\D/g, '');
+                                            clonedElement.id = 'new' + newID;
+                                            errTemp.appendChild(clonedElement);
+                                        }
                                         return;
                                     }
 
@@ -372,12 +488,11 @@
                                         },
                                         success: function (data) {
                                             if (data === '00') {
-                                                document.getElementById('flashcards').innerHTML = '';
-                                                window.alert("Thành công");
+                                                document.getElementById('err').innerText = 'Thành công';
                                             } else {
                                                 numberOfFlashcard = 0;
                                                 let err = JSON.parse(data);
-                                                document.getElementById('err').innerText = 'Thẻ đã tồn tại.';
+//                                                document.getElementById('err').innerText = 'Thẻ đã tồn tại.';
                                                 document.getElementById('flashcards').innerHTML = '';
                                                 for (let i = 0; i < err.length; i++) {
                                                     let form = createUploadForm(err[i].question, err[i].answer);
@@ -386,6 +501,19 @@
                                                         form.querySelector('label p').style.display = 'none';
                                                         form.querySelector('img').style.display = 'block';
                                                     }
+                                                }
+                                                let fl = document.getElementById('flashcards');
+                                                let errElement = fl.querySelectorAll('[class*="invalid"]');
+                                                let errpopup = document.getElementById('errDuplicate');
+                                                errpopup.style.display = 'block';
+                                                let errTemp = document.getElementById('errTemplate');
+                                                errTemp.innerHTML = `<p class="fs-4 text-danger">Thẻ đã tồn tại trong dữ liệu</p>`;
+                                                for (let i = 0; i < errElement.length; i++) {
+                                                    let clonedElement = errElement[i].parentNode.parentNode.cloneNode(true);
+                                                    let _id = clonedElement.id;
+                                                    let newID = _id.replace(/\D/g, '');
+                                                    clonedElement.id = 'new' + newID;
+                                                    errTemp.appendChild(clonedElement);
                                                 }
                                             }
                                         }
@@ -430,15 +558,30 @@
                                     const file = event.target.files[0];
                                     const img = label.querySelector('img');
                                     const p = label.querySelector('p');
-                                    ;
+                                    let id = label.parentNode.parentNode.id.replace(/\D/g, '');
+
+                                    let i1 = document.getElementById('uploadForm' + id);
+                                    let img1 = i1.querySelector('img');
+                                    let p1 = i1.querySelector('p');
+                                    let i2 = document.getElementById('new' + id);
+
+                                    console.log(i2);
                                     if (file && file.type.match('image.*')) {
                                         const reader = new FileReader();
 
                                         reader.onload = function (e) {
-                                            img.src = e.target.result;
-                                            img.style.display = 'block';
-                                            p.style.display = 'none';
-                                            img.parentNode.parentNode.parentNode.querySelector('.imgsrc').value = e.target.result;
+                                            img1.src = e.target.result;
+                                            img1.style.display = 'block';
+                                            p1.style.display = 'none';
+                                            img1.parentNode.parentNode.parentNode.querySelector('.imgsrc').value = e.target.result;
+                                            if (i2 !== null) {
+                                                let img2 = i2.querySelector('img');
+                                                let p2 = i2.querySelector('p');
+                                                img2.src = e.target.result;
+                                                img2.style.display = 'block';
+                                                p2.style.display = 'none';
+                                                img2.parentNode.parentNode.parentNode.querySelector('.imgsrc').value = e.target.result;
+                                            }
                                         };
 
                                         reader.readAsDataURL(file);
@@ -456,7 +599,7 @@
                                         if (questionInputs.indexOf(questionValue.trim().toLowerCase()) >= 0) {
                                             let id = formElement[i].id;
                                             duplicates.push(+id.substring(10, id.length));
-                                            document.getElementById('err').innerText = 'Thẻ bị trùng, kiểm tra lại!!!';
+//                                            document.getElementById('err').innerText = 'Thẻ bị trùng, kiểm tra lại!!!';
                                             question.classList.remove('border-primary');
                                             question.classList.add('is-invalid');
                                         } else {
@@ -486,6 +629,7 @@
                                         }).catch((error) => {
                                             formatFile = false;
                                             document.getElementById('err').innerText = 'Sai format file';
+                                            document.getElementById('popup_err_file').style.display = 'block';
                                         });
                                     } catch (error) {
                                         formatFile = false;
