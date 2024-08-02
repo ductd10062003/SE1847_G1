@@ -235,62 +235,69 @@
                 </div>
             </div>
         </div>
-
-
-        <!-- .site-wrap -->
-        <div class="section-bg style-1" style="background-image: url('images/hero_1.jpg');">
-
-        </div>
-        <!-- loader -->
-        <div id="loader" class="show fullscreen">
-            <svg class="circular" width="48px" height="48px">
-            <circle
-
-                class="path-bg"
-                cx="24"
-                cy="24"
-                r="22"
-                fill="none"
-                stroke-width="4"
-                stroke="#eeeeee"
-
-                />
-            <circle
-
-                class="path"
-                cx="24"
-                cy="24"
-                r="22"
-                fill="none"
-                stroke-width="4"
-                stroke-miterlimit="10"
-                stroke="#51be78"
-
-                />
-            </svg>
+        <div
+            class="section-bg style-1"
+            style="background-image: url('images/hero_1.jpg')"
+            >
+            
         </div>
 
+        
     </div>
 
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/jquery-migrate-3.0.1.min.js"></script>
-    <script src="js/jquery-ui.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.stellar.min.js"></script>
-    <script src="js/jquery.countdown.min.js"></script>
-    <script src="js/bootstrap-datepicker.min.js"></script>
-    <script src="js/jquery.easing.1.3.js"></script>
-    <script src="js/aos.js"></script>
-    <script src="js/jquery.fancybox.min.js"></script>
-    <script src="js/jquery.sticky.js"></script>
-    <script src="js/jquery.mb.YTPlayer.min.js"></script>
 
-    <script src="js/main.js"></script>
+    <!-- .site-wrap -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script>
+    <!-- loader -->
+    <div id="loader" class="show fullscreen">
+        <svg class="circular" width="48px" height="48px">
+        <circle
+
+            class="path-bg"
+            cx="24"
+            cy="24"
+            r="22"
+            fill="none"
+            stroke-width="4"
+            stroke="#eeeeee"
+
+            />
+        <circle
+
+            class="path"
+            cx="24"
+            cy="24"
+            r="22"
+            fill="none"
+            stroke-width="4"
+            stroke-miterlimit="10"
+            stroke="#51be78"
+
+            />
+        </svg>
+    </div>
+
+</div>
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/jquery-migrate-3.0.1.min.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/jquery.stellar.min.js"></script>
+<script src="js/jquery.countdown.min.js"></script>
+<script src="js/bootstrap-datepicker.min.js"></script>
+<script src="js/jquery.easing.1.3.js"></script>
+<script src="js/aos.js"></script>
+<script src="js/jquery.fancybox.min.js"></script>
+<script src="js/jquery.sticky.js"></script>
+<script src="js/jquery.mb.YTPlayer.min.js"></script>
+
+<script src="js/main.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
                                     let open = 0;
                                     function ClickAI(param) {
                                         if (open === 0) {
@@ -310,6 +317,7 @@
                                     }
 
                                     function display(obj, value) {
+                                        console.log(obj);
                                         let flashcard = document.getElementById('flashcard');
                                         flashcard.querySelector('p').innerHTML = value;
                                         if (obj.image !== undefined && obj.image !== null && obj.image.trim().length !== 0) {
@@ -393,20 +401,13 @@
                                     }
 
                                     function checkJoinClass(btn, courseId) {
-                                        let _user = '${sessionScope.user}';
-                                        if (_user === null || _user.trim().length === 0) {
-                                            let err = document.querySelector('#err');
-                                            err.querySelector('span').innerHTML = "Bạn chưa đăng nhập";
-                                            err.style.display = 'block';
-                                            return;
-                                        }
                                         let joinClass = document.getElementById('joinClass').innerText.trim();
                                         switch (joinClass) {
                                             case 'Tham gia':
-                                                if (btn !== undefined) {
-                                                    practice(btn, courseId);
-                                                }
-                                                return true;
+                                                let err = document.querySelector('#err');
+                                                err.querySelector('span').innerHTML = "Bạn chưa tham gia lớp học";
+                                                err.style.display = 'block';
+                                                return false;
                                             case 'Hủy tham gia':
                                                 if (btn !== undefined) {
                                                     practice(btn, courseId);
@@ -522,9 +523,8 @@
                                             showPR = true;
                                         }
                                     }
-    </script>
+</script>
 
 </body>
 
 </html>
-
