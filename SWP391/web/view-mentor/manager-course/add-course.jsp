@@ -130,7 +130,7 @@
                     </div>
                 </nav>
             </div>
-            <div id="layoutSidenav_content">
+            <div id="layoutSidenav_content" style="position: relative">
                 <main class="ms-2">
                     <div class="w-100 text-center">
                         <h2>Tạo khóa học</h2>
@@ -190,6 +190,21 @@
                         </div>
                     </div>
                 </main>
+                
+                <div style="display: none; width: 85%; height: 100%; background-color: rgba(0, 0, 0, 0.5); position: absolute; z-index: 9999" id="confirmDelete">
+                    <div class="d-flex flex-column justify-content-center align-items-center w-100 h-100">
+                        <div class="p-2 card m-2 overflow-auto d-flex align-items-center justify-content-center" style="height: 40vh; width: 40%">
+                            <p class="fs-4 text-danger">
+                                Bạn có muốn xóa thẻ hiện tại!
+                            </p>
+
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="closeErr(this)">Đóng</button>&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-primary" onclick="confirmDelete()">Xác nhận</button>
+                        </div>
+                    </div>            
+                </div>
 
             </div>
         </div>
@@ -256,10 +271,14 @@
                                     document.getElementById('dropdownContent').classList.remove('show');
                                     document.getElementById('dropdownContent').classList.add('hidden');
                                 }
-
-                                function deleteFlashCardItem(element) {
+                                
+                                function closeErr(p) {
+                                    p.parentNode.parentNode.parentNode.style.display = 'none';
+                                }
+                                
+                                function confirmDelete() {
                                     numberOfFlashcard--;
-                                    let uploadForm = element.parentNode.parentNode;
+                                    let uploadForm = currentElement.parentNode.parentNode;
                                     let number = +uploadForm.id.match(/\d+/)[0];
                                     flashcardsID = flashcardsID.filter((value) => value !== number);
                                     document.getElementById('numberOfFlashcard').innerText = flashcardsID.length + ' thẻ';
@@ -268,7 +287,15 @@
                                         oldCategoryID = newCategoryID;
                                         changeCategory();
                                     }
+                                    document.getElementById('confirmDelete').style.display = 'none';
                                 }
+                                let currentElement;
+                                function deleteFlashCardItem(element) {
+                                    document.getElementById('confirmDelete').style.display = 'block';
+                                    currentElement = element;
+                                }
+
+                                
 
 
                                 function createUploadForm(question, answer, image, flashcardID) {
@@ -366,12 +393,13 @@
 
 
                                 function confirm() {
+                                    console.log(flashcardsID);
                                     if (flashcardsID.length === 0) {
                                         document.getElementById('err').innerText = 'Bạn chưa tạo thẻ';
                                         return;
                                     }
-                                    if (flashcardsID.length >= 6) {
-                                        document.getElementById('err').innerText = 'Sô thẻ phải chia hết cho 3';
+                                    if (flashcardsID.length < 6) {
+                                        document.getElementById('err').innerText = 'Ít nhất phải có 6 thẻ';
                                         return;
                                     }
                                     if (flashcardsID.length % 3 !== 0) {
