@@ -79,12 +79,6 @@
                         <i class="fas fa-user fa-fw"></i> <span class="icon-user"></span> ${sessionScope.user.name}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="../userProfile">Thông tin người dùng</a>
-                        <a class="dropdown-item" href="../updateProfile">Thay đổi thông tin</a>
-                        <form action="forgot-password" method="post">
-                            <input type="hidden" name="email" value="${sessionScope.user.email}">
-                            <button type="submit" class="dropdown-item">Đổi mật khẩu</button>
-                        </form>
                         <a class="dropdown-item" href="../login">Đăng xuất</a>           
                     </ul>
                 </li>
@@ -376,8 +370,8 @@
                                         document.getElementById('err').innerText = 'Bạn chưa tạo thẻ';
                                         return;
                                     }
-                                    if (flashcardsID.length < 6) {
-                                        document.getElementById('err').innerText = 'Sô thẻ phải ít nhất 6 thẻ';
+                                    if (flashcardsID.length >= 6) {
+                                        document.getElementById('err').innerText = 'Sô thẻ phải chia hết cho 3';
                                         return;
                                     }
                                     if (flashcardsID.length % 3 !== 0) {
@@ -390,8 +384,8 @@
                                         document.getElementById('err').innerText = 'Bạn chưa điền tên';
                                         return;
                                     }
-                                    if (name.length > 50) {
-                                        document.getElementById('err').innerText = 'Tên tối đa 50 ký tự';
+                                    if (name.length > 30) {
+                                        document.getElementById('err').innerText = 'Tên tối đa 30 ký tự';
                                         return;
                                     }
                                     let description = floatingDescription.value.trim();
@@ -399,8 +393,13 @@
                                         document.getElementById('err').innerText = 'Bạn chưa điền mô tả';
                                         return;
                                     }
-                                    if (description.length > 100) {
-                                        document.getElementById('err').innerText = 'Mô tả tối đa 100 ký tự';
+                                    if (description.length > 50) {
+                                        document.getElementById('err').innerText = 'Mô tả tối đa 50 ký tự';
+                                        return;
+                                    }
+                                    
+                                    if (oldCategoryID !== newCategoryID) {
+                                        document.getElementById('err').innerText = 'Bạn đang có thẻ khác thể loại';
                                         return;
                                     }
                                     $.ajax({
