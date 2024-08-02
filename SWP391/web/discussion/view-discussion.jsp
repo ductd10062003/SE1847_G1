@@ -56,9 +56,7 @@
             </div>
 
             <jsp:include page="/layout/header.jsp"/>
-
-
-            <div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('../images/bg_1.jpg')">
+            <div class="site-section">
                 <div class="container">
                     <div class="row align-items-end justify-content-center text-center">
                         <div class="col-lg-7">
@@ -66,19 +64,9 @@
                             <p>Nơi giải đáp những thắc mắc của bạn</p>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="custom-breadcrumns border-bottom">
-                <div class="container">
                     <a href="../index.jsp">Trang chủ</a>
                     <span class="mx-3 icon-keyboard_arrow_right"></span>
-                    <span class="current">Thảo luận</span>
-                </div>
-            </div>
-
-            <div class="site-section">
-                <div class="container">
+                    <span class="current">Thảo luận</span><br><br>
                     <div class="row mb-3">
                         <div class="col-12">
                             <h2><%=((Discussion) (session.getAttribute("discussion"))).getTitle()%>
